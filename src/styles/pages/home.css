@@ -1,0 +1,17 @@
+.home{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    min-width: 300px;
+    padding: 40px;
+    
+}
+.home h1{
+    color:rgb(194, 194, 194);
+    font-size: 11vw;
+    width: 50vw;
+    text-align: center;
+    user-select: none;
+}

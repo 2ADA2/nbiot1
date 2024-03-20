@@ -1,0 +1,19 @@
+{
+    "Connection Details": {
+        "Host name": "xxx.xxx.xxx.xxx",
+        "Port": 8080,
+        "Client ID": "1234124",
+        "Keep Alive": 65536,
+        "Clean Session": true
+    },
+    "Credentials": {
+        "User name": "admin",
+        "Password": "admin"
+    },
+    "Last-Will": {
+        "Last-Will Topic": "asdf",
+        "Last-Will Message": "asdfg",
+        "Last-Will Qos": 2,
+        "Last-Will Retain": true
+    }
+}

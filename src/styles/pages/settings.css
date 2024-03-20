@@ -1,0 +1,63 @@
+.connedtion-details{
+    display: flex;
+    flex-direction: column;
+    gap:40px;
+    margin-top:40px;
+    font-size: 26px;
+    max-width: 2000px;
+}
+.connedtion-details label{
+    min-width: 650px;
+    width: 100%;
+    text-align: end;
+    display: flex;
+    justify-content: flex-start;
+    gap:40px;
+}
+.connedtion-details label h5{
+    font-weight: 400;
+    color:#7c7c7c;
+    width: 40%;
+    line-height: 50px;
+    font-size: 28px;
+}
+
+h5{
+    user-select: none;
+}
+
+input{
+    height: 50px;
+    font-size: 30px;
+    width: 30%;
+    border:2px solid #bebebe;
+    border-radius: 2px;
+    color:#444444;
+    padding: 0;
+    padding-left: 5px;
+    min-width: 250px;
+    max-width: 500px;
+}
+
+input:focus{
+    border:2px solid #868686;
+    outline: none;
+}
+
+form h3{
+    font-weight: 400;
+    color: #505050;
+    font-size: 32px;
+    padding-bottom: 10px;
+}
+
+form h3::after{
+    margin-top:5px;
+    content:"";
+    display: block;
+    width:100%;
+    min-width: 200px;
+    max-width: 2000px;
+    height: 1px;
+    background-color:#9c9c9c;
+}

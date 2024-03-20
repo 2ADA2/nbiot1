@@ -1,0 +1,80 @@
+.panel {
+    position: fixed;
+    z-index: 1;
+    background-color: #2c3642;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 300px;
+    color: white;
+    top: 80px;
+    height: calc(100vh - 80px);
+    padding:2px 0;
+    padding-bottom: 20px;
+}
+
+.panel nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-right:2px;
+}
+
+.panel a {
+    border-left: 0 solid #22aef2;
+    padding: 0 30px;
+    vertical-align: center;
+    list-style: none;
+    height: 60px;
+    font-size: 20px;
+    line-height: 60px;
+    background-color: #3b4757;
+    cursor: pointer;
+    transition-duration: 200ms;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color:white;
+    text-decoration: none;
+    font-size: 24px;
+}
+
+.panel-nav a img {
+    height: 30px;
+}
+
+.panel-nav .opened {
+    border-left: 10px solid #22aef2;
+}
+
+.panel-nav a:hover {
+    background-color: #49586b;
+}
+
+.panel .other {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    padding: 0 30px;
+    justify-content: space-between;
+    min-height: 80px;
+}
+
+.panel .other a {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition-duration: 200ms;
+    border-bottom: 0px solid #22aef2;
+}
+
+.panel .other .opened {
+    border-bottom: 10px solid #22aef2;
+}
+
+.panel svg{
+    font-size: 30px;
+}
