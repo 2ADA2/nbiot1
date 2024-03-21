@@ -27,7 +27,7 @@ export const Settings = () => {
                         <input type="text" ></input>
                     </label>   
                     <div className="label-replacer">
-                        <h5>Session</h5> <CheckBox/>
+                        <h5>Clean Session</h5> <CheckBox/>
                     </div>
                         
 
@@ -36,6 +36,46 @@ export const Settings = () => {
                         <input type="text" ></input>
                     </label>                    
                 </section>
+
+                <h3>Credentials</h3>
+                <section className="Credentials">
+                    <label>
+                        <h5>User name</h5>
+                        <input type = "text" ></input>
+                    </label>    
+
+                    <label>
+                        <h5>Password</h5>
+                        <input type="text" ></input>
+                    </label>                  
+                </section>
+
+                <h3>Last-Will</h3>
+                <section className="Last-Will">
+                    <label>
+                        <h5>Last-Will Topic</h5>
+                        <input type = "text" ></input>
+                    </label>    
+
+                    <label>
+                        <h5>Last-Will Message</h5>
+                        <input type="text" ></input>
+                    </label>    
+
+                    <label>
+                        <h5>Last-Will Qos</h5>
+                        <select>
+                            <option>0 - at most once</option>
+                            <option>1 - at last once</option>
+                            <option>2 - exactly once</option>
+                        </select>
+                    </label> 
+
+                    <div className="label-replacer">
+                        <h5>Last-Will Retain</h5> <CheckBox/>
+                    </div>
+                </section>
+                <button>Применить</button>
             </form>
             }
         />

@@ -5,25 +5,24 @@
     margin-top:40px;
     font-size: 26px;
     max-width: 2000px;
+    margin-bottom: 80px;
 }
 .connedtion-details label{
     min-width: 650px;
     width: 100%;
-    text-align: end;
     display: flex;
     justify-content: flex-start;
     gap:40px;
 }
-.connedtion-details label h5{
+h5{
     font-weight: 400;
     color:#7c7c7c;
     width: 40%;
     line-height: 50px;
     font-size: 28px;
-}
-
-h5{
     user-select: none;
+    text-align: end;
+    min-width: 260px;
 }
 
 input{
@@ -57,7 +56,84 @@ form h3::after{
     display: block;
     width:100%;
     min-width: 200px;
-    max-width: 2000px;
     height: 1px;
     background-color:#9c9c9c;
+}
+
+.Credentials{
+    display: flex;
+    width: 100%;
+    margin-bottom: 80px;
+    padding-right: 20%;
+    padding-top:20px;
+    justify-content: space-around;
+    align-items: flex-end;
+    gap:40px;
+    max-width: 2000px;
+}
+
+.Credentials h5{
+    min-width: 200px;
+    text-align: start;
+}
+
+.Credentials input{
+    min-width: 200px;
+    width: 100%;
+    max-width: 700px;
+}
+
+.Last-Will{
+    display: flex;
+    flex-direction: column;
+    gap:40px;
+    margin-top:40px;
+    font-size: 26px;
+    max-width: 2000px;
+    margin-bottom: 80px;
+}
+
+.Last-Will label{
+    min-width: 650px;
+    width: 100%;
+    text-align: end;
+    display: flex;
+    justify-content: flex-start;
+    gap:40px;
+}
+
+.Last-Will select{
+    min-width: 300px;
+    width: 30%;
+    font-size: 26px;
+    color:#505050;
+    border:2px solid #bebebe;
+    border-radius:2px;
+}
+
+.Last-Will select:focus{
+    border:2px solid #868686;
+    outline: none;
+}
+
+.page .label-replacer{
+    flex-direction: row;
+    gap:40px;
+}
+
+button{
+    width: 200px;
+    height: 55px;
+    border:2px solid #29333f;
+    border-radius: 2px;
+    cursor: pointer;
+    background-color:#3b495a;
+    color:white;
+    font-size: 22px;
+    font-family: Roboto;
+    margin-left: 100px;
+    margin-top:50px ;
+}
+button:hover{
+    background-color:#425063;
 }

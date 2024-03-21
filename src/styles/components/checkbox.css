@@ -46,10 +46,10 @@
     display: block;
     position: relative;
     box-shadow: 3px 0px 2px #00000065;
-    left: -2px;
+    left:-2px;
     bottom:2px;
-    width: 35px;
-    height: 35px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     border:2px solid #a1a1a1;
     transition-duration: 300ms;
@@ -62,7 +62,7 @@
     box-shadow:-3px 0 2px #00000065;
 }
 .checkbox-container input:checked + .switch-slider {
-    background-color:#2c60a0;
+    background-color:#3b495a;
 }
 .connedtion-details .label-replacer{
         min-width: 650px;

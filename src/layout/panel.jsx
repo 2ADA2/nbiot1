@@ -3,7 +3,7 @@ import { Link, Outlet } from "react-router-dom";
 import "../styles/layout/panel.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { regular } from '@fortawesome/free-regular-svg-icons'
-import {faCog} from "@fortawesome/free-solid-svg-icons";
+import {faCog, faServer} from "@fortawesome/free-solid-svg-icons";
 
 export const Panel = () => {
     const [page, setPage] = useState(window.location.href);
@@ -15,21 +15,24 @@ export const Panel = () => {
 
     }
 
-    useEffect(() => {
-        setPage(window.location.href);
-    },[])
-
     function cleanPanel() {
-        setPage(0)
+        setTimeout(() => setPage(window.location.href))
     }
 
     return (
         <aside className="panel" onClick={(e) => handleChange(e.target)}>
             <nav className="panel-nav">
-                <Link to="/settings" className={(page.indexOf("/settings") + 1) ? "opened" : ""} onClick={() => {cleanPanel()}}>
-                <FontAwesomeIcon icon={faCog}/>
+
+                <Link to="/sources" className={page.includes("/sources") ? "opened" : ""} onClick={() => {cleanPanel()}}>
+                <FontAwesomeIcon icon={faServer} />
+                Sources
+                </Link>
+
+                <Link to="/settings" className={page.includes("/settings") ? "opened" : ""} onClick={() => {cleanPanel()}}>
+                    <FontAwesomeIcon icon={faCog}/>
                 Settings
                 </Link>
+
             </nav>
         </aside>
     )
