@@ -6,9 +6,11 @@ import { CheckBox } from "../components/checkbox";
 
 
 export const Settings = () => {
+    
     return (
         <Page header = "Settings" subHeader = "Настройки" header2="Настройки подключения по MQTT"
             elem = {
+            
             <form>
                 <h3>Connection Details</h3>
                 <section className="connedtion-details">

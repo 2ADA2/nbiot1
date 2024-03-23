@@ -1,3 +1,23 @@
+.container{
+    min-width: 950px;
+}
+
+.table-container h3 {
+    font-weight: 400;
+    color: #505050;
+    font-size: 32px;
+    padding-bottom: 10px;
+}
+
+.table-container h3::after {
+    margin-top: 5px;
+    content: "";
+    display: block;
+    width: 100%;
+    min-width: 200px;
+    height: 1px;
+    background-color: #9c9c9c;
+}
 form{
     display: flex;
     flex-direction: column;
@@ -14,7 +34,7 @@ form .state{
     justify-content: flex-start;
     gap:40px;
 }
-h5{
+.state h5{
     width: 50%;
 }
 h6{
@@ -32,22 +52,33 @@ table {
     border-collapse: collapse;
     width: 100%;
     margin: auto;
+    max-width: 2000px;
 }
 
-th, td {
+th, td{
     border: 1px solid #3b495a;
-    text-align: left;
     height: 100px;
+    max-height: 100px;
     text-align: center;
     min-width: 150px;
 }
+
+td a{
+    font-size: clamp(20px,1.5vw,30px);
+    color: #383838;
+    font-weight: 500;
+    text-decoration: none;
+}
 tr a {
     color: #333;
+    width: 100%;
+    height: 100%;
     line-height: 100px;
-    min-width: 300px;
     display: block;
 }
-
+tr{
+    transition-duration: 100ms;
+}
 th {
     background-color: #3b495a;
     color:white;
@@ -57,7 +88,16 @@ th {
 tbody tr:hover {
     background-color: #f0f0f0;
 }
-
+tbody tr td:nth-child(1) a{
+    font-weight: 400;
+}
+tbody tr td:nth-child(2) a{
+    min-width: 200px;
+    font-weight: 400;
+}
+tbody tr td:nth-child(3) a{
+    min-width: 170px;
+}
 tr{
     max-height: 100px;
 }
@@ -67,9 +107,6 @@ td:hover{
 }
 
 @media (width<1400px) {
-    table td{
-        font-size: 16px;
-    }
     table th{
         font-size: 18px;
     }
@@ -77,4 +114,18 @@ td:hover{
         min-width: 100px;
         height: 80px;
     }
+}
+.empty-row {
+    border: 1px solid #3b495a;
+    width: 100%;
+    height: 150px;
+    background-color:#ebebeb;
+    color:#cacaca;
+    font-size: 50px;
+}
+.empty-row td{
+    cursor:default;
+}
+.empty-row:hover{
+    background-color: #ebebeb;
 }

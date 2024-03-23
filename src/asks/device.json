@@ -1,0 +1,50 @@
+{
+    "List" : [
+        {
+            "Device": {
+                "DevId": "04:09:19:86:00:10",
+                "DevName": "MM133.2",
+                "SoftVer.": "1.0.0.a",
+                "BoardRev.": "1.2",
+                "ProtoVer.": "1.2"
+            },
+            "DeviceAttr": {
+                "localTime": "2022-08-25T09:39:19",
+                "LinkRepeat": 30,
+                "Configured": 0,
+                "State": 0,
+                "Registered": 0,
+                "Metrics": {
+                    "Battery": 85,
+                    "Mode": "NBIoT",
+                    "GSM siglevel": -50,
+                    "Temperature": 29,
+                    "StatusBitMask": "0x00006000"
+                }
+            }
+        },
+        {
+            "Device": {
+                "DevId": "14:56:46:35:90:99",
+                "DevName": "MM133.2",
+                "SoftVer.": "1.0.0.a",
+                "BoardRev.": "1.2",
+                "ProtoVer.": "1.2"
+            },
+            "DeviceAttr": {
+                "localTime": "2022-08-25T09:39:19",
+                "LinkRepeat": 30,
+                "Configured": 0,
+                "State": 0,
+                "Registered": 0,
+                "Metrics": {
+                    "Battery": 15,
+                    "Mode": "NBIoT",
+                    "GSM siglevel": -56,
+                    "Temperature": 32,
+                    "StatusBitMask": "0x00006000"
+                }
+            }
+        }
+    ]
+}

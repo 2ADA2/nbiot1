@@ -1,0 +1,28 @@
+.panel .nav-links a{
+    height: 50px;
+    font-size: 22px;
+    padding-left:50px;
+    background-color: transparent;
+    display: flex;
+    justify-content: space-between;
+    overflow: hidden;
+    margin: 0;
+}
+.panel .nav-links a:hover{
+    background-color:#323d4b;
+}
+
+.panel .nav-links a:after{
+    content: "";
+    display: block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    background-color: #eef1f6;
+    transform: rotate(45deg);
+    left:70px;
+    transition-duration: 300ms;
+}
+.panel .nav-links .active:after{
+    left:50px;
+}

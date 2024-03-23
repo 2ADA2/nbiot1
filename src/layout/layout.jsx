@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import { Panel } from "./panel";
 
 export const Layout = () => {
+    //внешний вид
     return(
         <>
             <header>
