@@ -43,14 +43,14 @@ input:focus{
     outline: none;
 }
 
-form h3{
+h3{
     font-weight: 400;
     color: #505050;
     font-size: 32px;
     padding-bottom: 10px;
 }
 
-form h3::after{
+h3::after{
     margin-top:5px;
     content:"";
     display: block;

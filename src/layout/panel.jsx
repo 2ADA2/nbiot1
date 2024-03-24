@@ -10,22 +10,21 @@ import { observer } from "mobx-react-lite";
 
 export const Panel = observer(() => {
     const page = Global.location
-    console.log(page)
-    function cleanPanel() {
+    function updateLocation() {
         Global.setLocation(window.location.href)
     }
     
     return (
-        <aside className="panel" onClick={() => cleanPanel()}>
+        <aside className="panel" onClick={() => updateLocation()}>
             <nav className="panel-nav">
 
-                <Link to="/sources" className={page.includes("/sources") ? "opened" : ""} onClick={() => {cleanPanel()}}>
+                <Link to="/sources" className={page.includes("/sources") ? "opened" : ""} onClick={() => {updateLocation()}}>
                     <FontAwesomeIcon icon={faServer} />
                     Sources
                 </Link>
                 <SoucesLinks display={(page.includes("/dev")) ? "block" : "none"}/>
 
-                <Link to="/settings" className={page.includes("/settings") ? "opened" : ""} onClick={() => {cleanPanel()}}>
+                <Link to="/settings" className={page.includes("/settings") ? "opened" : ""} onClick={() => {updateLocation()}}>
                     <FontAwesomeIcon icon={faCog}/>
                     Settings
                 </Link>

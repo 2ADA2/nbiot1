@@ -40,7 +40,7 @@
                 "Metrics": {
                     "Battery": 15,
                     "Mode": "NBIoT",
-                    "GSM siglevel": -56,
+                    "GSM siglevel": -55,
                     "Temperature": 32,
                     "StatusBitMask": "0x00006000"
                 }

@@ -7,8 +7,18 @@ import { Sources } from "./pages/sources";
 import { DevInfo } from "./pages/sourcePages/devInfo";
 import { DevCommands } from "./pages/sourcePages/devCommands";
 import { DevSettings } from "./pages/sourcePages/devSettings";
+import { useEffect } from "react";
+import global from "./store/global";
 
 function App() {
+  
+  useEffect(() => {
+    window.addEventListener("popstate", ()=>{
+      global.setLocation(window.location.href)
+    })
+  }, [])
+  
+
   return (
     <div className="App">
       <Routes>

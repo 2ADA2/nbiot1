@@ -12,14 +12,15 @@ export const CreateRows = ({devices = [], devInfo = {}}) => {
             </tr>
         </>
     )
-    function changeLocation() {
-        setTimeout(()=>{Global.setLocation()})
+    function changeLocation(device) {
+        Global.setLocation()
+        Global.setDevice(device)
     }
     //сборка рядов
     let rows = []
     for (let device of devInfo){
         rows.push(
-            <tr key = {device.Device.DevId} onClick={() => changeLocation()}>
+            <tr key = {device.Device.DevId} onClick={() => changeLocation(device)}>
                     <td> 
                         <Link to = "devInfo">
                             {device.Device.DevId}
