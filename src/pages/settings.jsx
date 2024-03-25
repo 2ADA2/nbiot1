@@ -3,7 +3,8 @@ import "../styles/pages/settings.css";
 //типо Get запрос на /mqtt/settings  вернул settings:
 import settings from "../asks/settings.json";
 import { CheckBox } from "../components/checkbox";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Counter } from "../components/counter";
 
 
 export const Settings = () => {
@@ -20,6 +21,10 @@ export const Settings = () => {
     const [LWMessage, setLWMessage] = useState(settings["Last-Will"]["Last-Will Message"])
     const [LWQos, setLWQos] = useState(settings["Last-Will"]["Last-Will Qos"])
     const [LWRetain, setLWRetain] = useState(settings["Last-Will"]["Last-Will Retain"])
+
+    useEffect(() => {
+        if(keepAlive<0) setKeepAlive(0)
+    });
 
     return (
         <Page header = "Settings" subHeader = "Настройки" header2="Настройки подключения по MQTT"
@@ -49,7 +54,12 @@ export const Settings = () => {
 
                     <label>
                         <h5>Keep Alive</h5>
-                        <input type="text" value = {keepAlive} onChange={(e) => {setKeepAlive(e.target.value)}}></input>
+                        <Counter
+                            setCount = {(val) => {setKeepAlive(Number(keepAlive) + val*1000)}}
+                            count = {keepAlive}
+                            newCount={(val) => setKeepAlive(Number(val) || 0)}
+                        />
+
                     </label>                    
                 </section>
 

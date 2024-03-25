@@ -4,9 +4,12 @@
     background-color:#eef1f6;
     width: 100%;
     padding: 20px;
-    min-width: 700px;
     display: flex;
     justify-content: center;
+}
+
+h3{
+    margin-top:40px;
 }
 
 .page{
@@ -33,7 +36,7 @@
     width: 100%;
     background-color:white; 
     padding: 40px; 
-    padding-top: 20px;
+    padding-top: 0;
     height: 100%;
 }
 
@@ -48,6 +51,7 @@
     padding: 15px 20px;
     background-color:white;
     margin:0;
+    min-width: 100%;
     margin-bottom:2px;
     font-weight: 400;
     box-sizing: border-box;

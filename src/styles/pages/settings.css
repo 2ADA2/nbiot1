@@ -5,7 +5,6 @@
     margin-top:40px;
     font-size: 26px;
     max-width: 2000px;
-    margin-bottom: 80px;
 }
 .connedtion-details label{
     min-width: 650px;
@@ -63,7 +62,6 @@ h3::after{
 .Credentials{
     display: flex;
     width: 100%;
-    margin-bottom: 80px;
     padding-right: 20%;
     padding-top:20px;
     justify-content: space-around;
@@ -90,7 +88,6 @@ h3::after{
     margin-top:40px;
     font-size: 26px;
     max-width: 2000px;
-    margin-bottom: 80px;
 }
 
 .Last-Will label{
@@ -136,4 +133,28 @@ button{
 }
 button:hover{
     background-color:#425063;
+}
+
+.page .counter-container{
+    display: flex;
+    flex-direction: row;
+    gap:0;
+    width: 30%;
+}
+.counter-container button{
+    width: 25px;
+    height: 25px;
+    margin: 0;
+    border:none;
+    outline: 1px solid white;
+    border-radius:0;
+    padding: 0;
+    line-height: 25px;
+}
+.counter-container .counter{
+    height: 50px;
+    gap:0;
+}
+.page .counter-container input{
+    width: 100%;
 }

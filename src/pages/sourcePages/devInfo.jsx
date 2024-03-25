@@ -14,7 +14,7 @@ export const DevInfo = () => {
         return <></>
     }
     const device = global.device
-    return <Page header1 = "Device Settings" subHeader="Настройки устройства" header2 = "Информация об устройстве" elem={
+    return <Page header = "Device Settings" subHeader="Настройки устройства" header2 = "Информация об устройстве" elem={
         <>
             <section className="devInfo">
                 <h3>Информация</h3>

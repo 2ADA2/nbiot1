@@ -13,10 +13,14 @@ class Global{
         console.log(JSON.stringify(this.device));
     }
     setLocation(){
+        if(this.location != window.location.href){
+            window.scrollTo(0,0)
+        }
         this.location = window.location.href;
         if(!this.location.includes("sources/dev")){
             this.setDevice({})
         }
+        
     }
 }
 

@@ -1,0 +1,123 @@
+form .measurement{
+    display: flex;
+    width: 100%;
+    gap:40px;
+    justify-content: center;
+}
+form .measurement section{
+    display: flex;
+    flex-direction: column;
+    gap:20px;
+    width: 50%;
+    justify-content: space-between;
+}
+form .measurement section:last-child h5{ 
+    width: 55%;
+    min-width: 0;
+}
+form .measurement section div{
+    flex-direction: row;
+}
+
+form .measurement section div .counter{
+    flex-direction: column;
+}
+
+.measurement h5{
+    text-align: start;
+    font-size: clamp(16px, 1vw, 30px);
+    width: 50%;
+    line-height: 50px;
+}
+.measurement input{
+    min-width: 100px;
+}
+.measurement .counter-container{
+    width: 40%;
+    max-width: 500px;
+    min-width: 0;
+}
+.measurement select{
+    min-width: 100px;
+    width: 50%;
+    font-size: clamp(10px, 1vw,30px);
+}
+
+.measurement .inputs{
+    width: 40%;
+}
+
+.measurements{
+    display: flex;
+    gap:2px;
+}
+.measurements .console{
+    width: 50%;
+    gap:0;
+}
+.measurements  h5{
+    font-size: 22px;
+    width: 100%;
+    text-align: start;
+    margin-left: 40px;
+    margin-bottom:0 ;
+}
+
+.console textarea{
+    resize: none;
+    height: 300px;
+    border-radius: 2px;
+    border: 2px solid #bebebe;
+    color: #505050;
+}
+textarea:focus{
+    border: 2px solid #868686;
+    outline: none;
+}
+
+.comments{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+
+.comments label{
+    display: flex;
+    flex-direction: row;
+    gap:20px;
+    width: 100%;
+}
+.comments label h5{
+    width: auto;
+    text-align: start;
+    margin-left: 40px;
+}
+.comments label input{
+    width: 100%;
+    max-width: 70%;
+}
+
+.buttons{
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    gap:40px;
+}
+.buttons button{
+    margin: 40px 0;
+}
+
+
+
+/* .command{
+    height: 50px;
+    font-size: 20px;
+    margin-left: 40px;
+    padding-left: 10px;
+    border: 2px solid #bebebe;
+    color: #505050;
+    border-radius:2px;
+}
+.command:focus{
+    border: 2px solid #868686;
+} */
