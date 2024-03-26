@@ -5,6 +5,7 @@ import { checkDevice } from "../../functions/checkDevice";
 import global from "../../store/global";
 import { useEffect, useState } from "react"
 import "../../styles/pages/sourcePages/devSettings.css"
+import { InputDate } from "../../components/inputDate";
 
 export const DevSettings = () => {
     const [title, setTitle] = useState("");
@@ -28,7 +29,8 @@ export const DevSettings = () => {
                 <section className="measurement">
                     <section className="counters">
                         <div>
-                            <h5>Произвести измерение в</h5><Counter/>
+                            <h5>Произвести измерение в</h5>
+                            <InputDate/>
                         </div>
                         <div>
                             <h5>Время замера, сек</h5><Counter />
@@ -45,12 +47,18 @@ export const DevSettings = () => {
                             <h5>Режим измерения</h5>
                             <select>
                                 <option>режим измерений</option>
+                                <option>режим имитатора</option>
                             </select>
                         </div>
                         <div>
                             <h5>Режим фильтра</h5>
                             <select>
                                 <option>FIRmod1</option>
+                                <option>FIRmod2</option>
+                                <option>FIRmod3</option>
+                                <option>FIRmod4</option>
+                                <option>FIRmod5</option>
+                                <option>FIRmod6</option>
                             </select>
                         </div>
                     </section>

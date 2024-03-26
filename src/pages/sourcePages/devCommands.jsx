@@ -19,17 +19,17 @@ export const DevCommands = () => {
             <section className="commands">
                 <h5>Команда</h5>
                 <select className="command">
-                    <option>Регистрация устройства</option>
-                    <option>получить расширенный статус</option>
-                    <option>устаноить период выдачи статуса устаноить</option>
-                    <option>обноить координаты устройства</option>
-                    <option>запрос координат устройства</option>
-                    <option>устаноить параметры</option>
-                    <option selected={true}>запросить параметры датчика</option>
-                    <option>включить отладку</option>
-                    <option>перезагрузка устройства</option>
-                    <option>обновить сертификат</option>
-                    <option>обновить встроенное ПО</option>
+                    <option>Зарегистрировать устройство</option>
+                    <option>Запросить состояние устройства</option>
+                    <option>Устаноить период TU пакетов</option>
+                    <option>Обновить координаты устройства</option>
+                    <option>Запросить местоположение</option>
+                    <option>Устаноить параметры датчика</option>
+                    <option>Запросить параметры датчика</option>
+                    <option>Включить отладочные данные</option>
+                    <option>Перезагрузить устройство</option>
+                    <option>Обновить сертификат</option>
+                    <option>Обновить встроенное ПО</option>
                 </select>
                 
             </section>

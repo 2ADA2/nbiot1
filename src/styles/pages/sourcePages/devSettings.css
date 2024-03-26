@@ -22,7 +22,6 @@ form .measurement section div{
 form .measurement section div .counter{
     flex-direction: column;
 }
-
 .measurement h5{
     text-align: start;
     font-size: clamp(16px, 1vw, 30px);
@@ -31,6 +30,7 @@ form .measurement section div .counter{
 }
 .measurement input{
     min-width: 100px;
+    max-width: none;
 }
 .measurement .counter-container{
     width: 40%;
@@ -107,17 +107,14 @@ textarea:focus{
     margin: 40px 0;
 }
 
-
-
-/* .command{
-    height: 50px;
-    font-size: 20px;
-    margin-left: 40px;
-    padding-left: 10px;
-    border: 2px solid #bebebe;
-    color: #505050;
-    border-radius:2px;
+@media (width < 1330px) {
+    .measurement{
+        flex-direction: column;
+    }
+    form .measurement section, form .measurement .inputs{
+        width: 100%;
+    }
+    form .measurement section div{
+        justify-content: space-between;
+    }
 }
-.command:focus{
-    border: 2px solid #868686;
-} */

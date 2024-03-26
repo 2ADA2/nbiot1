@@ -5,6 +5,10 @@
     flex-direction: row;
 }
 
+.checkbox-container{
+    user-select: none;
+}
+
 .connedtion-details h5{
         font-weight: 400;
         color: #7c7c7c;
@@ -73,4 +77,34 @@
         justify-content: flex-start;
         flex-direction: row;
         gap: 40px;
+}
+
+@media (width<1300px) {
+    .checkbox-container .switch{
+        width: 60px;
+    }
+    .checkbox-container .switch{
+        width: 60px;
+        height: 35px;
+        border:2px solid #a1a1a1;
+    }
+    .switch-slider::before {
+        content: "";
+        display: block;
+        position: relative;
+        box-shadow: 3px 0px 2px #00000065;
+        left:-2px;
+        bottom:2px;
+        width: 31px;
+        height: 31px;
+        border-radius: 50%;
+        border:2px solid #a1a1a1;
+        transition-duration: 300ms;
+        background-color:white;
+    }
+    .checkbox-container input:checked + .switch-slider::before {
+        left:24px;
+        bottom: 2px;
+        box-shadow:-3px 0 2px #00000065;
+    }
 }

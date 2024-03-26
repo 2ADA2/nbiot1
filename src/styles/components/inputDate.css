@@ -1,0 +1,35 @@
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline{
+    border-radius: 2px;
+}
+
+.css-1d3z3hw-MuiOutlinedInput-notchedOutline:hover{
+    outline: none;
+}
+
+.MuiButtonBase-root{
+    width: 50px;
+}
+
+.MuiFormControl-root{
+    height: 50px;
+    gap:0; 
+}
+
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+    padding: 0;
+    padding-left: 10px;
+}
+
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input:hover, .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input:focus{
+    border-width: 0;
+}
+
+.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input{
+}
+.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
+    min-width: 100%;
+    max-width: none;
+}
+.css-z3c6am-MuiFormControl-root-MuiTextField-root{
+    width: 40%;
+}

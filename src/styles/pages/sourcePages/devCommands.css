@@ -19,7 +19,18 @@
     width: auto;
     min-width: 0;
 }
-
+.command{
+    height: 50px;
+    font-size: 20px;
+    margin-left: 40px;
+    padding-left: 10px;
+    border: 2px solid #bebebe;
+    color: #505050;
+    border-radius:2px;
+}
+.command:focus{
+    border: 2px solid #868686;
+}
 .command-settings{
     margin-top: 40px;
     padding-left: 40px;

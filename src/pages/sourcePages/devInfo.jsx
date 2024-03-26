@@ -1,12 +1,17 @@
 import { Page } from "../../components/page"
 import { checkDevice } from "../../functions/checkDevice";
 import global from "../../store/global";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "../../styles/pages/sourcePages/devInfo.css"
 import { CheckBox } from "../../components/checkbox";
 import DBState from "../../asks/DBState.json"
+import { Counter } from "../../components/counter";
 
 export const DevInfo = () => { 
+    const [inDB, setInDB] = useState(true);
+    const [DBNum, setDBNum] = useState(133000);
+
+
     useEffect(() => {
         checkDevice(global.device, "/sources" )
     },[]);
@@ -27,7 +32,18 @@ export const DevInfo = () => {
                 <div> <h5>Режим работы сети</h5> <h5>{device.DeviceAttr.Metrics.Mode}</h5> </div>
                 <div> <h5>Интервал ТУ пакетов, сек</h5> <h5>{device.DeviceAttr.LinkRepeat}</h5> </div>
                 <div> <h5>Контроль подключенности датчика</h5> <h5>empty?</h5> </div>
-                <div> <h5>Запись данных в БД</h5> <CheckBox checked = {DBState.PutDBState}/> </div>
+                <div> <h5>Запись данных в БД</h5> <CheckBox checked = {inDB} setValue = {() => setInDB(!inDB)}/> </div>
+                <section className="DB" style={{display:(inDB) ? "flex" : "none"}}>
+                    <div>
+                        <h5>Укажите номер для отображения в БД:</h5>
+                        <Counter
+                            count={DBNum}
+                            setCount={(val) => setDBNum((( DBNum + Number(val) ) > 0) ?  DBNum + Number(val)  : 1)}
+                            newCount={(val) => setDBNum((( Number(parseInt(val) )) > 0) ? Number(parseInt(val)) : 1)}
+                        />
+                    </div>
+                    <button onClick={(e) => e.preventDefault()}>Сохранить</button>
+                </section>
                 <section className="devStatus">
                     <h5>Статус устройства</h5>
                     <textarea></textarea>
@@ -36,12 +52,29 @@ export const DevInfo = () => {
 
             <section className="devInfo">
                 <h3>Состояние устройства</h3>
-                <div> <h5>Состояние конфигурирования</h5> <h5>{(device.DeviceAttr.Configured) ? "Сконфигурированно" : "Не сконфигурированно"}</h5> </div>
-                <div> <h5>Состояние регистрации</h5> <h5>{(device.DeviceAttr.Registered) ? "Зарегестрированно" : "Не Зарегестрированно"}</h5> </div>
-                <div> <h5>Время на устройстве</h5> <h5>{device.DeviceAttr.localTime}</h5> </div>
-                <div> <h5>Заряд батареи</h5> <h5>{device.DeviceAttr.Metrics.Battery}</h5> </div>
-                <div> <h5>Уровень приема соты(RSII)</h5> <h5>{device.DeviceAttr.Metrics["GSM siglevel"]}</h5> </div>
-                <div> <h5>Температура</h5> <h5>{device.DeviceAttr.Metrics.Temperature}</h5> </div>
+                <div> 
+                    <h5>Состояние конфигурирования</h5> 
+                    <h5>{(device.DeviceAttr.Configured) ? "Сконфигурированно" : "Не сконфигурированно"}</h5> 
+                </div>
+                <div> 
+                    <h5>Состояние регистрации</h5> 
+                    <h5>{(device.DeviceAttr.Registered) ? "Зарегестрированно" : "Не Зарегестрированно"}</h5> 
+                </div>
+                <div> 
+                    <h5>Время на устройстве</h5> 
+                    <h5>{device.DeviceAttr.localTime.replace("T", " ").replace("-", ".").replace("-", ".")}</h5> </div>
+                <div> 
+                    <h5>Заряд батареи</h5> 
+                    <h5>{device.DeviceAttr.Metrics.Battery}</h5> 
+                </div>
+                <div> 
+                    <h5>Уровень приема соты(RSII)</h5> 
+                    <h5>{device.DeviceAttr.Metrics["GSM siglevel"]}</h5> 
+                </div>
+                <div> 
+                    <h5>Температура</h5> 
+                    <h5>{device.DeviceAttr.Metrics.Temperature}</h5> 
+                </div>
             </section>            
         </>
 

@@ -40,12 +40,12 @@ export const Settings = () => {
 
                     <label>
                         <h5>Port</h5>
-                        <input type="text" value={port} onChange={(e) => {setPOrt(e.target.value)}}></input>
+                        <input type="number" value={port} onChange={(e) => {setPOrt(e.target.value)}}></input>
                     </label> 
 
                     <label>
                         <h5>Client ID</h5>
-                        <input type="text" value={clietId} onChange={(e) => {setClientId(e.target.value)}}></input>
+                        <input type="number" value={clietId} onChange={(e) => {setClientId(e.target.value)}}></input>
                     </label>   
                     <div className="label-replacer">
                         <h5>Clean Session</h5> <CheckBox checked = {cleanSession}/>
@@ -87,13 +87,25 @@ export const Settings = () => {
                         <h5>Last-Will Message</h5>
                         <input type="text" value={LWMessage} onChange={(e) => {setLWMessage(e.target.value)}}></input>
                     </label>    
-
+ 
                     <label>
                         <h5>Last-Will Qos</h5>
                         <select>
-                            <option onClick={() => setLWQos(0)} selected = {LWQos == 0}>0 - at most once</option>
-                            <option onClick={() => setLWQos(1)} selected = {LWQos == 1}>1 - at last once</option>
-                            <option onClick={() => setLWQos(2)}selected = {LWQos == 2}>2 - exactly once</option>
+                            <option 
+                                onClick={() => setLWQos(0)} 
+                                selected = {LWQos == 0}>
+                                    0 - at most once
+                            </option>
+                            <option 
+                                onClick={() => setLWQos(1)} 
+                                selected = {LWQos == 1}>
+                                    1 - at last once
+                            </option>
+                            <option 
+                                onClick={() => setLWQos(2)} 
+                                selected = {LWQos == 2}>
+                                2 - exactly once
+                            </option>
                         </select>
                     </label> 
 

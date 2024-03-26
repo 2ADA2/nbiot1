@@ -19,7 +19,6 @@ h5{
     width: 40%;
     line-height: 50px;
     font-size: 28px;
-    user-select: none;
     text-align: end;
     min-width: 260px;
 }
@@ -106,6 +105,10 @@ h3::after{
     color:#505050;
     border:2px solid #bebebe;
     border-radius:2px;
+}
+
+.Last-Will select option{
+    font-size: 26px;
 }
 
 .Last-Will select:focus{
