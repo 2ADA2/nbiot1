@@ -5,16 +5,26 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import "../styles/components/inputDate.css"
 
-export const InputDate =() => {
-    const [value, setValue] = useState("2022-08-25T09:39:19")
+export const InputDate =({date = new Date(), newDate = () => {}}) => {
+
+    //обработка неверного ввода
+    function convertTime(time){
+        try {
+            const newTime = new Date(time).toISOString().split(".")[0]
+            newDate(newTime)
+        } catch (error) {
+            newDate(date)
+        }
+    }
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
-                defaultValue={dayjs(value)}
+                defaultValue={dayjs(date)}
                 ampm = {false}
                 border = "2px, solid, red"
                 views={['year', 'day', 'hours', 'minutes', 'seconds']}
+                onChange={(time) => convertTime(time)}
             />
         </LocalizationProvider>
     );

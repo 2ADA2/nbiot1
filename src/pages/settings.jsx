@@ -11,7 +11,7 @@ export const Settings = () => {
     const [hostName, setHostName] = useState(settings["Connection Details"]["Host name"])
     const [port, setPOrt] = useState(settings["Connection Details"]["Port"])
     const [clietId, setClientId] = useState(settings["Connection Details"]["Client ID"])
-    const [keepAlive, setKeepAlive] = useState(settings["Connection Details"]["Keep Alive"])
+    const [keepAlive, setKeepAlive] = useState(Number(settings["Connection Details"]["Keep Alive"]))
     const [cleanSession, setCleanSession] = useState(settings["Connection Details"]["Clean Session"])
 
     const [userName, setUserName] = useState(settings["Credentials"]["User name"])
@@ -21,10 +21,6 @@ export const Settings = () => {
     const [LWMessage, setLWMessage] = useState(settings["Last-Will"]["Last-Will Message"])
     const [LWQos, setLWQos] = useState(settings["Last-Will"]["Last-Will Qos"])
     const [LWRetain, setLWRetain] = useState(settings["Last-Will"]["Last-Will Retain"])
-
-    useEffect(() => {
-        if(keepAlive<0) setKeepAlive(0)
-    });
 
     return (
         <Page header = "Settings" subHeader = "Настройки" header2="Настройки подключения по MQTT"
@@ -50,15 +46,13 @@ export const Settings = () => {
                     <div className="label-replacer">
                         <h5>Clean Session</h5> <CheckBox checked = {cleanSession}/>
                     </div>
-                        
-
                     <label>
                         <h5>Keep Alive</h5>
                         <Counter
-                            setCount = {(val) => {setKeepAlive(Number(keepAlive) + val*1000)}}
-                            count = {keepAlive}
-                            newCount={(val) => setKeepAlive(Number(val) || 0)}
-                        />
+                                count={keepAlive}
+                                newCount={(val) => setKeepAlive(((val)>=0) ? val : keepAlive)}
+                                setCount={(val) => setKeepAlive(((keepAlive + val)>=0) ? keepAlive + val:0)}
+                            />
 
                     </label>                    
                 </section>
@@ -90,19 +84,20 @@ export const Settings = () => {
  
                     <label>
                         <h5>Last-Will Qos</h5>
-                        <select>
+                        <select onChange={(e) => setLWQos(e.target.value)}>
                             <option 
-                                onClick={() => setLWQos(0)} 
+                                value={0}
                                 selected = {LWQos == 0}>
                                     0 - at most once
+                                
                             </option>
                             <option 
-                                onClick={() => setLWQos(1)} 
+                                value={1}
                                 selected = {LWQos == 1}>
                                     1 - at last once
                             </option>
                             <option 
-                                onClick={() => setLWQos(2)} 
+                                value={2}
                                 selected = {LWQos == 2}>
                                 2 - exactly once
                             </option>

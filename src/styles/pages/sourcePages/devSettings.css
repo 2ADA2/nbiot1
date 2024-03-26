@@ -12,7 +12,7 @@ form .measurement section{
     justify-content: space-between;
 }
 form .measurement section:last-child h5{ 
-    width: 55%;
+    width: 50%;
     min-width: 0;
 }
 form .measurement section div{
@@ -61,6 +61,43 @@ form .measurement section div .counter{
     text-align: start;
     margin-left: 40px;
     margin-bottom:0 ;
+}
+.imitator-settings thead {
+    background-color: #3b495a;
+    color:white;
+    padding: 0 10px;
+}
+.imitator-settings td{
+    border: 1px solid #3b495a;
+    height: 100px;
+    text-align: center;
+    padding: 0 5px;
+}
+.imitator-settings tr:hover{
+    background-color: rgba(255, 0, 0, 0);
+}
+.imitator-settings td{
+    cursor: default;
+}
+.imitator-settings td .counter-container{
+    margin: auto;
+    min-width: 100px;
+    width: 70%;
+    max-width: 300px;
+}
+
+.imitator-settings .Noise td{
+    border-width: 1px 0;
+}
+.imitator-settings .Noise td:nth-child(1){
+    border-width: 1px;
+}
+.imitator-settings .Noise td:last-child{
+    border-width: 0 1px 1px 0;
+}
+.imitator-settings td .counter-container input{
+    min-width: 50px;
+    width: 100%;
 }
 
 .console textarea{
@@ -116,5 +153,8 @@ textarea:focus{
     }
     form .measurement section div{
         justify-content: space-between;
+    }
+    .inputs div:first-child{
+        justify-content: flex-start;
     }
 }

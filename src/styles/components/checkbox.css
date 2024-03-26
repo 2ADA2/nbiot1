@@ -86,19 +86,19 @@
     .checkbox-container .switch{
         width: 60px;
         height: 35px;
-        border:2px solid #a1a1a1;
+        border:1px solid #a1a1a1;
     }
     .switch-slider::before {
         content: "";
         display: block;
         position: relative;
         box-shadow: 3px 0px 2px #00000065;
-        left:-2px;
-        bottom:2px;
+        left:-1px;
+        bottom:0px;
         width: 31px;
         height: 31px;
         border-radius: 50%;
-        border:2px solid #a1a1a1;
+        border:1px solid #a1a1a1;
         transition-duration: 300ms;
         background-color:white;
     }
@@ -106,5 +106,9 @@
         left:24px;
         bottom: 2px;
         box-shadow:-3px 0 2px #00000065;
+    }
+    .checkbox-container input:checked + .switch-slider::before {
+        left:26px;
+        bottom: 0px;
     }
 }

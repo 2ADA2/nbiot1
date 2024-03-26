@@ -7,7 +7,13 @@ export const Counter = ({ count = 0, setCount = () => { }, newCount = () => { } 
                 style={{"-webkit-appearance": "textfield"}}
                 
                 onChange={(e) => {
-                    newCount((e.target.value))
+                    if (e.target.value === "-0"){
+                        newCount(0)
+                        e.target.value = 0
+                    } else{
+                        newCount(Number(e.target.value))
+                        e.target.value = Number(e.target.value)
+                    }
                 }}>
 
             </input>

@@ -10,7 +10,6 @@ class Global{
     setDevice(device){
         this.device = device;
         localStorage.setItem("device", JSON.stringify(device));
-        console.log(JSON.stringify(this.device));
     }
     setLocation(){
         if(this.location != window.location.href){
