@@ -13,10 +13,11 @@ import { LoadingPage } from "./components/loadingPage";
 import { ErrorPage } from "./components/errorPage";
 import { connect } from "./functions/connect";
 import { set } from "mobx";
+import { routes } from "./components/routes";
 
 function App() {
   const [data, setData] = useState(null);
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(null);
   
   useEffect(() => {
     window.addEventListener("popstate", ()=>{
@@ -24,20 +25,17 @@ function App() {
       
     })
     global.setLocation()
-    connect("http://93.84.87.22:8002/mqtt/settings ",(data) => setData(data),(err) => setError(err))
+    // connect("http://93.84.87.22:8002/mqtt/settings ",(data) => setData(data),(err) => setError(err))
   }, [])
   return (
     <div className="App">
       <Routes>
         <Route path='/' element={<Layout />}>
-          <Route path='/' element={<Home />}></Route>
 
-          <Route path='/sources' element={<Sources />}></Route>
-          <Route path='/sources/devInfo' element={<DevInfo />}></Route>
-          <Route path='/sources/devSettings' element={<DevSettings />}></Route>
-          <Route path='/sources/devCommands' element={<DevCommands />}></Route>
+          {routes.map(({path, Element}) => {
+            return <Route key = {path} path={path} element={<Element/>}/>
+          })}
 
-          <Route path='/settings' element={<Settings />}></Route>
           <Route
             path="*"
             element={<Navigate to="/" replace />}

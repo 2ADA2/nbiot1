@@ -1,0 +1,5 @@
+export const SOURCES_ROUTE = "/sources"
+export const SETTINGS_ROUTE = "/settings"
+export const DEVINFO_ROUTE = "/devInfo"
+export const DEVSETTINGS_ROUTE = "/devSettings"
+export const DEVCOMMANDS_ROUTE = "/devCommands"

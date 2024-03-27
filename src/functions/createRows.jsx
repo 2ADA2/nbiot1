@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Global from "../store/global"
+import { DEVINFO_ROUTE } from "../utils/consts"
 
 export const CreateRows = ({devices = [], devInfo = {}}) => {
+    const navigate = useNavigate()
     //Пустая таблица
     if (!devices.length) return (
         <>
@@ -13,8 +15,8 @@ export const CreateRows = ({devices = [], devInfo = {}}) => {
         </>
     )
     function changeLocation(device) {
+        navigate(DEVINFO_ROUTE + "/" + device.Device.DevId)
         Global.setLocation()
-        Global.setDevice(device)
     }
     //сборка рядов
     let rows = []
@@ -22,32 +24,19 @@ export const CreateRows = ({devices = [], devInfo = {}}) => {
         rows.push(
             <tr key = {device.Device.DevId} onClick={() => changeLocation(device)}>
                     <td> 
-                        <Link to = "devInfo">
-                            {device.Device.DevId}
-                        </Link>    
+                        {device.Device.DevId}
                     </td>
                     <td>
-                        <Link to="devInfo">
-                            {device.DeviceAttr.localTime}
-                        </Link>
-                        
+                        {device.DeviceAttr.localTime}
                     </td>
                     <td>
-                        <Link to="devInfo">
-                            {device.DeviceAttr.Metrics["GSM siglevel"]}
-                        </Link>
-                        
+                        {device.DeviceAttr.Metrics["GSM siglevel"]}
                     </td>
                     <td>
-                        <Link to="devInfo">
-                            {device.DeviceAttr.Metrics.Battery}
-                        </Link>
-                        
+                        {device.DeviceAttr.Metrics.Battery}
                     </td>
                     <td>
-                        <Link to="devInfo">
-                            {device.DeviceAttr.Metrics.Temperature}
-                        </Link>
+                        {device.DeviceAttr.Metrics.Temperature}
                     </td>
                 </tr>    
              

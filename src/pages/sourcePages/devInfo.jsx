@@ -1,16 +1,16 @@
 import { Page } from "../../components/page"
-import { checkDevice } from "../../functions/checkDevice";
-import global from "../../store/global";
 import { useEffect, useState } from "react";
 import "../../styles/pages/sourcePages/devInfo.css"
 import { CheckBox } from "../../components/checkbox";
-import DBState from "../../asks/DBState.json"
 import { Counter } from "../../components/counter";
+import { useDevice } from "../../hooks/useDevice";
+import global from "../../store/global";
 import { connect } from "../../functions/connect";
-import { LoadingPage } from "../../components/loadingPage";
 import { ErrorPage } from "../../components/errorPage";
+import { LoadingPage } from "../../components/loadingPage";
 
 export const DevInfo = () => { 
+    const device = useDevice()
     const [inDB, setInDB] = useState(true);
     const [DBNum, setDBNum] = useState(133000);
     const [devTime, setDevTime] = useState(new Date().toLocaleString().replace(",", ""))
@@ -20,17 +20,12 @@ export const DevInfo = () => {
 
 
     useEffect(() => {
-        checkDevice(global.device, "/sources" )
+        if(device.empty) global.setLocation("/sources")
         connect("http://93.84.87.22:8002/mqtt/settings",(data) => setSettings(data), (err) => setErr(err))
     },[]);
+
     if(err) return <ErrorPage err={err}/>
     if(!settings) return <LoadingPage/>
-    
-
-    if(!Object.keys(global.device).length){
-        return <></>
-    }
-    const device = global.device
 
     return <Page header = "Device Settings" subHeader="Настройки устройства" header2 = "Информация об устройстве" elem={
         <>

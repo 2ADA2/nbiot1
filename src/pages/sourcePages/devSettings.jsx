@@ -1,13 +1,14 @@
 import { CheckBox } from "../../components/checkbox";
 import { Counter } from "../../components/counter";
 import { Page } from "../../components/page"
-import { checkDevice } from "../../functions/checkDevice";
 import global from "../../store/global";
 import { useEffect, useState } from "react"
 import "../../styles/pages/sourcePages/devSettings.css"
 import { InputDate } from "../../components/inputDate";
+import { useDevice } from "../../hooks/useDevice";
 
 export const DevSettings = () => {
+    const device = useDevice()
     const [date, setDate] = useState(new Date());
     const [time, setTime] = useState(0);
     const [repeat, setRepeat] = useState(0)
@@ -32,12 +33,9 @@ export const DevSettings = () => {
     const [Noise, setNoise] = useState(0);
 
     useEffect(() => {
-        checkDevice(global.device, "/sources" )
+        if(device.empty) global.setLocation("/sources")
+        // connect("http://93.84.87.22:8002/mqtt/settings",(data) => setSettings(data), (err) => setErr(err))
     },[]);
-
-    if(!Object.keys(global.device).length){
-        return <></>
-    }
 
     return <Page 
         header = "Device Settings" 

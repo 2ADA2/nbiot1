@@ -5,8 +5,10 @@ import global from "../../store/global";
 import "../../styles/pages/sourcePages/devCommands.css"
 import { Counter } from "../../components/counter";
 import { CheckBox } from "../../components/checkbox";
+import { useDevice } from "../../hooks/useDevice";
 
 export const DevCommands = () => {
+    const device = useDevice();
     const [command, setCommand] = useState("register")
     const [status, setStatus] = useState("no command")
 
@@ -26,11 +28,8 @@ export const DevCommands = () => {
     const [senseCheck, setSenseCheck] = useState(false);
 
     useEffect(() => {
-        checkDevice(global.device, "/sources" )
-    },[]);
-    if(!Object.keys(global.device).length){
-        return <></>
-    }
+        if(device.empty) global.setLocation("/sources")
+    },[])
 
     return <Page header = "Device Settings" subHeader="Настройки устройства" header2 = "Команды устройству" elem={
         <form>
