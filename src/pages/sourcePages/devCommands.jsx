@@ -26,10 +26,6 @@ export const DevCommands = () => {
     const [senseCheck, setSenseCheck] = useState(false);
 
     useEffect(() => {
-        console.log(command)
-    })
-
-    useEffect(() => {
         checkDevice(global.device, "/sources" )
     },[]);
     if(!Object.keys(global.device).length){
