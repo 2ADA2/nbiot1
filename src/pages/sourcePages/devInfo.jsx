@@ -6,20 +6,32 @@ import "../../styles/pages/sourcePages/devInfo.css"
 import { CheckBox } from "../../components/checkbox";
 import DBState from "../../asks/DBState.json"
 import { Counter } from "../../components/counter";
+import { connect } from "../../functions/connect";
+import { LoadingPage } from "../../components/loadingPage";
+import { ErrorPage } from "../../components/errorPage";
 
 export const DevInfo = () => { 
     const [inDB, setInDB] = useState(true);
     const [DBNum, setDBNum] = useState(133000);
     const [devTime, setDevTime] = useState(new Date().toLocaleString().replace(",", ""))
 
+    const [settings, setSettings] = useState(null)
+    const [err, setErr] = useState(null)
+
 
     useEffect(() => {
         checkDevice(global.device, "/sources" )
+        connect("http://93.84.87.22:8002/mqtt/settings",(data) => setSettings(data), (err) => setErr(err))
     },[]);
+    if(err) return <ErrorPage err={err}/>
+    if(!settings) return <LoadingPage/>
+    
+
     if(!Object.keys(global.device).length){
         return <></>
     }
     const device = global.device
+
     return <Page header = "Device Settings" subHeader="Настройки устройства" header2 = "Информация об устройстве" elem={
         <>
             <section className="devInfo">

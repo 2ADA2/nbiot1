@@ -86,7 +86,7 @@ export const DevSettings = () => {
                         </div>
                         <div>
                             <h5>Режим фильтра</h5>
-                            <select onChange={(e) => {setMode(e.target.value)}}>
+                            <select onChange={(e) => {setFilter(e.target.value)}}>
                                 <option value={"FIRmod1"}>FIRmod1</option>
                                 <option value={"FIRmod2"}>FIRmod2</option>
                                 <option value={"FIRmod3"}>FIRmod3</option>

@@ -11,7 +11,7 @@ import { observer } from "mobx-react-lite";
 export const Panel = observer(() => {
     const page = Global.location
     function updateLocation() {
-        Global.setLocation(window.location.href)
+        setTimeout(() =>{Global.setLocation(window.location.href)},1)
     }
     
     return (
