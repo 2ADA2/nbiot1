@@ -22,7 +22,8 @@
 
 .panel a {
     border-left: 0 solid #22aef2;
-    padding: 0 30px;
+    padding-left:30px;
+    overflow: hidden;
     vertical-align: center;
     list-style: none;
     height: 60px;

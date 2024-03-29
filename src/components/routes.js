@@ -1,10 +1,11 @@
+import advancedSettings from "../pages/advancedSettings";
 import { Home } from "../pages/home";
 import { Settings } from "../pages/settings";
 import { DevCommands } from "../pages/sourcePages/devCommands";
 import { DevInfo } from "../pages/sourcePages/devInfo";
 import { DevSettings } from "../pages/sourcePages/devSettings";
 import { Sources } from "../pages/sources";
-import { DEVCOMMANDS_ROUTE, DEVINFO_ROUTE, DEVSETTINGS_ROUTE, SETTINGS_ROUTE, SOURCES_ROUTE } from "../utils/consts";
+import { ADVANCED_SETTINGS_ROUTE, DEVCOMMANDS_ROUTE, DEVINFO_ROUTE, DEVSETTINGS_ROUTE, SETTINGS_ROUTE, SOURCES_ROUTE } from "../utils/consts";
 
 export const routes = [
     {
@@ -29,5 +30,11 @@ export const routes = [
     },{
         path:"/",
         Element: Home
+    }
+]
+export const adminRoutes = [
+     {
+        path: ADVANCED_SETTINGS_ROUTE,
+        Element: advancedSettings
     }
 ]

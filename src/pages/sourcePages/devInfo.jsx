@@ -5,9 +5,6 @@ import { CheckBox } from "../../components/checkbox";
 import { Counter } from "../../components/counter";
 import { useDevice } from "../../hooks/useDevice";
 import global from "../../store/global";
-import { connect } from "../../functions/connect";
-import { ErrorPage } from "../../components/errorPage";
-import { LoadingPage } from "../../components/loadingPage";
 
 export const DevInfo = () => { 
     const device = useDevice()
@@ -15,17 +12,10 @@ export const DevInfo = () => {
     const [DBNum, setDBNum] = useState(133000);
     const [devTime, setDevTime] = useState(new Date().toLocaleString().replace(",", ""))
 
-    const [settings, setSettings] = useState(null)
-    const [err, setErr] = useState(null)
-
 
     useEffect(() => {
         if(device.empty) global.setLocation("/sources")
-        connect("http://93.84.87.22:8002/mqtt/settings",(data) => setSettings(data), (err) => setErr(err))
     },[]);
-
-    if(err) return <ErrorPage err={err}/>
-    if(!settings) return <LoadingPage/>
 
     return <Page header = "Device Settings" subHeader="Настройки устройства" header2 = "Информация об устройстве" elem={
         <>

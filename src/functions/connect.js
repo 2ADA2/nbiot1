@@ -1,4 +1,4 @@
-export const connect = (url,setData,setError) => {
+export const connect = (url,setData,setError = () => {}) => {
   fetch(url)
     .then(res => res.json())
     .then(res => setData(res))

@@ -1,13 +1,14 @@
 import { Page } from "../components/page"
 import "../styles/pages/settings.css";
 //типо Get запрос на /mqtt/settings  вернул settings:
-import settings from "../asks/settings.json";
 import { CheckBox } from "../components/checkbox";
 import { useState, useEffect } from "react";
 import { Counter } from "../components/counter";
+import global from "../store/global";
 
 
 export const Settings = () => {
+    const [settings, setSettings] = useState(global.settings)
     const [hostName, setHostName] = useState(settings["Connection Details"]["Host name"])
     const [port, setPOrt] = useState(settings["Connection Details"]["Port"])
     const [clietId, setClientId] = useState(settings["Connection Details"]["Client ID"])

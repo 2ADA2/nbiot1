@@ -1,10 +1,21 @@
 import { Page } from "../components/page"
 import { CreateRows } from "../functions/createRows"
 import "../styles/pages/sources.css"
-import devices from "../asks/devices.json"
-import device from "../asks/device.json"
+import { useEffect, useState } from "react"
+import global from "../store/global"
+import { observer } from "mobx-react-lite"
 
-export const Sources = () => {
+export const Sources = observer(() => {
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            global.updateDevList()
+        }, 5000);
+        return () => {
+            clearInterval(interval)
+        };
+    },[]);
+
     return (
         //страница с источниками: таблица, установка соединения по mqtt
         <Page header="Sources" subHeader="Устройства" header2="Список устройств" elem ={
@@ -35,10 +46,10 @@ export const Sources = () => {
 
                         <tbody>
                         {/* генерация таблицы */}
-                        <CreateRows devices={devices.Sources} devInfo={device.List}/>
+                        <CreateRows devices={global.deviceList} devInfo={global.devices}/>
                         </tbody>
                     </table>
                 </div>
         }/>
     )
-}
+})

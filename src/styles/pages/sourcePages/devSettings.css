@@ -99,19 +99,6 @@ form .measurement section div .counter{
     min-width: 50px;
     width: 100%;
 }
-
-.console textarea{
-    resize: none;
-    height: 300px;
-    border-radius: 2px;
-    border: 2px solid #bebebe;
-    color: #505050;
-}
-textarea:focus{
-    border: 2px solid #868686;
-    outline: none;
-}
-
 .comments{
     display: flex;
     flex-direction: column;

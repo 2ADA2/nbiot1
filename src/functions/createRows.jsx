@@ -2,10 +2,10 @@ import { Link, useNavigate } from "react-router-dom"
 import Global from "../store/global"
 import { DEVINFO_ROUTE } from "../utils/consts"
 
-export const CreateRows = ({devices = [], devInfo = {}}) => {
+export const CreateRows = ({devices = [], devInfo = []}) => {
     const navigate = useNavigate()
     //Пустая таблица
-    if (!devices.length) return (
+    if (!devices.length || !devInfo.length) return (
         <>
             <tr className="empty-row" >
                 <td colspan="6">

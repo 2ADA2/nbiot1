@@ -66,3 +66,18 @@ a{
   text-decoration: none;
   color:#383838;
 }
+table thead td{
+  color:white;
+}
+textarea {
+  resize: none;
+  height: 300px;
+  border-radius: 2px;
+  border: 2px solid #bebebe;
+  color: #505050;
+}
+
+textarea:focus {
+  border: 2px solid #868686;
+  outline: none;
+}
