@@ -2,7 +2,7 @@ import { Page } from "../components/page"
 import "../styles/pages/settings.css";
 //типо Get запрос на /mqtt/settings  вернул settings:
 import { CheckBox } from "../components/checkbox";
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import { Counter } from "../components/counter";
 import global from "../store/global";
 
@@ -22,6 +22,10 @@ export const Settings = () => {
     const [LWMessage, setLWMessage] = useState(settings["Last-Will"]["Last-Will Message"])
     const [LWQos, setLWQos] = useState(settings["Last-Will"]["Last-Will Qos"])
     const [LWRetain, setLWRetain] = useState(settings["Last-Will"]["Last-Will Retain"])
+
+    async function  saveSettings(e) {
+        e.preventDefault()
+    }
 
     return (
         <Page header = "Settings" subHeader = "Настройки" header2="Настройки подключения по MQTT"
@@ -109,7 +113,7 @@ export const Settings = () => {
                         <h5>Last-Will Retain</h5> <CheckBox checked = {LWRetain}/>
                     </div>
                 </section>
-                <button>Применить</button>
+                <button onClick={(e) => saveSettings(e)}>Применить</button>
             </form>
             }
         />

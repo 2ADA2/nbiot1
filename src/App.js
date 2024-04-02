@@ -6,6 +6,8 @@ import { adminRoutes, routes } from "./components/routes";
 import { ErrorPage } from "./components/errorPage";
 import { observer } from "mobx-react-lite";
 import { LoadingPage } from "./components/loadingPage";
+import { AUTHORIZATION_ROUTE } from "./utils/consts";
+import {Auth} from "./pages/Auth";
 
 const App =  observer(() => {
 
@@ -16,7 +18,19 @@ useEffect(() => {
     global.setLocation()
   }, [])
 
-  if(global.err) return <ErrorPage toBack= {false}/>
+  if(!global.isAuth) {
+    return(
+    <Routes>
+      <Route path = {AUTHORIZATION_ROUTE} element = {<Auth/>}/>
+      <Route
+            path="*"
+            element={<Navigate to={AUTHORIZATION_ROUTE} replace />}
+          />
+    </Routes>
+  ) 
+  } else global.updateDevList()
+
+  if(global.err) return <ErrorPage toBack= {false} err = {global.err}/>
   if(global.isLoading) return <LoadingPage toBack = {false}/>
 
   return (

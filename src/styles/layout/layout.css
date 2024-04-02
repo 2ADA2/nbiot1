@@ -11,4 +11,5 @@ header{
 header h1{
     color: white;
     letter-spacing: 1px;
+    min-width: 400px;
 }

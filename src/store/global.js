@@ -1,14 +1,13 @@
 import { makeAutoObservable } from "mobx";
-import device from "../asks/device.json"
-import deviceList from "../asks/devices.json"
 import http from "../http.json"
 import { connect } from "../functions/connect";
-import { useFetcher } from "react-router-dom";
 
 class Global{
-    isAdmin = true;
+    isAuth = false;
+    isAdmin = false;
     way = http.http;
-    user = "Super User";
+    user = null;
+    token = localStorage.getItem("token")
 
 
     location = window.location.href;
@@ -17,13 +16,38 @@ class Global{
     settings = null;
     err = false;
     isLoading = true;
+    advSettings = null;
 
 
     constructor(){
         makeAutoObservable(this);
-        
-        connect(this.way + "/settings", (settings) => this.settings = settings, (err) => this.err = err)
-        this.updateDevList()
+        if(this.token) {
+            this.isAuth = true;
+            this.isAdmin = true;
+            this.updateDevList()
+        }
+    }
+
+    async authorizate(data){
+        let res = await fetch(this.way + "/Authorization", {
+            method:"POST",
+            headers:{"authorization":global.token},
+            body:{
+                "AuthData":{
+		            "Login":data.name,
+		            "Password":data.password
+	            }
+            }
+        }).then(res =>{
+            if(res.ok){
+                return res.json()
+            }
+        }).then(res => {
+            this.token = res["Token"]
+            localStorage.setItem("token", res["Token"])
+            this.isAdmin = true;
+            this.isAuth = true;
+        })
     }
 
     setLocation(href = false){
@@ -39,29 +63,35 @@ class Global{
     }
 
     updateDevList(){
+        connect(this.way + "/settings", (settings) => this.settings = settings, (err) => this.err = err, this.token)
         connect(this.way + "/sources", (deviceList) => {
             this.deviceList = deviceList.Sources
+
+            if(this.isAdmin){
+                fetch(this.way + "/Advanced settings",{headers:{"authorization":this.token}})
+                .then(res => res.text())
+                .then(res => this.advSettings = res)
+            }
 
             new Promise((res, rej) => {
                 let newDevs = [];
                 for (let device of Array.from(this.deviceList)) {
                     connect(this.way + "/dev info/" + device, (dev) => {
                         newDevs.push(dev)
-                        console.log(dev)
-                    }, (err) => this.err = err)
+                    }, this.token)
                     const interval = setInterval(() => {
                         if (newDevs.length == this.deviceList.length && this.settings) {
                             res(newDevs)
                             clearInterval(interval)
                         }
-                    }, 0)
+                    }, 20)
                 }
             }
             )
                 .then(res => this.devices = res)
                 .then(res => this.isLoading = false)
 
-        }, (err) => this.err = err) 
+        }, (err) => this.err = err, this.token) 
     }
 }
 

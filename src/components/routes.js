@@ -1,4 +1,4 @@
-import advancedSettings from "../pages/advancedSettings";
+import AdvancedSettings from "../pages/advancedSettings";
 import { Home } from "../pages/home";
 import { Settings } from "../pages/settings";
 import { DevCommands } from "../pages/sourcePages/devCommands";
@@ -35,6 +35,6 @@ export const routes = [
 export const adminRoutes = [
      {
         path: ADVANCED_SETTINGS_ROUTE,
-        Element: advancedSettings
+        Element: AdvancedSettings
     }
 ]

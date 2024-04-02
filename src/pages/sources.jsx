@@ -46,7 +46,7 @@ export const Sources = observer(() => {
 
                         <tbody>
                         {/* генерация таблицы */}
-                        <CreateRows devices={global.deviceList} devInfo={global.devices}/>
+                        <CreateRows/>
                         </tbody>
                     </table>
                 </div>
