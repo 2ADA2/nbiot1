@@ -1,8 +1,9 @@
-import { makeAutoObservable } from "mobx";
+import {makeAutoObservable} from "mobx";
 import http from "../http.json"
-import { connect } from "../functions/connect";
+import {connect} from "../functions/connect";
+import {sortDevs} from "../functions/sortDevs";
 
-class Global{
+class Global {
     isAuth = false;
     isAdmin = false;
     way = http.http;
@@ -19,58 +20,59 @@ class Global{
     advSettings = null;
 
 
-    constructor(){
+    constructor() {
         makeAutoObservable(this);
-        if(this.token) {
+        if (this.token) {
             this.isAuth = true;
             this.isAdmin = true;
             this.updateDevList()
         }
     }
 
-    async authorizate(data){
+    async authorizate(data) {
         let res = await fetch(this.way + "/Authorization", {
-            method:"POST",
-            headers:{"authorization":global.token},
-            body:{
-                "AuthData":{
-		            "Login":data.name,
-		            "Password":data.password
-	            }
-            }
-        }).then(res =>{
-            if(res.ok){
+            method: "POST",
+            headers: {"authorization": global.token},
+            body: JSON.stringify({
+                "AuthData": {
+                    "Login": data.name, "Password": data.password
+                }
+            })
+        }).then(res => {
+            if (res.ok) {
                 return res.json()
-            }
+            } else throw new Error("AuthError")
         }).then(res => {
             this.token = res["Token"]
             localStorage.setItem("token", res["Token"])
             this.isAdmin = true;
             this.isAuth = true;
-        })
+        }).then(() => this.updateDevList()
+        ).then(true)
+            .catch(err => err)
     }
 
-    setLocation(href = false){
-        if(href) {
+    setLocation(href = false) {
+        if (href) {
             window.location.href = href
             this.location = href
             return;
-        }        
-        if(this.location != window.location.href){
-            window.scrollTo(0,0)
+        }
+        if (this.location !== window.location.href) {
+            window.scrollTo(0, 0)
         }
         this.location = window.location.href;
     }
 
-    updateDevList(){
+    updateDevList() {
         connect(this.way + "/settings", (settings) => this.settings = settings, (err) => this.err = err, this.token)
         connect(this.way + "/sources", (deviceList) => {
             this.deviceList = deviceList.Sources
 
-            if(this.isAdmin){
-                fetch(this.way + "/Advanced settings",{headers:{"authorization":this.token}})
-                .then(res => res.text())
-                .then(res => this.advSettings = res)
+            if (this.isAdmin) {
+                fetch(this.way + "/Advanced settings", {headers: {"authorization": this.token}})
+                    .then(res => res.text())
+                    .then(res => this.advSettings = res)
             }
 
             new Promise((res, rej) => {
@@ -79,19 +81,18 @@ class Global{
                     connect(this.way + "/dev info/" + device, (dev) => {
                         newDevs.push(dev)
                     }, this.token)
-                    const interval = setInterval(() => {
-                        if (newDevs.length == this.deviceList.length && this.settings) {
-                            res(newDevs)
-                            clearInterval(interval)
-                        }
-                    }, 20)
                 }
-            }
-            )
-                .then(res => this.devices = res)
+                const interval = setInterval(() => {
+                    if (newDevs.length === this.deviceList.length && this.settings) {
+                        res(newDevs)
+                        clearInterval(interval)
+                    }
+                }, 20)
+            })
+                .then(res => this.devices = sortDevs(res))
                 .then(res => this.isLoading = false)
 
-        }, (err) => this.err = err, this.token) 
+        }, (err) => this.err = err, this.token)
     }
 }
 

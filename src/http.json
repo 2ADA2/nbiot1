@@ -1,3 +1,5 @@
 {
-    "http" : "http://localhost:3001/mqtt"
+    "http" : "/mqtt",
+    "test" : "http://localhost:3001/mqtt"
+
 }

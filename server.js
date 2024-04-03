@@ -1,14 +1,17 @@
-const express = require ("express")
+const express = require("express")
 const axios = require("axios")
 const cors = require("cors")
 
-const PORT  = 3001;
+const PORT = 3001;
 
 const urlencodedParser = express.urlencoded({extended: false});
 const app = express()
 
 app.use(cors())
+function createTime(){
+    return new Date().toISOString().split(".")[0]
 
+}
 app.get('/mqtt/sources', (req, res) => {
     res.status(200).json({
         "Sources": [
@@ -20,7 +23,7 @@ app.get('/mqtt/sources', (req, res) => {
 })
 
 app.post("/mqtt/Authorization", (req, res, next) => {
-    res.json({"Token":"123"})
+    res.json({"Token": "123"})
 })
 
 app.get("/mqtt/settings", (req, res) => {
@@ -55,7 +58,7 @@ app.get('/mqtt/dev%20info/04:09:19:86:11:50', (req, res) => {
             "ProtoVer.": "1.2"
         },
         "DeviceAttr": {
-            "localTime": "2022-08-25T09:39:19",
+            "localTime": createTime(),
             "LinkRepeat": 30,
             "Configured": 0,
             "State": 0,
@@ -80,7 +83,7 @@ app.get('/mqtt/dev%20info/10:19:19:31:11:51', (req, res) => {
             "ProtoVer.": "1.2"
         },
         "DeviceAttr": {
-            "localTime": "2022-08-25T09:39:19",
+            "localTime": createTime(),
             "LinkRepeat": 30,
             "Configured": 0,
             "State": 0,
@@ -95,7 +98,7 @@ app.get('/mqtt/dev%20info/10:19:19:31:11:51', (req, res) => {
         }
     })
 })
-app.get('/mqtt/dev%20info/11:20:90:13:73:59', (req, res) => {
+app.get('/mqtt/dev%20info/64', (req, res) => {
     res.status(200).json({
         "Device": {
             "DevId": "11:20:90:13:73:59",
@@ -105,7 +108,7 @@ app.get('/mqtt/dev%20info/11:20:90:13:73:59', (req, res) => {
             "ProtoVer.": "1.2"
         },
         "DeviceAttr": {
-            "localTime": "2022-08-25T09:39:19",
+            "localTime": createTime(),
             "LinkRepeat": 30,
             "Configured": 0,
             "State": 0,
@@ -130,7 +133,7 @@ app.get('/mqtt/dev%20info/11:20:90:13:73:50', (req, res) => {
             "ProtoVer.": "1.2"
         },
         "DeviceAttr": {
-            "localTime": "2022-08-25T09:39:19",
+            "localTime": createTime(),
             "LinkRepeat": 30,
             "Configured": 0,
             "State": 0,

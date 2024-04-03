@@ -16,13 +16,13 @@ export const  Auth = observer(() => {
       return
     }
     global.authorizate({name, password})
-    
-    if(!global.token){
-      setErr(false)
-      setTimeout(() => setErr(true),10)
-    } else{
-      global.updateDevList()
-    }
+        .then(isAuth => {
+            if(!isAuth){
+                setErr(false)
+                setTimeout(() => setErr(true),10)
+            }
+        })
+
   }
 
   if(global.token){

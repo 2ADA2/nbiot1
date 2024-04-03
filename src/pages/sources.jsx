@@ -8,9 +8,10 @@ import { observer } from "mobx-react-lite"
 export const Sources = observer(() => {
 
     useEffect(() => {
+        global.updateDevList()
         const interval = setInterval(() => {
             global.updateDevList()
-        }, 5000);
+        }, 1000);
         return () => {
             clearInterval(interval)
         };

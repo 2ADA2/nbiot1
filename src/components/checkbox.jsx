@@ -9,8 +9,8 @@ export const CheckBox = ({checked = false, setValue = () => {}}) => {
                 <input 
                     type = "checkbox" 
                     className="checkbox" 
-                    checked = {check} 
-                    onClick={() => {
+                    checked = {check}
+                    onChange={() => {
                         setCheck(!check)
                         setValue()
                 }}></input>

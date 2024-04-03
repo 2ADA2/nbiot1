@@ -9,12 +9,18 @@ import Global from "../store/global";
 import { observer } from "mobx-react-lite";
 import { ADVANCED_SETTINGS_ROUTE, DEVCOMMANDS_ROUTE, DEVINFO_ROUTE, DEVSETTINGS_ROUTE, SETTINGS_ROUTE, SOURCES_ROUTE } from "../utils/consts";
 import global from "../store/global";
+import {useLocation} from "react-router";
 
 export const Panel = observer(() => {
     const page = Global.location
+    const location = useLocation()
     function updateLocation() {
         Global.setLocation()
     }
+    useEffect(() =>{
+        updateLocation()
+    }, [location])
+
     const isInSources =  page.includes(SOURCES_ROUTE) ||
         page.includes(DEVCOMMANDS_ROUTE) ||
         page.includes(DEVINFO_ROUTE) ||
