@@ -225,14 +225,14 @@ export const DevSettings = () => {
                     </label>    
                 </section>
 
-                <duv className = "buttons">
+                <span className = "buttons">
                     <button>
                         Отправить
                     </button>
                     <button>
                         Очистить списки
                     </button>
-                </duv>
+                </span>
 
             </form>
         }

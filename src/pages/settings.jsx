@@ -9,19 +9,19 @@ import global from "../store/global";
 
 export const Settings = () => {
     const [settings, setSettings] = useState(global.settings)
-    const [hostName, setHostName] = useState(settings["Connection Details"]["Host name"])
-    const [port, setPOrt] = useState(settings["Connection Details"]["Port"])
-    const [clietId, setClientId] = useState(settings["Connection Details"]["Client ID"])
-    const [keepAlive, setKeepAlive] = useState(Number(settings["Connection Details"]["Keep Alive"]))
-    const [cleanSession, setCleanSession] = useState(settings["Connection Details"]["Clean Session"])
+    const [hostName, setHostName] = useState(settings["ConnectionDetails"]["HostName"])
+    const [port, setPOrt] = useState(settings["ConnectionDetails"]["Port"])
+    const [clietId, setClientId] = useState(settings["ConnectionDetails"]["ClientID"])
+    const [keepAlive, setKeepAlive] = useState(Number(settings["ConnectionDetails"]["KeepAlive"]))
+    const [cleanSession, setCleanSession] = useState(settings["ConnectionDetails"]["CleanSession"])
 
-    const [userName, setUserName] = useState(settings["Credentials"]["User name"])
+    const [userName, setUserName] = useState(settings["Credentials"]["UserName"])
     const [password, setPassword] = useState(settings["Credentials"]["Password"])
 
-    const [LWTopic, setLWTopic] = useState(settings["Last-Will"]["Last-Will Topic"])
-    const [LWMessage, setLWMessage] = useState(settings["Last-Will"]["Last-Will Message"])
-    const [LWQos, setLWQos] = useState(settings["Last-Will"]["Last-Will Qos"])
-    const [LWRetain, setLWRetain] = useState(settings["Last-Will"]["Last-Will Retain"])
+    const [LWTopic, setLWTopic] = useState(settings["LastWill"]["LastWillTopic"])
+    const [LWMessage, setLWMessage] = useState(settings["LastWill"]["LastWillMessage"])
+    const [LWQos, setLWQos] = useState(settings["LastWill"]["LastWillQos"])
+    const [LWRetain, setLWRetain] = useState(settings["LastWill"]["LastWillRetain"])
 
     async function  saveSettings(e) {
         e.preventDefault()

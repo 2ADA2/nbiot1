@@ -4,7 +4,7 @@ export const Counter = ({ count = 0, setCount = () => { }, newCount = () => { } 
             <input
                 type="number"
                 value={count}
-                style={{"-webkit-appearance": "textfield"}}
+                style={{"WebkitAppearance": "textfield"}}
                 
                 onChange={(e) => {
                     if (e.target.value === "-0"){

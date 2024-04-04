@@ -7,11 +7,13 @@ class Global {
     isAuth = false;
     isAdmin = false;
     way = http.http;
-    user = null;
+    location = window.location.href;
+
+    user = localStorage.getItem("userName")
+    password = localStorage.getItem("password")
     token = localStorage.getItem("token")
 
-
-    location = window.location.href;
+    state = null
     devices = null;
     deviceList = null;
     settings = null;
@@ -21,38 +23,71 @@ class Global {
 
 
     constructor() {
+        // this.token = ""
+        // localStorage.setItem("token" , "")
         makeAutoObservable(this);
+
         if (this.token) {
             this.isAuth = true;
             this.isAdmin = true;
-            this.updateDevList()
+            this.updateAll()
         }
     }
 
     async authorizate(data) {
-        let res = await fetch(this.way + "/Authorization", {
+        fetch(this.way + "/Authorization", {
             method: "POST",
-            headers: {"authorization": global.token},
             body: JSON.stringify({
                 "AuthData": {
                     "Login": data.name, "Password": data.password
                 }
             })
+
         }).then(res => {
             if (res.ok) {
                 return res.json()
-            } else throw new Error("AuthError")
+            } else throw new Error()
+
         }).then(res => {
-            this.token = res["Token"]
-            localStorage.setItem("token", res["Token"])
-            this.isAdmin = true;
+            this.token = res["Token"].replace("{", "").replace("}", "")
+            if (!this.token) throw new Error()
+            localStorage.setItem("token", this.token)
             this.isAuth = true;
-        }).then(() => this.updateDevList()
+            this.userName = data.name;
+            this.password = data.password;
+            localStorage.setItem("userName", this.userName)
+            localStorage.setItem("password", this.password)
+            if (this.userName === "admin") this.isAdmin = true;
+
+        }).then(() => this.updateAll()
         ).then(true)
             .catch(err => err)
     }
 
-    setLocation(href = false) {
+    async updateToken() {
+        const res = await this.authorizate({name: this.userName, password: this.password})
+            .catch(err => this.err = err)
+    }
+
+    async setConnection() {
+        fetch(this.way + "/set state", {
+            method: "POST",
+            body: JSON.stringify({
+                "MQTT_connect": !this.state
+            }),
+            headers: {
+                "authorization": this.token
+            }
+        }).then(res => this.updateConnection())
+
+    }
+
+    updateConnection() {
+        connect(this.way + "/state", (state) => this.state = state.ConnectionState, () => {
+        }, this.token)
+    }
+
+    setLocation(href = "") {
         if (href) {
             window.location.href = href
             this.location = href
@@ -64,8 +99,28 @@ class Global {
         this.location = window.location.href;
     }
 
-    updateDevList() {
-        connect(this.way + "/settings", (settings) => this.settings = settings, (err) => this.err = err, this.token)
+    updateDevices() {
+        this.updateConnection()
+        new Promise((res, rej) => {
+            let newDevs = [];
+            for (let device of Array.from(this.deviceList)) {
+                connect(this.way + "/dev info/" + device, (dev) => {
+                    newDevs.push(dev)
+                }, (err) => {
+                }, this.token)
+            }
+            const interval = setInterval(() => {
+                if (newDevs.length === this.deviceList.length && this.settings) {
+                    res(newDevs)
+                    clearInterval(interval)
+                }
+            }, 20)
+        })
+            .then(res => this.devices = sortDevs(res))
+    }
+
+    updateAll() {
+        connect(this.way + "/settings", (settings) => this.settings = settings, (err) => this.updateToken(), this.token)
         connect(this.way + "/sources", (deviceList) => {
             this.deviceList = deviceList.Sources
 
@@ -80,6 +135,7 @@ class Global {
                 for (let device of Array.from(this.deviceList)) {
                     connect(this.way + "/dev info/" + device, (dev) => {
                         newDevs.push(dev)
+                    }, (err) => {
                     }, this.token)
                 }
                 const interval = setInterval(() => {
@@ -90,10 +146,11 @@ class Global {
                 }, 20)
             })
                 .then(res => this.devices = sortDevs(res))
-                .then(res => this.isLoading = false)
+                .then(() => this.updateConnection())
+                .then(() => this.isLoading = false)
 
-        }, (err) => this.err = err, this.token)
+        }, (err) => this.updateToken(), this.token)
     }
 }
 
-export default new Global;
+export default new Global();

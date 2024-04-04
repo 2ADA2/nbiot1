@@ -5,13 +5,21 @@ import { useEffect, useState } from "react"
 import global from "../store/global"
 import { observer } from "mobx-react-lite"
 
-export const Sources = observer(() => {
+export const Sources = observer(() =>{
+
+    function updateState(e) {
+        e.preventDefault()
+        global.setConnection()
+    }
 
     useEffect(() => {
-        global.updateDevList()
+        console.log(global.state)
+        setTimeout(() =>{
+            global.updateDevices()
+        },5000)
         const interval = setInterval(() => {
-            global.updateDevList()
-        }, 1000);
+            global.updateDevices()
+        }, 60000);
         return () => {
             clearInterval(interval)
         };
@@ -27,9 +35,9 @@ export const Sources = observer(() => {
                         <h3>Connection state</h3>
                         <section className="state">
                             <h5>Connection:</h5>
-                            <h6>True</h6>
+                            <h6>{JSON.stringify(global.state)}</h6>
                         </section>
-                        <button>Set State</button>
+                        <button onClick={(e) => updateState(e)}>Set State</button>
                     </form>
 
                     {/* список источников, краткий обзор */}

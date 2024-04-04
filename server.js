@@ -8,18 +8,20 @@ const urlencodedParser = express.urlencoded({extended: false});
 const app = express()
 
 app.use(cors())
-function createTime(){
+
+function createTime() {
     return new Date().toISOString().split(".")[0]
 
 }
+let devs = {
+    "Sources": [
+        "10:19:19:31:11:51",
+        "04:09:19:86:11:50",
+        "11:20:90:13:73:50"
+    ]
+}
 app.get('/mqtt/sources', (req, res) => {
-    res.status(200).json({
-        "Sources": [
-            "10:19:19:31:11:51",
-            "04:09:19:86:11:50",
-            "11:20:90:13:73:50"
-        ]
-    })
+    res.status(200).json(devs)
 })
 
 app.post("/mqtt/Authorization", (req, res, next) => {
@@ -28,22 +30,22 @@ app.post("/mqtt/Authorization", (req, res, next) => {
 
 app.get("/mqtt/settings", (req, res) => {
     res.status(200).json({
-        "Connection Details": {
-            "Clean Session": true,
-            "Client ID": "2599807",
-            "Host name": "93.84.87.22",
-            "Keep Alive": 60,
+        "ConnectionDetails": {
+            "CleanSession": true,
+            "ClientID": "2599807",
+            "HostName": "93.84.87.22",
+            "KeepAlive": 60,
             "Port": 1883
         },
         "Credentials": {
             "Password": "Predikta",
             "User name": "admin"
         },
-        "Last-Will": {
-            "Last-Will Message": "",
-            "Last-Will Qos": 0,
-            "Last-Will Retain": false,
-            "Last-Will Topic": ""
+        "LastWill": {
+            "LastWillMessage": "",
+            "LastWillQos": 0,
+            "LastWillRetain": false,
+            "LastWillTopic": ""
         }
     })
 })
@@ -147,6 +149,21 @@ app.get('/mqtt/dev%20info/11:20:90:13:73:50', (req, res) => {
             }
         }
     })
+})
+let state = false
+app.get("/mqtt/state", (req, res) => {
+    res.status(200).json({
+            "ConnectionState": state
+        }
+    )
+})
+
+app.post("/mqtt/set%20state", (req, res, next) => {
+    state = !state
+    res.status(200).json({"state":state})
+    if(state){
+
+    }
 })
 app.get("/mqtt/Advanced%20settings", function (req, res) {
     res.send(`HostBroker=93.84.87.22
