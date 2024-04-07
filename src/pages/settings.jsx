@@ -25,6 +25,7 @@ export const Settings = () => {
 
     async function  saveSettings(e) {
         e.preventDefault()
+
     }
 
     return (
@@ -89,22 +90,19 @@ export const Settings = () => {
  
                     <label>
                         <h5>Last-Will Qos</h5>
-                        <select onChange={(e) => setLWQos(e.target.value)}>
-                            <option 
-                                value={0}
-                                selected = {LWQos == 0}>
+                        <select defaultValue={LWQos} onChange={(e) => setLWQos(e.target.value)}>
+                            <option
+                                value={0}>
                                     0 - at most once
                                 
                             </option>
                             <option 
-                                value={1}
-                                selected = {LWQos == 1}>
+                                value={1}>
                                     1 - at last once
                             </option>
                             <option 
-                                value={2}
-                                selected = {LWQos == 2}>
-                                2 - exactly once
+                                value={2}>
+                                    2 - exactly once
                             </option>
                         </select>
                     </label> 

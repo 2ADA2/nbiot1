@@ -7,6 +7,7 @@ export const Auth = observer(() => {
     const [name, setName] = useState("")
     const [password, setPassword] = useState("")
     const [err, setErr] = useState()
+    const [started, setStarted] = useState()
 
     async function auth(e) {
         e.preventDefault()
@@ -15,6 +16,7 @@ export const Auth = observer(() => {
             setTimeout(() => setErr(true), 10)
             return
         }
+        setStarted(true)
         global.authorizate({name, password})
             .then(isAuth => {
                 if (!isAuth) {
@@ -22,7 +24,6 @@ export const Auth = observer(() => {
                     setTimeout(() => setErr(true), 10)
                 }
             })
-
     }
 
     return (<>
@@ -46,7 +47,11 @@ export const Auth = observer(() => {
                     />
                     <div>
                         {(err) ? <span className='auth-error'>Неверно введён логин или пароль</span> : <span/>}
-                        <button onClick={(e) => auth(e)}>Войти</button>
+                        {(started)?
+                            <button onClick={(e) => e.preventDefault()} className="activated-button">Вход</button> :
+                            <button onClick={(e) => auth(e)}>Войти</button>
+                        }
+
                     </div>
 
                 </form>

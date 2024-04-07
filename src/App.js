@@ -18,6 +18,8 @@ const App = observer(() => {
         global.setLocation()
     }, [])
 
+    if (global.err) return <ErrorPage toBack={false} err={global.err}/>
+
     if (!global.isAuth) {
         return (
             <Routes>
@@ -30,7 +32,7 @@ const App = observer(() => {
         )
     }
 
-    if (global.err) return <ErrorPage toBack={false} err={global.err}/>
+
     if (global.isLoading) return <LoadingPage toBack={false}/>
 
     return (

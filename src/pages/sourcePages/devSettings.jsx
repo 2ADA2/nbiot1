@@ -77,7 +77,6 @@ export const DevSettings = () => {
                         <div>
                             <h5>Режим измерения</h5>
                             <select onChange={(e) => {setMode(e.target.value)}}>
-                                <div>123</div>
                                 <option value = "measurementMode">режим измерений</option>
                                 <option value = "imitatorMode">режим имитатора</option>
                             </select>

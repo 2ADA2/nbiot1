@@ -2,7 +2,7 @@ import {makeAutoObservable} from "mobx";
 import http from "../http.json"
 import {connect} from "../functions/connect";
 import {sortDevs} from "../functions/sortDevs";
-import {paste} from "@testing-library/user-event/dist/paste";
+import {logDOM} from "@testing-library/react";
 
 class Global {
     isAuth = false;
@@ -14,9 +14,9 @@ class Global {
     password = localStorage.getItem("password")
     token = localStorage.getItem("token")
 
-    state = null
-    devices = [];
-    deviceList = [];
+    state = (localStorage.getItem("state")) ? JSON.parse(localStorage.getItem("state")) : null;
+    devices = (localStorage.getItem("devices")) ? JSON.parse(localStorage.getItem("devices")) : [];
+    deviceList = (localStorage.getItem("devices")) ? JSON.parse(localStorage.getItem("devList")) : [];
     settings = null;
     err = false;
     isLoading = true;
@@ -26,8 +26,7 @@ class Global {
     constructor() {
         // this.token = ""
         // localStorage.setItem("token", "")
-        makeAutoObservable(this);
-
+        makeAutoObservable(this)
         if (this.token) {
             this.isAuth = true;
             if(this.user === "admin") this.isAdmin = true;
@@ -48,14 +47,13 @@ class Global {
             this.token = res["Token"]
             if (!this.token) throw new Error()
             localStorage.setItem("token", this.token)
-            this.isAuth = true;
             this.userName = data.name;
             this.password = data.password;
             localStorage.setItem("userName", this.userName)
             localStorage.setItem("password", this.password)
             if (this.userName === "admin") this.isAdmin = true;
-        }).then(res => setTimeout(() => this.updateAll(), 100))
-            .catch(err => err)
+        }).then(res => setTimeout(() => this.updateAll(), 500))
+            .catch(err => this.err = err)
         return !this.err
     }
 
@@ -82,7 +80,7 @@ class Global {
 
     updateConnection() {
         connect(this.way + "/state", (state) => this.state = state.ConnectionState, () => {
-        }, this.token)
+        }, this.token).then(() => localStorage.setItem("state" , this.state))
     }
 
     setLocation(href = "") {
@@ -118,11 +116,15 @@ class Global {
                 .then(() => this.updateConnection())
 
         }, (err) => {}, this.token)
+            .then(() => localStorage.setItem("devList", JSON.stringify(this.deviceList)))
+            .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
     }
 
     updateAll() {
         this.updateDevices()
-        connect(this.way + "/settings", (settings) => this.settings = settings, (err) => this.updateToken(), this.token).then(() => this.isLoading=false)
+        connect(this.way + "/settings", (settings) => this.settings = settings, (err) => this.updateToken(), this.token)
+            .then(() => this.isAuth = true)
+            .then(() => this.isLoading=false)
     }
 }
 

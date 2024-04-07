@@ -81,3 +81,13 @@ textarea:focus {
   border: 2px solid #868686;
   outline: none;
 }
+form .activated-button, dev .activated-button{
+  background-color: #535e7b;
+  border-color: #3b4b5a;
+  cursor: default;
+}
+form .activated-button:hover, dev .activated-button:hover{
+  background-color: #535e7b;
+  border-color: #3b4b5a;
+  cursor: default;
+}
