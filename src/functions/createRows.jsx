@@ -9,7 +9,7 @@ export const CreateRows = observer(() => {
     if (!global.deviceList.length || !global.devices.length) return (
         <>
             <tr className="empty-row" >
-                <td colspan="6">
+                <td colSpan="6">
                     No sources
                 </td>
             </tr>
@@ -25,19 +25,19 @@ export const CreateRows = observer(() => {
         rows.push(
             <tr key = {device.Device.DevId} onClick={() => changeLocation(device)}>
                 <td> 
-                    {device.Device.DevId}
+                    {device.Device.DevId || "no data"}
                 </td>
                 <td>
-                    {device.DeviceAttr.localTime}
+                    {device.DeviceAttr.localTime || "no data"}
                 </td>
                 <td>
-                    {device.DeviceAttr.Metrics["GSM siglevel"]}
+                    {device.DeviceAttr.Metrics["GSM siglevel"] || "no data"}
                 </td>
                 <td>
-                    {device.DeviceAttr.Metrics.Battery}
+                    {device.DeviceAttr.Metrics.Battery || "no data"}
                 </td>
                 <td>
-                    {device.DeviceAttr.Metrics.Temperature}
+                    {device.DeviceAttr.Metrics.Temperature || "no data"}
                 </td>
             </tr>    
              

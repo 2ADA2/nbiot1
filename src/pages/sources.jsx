@@ -13,7 +13,6 @@ export const Sources = observer(() =>{
     }
 
     useEffect(() => {
-        console.log(global.state)
         setTimeout(() =>{
             global.updateDevices()
         },5000)
@@ -35,7 +34,7 @@ export const Sources = observer(() =>{
                         <h3>Connection state</h3>
                         <section className="state">
                             <h5>Connection:</h5>
-                            <h6>{JSON.stringify(global.state)}</h6>
+                            <h6>{String(global.state)}</h6>
                         </section>
                         <button onClick={(e) => updateState(e)}>Set State</button>
                     </form>

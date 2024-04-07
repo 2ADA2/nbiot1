@@ -3,27 +3,9 @@ import { Page } from '../components/page'
 import "../styles/pages/advancedSettings.css"
 import global from '../store/global'
 
-const deflt = `HostBroker=93.84.87.22
-PortBroker=1883
-GuardInterval=3
-AllPackages=1
-RawDataSave=1
-PSflag=true
-MqttPassword=1\\x10\\x17\\x12\\b\a\\x1fP
-MqttUserName=admin
-
-AddRawDataUrl=http://192.168.0.201:5101/api/v2.1/rawdata/addv2
-LastParamInfoUrl="http://192.168.0.201:5101/api/v2.1/RawData/latest-param-info?source="
-LoginUrl=http://192.168.0.201:9109/api/v2.1/user/login
-Password=gateway
-RefreshTokenUrl=http://192.168.0.201:9109/api/v2.1/user/refresh-token
-UserInfoUrl=http://192.168.0.201:9109/api/v2.1/User/user-info
-UserName=gateway-3-11
-
-MAC04_09_19_86_11_50=5896`
-
 export default function AdvancedSettings() {
-  const [settings, setSettings] = useState(localStorage.getItem("advSettings") || global.advSettings);
+  const [settings, setSettings] = useState(localStorage.getItem("advSettings"));
+  const deflt = global.advSettings
 
   function handleChange(e){
     setSettings(e.target.value)

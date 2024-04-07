@@ -9,9 +9,7 @@ export const connect =  async (url,setData,setError = (error) => {}, token = "")
         "authorization":token
       }
     })
-    if(res.status >= 200 && res.status < 400){
-      setData(res.data)
-    } else throw new Error("ConnectionError")
+    setData(res.data)
   } catch (error) {
     setError(error)
   }

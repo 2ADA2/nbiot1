@@ -2,6 +2,7 @@ import {makeAutoObservable} from "mobx";
 import http from "../http.json"
 import {connect} from "../functions/connect";
 import {sortDevs} from "../functions/sortDevs";
+import {paste} from "@testing-library/user-event/dist/paste";
 
 class Global {
     isAuth = false;
@@ -14,8 +15,8 @@ class Global {
     token = localStorage.getItem("token")
 
     state = null
-    devices = null;
-    deviceList = null;
+    devices = [];
+    deviceList = [];
     settings = null;
     err = false;
     isLoading = true;
@@ -24,32 +25,27 @@ class Global {
 
     constructor() {
         // this.token = ""
-        // localStorage.setItem("token" , "")
+        // localStorage.setItem("token", "")
         makeAutoObservable(this);
 
         if (this.token) {
             this.isAuth = true;
-            this.isAdmin = true;
+            if(this.user === "admin") this.isAdmin = true;
             this.updateAll()
         }
     }
 
     async authorizate(data) {
         fetch(this.way + "/Authorization", {
-            method: "POST",
-            body: JSON.stringify({
+            method: "POST", body: JSON.stringify({
                 "AuthData": {
                     "Login": data.name, "Password": data.password
                 }
             })
 
-        }).then(res => {
-            if (res.ok) {
-                return res.json()
-            } else throw new Error()
-
-        }).then(res => {
-            this.token = res["Token"].replace("{", "").replace("}", "")
+        }).then(res => res.json())
+            .then(res => {
+            this.token = res["Token"]
             if (!this.token) throw new Error()
             localStorage.setItem("token", this.token)
             this.isAuth = true;
@@ -58,28 +54,30 @@ class Global {
             localStorage.setItem("userName", this.userName)
             localStorage.setItem("password", this.password)
             if (this.userName === "admin") this.isAdmin = true;
-
-        }).then(() => this.updateAll()
-        ).then(true)
+        }).then(res => setTimeout(() => this.updateAll(), 100))
             .catch(err => err)
+        return !this.err
     }
 
     async updateToken() {
-        const res = await this.authorizate({name: this.userName, password: this.password})
-            .catch(err => this.err = err)
+        this.isAuth = false
+        this.isAdmin = false
     }
 
     async setConnection() {
+        const oldState = this.state
+        if(this.state) {
+            this.state = "disconnect..."
+        } else {
+            this.state = "connect...";
+        }
         fetch(this.way + "/set state", {
-            method: "POST",
-            body: JSON.stringify({
-                "MQTT_connect": !this.state
-            }),
-            headers: {
+            method: "POST", body: JSON.stringify({
+                "MQTT_connect": !oldState
+            }), headers: {
                 "authorization": this.token
             }
-        }).then(res => this.updateConnection())
-
+        }).then(() => this.updateDevices())
     }
 
     updateConnection() {
@@ -100,43 +98,14 @@ class Global {
     }
 
     updateDevices() {
-        this.updateConnection()
-        new Promise((res, rej) => {
-            let newDevs = [];
-            for (let device of Array.from(this.deviceList)) {
-                connect(this.way + "/dev info/" + device, (dev) => {
-                    newDevs.push(dev)
-                }, (err) => {
-                }, this.token)
-            }
-            const interval = setInterval(() => {
-                if (newDevs.length === this.deviceList.length && this.settings) {
-                    res(newDevs)
-                    clearInterval(interval)
-                }
-            }, 20)
-        })
-            .then(res => this.devices = sortDevs(res))
-    }
-
-    updateAll() {
-        connect(this.way + "/settings", (settings) => this.settings = settings, (err) => this.updateToken(), this.token)
         connect(this.way + "/sources", (deviceList) => {
-            this.deviceList = deviceList.Sources
-
-            if (this.isAdmin) {
-                fetch(this.way + "/Advanced settings", {headers: {"authorization": this.token}})
-                    .then(res => res.text())
-                    .then(res => this.advSettings = res)
-            }
-
+            this.deviceList = deviceList.Sources;
             new Promise((res, rej) => {
                 let newDevs = [];
                 for (let device of Array.from(this.deviceList)) {
                     connect(this.way + "/dev info/" + device, (dev) => {
                         newDevs.push(dev)
-                    }, (err) => {
-                    }, this.token)
+                    }, (err) => this.updateToken(), this.token)
                 }
                 const interval = setInterval(() => {
                     if (newDevs.length === this.deviceList.length && this.settings) {
@@ -147,9 +116,13 @@ class Global {
             })
                 .then(res => this.devices = sortDevs(res))
                 .then(() => this.updateConnection())
-                .then(() => this.isLoading = false)
 
-        }, (err) => this.updateToken(), this.token)
+        }, (err) => {}, this.token)
+    }
+
+    updateAll() {
+        this.updateDevices()
+        connect(this.way + "/settings", (settings) => this.settings = settings, (err) => this.updateToken(), this.token).then(() => this.isLoading=false)
     }
 }
 

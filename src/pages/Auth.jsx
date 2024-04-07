@@ -25,10 +25,6 @@ export const Auth = observer(() => {
 
     }
 
-    if (global.token) {
-        global.updateAll()
-    }
-
     return (<>
             <header>
                 <h1>NB-IoT collector</h1>
