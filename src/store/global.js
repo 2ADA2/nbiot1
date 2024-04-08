@@ -2,7 +2,6 @@ import {makeAutoObservable} from "mobx";
 import http from "../http.json"
 import {connect} from "../functions/connect";
 import {sortDevs} from "../functions/sortDevs";
-import {logDOM} from "@testing-library/react";
 
 class Global {
     isAuth = false;
@@ -16,7 +15,7 @@ class Global {
 
     state = (localStorage.getItem("state")) ? JSON.parse(localStorage.getItem("state")) : null;
     devices = (localStorage.getItem("devices")) ? JSON.parse(localStorage.getItem("devices")) : [];
-    deviceList = (localStorage.getItem("devices")) ? JSON.parse(localStorage.getItem("devList")) : [];
+    deviceList = (localStorage.getItem("deviceList")) ? JSON.parse(localStorage.getItem("devList")) : [];
     settings = null;
     err = false;
     isLoading = true;
@@ -28,6 +27,7 @@ class Global {
         // localStorage.setItem("token", "")
         makeAutoObservable(this)
         if (this.token) {
+            this.isAuth = true;
             this.updateAll()
         } else this.isAuth = false
     }
@@ -55,16 +55,15 @@ class Global {
                     this.isAdmin = true;
                     localStorage.setItem("isAdmin", "true")
                 }
-            }).then(res => setTimeout(() => this.updateAll(), 500))
+            }).then(() => setTimeout(() => this.updateAll(), 500))
             .catch(err => this.err = err)
         return !this.err
     }
 
     async updateToken() {
         this.token = ""
+        this.isAuth = false;
         localStorage.setItem("token", "")
-        this.isAuth = false
-        this.isAdmin = false
     }
 
     async setConnection() {
@@ -80,12 +79,17 @@ class Global {
             }), headers: {
                 "authorization": this.token
             }
-        }).then(() => this.updateDevices())
+        }).then((res) => {
+            if (!res.ok) throw new Error()
+        }).then(() => this.updateDevices()).catch(() => this.isAuth = false).catch(() => this.updateToken())
+
     }
 
     updateConnection() {
         connect(this.way + "/state", (state) => this.state = state.ConnectionState, () => {
-        }, this.token).then(() => localStorage.setItem("state", this.state))
+        }, this.token).then(() => {
+            if(typeof(this.state) !== 'string') localStorage.setItem("state", this.state)
+        }).catch(() => this.isAuth = false)
     }
 
     setLocation(href = "") {
@@ -121,6 +125,7 @@ class Global {
                 .then(() => this.updateConnection())
 
         }, (err) => {
+            this.updateToken()
         }, this.token)
             .then(() => localStorage.setItem("devList", JSON.stringify(this.deviceList)))
             .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
@@ -136,7 +141,12 @@ class Global {
             ).then(() => this.updateDevices())
              .then(() => this.isAuth = true)
              .then(() => this.isLoading = false)
-             .catch(() => this.updateToken())
+             .catch((err) => {
+                 this.isAuth = false;
+                 this.isAdmin = false;
+                 this.updateToken()
+                 console.log(err)
+             })
     }
 }
 
