@@ -1,6 +1,4 @@
 import axios from "axios"
-import global from "../store/global"
-import { observer } from "mobx-react-lite"
 
 export const connect =  async (url,setData,setError = (error) => {}, token = "") => {
   try {
@@ -10,8 +8,9 @@ export const connect =  async (url,setData,setError = (error) => {}, token = "")
       }
     })
     setData(res.data)
+    return res.data
   } catch (error) {
     setError(error)
+    return error
   }
-  
 }

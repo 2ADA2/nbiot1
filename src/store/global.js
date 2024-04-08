@@ -6,7 +6,7 @@ import {logDOM} from "@testing-library/react";
 
 class Global {
     isAuth = false;
-    isAdmin = false;
+    isAdmin = (localStorage.getItem("isAdmin")) ? JSON.parse(localStorage.getItem("isAdmin")) : null;
     way = http.http;
     location = window.location.href;
 
@@ -28,13 +28,13 @@ class Global {
         // localStorage.setItem("token", "")
         makeAutoObservable(this)
         if (this.token) {
-            this.isAuth = true;
-            if(this.user === "admin") this.isAdmin = true;
             this.updateAll()
-        }
+        } else this.isAuth = false
     }
 
     async authorizate(data) {
+        localStorage.setItem("isAdmin", "false")
+        this.isAdmin = false;
         fetch(this.way + "/Authorization", {
             method: "POST", body: JSON.stringify({
                 "AuthData": {
@@ -44,27 +44,32 @@ class Global {
 
         }).then(res => res.json())
             .then(res => {
-            this.token = res["Token"]
-            if (!this.token) throw new Error()
-            localStorage.setItem("token", this.token)
-            this.userName = data.name;
-            this.password = data.password;
-            localStorage.setItem("userName", this.userName)
-            localStorage.setItem("password", this.password)
-            if (this.userName === "admin") this.isAdmin = true;
-        }).then(res => setTimeout(() => this.updateAll(), 500))
+                this.token = res["Token"]
+                if (!this.token) throw new Error()
+                localStorage.setItem("token", this.token)
+                this.userName = data.name;
+                this.password = data.password;
+                localStorage.setItem("userName", this.userName)
+                localStorage.setItem("password", this.password)
+                if (this.userName === "admin") {
+                    this.isAdmin = true;
+                    localStorage.setItem("isAdmin", "true")
+                }
+            }).then(res => setTimeout(() => this.updateAll(), 500))
             .catch(err => this.err = err)
         return !this.err
     }
 
     async updateToken() {
+        this.token = ""
+        localStorage.setItem("token", "")
         this.isAuth = false
         this.isAdmin = false
     }
 
     async setConnection() {
         const oldState = this.state
-        if(this.state) {
+        if (this.state) {
             this.state = "disconnect..."
         } else {
             this.state = "connect...";
@@ -80,7 +85,7 @@ class Global {
 
     updateConnection() {
         connect(this.way + "/state", (state) => this.state = state.ConnectionState, () => {
-        }, this.token).then(() => localStorage.setItem("state" , this.state))
+        }, this.token).then(() => localStorage.setItem("state", this.state))
     }
 
     setLocation(href = "") {
@@ -115,16 +120,23 @@ class Global {
                 .then(res => this.devices = sortDevs(res))
                 .then(() => this.updateConnection())
 
-        }, (err) => {}, this.token)
+        }, (err) => {
+        }, this.token)
             .then(() => localStorage.setItem("devList", JSON.stringify(this.deviceList)))
             .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
     }
 
     updateAll() {
-        this.updateDevices()
-        connect(this.way + "/settings", (settings) => this.settings = settings, (err) => this.updateToken(), this.token)
-            .then(() => this.isAuth = true)
-            .then(() => this.isLoading=false)
+
+        connect(this.way + "/settings",
+            (settings) => this.settings = settings,
+            (err) => {
+                throw new Error()
+            }, this.token
+            ).then(() => this.updateDevices())
+             .then(() => this.isAuth = true)
+             .then(() => this.isLoading = false)
+             .catch(() => this.updateToken())
     }
 }
 
