@@ -28,3 +28,10 @@ export const setAdvSettings = async (url, data = "", token) => {
     const res = await axios.post(url, data,{headers: {"Authorization": token}})
     return res;
 }
+
+export const setUTC = async (url, utc = "", token) => {
+    const res = await axios.post(url, {
+        "Utc":utc
+    },{headers: {"Authorization": token}})
+    return res;
+}

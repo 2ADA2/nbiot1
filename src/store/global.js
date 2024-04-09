@@ -29,7 +29,7 @@ class Global {
         if (this.token) {
             this.isAuth = true;
             this.updateAll()
-        } else this.isAuth = false
+        }
     }
 
     async authorizate(data) {
@@ -46,7 +46,7 @@ class Global {
             .then(res => {
                 this.token = res["Token"]
                 if (!this.token) throw new Error()
-                localStorage.setItem("token", this.token)
+                localStorage.setItem("token", res["Token"])
                 this.userName = data.name;
                 this.password = data.password;
                 localStorage.setItem("userName", this.userName)
@@ -139,12 +139,13 @@ class Global {
                 .then(() => this.updateConnection())
 
         }, () => {
-            this.updateToken()
+            throw new Error()
         }, this.token)
             .then(() => localStorage.setItem("devList", JSON.stringify(this.deviceList)))
             .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
             .then(() => this.isAuth = true)
             .then(() => this.isLoading = false)
+            .catch(() => this.updateToken())
     }
 
     updateAll() {
@@ -160,9 +161,13 @@ class Global {
                     }, () => this.updateToken(), this.token)
                 }
             },
-            () => this.updateToken(), this.token
+            () => {
+                throw new Error()
+            }, this.token
         ).then(() => this.updateDevices())
-            .catch(() => this.updateToken())
+            .catch(() => {
+                this.updateToken()
+            })
     }
 }
 

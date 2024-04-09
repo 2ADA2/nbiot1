@@ -58,7 +58,7 @@ MAC04_09_19_86_11_50=5896
         header2='Редактирование settings.ini'
         elem = {
           <>
-            <h3>Изменение настроек</h3>
+            <h3 className="advanced-settings-header">Изменение настроек</h3>
             <section className='advanced-settings'>
               <textarea value={settings} onChange={(e) => handleChange(e)}/>
             </section>

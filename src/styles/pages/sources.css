@@ -126,3 +126,6 @@ td:hover{
 .empty-row:hover{
     background-color: #ebebeb;
 }
+.table-container h3{
+    margin-bottom: 40px;
+}

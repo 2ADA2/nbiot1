@@ -5,6 +5,10 @@ export const connect =  async (url,setData,setError = (error) => {}, token = "")
     headers:{
       "Authorization": token,
     }
-  }).then((response) => {setData(response.data)}).catch((err) => setError(err))
+  })
+      .then((response) => {setData(response.data)})
+      .catch((err) => {
+        setError(err)
+      })
   return res
 }

@@ -6,13 +6,14 @@ import { useEffect, useState } from "react"
 import "../../styles/pages/sourcePages/devSettings.css"
 import { InputDate } from "../../components/inputDate";
 import { useDevice } from "../../hooks/useDevice";
+import {observer} from "mobx-react-lite";
+import {setUTC} from "../../functions/requests";
 
-export const DevSettings = () => {
+export const DevSettings = observer(() => {
     const device = useDevice()
     const [date, setDate] = useState(new Date());
     const [time, setTime] = useState(0);
     const [repeat, setRepeat] = useState(0)
-    const [UTC, setUTC] = useState(device.utc)
     const [mode, setMode] = useState("measurement")
     const [filter, setFilter] = useState(1)
 
@@ -37,9 +38,13 @@ export const DevSettings = () => {
         // connect("http://93.84.87.22:8002/mqtt/settings",(data) => setSettings(data), (err) => setErr(err))
     },[]);
 
-    return <Page 
-        header = "Device Settings" 
-        subHeader="Настройки устройства" 
+    function utcSet(){
+        setUTC(global.way+ "utc set" + device.Device.DevId, device.utc, global.token).then(() => global.updateDevices())
+    }
+
+    return <Page
+        header = "Device Settings"
+        subHeader="Настройки устройства"
         header2 = "Настройки устройства"
         elem={
             <form className="devSettings">
@@ -55,7 +60,7 @@ export const DevSettings = () => {
                         </div>
                         <div>
                             <h5>Время замера, сек</h5>
-                            <Counter 
+                            <Counter
                                 count={time}
                                 newCount={(newTime) => setTime((newTime >= 0) ? newTime : time)}
                                 setCount={(newTime) => setTime((newTime + time >= 0) ? newTime + time : time)}
@@ -63,7 +68,7 @@ export const DevSettings = () => {
                         </div>
                         <div>
                             <h5>Повторять измерение каждые, сек</h5>
-                            <Counter 
+                            <Counter
                                 count={repeat}
                                 newCount={(newRepeat) => setRepeat((newRepeat >= 0) ? newRepeat : repeat)}
                                 setCount={(newRepeat) => setRepeat((newRepeat + repeat >= 0) ? newRepeat + repeat : repeat)}
@@ -72,7 +77,7 @@ export const DevSettings = () => {
                     </section>
                     <section className="inputs">
                         <div>
-                            <h5>UTC</h5><CheckBox/>
+                            <h5>UTC</h5><CheckBox checked={device.utc} setValue={utcSet}/>
                         </div>
                         <div>
                             <h5>Режим измерения</h5>
@@ -200,7 +205,7 @@ export const DevSettings = () => {
                 <section className="measurements">
                     <div className="console">
                         <h5>Действующие замеры</h5>
-                        <textarea className="measurement-now"></textarea>    
+                        <textarea className="measurement-now"></textarea>
                     </div>
                     <div className="console">
                         <h5>Выполненные замеры</h5>
@@ -213,15 +218,15 @@ export const DevSettings = () => {
                     <label>
                         <h5>Title</h5>
                         <input type="text" value={title} onChange={(e) => { setTitle(e.target.value) }}></input>
-                    </label>  
+                    </label>
                     <label>
                         <h5>Comment</h5>
                         <input type="text" value={comment} onChange={(e) => { setComment(e.target.value) }}></input>
-                    </label>    
+                    </label>
                     <label>
                         <h5>Artist</h5>
                         <input type="text" value={artist} onChange={(e) => { setArtist(e.target.value) }}></input>
-                    </label>    
+                    </label>
                 </section>
 
                 <span className = "buttons">
@@ -236,4 +241,4 @@ export const DevSettings = () => {
             </form>
         }
         />
-}
+})
