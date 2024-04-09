@@ -131,7 +131,7 @@ form .measurement section div .counter{
     margin: 40px 0;
 }
 
-@media (width < 1330px) {
+@media (width < 1800px) {
     .measurement{
         flex-direction: column;
     }
@@ -143,5 +143,11 @@ form .measurement section div .counter{
     }
     .inputs div:first-child{
         justify-content: flex-start;
+    }
+    .measurement h5{
+        text-align: start;
+        font-size: clamp(16px, 1.7vw, 30px);
+        width: 50%;
+        line-height: 50px;
     }
 }

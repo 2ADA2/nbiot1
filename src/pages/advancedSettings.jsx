@@ -27,8 +27,7 @@ UserInfoUrl=http://192.168.0.201:9109/api/v2.1/User/user-info
 UserName=gateway-3-11
 
 [TransferSource]
-MAC04_09_19_86_11_50=5896
-`
+MAC04_09_19_86_11_50=5896`
 
   function handleChange(e){
     setSettings(e.target.value)

@@ -81,7 +81,11 @@ class Global {
             }
         }).then((res) => {
             if (!res.ok) throw new Error()
-        }).then(() => this.updateDevices()).catch(() => this.isAuth = false).catch(() => this.updateToken())
+        }).then(() => this.updateDevices())
+            .catch(() => {
+                this.isAuth = false
+                this.updateToken()
+            })
     }
 
     updateConnection() {
@@ -149,23 +153,20 @@ class Global {
     }
 
     updateAll() {
+        this.updateSettings()
+            .then(() =>this.updateDevices())
+            .then(() => this.updateConnection())
+            .catch(() => this.updateToken())
+    }
 
+
+    async updateSettings() {
         connect(this.way + "/settings",
-            (settings) => {
-                this.settings = settings
-
-                if (this.isAdmin) {
-                    connect(this.way + "/Advanced settings", (res) => {
-                        this.advSettings = res;
-                        localStorage.setItem("advSettings", this.advSettings)
-                    }, () => this.updateToken(), this.token)
-                }
-            },
+            (settings) => this.settings = settings,
             () => {
                 throw new Error()
             }, this.token
-        ).then(() => this.updateDevices())
-            .catch(() => {
+        ).catch(() => {
                 this.updateToken()
             })
     }

@@ -11,7 +11,7 @@ import {setSettings} from "../functions/requests";
 
 export const Settings = observer(() => {
     const [hostName, setHostName] = useState(global.settings["ConnectionDetails"]["HostName"])
-    const [port, setPOrt] = useState(global.settings["ConnectionDetails"]["Port"])
+    const [port, setPort] = useState(global.settings["ConnectionDetails"]["Port"])
     const [clientId, setClientId] = useState(global.settings["ConnectionDetails"]["ClientID"])
     const [keepAlive, setKeepAlive] = useState(Number(global.settings["ConnectionDetails"]["KeepAlive"]))
     const [cleanSession, setCleanSession] = useState(global.settings["ConnectionDetails"]["CleanSession"])
@@ -41,6 +41,7 @@ export const Settings = observer(() => {
                 LWQos
             },
             global.token)
+            .then(() => global.updateSettings())
             .catch(() => global.updateToken())
     }
 
@@ -60,7 +61,7 @@ export const Settings = observer(() => {
                           <label>
                               <h5>Port</h5>
                               <input type="number" value={port} onChange={(e) => {
-                                  setPOrt(e.target.value)
+                                  setPort(e.target.value)
                               }}></input>
                           </label>
 
@@ -71,7 +72,7 @@ export const Settings = observer(() => {
                               }}></input>
                           </label>
                           <div className="label-replacer">
-                              <h5>Clean Session</h5> <CheckBox checked={cleanSession}/>
+                              <h5>Clean Session</h5> <CheckBox checked={cleanSession} setValue={() => setCleanSession(!cleanSession)}/>
                           </div>
                           <label>
                               <h5>Keep Alive</h5>
@@ -137,7 +138,7 @@ export const Settings = observer(() => {
                           </label>
 
                           <div className="label-replacer">
-                              <h5>Last-Will Retain</h5> <CheckBox checked={LWRetain}/>
+                              <h5>Last-Will Retain</h5> <CheckBox checked={LWRetain} setValue={() => setLWRetain(!LWRetain)}/>
                           </div>
                       </section>
                       <button onClick={(e) => saveSettings(e)}>Применить</button>

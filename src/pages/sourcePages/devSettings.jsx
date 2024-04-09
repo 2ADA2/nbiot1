@@ -39,7 +39,7 @@ export const DevSettings = observer(() => {
     },[]);
 
     function utcSet(){
-        setUTC(global.way+ "utc set" + device.Device.DevId, device.utc, global.token).then(() => global.updateDevices())
+        setUTC(global.way+ "/utc set/" + device.Device.DevId, device.utc, global.token).then(() => global.updateDevices())
     }
 
     return <Page

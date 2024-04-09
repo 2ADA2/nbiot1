@@ -6,17 +6,37 @@ import { Counter } from "../../components/counter";
 import { useDevice } from "../../hooks/useDevice";
 import global from "../../store/global";
 import {observer} from "mobx-react-lite";
+import {setDBSettings} from "../../functions/requests";
 
 export const DevInfo = observer(() => {
     const device = useDevice(global.devices)
     const [inDB, setInDB] = useState(device.inDB);
     const [DBNum, setDBNum] = useState(133000);
+    const [already, setAlready] = useState()
 
 
     useEffect(() => {
         if(device.empty) global.setLocation("/sources")
     },[]);
 
+    useEffect(() => {
+        if(!inDB){
+            setDBSettings(global.way + '/DB/' + device.Device.DevId, inDB, DBNum, global.token)
+            setAlready(false)
+        }
+    }, [inDB])
+
+    
+    function handleClick(e) {
+        e.preventDefault()
+        setDBSettings(global.way + '/DB/' + device.Device.DevId, inDB, DBNum, global.token).then((res) => {
+            if(res.data.Info !== "ok") {
+                setAlready(true)
+            } else setAlready(false)
+
+        }).then(() => global.updateSettings()).catch(() => global.updateToken())
+    }
+    
     return <Page header = "Device Settings" subHeader="Настройки устройства" header2 = "Информация об устройстве" elem={
         <>
             <section className="devInfo">
@@ -61,16 +81,19 @@ export const DevInfo = observer(() => {
                     <h5>Запись данных в БД</h5>
                     <CheckBox checked = {inDB} setValue = {() => setInDB(!inDB)}/>
                 </div>
-                <section className="DB" style={{display:(inDB) ? "flex" : "none"}}>
+                <section className="DB" style={{display: (inDB) ? "flex" : "none"}}>
                     <div>
                         <h5>Укажите номер для отображения в БД:</h5>
                         <Counter
                             count={DBNum}
-                            setCount={(val) => setDBNum((( DBNum + Number(val) ) > 0) ?  DBNum + Number(val)  : 1)}
-                            newCount={(val) => setDBNum((( Number(parseInt(val) )) > 0) ? Number(parseInt(val)) : 1)}
+                            setCount={(val) => setDBNum(((DBNum + Number(val)) > 0) ? DBNum + Number(val) : 1)}
+                            newCount={(val) => setDBNum(((Number(parseInt(val))) > 0) ? Number(parseInt(val)) : 1)}
                         />
                     </div>
-                    <button onClick={(e) => e.preventDefault()}>Сохранить</button>
+                    <h5 hidden={!already}>
+                        MAC already
+                    </h5>
+                    <button onClick={(e) => handleClick(e)}>Сохранить</button>
                 </section>
                 <section className="devStatus">
                     <h5>Статус устройства</h5>

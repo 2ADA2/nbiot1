@@ -7,6 +7,9 @@
 .page .devInfo div:first-child{
     margin-top: 40px;
 }
+.devInfo h5{
+    font-size: clamp(20px, 1.7vw, 30px);
+}
 .page .devInfo div h5{
     width: 40%;
     text-align: start;
@@ -31,7 +34,6 @@
 }
 .page .devInfo .DB div h5{
     width: auto;
-    font-size: 26px;
 }
 .page .devInfo .DB div .counter{
     flex-direction: column;
@@ -39,6 +41,7 @@
 }
 .page .devInfo .DB .counter-container{
     justify-content: flex-start;
+    width: 40%;
     gap:0;
 }
 
@@ -64,10 +67,18 @@
     border:2px solid #bebebe;
     border-radius: 2px;
     margin: auto;
-    min-width: none;
 }
 
 .devStatus textarea:focus{
     border:2px solid #868686;
     outline: none;
+}
+
+.DB h5{
+    margin-top: 20px;
+    width: auto;
+    text-align: center;
+}
+.DB button{
+    margin-left: 0;
 }
