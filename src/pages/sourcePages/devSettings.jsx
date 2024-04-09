@@ -12,7 +12,7 @@ export const DevSettings = () => {
     const [date, setDate] = useState(new Date());
     const [time, setTime] = useState(0);
     const [repeat, setRepeat] = useState(0)
-    const [UTC, setUTC] = useState(false)
+    const [UTC, setUTC] = useState(device.utc)
     const [mode, setMode] = useState("measurement")
     const [filter, setFilter] = useState(1)
 

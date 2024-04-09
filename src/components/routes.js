@@ -1,4 +1,4 @@
-import AdvancedSettings from "../pages/advancedSettings";
+import {AdvancedSettings} from "../pages/advancedSettings";
 import { Home } from "../pages/home";
 import { Settings } from "../pages/settings";
 import { DevCommands } from "../pages/sourcePages/devCommands";

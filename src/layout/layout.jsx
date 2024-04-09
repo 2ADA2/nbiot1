@@ -1,11 +1,19 @@
 import { Outlet } from "react-router"
 import "../styles/layout/layout.css"
-import { Page } from "../components/page"
-import { Link } from "react-router-dom"
 import { Panel } from "./panel";
+import {useEffect} from "react";
+import global from "../store/global";
 
 export const Layout = () => {
     //внешний вид
+    useEffect(() => {
+        const interval = setInterval(() => {
+            global.updateDevices()
+        }, 60000);
+        return () => {
+            clearInterval(interval)
+        };
+    }, []);
     return(
         <>
             <header>

@@ -82,13 +82,12 @@ class Global {
         }).then((res) => {
             if (!res.ok) throw new Error()
         }).then(() => this.updateDevices()).catch(() => this.isAuth = false).catch(() => this.updateToken())
-
     }
 
     updateConnection() {
         connect(this.way + "/state", (state) => this.state = state.ConnectionState, () => {
         }, this.token).then(() => {
-            if(typeof(this.state) !== 'string') localStorage.setItem("state", this.state)
+            if (typeof (this.state) !== 'string') localStorage.setItem("state", this.state)
         }).catch(() => this.isAuth = false)
     }
 
@@ -107,12 +106,27 @@ class Global {
     updateDevices() {
         connect(this.way + "/sources", (deviceList) => {
             this.deviceList = deviceList.Sources;
-            new Promise((res, rej) => {
+
+            new Promise((res) => {
                 let newDevs = [];
                 for (let device of Array.from(this.deviceList)) {
+
                     connect(this.way + "/dev info/" + device, (dev) => {
-                        newDevs.push(dev)
-                    }, (err) => this.updateToken(), this.token)
+
+                        connect(this.way + "/DBState/" + device, (res) => {
+                            dev.inDB = res.PutDBState;
+
+                            connect(this.way + "/utc state/" + device, (res) => {
+                                dev.utc = res.UtcState;
+                                newDevs.push(dev)
+                            }, () => {
+                            }, this.token)
+
+                        }, () => {
+                        }, this.token)
+
+                    }, () => this.updateToken(), this.token)
+
                 }
                 const interval = setInterval(() => {
                     if (newDevs.length === this.deviceList.length && this.settings) {
@@ -124,29 +138,31 @@ class Global {
                 .then(res => this.devices = sortDevs(res))
                 .then(() => this.updateConnection())
 
-        }, (err) => {
+        }, () => {
             this.updateToken()
         }, this.token)
             .then(() => localStorage.setItem("devList", JSON.stringify(this.deviceList)))
             .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
+            .then(() => this.isAuth = true)
+            .then(() => this.isLoading = false)
     }
 
     updateAll() {
 
         connect(this.way + "/settings",
-            (settings) => this.settings = settings,
-            (err) => {
-                throw new Error()
-            }, this.token
-            ).then(() => this.updateDevices())
-             .then(() => this.isAuth = true)
-             .then(() => this.isLoading = false)
-             .catch((err) => {
-                 this.isAuth = false;
-                 this.isAdmin = false;
-                 this.updateToken()
-                 console.log(err)
-             })
+            (settings) => {
+                this.settings = settings
+
+                if (this.isAdmin) {
+                    connect(this.way + "/Advanced settings", (res) => {
+                        this.advSettings = res;
+                        localStorage.setItem("advSettings", this.advSettings)
+                    }, () => this.updateToken(), this.token)
+                }
+            },
+            () => this.updateToken(), this.token
+        ).then(() => this.updateDevices())
+            .catch(() => this.updateToken())
     }
 }
 

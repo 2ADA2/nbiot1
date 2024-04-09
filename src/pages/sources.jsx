@@ -1,7 +1,6 @@
 import {Page} from "../components/page"
 import {CreateRows} from "../functions/createRows"
 import "../styles/pages/sources.css"
-import {useEffect, useState} from "react"
 import global from "../store/global"
 import {observer} from "mobx-react-lite"
 
@@ -11,18 +10,6 @@ export const Sources = observer(() => {
         e.preventDefault()
         global.setConnection()
     }
-
-    useEffect(() => {
-        setTimeout(() => {
-            global.updateDevices()
-        }, 5000)
-        const interval = setInterval(() => {
-            global.updateDevices()
-        }, 60000);
-        return () => {
-            clearInterval(interval)
-        };
-    }, []);
 
     return (
         //страница с источниками: таблица, установка соединения по mqtt
