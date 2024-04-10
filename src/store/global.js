@@ -141,13 +141,14 @@ class Global {
             })
                 .then(res => this.devices = sortDevs(res))
                 .then(() => this.updateConnection())
+                .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
 
         }, () => {
             throw new Error()
         }, this.token)
             .then(() => localStorage.setItem("devList", JSON.stringify(this.deviceList)))
-            .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
             .then(() => this.isAuth = true)
+            .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
             .then(() => this.isLoading = false)
             .catch(() => this.updateToken())
     }

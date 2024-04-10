@@ -23,6 +23,7 @@ export const DevInfo = observer(() => {
         if(!inDB){
             setDBSettings(global.way + '/DB/' + device.Device.DevId, inDB, DBNum, global.token)
             setAlready(false)
+            global.updateDevices()
         }
     }, [inDB])
 
@@ -34,7 +35,7 @@ export const DevInfo = observer(() => {
                 setAlready(true)
             } else setAlready(false)
 
-        }).then(() => global.updateSettings()).catch(() => global.updateToken())
+        }).then(() => global.updateDevices()).catch(() => global.updateToken())
     }
     
     return <Page header = "Device Settings" subHeader="Настройки устройства" header2 = "Информация об устройстве" elem={
@@ -90,9 +91,7 @@ export const DevInfo = observer(() => {
                             newCount={(val) => setDBNum(((Number(parseInt(val))) > 0) ? Number(parseInt(val)) : 1)}
                         />
                     </div>
-                    <h5 hidden={!already}>
-                        MAC already
-                    </h5>
+                    <h5 hidden={!already}>MAC already exists</h5>
                     <button onClick={(e) => handleClick(e)}>Сохранить</button>
                 </section>
                 <section className="devStatus">

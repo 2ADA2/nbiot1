@@ -42,7 +42,7 @@ export const setDBSettings = async (url, state, num, token) => {
     const res = await axios.post(url, {
         "DBSettings": {
             "State": state,
-            "Dev_numDB": num
+            "Dev_numDB": Number(num)
         }
     },{headers: {"Authorization": token}})
 

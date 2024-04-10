@@ -12,7 +12,8 @@ export const InputDate =({date = new Date(), newDate = () => {}}) => {
                 defaultValue={dayjs(date)}
                 ampm = {false}
                 border = "2px, solid, red"
-                views={['year', 'day', 'hours', 'minutes', 'seconds']}
+                views={['hours', 'minutes', 'seconds', "day", "month", "year"]}
+                format="DD.MM.YYYY hh:mm:ss"
                 onChange={(time) => convertTime(time, date, (newTime) => newDate(newTime))}
             />
         </LocalizationProvider>

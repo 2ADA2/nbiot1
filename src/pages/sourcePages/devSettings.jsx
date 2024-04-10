@@ -39,7 +39,7 @@ export const DevSettings = observer(() => {
     },[]);
 
     function utcSet(){
-        setUTC(global.way+ "/utc set/" + device.Device.DevId, device.utc, global.token).then(() => global.updateDevices())
+        setUTC(global.way+ "/utc set/" + device.Device.DevId, !device.utc, global.token).then(() => global.updateDevices())
     }
 
     return <Page
@@ -93,8 +93,6 @@ export const DevSettings = observer(() => {
                                 <option value={"FIRmod2"}>FIRmod2</option>
                                 <option value={"FIRmod3"}>FIRmod3</option>
                                 <option value={"FIRmod4"}>FIRmod4</option>
-                                <option value={"FIRmod5"}>FIRmod5</option>
-                                <option value={"FIRmod6"}>FIRmod6</option>
                             </select>
                         </div>
                     </section>
