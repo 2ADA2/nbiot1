@@ -7,16 +7,29 @@ import { useDevice } from "../../hooks/useDevice";
 import global from "../../store/global";
 import {observer} from "mobx-react-lite";
 import {setDBSettings} from "../../functions/requests";
+import axios from "axios";
+import {connect} from "../../functions/connect";
 
 export const DevInfo = observer(() => {
     const device = useDevice(global.devices)
     const [inDB, setInDB] = useState(device.inDB);
     const [DBNum, setDBNum] = useState(133000);
-    const [already, setAlready] = useState()
+    const [already, setAlready] = useState();
+    const [devState, setDevState] = useState("state:" + device.DeviceAttr.State)
 
 
     useEffect(() => {
-        if(device.empty) global.setLocation("/sources")
+        if(device.empty) {
+            global.setLocation("/sources")
+        }
+        // fetch(global.url + "/dev info/" + device.Device.DevId,{ headers: { "Authorization": global.token }})
+        //     .then((response) => {setDevState(devState + "\n state:" + response.DeviceAttr.State)})
+        //     .catch(error => global.updateToken())
+        // connect(global.way + '/dev info/' + device.Device.DevId,(res) =>{
+        //     setDevState(devState + "\nstate:" + res.DeviceAttr.State)
+        // }, () => {}, global.token)
+
+
     },[]);
 
     useEffect(() => {
@@ -96,7 +109,7 @@ export const DevInfo = observer(() => {
                 </section>
                 <section className="devStatus">
                     <h5>Статус устройства</h5>
-                    <textarea></textarea>
+                    <textarea value={devState}></textarea>
                 </section>
             </section>
 

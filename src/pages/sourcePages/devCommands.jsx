@@ -6,6 +6,7 @@ import "../../styles/pages/sourcePages/devCommands.css"
 import {Counter} from "../../components/counter";
 import {CheckBox} from "../../components/checkbox";
 import {useDevice} from "../../hooks/useDevice";
+import {sendCommand} from "../../functions/requests";
 
 export const DevCommands = () => {
     const device = useDevice();
@@ -41,6 +42,24 @@ export const DevCommands = () => {
     useEffect(() => {
         if (device.empty) global.setLocation("/sources")
     }, [])
+
+    function cmd(e){
+        e.preventDefault()
+        if(command === "period")
+        sendCommand(global.way + "/cmd/" + device.Device.DevId, {
+            command,
+            trepeat,
+            timeZone,
+            netDelay,
+            type,
+            timeout,
+            getKval,
+            getTprepare,
+            kval,
+            tprepare,
+            senseCheck
+        }, global.token);
+    }
 
     return <Page header="Device Settings" subHeader="Настройки устройства" header2="Команды устройству" elem={<form>
         <section className="commands">
@@ -237,7 +256,7 @@ export const DevCommands = () => {
             // сюда новые страницы
         }
         <div className="button-container">
-            <button>Отправить</button>
+            <button onClick={() =>  cmd()}>Отправить</button>
         </div>
     </form>}/>
 }

@@ -26,7 +26,7 @@ export const setSettings = async (url, data = {}, token) => {
     return res
 }
 
-export const setAdvSettings = async (url, data = "", token) => {
+export const postReq = async (url, data = "", token) => {
     const res = await axios.post(url, data, {headers: {"Authorization": token}})
     return res;
 }
@@ -44,7 +44,78 @@ export const setDBSettings = async (url, state, num, token) => {
             "State": state,
             "Dev_numDB": Number(num)
         }
-    },{headers: {"Authorization": token}})
+    }, {headers: {"Authorization": token}})
 
     return res
+}
+
+export const startMeasureImit = async (url, data, token) => {
+    const res = await axios.post(url, {
+        "MeasSchedule": {
+            "Tmeas": data.time,
+            "Trepeat": data.repeat,
+            "Tstart": data.date,
+
+            "MeasType": "Imit",
+            "FIRmode": data.mode,
+            "Nois": data.Noise,
+            "Sig1": [data.SignA1, data.SignA2, data.SignA3],
+            "Sig2": [data.SignB1, data.SignB2, data.SignB3],
+            "Sig3": [data.SignC1, data.SignC2, data.SignC3]
+        },
+        "MeasComment": {
+            "Titel": data.title,
+            "Comment": data.comment,
+            "Artist": data.artist
+
+        }
+    }, {headers: {"Authorization": token}})
+    return res;
+}
+export const startMeasure = async (url, data, token) => {
+    const res = await axios.post(url, {
+        "MeasSchedule": {
+            "Tmeas": data.time,
+            "Trepeat": data.repeat,
+            "Tstart": data.date,
+
+            "MeasType": "Real",
+            "FIRmode": data.mode
+        },
+        "MeasComment": {
+            "Titel": data.title,
+            "Comment": data.comment,
+            "Artist": data.artist
+
+        }
+    }, {headers: {"Authorization": token}})
+    return res;
+}
+
+export const clear = async(url, token) => {
+    const res = await axios.post(url, {
+            "MeasClear":"all measure list"
+        },
+        {headers: {"Authorization": token}})
+    return res;
+}
+
+export const sendCommand = async(url, data, token) => {
+    const res = await axios.post(url, {
+        "MeasSchedule": {
+            "Tmeas": data.time,
+            "Trepeat": data.repeat,
+            "Tstart": data.date,
+
+            "MeasType": "Real",
+            "FIRmode": data.mode
+        },
+        "MeasComment": {
+            "Titel": data.title,
+            "Comment": data.comment,
+            "Artist": data.artist
+
+        }
+    }, {headers: {"Authorization": token}})
+    return res;
 }
