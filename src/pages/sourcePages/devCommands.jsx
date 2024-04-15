@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react"
 import {Page} from "../../components/page"
-import {checkDevice} from "../../functions/checkDevice";
 import global from "../../store/global";
 import "../../styles/pages/sourcePages/devCommands.css"
 import {Counter} from "../../components/counter";
@@ -16,21 +15,21 @@ export const DevCommands = () => {
     const [devState, setDevState] = useState(localStorage.getItem("devState"))
     const [period, setPeriod] = useState(localStorage.getItem("period"))
     const [updateLocation, setUpdateLocation] = useState(localStorage.getItem("updateLocation"))
-    const [getLocation, setGetLocation] = useState(localStorage.getItem("getLocation"))
+    const [getLocation, setLocation] = useState(localStorage.getItem("getLocation"))
     const [setParams, setSetParams] = useState(localStorage.getItem("setParams"))
     const [getParams, setGetParams] = useState(localStorage.getItem("getParams"))
     const [onData, setOnData] = useState(localStorage.getItem("onData"))
     const [reboot, setReboot] = useState(localStorage.getItem("reboot"));
     const [updateSertificate, setUpdateSertificate] = useState(localStorage.getItem("updateSertificate"));
     const [updateUI, setUpdateUI] = useState(localStorage.getItem("updateUI"));
+    const [onLoad, setOnLoad] = useState(false)
 
     //состояния для комманд
     const [trepeat, setTrepeat] = useState(30);
     const [netDelay, setNetDelay] = useState(0);
-    const [timeZone, setTimeZone] = useState(0); //может быть < 0
-
-    const [type, setType] = useState(0);
-    const [timeout, setTimeout] = useState(0);
+    const [timeZone, setTimeZone] = useState(0);
+    const [type, setType] = useState(1);
+    const [timeout, setTimeout] = useState(300);
 
     const [getKval, setGetKval] = useState(100);
     const [getTprepare, setGetTprepare] = useState(10);
@@ -43,9 +42,10 @@ export const DevCommands = () => {
         if (device.empty) global.setLocation("/sources")
     }, [])
 
-    function cmd(e){
+    function cmd(e) {
         e.preventDefault()
-        if(command === "period")
+        setOnLoad(true)
+
         sendCommand(global.way + "/cmd/" + device.Device.DevId, {
             command,
             trepeat,
@@ -58,7 +58,55 @@ export const DevCommands = () => {
             kval,
             tprepare,
             senseCheck
-        }, global.token);
+        }, global.token).then((res) => {
+            setOnLoad(false)
+            switch (command) {
+                case "register":
+                    setRegistaerState(res.data)
+                    localStorage.setItem("registerState", res.data)
+                    break;
+                case "setPeriod":
+                    setPeriod(res.data)
+                    localStorage.setItem("period", res.data)
+                    break;
+                case "getLocation":
+                    setLocation(res.data)
+                    localStorage.setItem("getLocation", res.data)
+                    break;
+                case "updateLocation":
+                    setUpdateLocation(res.data)
+                    localStorage.setItem("updateLocation", res.data)
+                    break;
+                case "setParams":
+                    setSetParams(res.data)
+                    localStorage.setItem("setParams", res.data)
+                    break;
+                case "getParams":
+                    setGetParams(res.data)
+                    localStorage.setItem("getParams", res.data)
+                    break;
+                case "onData":
+                    setOnData(res.data)
+                    localStorage.setItem("onData", res.data)
+                    break;
+                case "reboot":
+                    setReboot(res.data)
+                    localStorage.setItem("reboot", res.data)
+                    break;
+                case "updateSertificate":
+                    setUpdateSertificate(res.data)
+                    localStorage.setItem("updateSertificate", res.data)
+                    break;
+                case "devState":
+                    setDevState(res.data)
+                    localStorage.setItem("devState", res.data)
+                    break;
+                default:
+                    setUpdateUI(res.data)
+                    localStorage.setItem("updateUI", res.data)
+                    break;
+            }
+        })
     }
 
     return <Page header="Device Settings" subHeader="Настройки устройства" header2="Команды устройству" elem={<form>
@@ -113,11 +161,11 @@ export const DevCommands = () => {
 
         </section>
         {(command === "getParams") ? <>
-                <div className="status">
+                <div className={(!onLoad) ? "status" : "status loading-status"}>
                     <h5>Статус исполнения:</h5><h5>{getParams || "no command"}</h5>
                 </div>
                 <section className="command-settings">
-                    <div>
+                <div>
                         <h5>Kval</h5>
                         <Counter
                             count={getKval}
@@ -137,7 +185,7 @@ export const DevCommands = () => {
             </>
 
             : (command === "setParams") ? <>
-                    <div className="status">
+                    <div className={(!onLoad) ? "status" : "status loading-status"}>
                         <h5>Статус исполнения:</h5><h5>{setParams || "no command"}</h5>
                     </div>
                     <section className="command-settings">
@@ -168,7 +216,7 @@ export const DevCommands = () => {
                 </>
 
                 : (command === "setPeriod") ? <>
-                        <div className="status">
+                        <div className={(!onLoad) ? "status" : "status loading-status"}>
                             <h5>Статус исполнения:</h5><h5>{period || "no command"}</h5>
                         </div>
                         <section className="command-settings">
@@ -200,7 +248,7 @@ export const DevCommands = () => {
                     </>
 
                     : (command === "updateLocation") ? <>
-                            <div className="status">
+                            <div className={(!onLoad) ? "status" : "status loading-status"}>
                                 <h5>Статус исполнения:</h5><h5>{updateLocation || "no command"}</h5>
                             </div>
                             <section className="command-settings">
@@ -224,39 +272,40 @@ export const DevCommands = () => {
                         </>
 
                         : (command === "register") ? <>
-                                <div className="status">
+                                <div className={(!onLoad) ? "status" : "status loading-status"}>
                                     <h5>Статус исполнения:</h5><h5>{registaerState || "no command"}</h5>
                                 </div>
                             </>
 
                             : (command === "devState") ? <>
-                                <div className="status">
+                                <div className={(!onLoad) ? "status" : "status loading-status"}>
                                     <h5>Статус исполнения:</h5><h5>{devState || "no command"}</h5>
                                 </div>
                             </> : (command === "getLocation") ? <>
-                                <div className="status">
+                                <div className={(!onLoad) ? "status" : "status loading-status"}>
                                     <h5>Статус исполнения:</h5><h5>{getLocation || "no command"}</h5>
                                 </div>
                             </> : (command === "onData") ? <>
-                                <div className="status">
+                                <div className={(!onLoad) ? "status" : "status loading-status"}>
                                     <h5>Статус исполнения:</h5><h5>{onData || "no command"}</h5>
                                 </div>
                             </> : (command === "reboot") ? <>
-                                <div className="status">
+                                <div className={(!onLoad) ? "status" : "status loading-status"}>
                                     <h5>Статус исполнения:</h5><h5>{reboot || "no command"}</h5>
                                 </div>
                             </> : (command === "updateSertificate") ? <>
-                            <div className="status">
-                                <h5>Статус исполнения:</h5><h5>{updateSertificate || "no command"}</h5>
-                            </div>
+                                <div className={(!onLoad) ? "status" : "status loading-status"}>
+                                    <h5>Статус исполнения:</h5><h5>{updateSertificate || "no command"}</h5>
+                                </div>
                             </> : (command === "updateUI") ? <>
-                            <div className="status">
-                                <h5>Статус исполнения:</h5><h5>{updateUI || "no command"}</h5>
-                            </div></>:<></>
+                                <div className={(!onLoad) ? "status" : "status loading-status"}>
+                                    <h5>Статус исполнения:</h5><h5>{updateUI || "no command"}</h5>
+                                </div>
+                            </> : <></>
             // сюда новые страницы
         }
         <div className="button-container">
-            <button onClick={() =>  cmd()}>Отправить</button>
+            <button onClick={(e) => cmd(e)}>Отправить</button>
         </div>
     </form>}/>
 }

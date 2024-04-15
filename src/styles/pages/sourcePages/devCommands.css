@@ -10,6 +10,14 @@
     text-align: start;
 }
 
+.loading-status h5:last-child{
+    display: none;
+}
+.loading-status h5:after{
+    content: "connecting";
+    margin-left: 40px;
+}
+
 .page form .status {
     flex-direction: row;
     gap:40px;

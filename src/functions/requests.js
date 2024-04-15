@@ -92,30 +92,100 @@ export const startMeasure = async (url, data, token) => {
     return res;
 }
 
-export const clear = async(url, token) => {
+export const clear = async (url, token) => {
     const res = await axios.post(url, {
-            "MeasClear":"all measure list"
+            "MeasClear": "all measure list"
         },
         {headers: {"Authorization": token}})
     return res;
 }
 
-export const sendCommand = async(url, data, token) => {
-    const res = await axios.post(url, {
-        "MeasSchedule": {
-            "Tmeas": data.time,
-            "Trepeat": data.repeat,
-            "Tstart": data.date,
+export const sendCommand = async (url, data, token) => {
+    let body;
+    switch (data.command) {
+        case "register":
+            body = {
+                "USER_CMD": "REGISTRATION",
+                "USER_ARG": {
+                    "reg_id": 123456
+                }
+            }
+            break;
+        case "setPeriod" :
+            body = {
+                "USER_CMD": "LINKSCHEDULE",
+                "USER_ARG":{
+                    "Trepeat": data.trepeat
+                }
+            }
 
-            "MeasType": "Real",
-            "FIRmode": data.mode
-        },
-        "MeasComment": {
-            "Titel": data.title,
-            "Comment": data.comment,
-            "Artist": data.artist
 
-        }
-    }, {headers: {"Authorization": token}})
-    return res;
+            break;
+
+        case "getLocation" :
+            body = {
+                "USER_CMD": "UPD_LOCATION"
+            }
+
+            break;
+        case "updateLocation" :
+            body = {
+                "USER_CMD": "GET_LOCATION",
+                "USER_ARG": {
+                    "GNNS_TYPE": data.type,
+                    "GNNS_TIMEOUT_S": data.timeout
+                }
+            }
+
+            break;
+        case "setParams" :
+            body = {
+                "USER_CMD": "SET_SENS_ATTR",
+                "USER_ARG": {
+                    "Kv_val": data.kval,
+                    "Tprepare": data.tprepare
+                }
+            }
+
+            break;
+        case "getParams" :
+            body = {
+                "USER_CMD": "GET_SENS_ATTR",
+            }
+
+            break;
+        case "onData" :
+            body = {
+                "USER_CMD": "DEBUG_ON"
+            }
+
+            break;
+        case "reboot" :
+            body = {
+                "USER_CMD": "DEV_REBOOT"
+            }
+
+            break;
+        case "updateSertificate" :
+            body = {
+                "USER_CMD": "FTP_СERT_UPD"
+            }
+
+            break;
+        case "devState" :
+            body = {
+                "USER_CMD": "GET_EXT_INFO"
+            }
+            break;
+        default :
+            body = {
+                "USER_CMD": "FTP_FW_UPD",
+                "USER_ARG": {
+                    "fw_name": "mm133.2v1.0.10.y"
+                }
+            }
+    }
+    return axios.post(url, body, {
+        headers: {"Authorization": token}
+    })
 }

@@ -68,7 +68,7 @@ export const DevSettings = observer(() => {
 
     function start(e) {
         e.preventDefault()
-        if (mode === "measurement") {
+        if (mode === "imitatorMode") {
             startMeasureImit(global.way + "/measure/" + device.Device.DevId, {
                 date,
                 time,
@@ -168,7 +168,7 @@ export const DevSettings = observer(() => {
                 </section>
 
                 {/* настройки имитатора */}
-                <h3 style={{display: (mode == "imitatorMode") ? "block" : "none"}}>Настройки имитатора</h3>
+                <h3 style={{display: (mode === "imitatorMode") ? "block" : "none"}}>Настройки имитатора</h3>
                 <section className="imitator-settings" style={{display: (mode == "imitatorMode") ? "block" : "none"}}>
                     <table>
                         <thead>
