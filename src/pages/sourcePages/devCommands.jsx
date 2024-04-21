@@ -6,10 +6,12 @@ import {Counter} from "../../components/counter";
 import {CheckBox} from "../../components/checkbox";
 import {useDevice} from "../../hooks/useDevice";
 import {sendCommand} from "../../functions/requests";
+import axios from "axios";
 
 export const DevCommands = () => {
     const device = useDevice();
     const [command, setCommand] = useState("register")
+    const [commandStatus, setCommandStatus] = useState(localStorage.getItem("commandStatus") ? localStorage.getItem("commandStatus") : "")
 
     const [registaerState, setRegistaerState] = useState(localStorage.getItem("registerState"))
     const [devState, setDevState] = useState(localStorage.getItem("devState"))
@@ -31,20 +33,47 @@ export const DevCommands = () => {
     const [type, setType] = useState(1);
     const [timeout, setTimeout] = useState(300);
 
-    const [getKval, setGetKval] = useState(100);
-    const [getTprepare, setGetTprepare] = useState(10);
-
     const [kval, setKval] = useState(100);
     const [tprepare, setTprepare] = useState(10);
     const [senseCheck, setSenseCheck] = useState(false);
+
+    const [UIName, setUIName] = useState(device.Device["SoftVer."])
 
     useEffect(() => {
         if (device.empty) global.setLocation("/sources")
     }, [])
 
+    useEffect(() => {
+        let interval
+        if (commandStatus) {
+            setTimeout(() =>{
+                axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
+                    headers: {"Authorization": global.token}
+                }).then((res) => {
+                    if (!res.data.Info) {
+                        getCommandStatus("", JSON.stringify(res.data["USER_CMD_RESP"]))
+                    }
+                })
+            },1000)
+            interval = setInterval(() => {
+                axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
+                    headers: {"Authorization": global.token}
+                }).then((res) => {
+                    if (!res.data.Info) {
+                        getCommandStatus("", JSON.stringify(res.data["USER_CMD_RESP"]))
+                    }
+                })
+            }, 30000)
+        }
+        return () => {
+            clearInterval(interval)
+        }
+    }, [commandStatus]);
+
     function cmd(e) {
         e.preventDefault()
         setOnLoad(true)
+        setCommandStatus(true)
 
         sendCommand(global.way + "/cmd/" + device.Device.DevId, {
             command,
@@ -53,66 +82,80 @@ export const DevCommands = () => {
             netDelay,
             type,
             timeout,
-            getKval,
-            getTprepare,
             kval,
             tprepare,
-            senseCheck
+            senseCheck,
+            UIName
         }, global.token).then((res) => {
             setOnLoad(false)
-            switch (command) {
-                case "register":
-                    setRegistaerState(res.data)
-                    localStorage.setItem("registerState", res.data)
-                    break;
-                case "setPeriod":
-                    setPeriod(res.data)
-                    localStorage.setItem("period", res.data)
-                    break;
-                case "getLocation":
-                    setLocation(res.data)
-                    localStorage.setItem("getLocation", res.data)
-                    break;
-                case "updateLocation":
-                    setUpdateLocation(res.data)
-                    localStorage.setItem("updateLocation", res.data)
-                    break;
-                case "setParams":
-                    setSetParams(res.data)
-                    localStorage.setItem("setParams", res.data)
-                    break;
-                case "getParams":
-                    setGetParams(res.data)
-                    localStorage.setItem("getParams", res.data)
-                    break;
-                case "onData":
-                    setOnData(res.data)
-                    localStorage.setItem("onData", res.data)
-                    break;
-                case "reboot":
-                    setReboot(res.data)
-                    localStorage.setItem("reboot", res.data)
-                    break;
-                case "updateSertificate":
-                    setUpdateSertificate(res.data)
-                    localStorage.setItem("updateSertificate", res.data)
-                    break;
-                case "devState":
-                    setDevState(res.data)
-                    localStorage.setItem("devState", res.data)
-                    break;
-                default:
-                    setUpdateUI(res.data)
-                    localStorage.setItem("updateUI", res.data)
-                    break;
-            }
+            getCommandStatus(res.data.Info)
         })
+    }
+
+    function getCommandStatus(info = "", res = "") {
+        switch (command) {
+            case "register":
+                setRegistaerState((info || res))
+                localStorage.setItem("registerState", (info || res))
+                break;
+            case "setPeriod":
+                setPeriod((info || res))
+                localStorage.setItem("period", (info || res))
+                break;
+            case "getLocation":
+                setLocation((info || res))
+                localStorage.setItem("getLocation", (info || res))
+                break;
+            case "updateLocation":
+                setUpdateLocation((info || res))
+                localStorage.setItem("updateLocation", (info || res))
+                break;
+            case "setParams":
+                setSetParams((info || res))
+                localStorage.setItem("setParams", (info || res))
+                break;
+            case "getParams":
+                setGetParams((info || res))
+                localStorage.setItem("getParams", (info || res))
+                break;
+            case "onData":
+                setOnData((info || res))
+                localStorage.setItem("onData", (info || res))
+                break;
+            case "reboot":
+                setReboot((info || res))
+                localStorage.setItem("reboot", (info || res))
+                break;
+            case "updateSertificate":
+                setUpdateSertificate((info || res))
+                localStorage.setItem("updateSertificate", (info || res))
+                break;
+            case "devState":
+                setDevState((info || res))
+                localStorage.setItem("devState", (info || res))
+                break;
+            default:
+                setUpdateUI((info || res))
+                localStorage.setItem("updateUI", (info || res))
+                break;
+        }
+        if(info){
+            setCommandStatus(true)
+        } else{
+            setCommandStatus(false)
+        }
+
     }
 
     return <Page header="Device Settings" subHeader="Настройки устройства" header2="Команды устройству" elem={<form>
         <section className="commands">
             <h5>Команда</h5>
-            <select className="command" onChange={(e) => setCommand(e.target.value)}>
+            <select
+                className="command"
+                onChange={(e) => setCommand(e.target.value)}
+                disabled={commandStatus}
+                style={{ cursor: commandStatus ? "default" : "pointer" }}
+            >
                 <option
                     value="register">
                     Зарегистрировать устройство
@@ -165,21 +208,13 @@ export const DevCommands = () => {
                     <h5>Статус исполнения:</h5><h5>{getParams || "no command"}</h5>
                 </div>
                 <section className="command-settings">
-                <div>
+                    <div>
                         <h5>Kval</h5>
-                        <Counter
-                            count={getKval}
-                            newCount={(val) => setGetKval(((val) >= 0) ? val : getKval)}
-                            setCount={(val) => setGetKval(((getKval + val) >= 0) ? getKval + val : 0)}
-                        />
+                        <h5>{kval}</h5>
                     </div>
                     <div>
                         <h5>Tprepare</h5>
-                        <Counter
-                            count={getTprepare}
-                            newCount={(val) => setGetTprepare(((val) >= 0) ? val : getTprepare)}
-                            setCount={(val) => setGetTprepare(((getTprepare + val) >= 0) ? getTprepare + val : 0)}
-                        />
+                        <h5>{tprepare}</h5>
                     </div>
                 </section>
             </>
@@ -301,6 +336,12 @@ export const DevCommands = () => {
                                 <div className={(!onLoad) ? "status" : "status loading-status"}>
                                     <h5>Статус исполнения:</h5><h5>{updateUI || "no command"}</h5>
                                 </div>
+                                <section className="command-settings">
+                                    <div>
+                                        <h5>Название</h5>
+                                        <input value={UIName} onChange={(e) => setUIName(e.target.value)}/>
+                                    </div>
+                                </section>
                             </> : <></>
             // сюда новые страницы
         }

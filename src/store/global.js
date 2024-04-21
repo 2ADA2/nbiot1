@@ -5,7 +5,8 @@ import {sortDevs} from "../functions/sortDevs";
 
 class Global {
     isAuth = false;
-    isAdmin = (localStorage.getItem("isAdmin")) ? JSON.parse(localStorage.getItem("isAdmin")) : null;
+    // isAdmin = (localStorage.getItem("isAdmin")) ? JSON.parse(localStorage.getItem("isAdmin")) : null;
+    isAdmin = true;
     way = http.http;
     location = window.location.href;
 
@@ -33,8 +34,8 @@ class Global {
     }
 
     async authorizate(data) {
-        localStorage.setItem("isAdmin", "false")
-        this.isAdmin = false;
+        // localStorage.setItem("isAdmin", "false")
+        // this.isAdmin = false;
         fetch(this.way + "/Authorization", {
             method: "POST", body: JSON.stringify({
                 "AuthData": {

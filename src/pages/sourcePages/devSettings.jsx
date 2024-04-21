@@ -7,7 +7,7 @@ import "../../styles/pages/sourcePages/devSettings.css"
 import {InputDate} from "../../components/inputDate";
 import {useDevice} from "../../hooks/useDevice";
 import {observer} from "mobx-react-lite";
-import {clear, sendCommand, setUTC, startMeasure, startMeasureImit} from "../../functions/requests";
+import {clear, setUTC, startMeasure, startMeasureImit} from "../../functions/requests";
 import axios from "axios";
 import {convertTime} from "../../functions/convrtTime";
 
@@ -41,18 +41,26 @@ export const DevSettings = observer(() => {
 
     function getState(){
         axios.get(global.way + '/measure list/' + device.Device.DevId, {
-            params: {"MeasList": "target"},
+            params: { MeasList: "target" },
+            data: JSON.stringify({"MeasList": "target"}),
             headers: {"Authorization": global.token}
         })
-            .then(res => setTarget(res.data))
-            .catch(() => global.updateToken())
+            .then(res => setTarget(res.data.Info.Info))
+            .catch((err) => {
+                if(err.status === 401) global.updateToken()
+                else setTarget("no data")
+            });
 
         axios.get(global.way + '/measure list/' + device.Device.DevId, {
-            params: {"MeasList": "fulfilled"},
+            params: { MeasList: "fulfilled" },
+            data: JSON.stringify({"MeasList": "fulfilled"}),
             headers: {"Authorization": global.token}
         })
-            .then(res => setFullFilled(res.data))
-            .catch(() => global.updateToken())
+            .then(res => setFullFilled(res.data.Info.Info))
+            .catch((err) => {
+                if(err.status === 401) global.updateToken()
+                else setFullFilled("no data")
+            });
     }
 
     useEffect(() => {
@@ -63,7 +71,6 @@ export const DevSettings = observer(() => {
     function utcSet() {
         setUTC(global.way + "/utc set/" + device.Device.DevId, !device.utc, global.token)
             .then(() => global.updateDevices())
-            .catch(() => global.updateToken())
     }
 
     function start(e) {

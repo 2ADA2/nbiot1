@@ -130,3 +130,11 @@ form .activated-button:hover, dev .activated-button:hover{
 .panel-header button:hover{
   background-color: rgba(0, 0, 0, 0);
 }
+
+.file {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  width: 100%;
+  padding: 10px;
+}

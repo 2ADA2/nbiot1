@@ -4,3 +4,8 @@
     resize: none;
     font-size: clamp(14px, 1.2vw, 22px);
 }
+.advanced-settings{
+    min-height: 600px;
+    height: 600px;
+    max-height: 600px;
+}

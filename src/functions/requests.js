@@ -181,7 +181,7 @@ export const sendCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "FTP_FW_UPD",
                 "USER_ARG": {
-                    "fw_name": "mm133.2v1.0.10.y"
+                    "fw_name": data.UIName
                 }
             }
     }

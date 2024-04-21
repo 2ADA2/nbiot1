@@ -4,10 +4,17 @@ import "../styles/pages/advancedSettings.css"
 import global from '../store/global'
 import {postReq} from "../functions/requests";
 import {observer} from "mobx-react-lite";
+import {errorAnalyze} from "../functions/error";
 
 export const AdvancedSettings = observer(() => {
     const [settings, setSettings] = useState(localStorage.getItem("advSettings"));
     const [page, setPage] = useState(0)
+    const [invalidWeb, setInvalidWeb] = useState()
+    const [invalidBack, setInvalidBack] = useState()
+
+    const [back, setBack] = useState()
+    const [web, setWeb] = useState()
+    const [err, setErr] = useState()
     const deflt = `[AppSettings]
 HostBroker=93.84.87.22
 PortBroker=1883
@@ -31,11 +38,25 @@ UserName=gateway-3-11
 MAC04_09_19_86_11_50=5896`
 
     function updateWeb() {
-        postReq(global.way + "/frontend update", "", global.token)
+        if (web && !invalidWeb) {
+            setErr()
+            postReq(global.way + "/frontend update", web, global.token).catch((err) => console.log(err))
+                .then(res => {
+                    if (!res) throw new Error()
+                })
+                .then(() => setErr())
+                .catch((err) => errorAnalyze(err, (message) => setErr(message)))
+        } else setInvalidWeb(true)
+
     }
 
     function updateClient() {
-        postReq(global.way + "/backend update", "", global.token)
+        if (back && !invalidBack) {
+            setErr()
+            postReq(global.way + "/backend update", back, global.token)
+                .then(() => setErr())
+                .catch((err) => errorAnalyze(err, (message) => setErr(message)))
+        } else setInvalidBack(true)
     }
 
     function handleChange(e) {
@@ -56,6 +77,30 @@ MAC04_09_19_86_11_50=5896`
                 setSettings(settings + deflt)
                 localStorage.setItem("advSettings", deflt)
             }
+        }
+    }
+
+    function checkFile(e, name) {
+        if (!e.target.files[0]) return
+        const file = e.target.files[0]
+
+        if (file.name.split(".")[1].includes(name)) {
+            if(name === "zip"){
+                setInvalidWeb(false)
+            }else{
+                setInvalidBack(false)
+            }
+
+            if (name === "zip") setWeb(file)
+            else setBack(file)
+            return true
+        } else {
+            if(name === "zip"){
+                setInvalidWeb(true)
+            }else{
+                setInvalidBack(true)
+            }
+            return false
         }
     }
 
@@ -87,8 +132,39 @@ MAC04_09_19_86_11_50=5896`
                             <>
                                 <h3 className="advanced-settings-header">Обновить</h3>
                                 <section className='advanced-settings'>
-                                    <button onClick={() => updateWeb()}>Обновить Web</button>
-                                    <button onClick={() => updateClient()}>Обновить client</button>
+                                    <div>
+                                        <button onClick={() => updateWeb()}>Обновить Web</button>
+                                        <input className={"file"} type="file" onChange={(e) => checkFile(e, "zip")}/>
+                                        {invalidWeb ?
+                                            <span
+                                                className='auth-error'
+                                            >неверный файл(ZIP)</span>
+                                            : <></>
+                                        }
+                                    </div>
+                                    <div>
+                                        <button onClick={() => updateClient()}>Обновить client</button>
+                                        <input className={"file"} type="file" onChange={(e) => checkFile(e, "exe")}/>
+                                        {invalidBack ?
+                                            <span
+                                                className='auth-error'
+                                            >неверный файл(EXE)</span>
+                                            : <></>
+                                        }
+                                    </div>
+                                    {err ?
+                                        <span
+                                            className='auth-error'
+                                            style={{
+                                                display: "block",
+                                                lineHeight: "50px",
+                                                height: "50px",
+                                                fontSize: "28px",
+                                                marginTop:"40px"
+                                            }}
+                                        >{err}</span>
+                                        : <></>
+                                    }
                                 </section>
                             </>
                             : <></>
