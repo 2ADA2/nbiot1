@@ -7,8 +7,6 @@ import { useDevice } from "../../hooks/useDevice";
 import global from "../../store/global";
 import {observer} from "mobx-react-lite";
 import {setDBSettings} from "../../functions/requests";
-import axios from "axios";
-import {connect} from "../../functions/connect";
 
 export const DevInfo = observer(() => {
     const device = useDevice(global.devices)
@@ -22,13 +20,6 @@ export const DevInfo = observer(() => {
         if(device.empty) {
             global.setLocation("/sources")
         }
-        // fetch(global.url + "/dev info/" + device.Device.DevId,{ headers: { "Authorization": global.token }})
-        //     .then((response) => {setDevState(devState + "\n state:" + response.DeviceAttr.State)})
-        //     .catch(error => global.updateToken())
-        // connect(global.way + '/dev info/' + device.Device.DevId,(res) =>{
-        //     setDevState(devState + "\nstate:" + res.DeviceAttr.State)
-        // }, () => {}, global.token)
-
 
     },[]);
 
@@ -91,6 +82,11 @@ export const DevInfo = observer(() => {
                     <h5>Контроль подключенности датчика</h5>
                     <h5>empty?</h5>
                 </div>
+                <div>
+                    <h5>Состояние в сети:</h5>
+                    <h5>{device.DeviceAttr.Metrics.Online ? "Online" : "Offline"}</h5>
+                </div>
+
                 <div>
                     <h5>Запись данных в БД</h5>
                     <CheckBox checked = {inDB} setValue = {() => setInDB(!inDB)}/>

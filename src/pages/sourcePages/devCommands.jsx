@@ -13,17 +13,17 @@ export const DevCommands = () => {
     const [command, setCommand] = useState("register")
     const [commandStatus, setCommandStatus] = useState(localStorage.getItem("commandStatus") ? localStorage.getItem("commandStatus") : "")
 
-    const [registaerState, setRegistaerState] = useState(localStorage.getItem("registerState"))
-    const [devState, setDevState] = useState(localStorage.getItem("devState"))
-    const [period, setPeriod] = useState(localStorage.getItem("period"))
-    const [updateLocation, setUpdateLocation] = useState(localStorage.getItem("updateLocation"))
-    const [getLocation, setLocation] = useState(localStorage.getItem("getLocation"))
-    const [setParams, setSetParams] = useState(localStorage.getItem("setParams"))
-    const [getParams, setGetParams] = useState(localStorage.getItem("getParams"))
-    const [onData, setOnData] = useState(localStorage.getItem("onData"))
-    const [reboot, setReboot] = useState(localStorage.getItem("reboot"));
-    const [updateSertificate, setUpdateSertificate] = useState(localStorage.getItem("updateSertificate"));
-    const [updateUI, setUpdateUI] = useState(localStorage.getItem("updateUI"));
+    const [registaerState, setRegistaerState] = useState(localStorage.getItem("registerState") ? JSON.parse(localStorage.getItem("registerState")) : "")
+    const [devState, setDevState] = useState(localStorage.getItem("devState") ? JSON.parse(localStorage.getItem("devState")) : "")
+    const [period, setPeriod] = useState(localStorage.getItem("period") ? JSON.parse(localStorage.getItem("period")) : "")
+    const [updateLocation, setUpdateLocation] = useState(localStorage.getItem("updateLocation") ? JSON.parse(localStorage.getItem("updateLocation")) : "")
+    const [getLocation, setLocation] = useState(localStorage.getItem("getLocation") ? JSON.parse(localStorage.getItem("getLocation")) : "")
+    const [setParams, setSetParams] = useState(localStorage.getItem("setParams") ? JSON.parse(localStorage.getItem("setParams")) : "")
+    const [getParams, setGetParams] = useState(localStorage.getItem("getParams") ? JSON.parse(localStorage.getItem("getParams")) : "")
+    const [onData, setOnData] = useState(localStorage.getItem("onData") ? JSON.parse(localStorage.getItem("onData")) : "")
+    const [reboot, setReboot] = useState(localStorage.getItem("reboot") ? JSON.parse(localStorage.getItem("reboot")) : "");
+    const [updateSertificate, setUpdateSertificate] = useState(localStorage.getItem("updateSertificate") ? JSON.parse(localStorage.getItem("updateSertificate")) : "");
+    const [updateUI, setUpdateUI] = useState(localStorage.getItem("updateUI") ? JSON.parse(localStorage.getItem("updateUI")) : "");
     const [onLoad, setOnLoad] = useState(false)
 
     //состояния для комманд
@@ -46,21 +46,21 @@ export const DevCommands = () => {
     useEffect(() => {
         let interval
         if (commandStatus) {
-            setTimeout(() =>{
+            setTimeout(() => {
                 axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
                     headers: {"Authorization": global.token}
                 }).then((res) => {
                     if (!res.data.Info) {
-                        getCommandStatus("", JSON.stringify(res.data["USER_CMD_RESP"]))
+                        getCommandStatus("", res.data["USER_CMD_RESP"])
                     }
                 })
-            },1000)
+            }, 1000)
             interval = setInterval(() => {
                 axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
                     headers: {"Authorization": global.token}
                 }).then((res) => {
                     if (!res.data.Info) {
-                        getCommandStatus("", JSON.stringify(res.data["USER_CMD_RESP"]))
+                        getCommandStatus("", res.data["USER_CMD_RESP"])
                     }
                 })
             }, 30000)
@@ -96,52 +96,58 @@ export const DevCommands = () => {
         switch (command) {
             case "register":
                 setRegistaerState((info || res))
-                localStorage.setItem("registerState", (info || res))
+                localStorage.setItem("registerState", JSON.stringify((info || res)))
                 break;
             case "setPeriod":
                 setPeriod((info || res))
-                localStorage.setItem("period", (info || res))
+                localStorage.setItem("period", JSON.stringify((info || res)))
                 break;
             case "getLocation":
                 setLocation((info || res))
-                localStorage.setItem("getLocation", (info || res))
+                localStorage.setItem("getLocation", JSON.stringify((info || res)))
                 break;
             case "updateLocation":
                 setUpdateLocation((info || res))
-                localStorage.setItem("updateLocation", (info || res))
+                localStorage.setItem("updateLocation", JSON.stringify((info || res)))
                 break;
             case "setParams":
                 setSetParams((info || res))
-                localStorage.setItem("setParams", (info || res))
+                localStorage.setItem("setParams", JSON.stringify((info || res)))
                 break;
             case "getParams":
                 setGetParams((info || res))
-                localStorage.setItem("getParams", (info || res))
+                localStorage.setItem("getParams", JSON.stringify((info || res)))
                 break;
             case "onData":
                 setOnData((info || res))
-                localStorage.setItem("onData", (info || res))
+                localStorage.setItem("onData", JSON.stringify((info || res)))
                 break;
             case "reboot":
                 setReboot((info || res))
-                localStorage.setItem("reboot", (info || res))
+                localStorage.setItem("reboot", JSON.stringify((info || res)))
                 break;
             case "updateSertificate":
                 setUpdateSertificate((info || res))
-                localStorage.setItem("updateSertificate", (info || res))
+                localStorage.setItem("updateSertificate", JSON.stringify((info || res)))
                 break;
             case "devState":
                 setDevState((info || res))
-                localStorage.setItem("devState", (info || res))
+                localStorage.setItem("devState", JSON.stringify((info || res)))
                 break;
             default:
                 setUpdateUI((info || res))
-                localStorage.setItem("updateUI", (info || res))
+                localStorage.setItem("updateUI", JSON.stringify((info || res)))
                 break;
         }
-        if(info){
+
+        if (info) {
             setCommandStatus(true)
-        } else{
+        } else {
+            if (res.USER_CMD_RESP) {
+                if (info.USER_CMD_RESP.UPD_LOCATION === "CMD_RUN") return
+            } else if (res.USER_CMD_RESP) {
+                if (res.USER_CMD_RESP.state !== "complete") return
+            }
             setCommandStatus(false)
         }
 
@@ -154,7 +160,7 @@ export const DevCommands = () => {
                 className="command"
                 onChange={(e) => setCommand(e.target.value)}
                 disabled={commandStatus}
-                style={{ cursor: commandStatus ? "default" : "pointer" }}
+                style={{cursor: commandStatus ? "default" : "pointer"}}
             >
                 <option
                     value="register">
@@ -205,7 +211,20 @@ export const DevCommands = () => {
         </section>
         {(command === "getParams") ? <>
                 <div className={(!onLoad) ? "status" : "status loading-status"}>
-                    <h5>Статус исполнения:</h5><h5>{getParams || "no command"}</h5>
+                    <h5>Статус исполнения:</h5>{(getParams.GET_SENS_ATTR && !commandStatus) ?
+                    <section>
+                        <h5 style={{fontSize: "30px"}}>{getParams.GET_SENS_ATTR} </h5>
+                        <h3>Info</h3>
+                        <div>
+                            <h5>Kv_val: </h5>
+                            <h5>{getParams.Kv_val}</h5>
+                        </div>
+                        <div>
+                            <h5>Tprepare: </h5>
+                            <h5>{getParams.Tprepare}</h5>
+                        </div>
+                    </section>
+                    : <h5>no command</h5>}
                 </div>
                 <section className="command-settings">
                     <div>
@@ -221,7 +240,7 @@ export const DevCommands = () => {
 
             : (command === "setParams") ? <>
                     <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5>Статус исполнения:</h5><h5>{setParams || "no command"}</h5>
+                        <h5>Статус исполнения:</h5><h5>{setParams.SET_SENS_ATTR || "no command"}</h5>
                     </div>
                     <section className="command-settings">
                         <div>
@@ -252,7 +271,7 @@ export const DevCommands = () => {
 
                 : (command === "setPeriod") ? <>
                         <div className={(!onLoad) ? "status" : "status loading-status"}>
-                            <h5>Статус исполнения:</h5><h5>{period || "no command"}</h5>
+                            <h5>Статус исполнения:</h5><h5>{period.LINKSCHEDULE || "no command"}</h5>
                         </div>
                         <section className="command-settings">
                             <div>
@@ -284,7 +303,15 @@ export const DevCommands = () => {
 
                     : (command === "updateLocation") ? <>
                             <div className={(!onLoad) ? "status" : "status loading-status"}>
-                                <h5>Статус исполнения:</h5><h5>{updateLocation || "no command"}</h5>
+                                <h5>Статус исполнения:</h5>{(updateLocation.GET_LOCATION && !commandStatus) ?
+                                <section>
+                                    <h5 style={{fontSize: "30px"}}>{updateLocation.GET_LOCATION} </h5>
+                                    <div>
+                                        <h5>COORD: </h5>
+                                        <h5>updateLocation.COORD</h5>
+                                    </div>
+                                </section>
+                                : <h5>no command</h5>}
                             </div>
                             <section className="command-settings">
                                 <div>
@@ -308,33 +335,62 @@ export const DevCommands = () => {
 
                         : (command === "register") ? <>
                                 <div className={(!onLoad) ? "status" : "status loading-status"}>
-                                    <h5>Статус исполнения:</h5><h5>{registaerState || "no command"}</h5>
+                                    <h5>Статус исполнения:</h5> <h5>{registaerState.REGISTRATION || "no command"}</h5>
                                 </div>
                             </>
 
                             : (command === "devState") ? <>
                                 <div className={(!onLoad) ? "status" : "status loading-status"}>
-                                    <h5>Статус исполнения:</h5><h5>{devState || "no command"}</h5>
+                                    <h5>Статус исполнения:</h5>{(devState.GET_EXT_INFO && !commandStatus) ?
+                                    <section>
+                                        <h5 style={{fontSize: "30px"}}>{devState.GET_EXT_INFO}</h5>
+                                        <h3>Info</h3>
+                                        <div>
+                                            <h5>MODEM_IMEI: </h5>
+                                            <h5>{devState.MODEM_IMEI}</h5>
+                                        </div>
+                                        <div>
+                                            <h5>MODEM_VER: </h5>
+                                            <h5>{devState.MODEM_VER}</h5>
+                                        </div>
+                                        <div>
+                                            <h5>REG_ID: </h5>
+                                            <h5>{devState.REG_ID}</h5>
+                                        </div>
+                                        <div>
+                                            <h5>SIM_ICCID: </h5>
+                                            <h5>{devState.SIM_ICCID}</h5>
+                                        </div>
+                                    </section>
+                                    : <h5>no command</h5>}
                                 </div>
                             </> : (command === "getLocation") ? <>
                                 <div className={(!onLoad) ? "status" : "status loading-status"}>
-                                    <h5>Статус исполнения:</h5><h5>{getLocation || "no command"}</h5>
+                                    <h5>Статус исполнения:</h5>{(getLocation.GET_LOCATION && !commandStatus) ?
+                                    <section>
+                                        <h5 style={{fontSize: "30px"}}>{getLocation.GET_LOCATION} </h5>
+                                        <div>
+                                            <h5>COORD: </h5>
+                                            <h5>updateLocation.COORD</h5>
+                                        </div>
+                                    </section>
+                                    : <h5>no command</h5>}
                                 </div>
                             </> : (command === "onData") ? <>
                                 <div className={(!onLoad) ? "status" : "status loading-status"}>
-                                    <h5>Статус исполнения:</h5><h5>{onData || "no command"}</h5>
+                                    <h5>Статус исполнения:</h5><h5>{onData.DEBUG_ON || "no command"}</h5>
                                 </div>
                             </> : (command === "reboot") ? <>
                                 <div className={(!onLoad) ? "status" : "status loading-status"}>
-                                    <h5>Статус исполнения:</h5><h5>{reboot || "no command"}</h5>
+                                    <h5>Статус исполнения:</h5><h5>{reboot.DEV_REBOOT || "no command"}</h5>
                                 </div>
                             </> : (command === "updateSertificate") ? <>
                                 <div className={(!onLoad) ? "status" : "status loading-status"}>
-                                    <h5>Статус исполнения:</h5><h5>{updateSertificate || "no command"}</h5>
+                                    <h5>Статус исполнения:</h5><h5>{updateSertificate.FTP_СERT_UPD || "no command"}</h5>
                                 </div>
                             </> : (command === "updateUI") ? <>
                                 <div className={(!onLoad) ? "status" : "status loading-status"}>
-                                    <h5>Статус исполнения:</h5><h5>{updateUI || "no command"}</h5>
+                                    <h5>Статус исполнения:</h5><h5>{updateUI.FTP_FW_UPD || "no command"}</h5>
                                 </div>
                                 <section className="command-settings">
                                     <div>

@@ -23,7 +23,11 @@ export const CreateRows = observer(() => {
     let rows = []
     for (let device of global.devices){
         rows.push(
-            <tr key = {device.Device.DevId} onClick={() => changeLocation(device)}>
+            <tr
+                key = {device.Device.DevId}
+                onClick={() => changeLocation(device)}
+                className={(device.DeviceAttr.Metrics.Online) ? "online" : "offline"}
+            >
                 <td> 
                     {device.Device.DevId || "no data"}
                 </td>
