@@ -10,6 +10,7 @@ import {observer} from "mobx-react-lite";
 import {clear, setUTC, startMeasure, startMeasureImit} from "../../functions/requests";
 import axios from "axios";
 import {convertTime} from "../../functions/convrtTime";
+import {errorAnalyze} from "../../functions/error";
 
 export const DevSettings = observer(() => {
     const device = useDevice()
@@ -39,29 +40,20 @@ export const DevSettings = observer(() => {
     const [SignC3, setSignC3] = useState(0);
     const [Noise, setNoise] = useState(0);
 
-    function getState(){
-        axios.get(global.way + '/measure list/' + device.Device.DevId, {
-            params: { MeasList: "target" },
-            data: JSON.stringify({"MeasList": "target"}),
-            headers: {"Authorization": global.token}
-        })
-            .then(res => setTarget(res.data.Info.Info))
-            .catch((err) => {
-                if(err.status === 401) global.updateToken()
-                else setTarget("no data")
-            });
+    function getState() {
+        axios.post(global.way + "/measure list/" + device.Device.DevId, {
+            "MeasList": "target"
+        }, {headers: {"Authorization": global.token}})
+            .then((res) => setTarget(res.data))
+            .catch((err) => errorAnalyze(err))
 
-        axios.get(global.way + '/measure list/' + device.Device.DevId, {
-            params: { MeasList: "fulfilled" },
-            data: JSON.stringify({"MeasList": "fulfilled"}),
-            headers: {"Authorization": global.token}
-        })
-            .then(res => setFullFilled(res.data.Info.Info))
-            .catch((err) => {
-                if(err.status === 401) global.updateToken()
-                else setFullFilled("no data")
-            });
+        axios.post(global.way + "/measure list/" + device.Device.DevId, {
+            "MeasList":"fulfilled "
+        }, {headers: {"Authorization": global.token}})
+            .then((res) => setFullFilled(res.data))
+            .catch((err) => errorAnalyze(err))
     }
+
 
     useEffect(() => {
         if (device.empty) global.setLocation("/sources")
@@ -108,7 +100,7 @@ export const DevSettings = observer(() => {
         }
     }
 
-    function clearFields(e){
+    function clearFields(e) {
         e.preventDefault()
         clear(global.way + '/clear measure/' + device.Device.DevId, global.token)
             .then(() => getState())
@@ -176,7 +168,7 @@ export const DevSettings = observer(() => {
 
                 {/* настройки имитатора */}
                 <h3 style={{display: (mode === "imitatorMode") ? "block" : "none"}}>Настройки имитатора</h3>
-                <section className="imitator-settings" style={{display: (mode == "imitatorMode") ? "block" : "none"}}>
+                <section className="imitator-settings" style={{display: (mode === "imitatorMode") ? "block" : "none"}}>
                     <table>
                         <thead>
                         <tr>

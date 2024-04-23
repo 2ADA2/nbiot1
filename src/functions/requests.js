@@ -118,8 +118,6 @@ export const sendCommand = async (url, data, token) => {
                     "Trepeat": data.trepeat
                 }
             }
-
-
             break;
 
         case "getLocation" :

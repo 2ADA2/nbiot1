@@ -1,5 +1,4 @@
 import "../styles/components/page.css"
-import { useState } from "react";
 
 export const Page = ({header = "Header", subHeader = "", header2 = "Header2", elem = ""}) => {
     //шаблон страницы

@@ -1,8 +1,7 @@
 import {Page} from "../components/page"
 import "../styles/pages/settings.css";
-//типо Get запрос на /mqtt/settings  вернул settings:
 import {CheckBox} from "../components/checkbox";
-import {useState, useEffect} from "react";
+import {useState} from "react";
 import {Counter} from "../components/counter";
 import global from "../store/global";
 import {observer} from "mobx-react-lite";

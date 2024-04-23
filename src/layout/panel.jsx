@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 import { Link, Outlet } from "react-router-dom";
 import "../styles/layout/panel.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { regular } from '@fortawesome/free-regular-svg-icons'
 import {faCog, faServer, faSliders} from "@fortawesome/free-solid-svg-icons";
 import { SoucesLinks } from "./sourcesLinks";
 import Global from "../store/global";
