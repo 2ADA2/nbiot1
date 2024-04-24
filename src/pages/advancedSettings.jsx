@@ -106,8 +106,7 @@ MAC04_09_19_86_11_50=5896`
 
     return (
         <Page
-            header='Advanced settings'
-            subHeader='Расширенные настройки'
+            header='Расширенные настройки'
             header2='Настройки администратора'
             elem={
                 <>

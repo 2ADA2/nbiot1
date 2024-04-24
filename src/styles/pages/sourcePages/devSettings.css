@@ -146,7 +146,6 @@ form .measurement section div .counter{
     }
     .measurement h5{
         text-align: start;
-        font-size: clamp(16px, 1.7vw, 30px);
         width: 50%;
         line-height: 50px;
     }

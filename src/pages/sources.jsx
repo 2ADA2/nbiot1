@@ -13,33 +13,33 @@ export const Sources = observer(() => {
 
     return (
         //страница с источниками: таблица, установка соединения по mqtt
-        <Page header="Sources" subHeader="Устройства" header2="Список устройств" elem={
+        <Page header="Устройства"  header2="Список устройств" elem={
 
             <div className="table-container">
                 {/* установка соединения по mqtt */}
                 <form>
-                    <h3>Connection state</h3>
+                    <h3>Статус подключения</h3>
                     <section className="state">
-                        <h5>Connection:</h5>
-                        <h6>{String(global.state)}</h6>
+                        <h5>Подключение:</h5>
+                        <h6>{global.state ? "установлено" : "не установлено"}</h6>
                     </section>
                     {(typeof (global.state) === "boolean") ?
-                        <button onClick={(e) => updateState(e)}>Set State</button> :
-                        <button onClick={(e) => e.preventDefault()} className="activated-button">Set State</button>
+                        <button onClick={(e) => updateState(e)}>{global.state ? "разорвать" : "установить"}</button> :
+                        <button onClick={(e) => e.preventDefault()} className="activated-button">{"подождите..."}</button>
                     }
 
                 </form>
 
                 {/* список источников, краткий обзор */}
-                <h3>List of sources</h3>
+                <h3>Список всех устройств</h3>
                 <table>
                     <thead>
                     <tr>
-                        <th>Device Id</th>
-                        <th>Local Time</th>
-                        <th>GSM Signal Level</th>
-                        <th>Battery</th>
-                        <th>Temperature</th>
+                        <th>ID устройства</th>
+                        <th>Время</th>
+                        <th>уровень сигнала GSM</th>
+                        <th>Заряд</th>
+                        <th>Температура</th>
                     </tr>
                     </thead>
 

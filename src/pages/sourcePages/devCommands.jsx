@@ -153,7 +153,7 @@ export const DevCommands = () => {
 
     }
 
-    return <Page header="Device Settings" subHeader="Настройки устройства" header2="Команды устройству" elem={<form>
+    return <Page header="Настройки устройства" header2="Команды устройству" elem={<form>
         <section className="commands">
             <h5>Команда</h5>
             <select

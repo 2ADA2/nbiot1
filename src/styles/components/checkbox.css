@@ -8,13 +8,11 @@
 .checkbox-container{
     user-select: none;
 }
-
 .connedtion-details h5{
         font-weight: 400;
         color: #7c7c7c;
         width: 40%;
         line-height: 50px;
-        font-size: 28px;
 }
 
 .checkbox-container .checkbox {

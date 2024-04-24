@@ -2,13 +2,15 @@
     flex-direction: row;
     justify-content: flex-end;
     gap:40px;
+    height: 5vw;
+    max-height: 70px;
     max-width: 3000px;
 }
 .page .devInfo div:first-child{
     margin-top: 40px;
 }
 .devInfo h5{
-    font-size: clamp(20px, 1.7vw, 30px);
+    font-size: clamp(16px, 1.4vw, 24px);
 }
 .page .devInfo div h5{
     width: 40%;

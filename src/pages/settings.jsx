@@ -45,7 +45,7 @@ export const Settings = observer(() => {
     }
 
     return (
-        <Page header="Settings" subHeader="Настройки" header2="Настройки подключения по MQTT"
+        <Page header="Настройки" header2="Настройки подключения по MQTT"
               elem={
                   <form>
                       <h3>Connection Details</h3>

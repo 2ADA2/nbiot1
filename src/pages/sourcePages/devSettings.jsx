@@ -107,8 +107,7 @@ export const DevSettings = observer(() => {
     }
 
     return <Page
-        header="Device Settings"
-        subHeader="Настройки устройства"
+        header="Настройки устройства"
         header2="Настройки устройства"
         elem={
             <form className="devSettings">
@@ -282,19 +281,19 @@ export const DevSettings = observer(() => {
                 <h3>Комментарий</h3>
                 <section className="comments">
                     <label>
-                        <h5>Title</h5>
+                        <h5>Заголовок</h5>
                         <input type="text" value={title} onChange={(e) => {
                             setTitle(e.target.value)
                         }}></input>
                     </label>
                     <label>
-                        <h5>Comment</h5>
+                        <h5>Комментарий</h5>
                         <input type="text" value={comment} onChange={(e) => {
                             setComment(e.target.value)
                         }}></input>
                     </label>
                     <label>
-                        <h5>Artist</h5>
+                        <h5>Автор</h5>
                         <input type="text" value={artist} onChange={(e) => {
                             setArtist(e.target.value)
                         }}></input>

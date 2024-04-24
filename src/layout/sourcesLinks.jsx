@@ -15,17 +15,17 @@ export const SoucesLinks = observer(({display = "none"}) => {
             <Link 
                 to = {"/devInfo/" + MAC} 
                 className={(location.includes(DEVINFO_ROUTE) ? "active" : "")}>
-                    Information
+                    Информация
             </Link>
             <Link 
                 to={"/devSettings/" + MAC} 
                 className={(location.includes(DEVSETTINGS_ROUTE) ? "active" : "")}>
-                    Settings
+                    Настройки
             </Link>
             <Link 
                 to={"/devCommands/" + MAC} 
                 className={(location.includes(DEVCOMMANDS_ROUTE) ? "active" : "")}>
-                    Commands
+                    Команды
             </Link>
         </nav>
     )

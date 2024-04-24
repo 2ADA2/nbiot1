@@ -31,19 +31,19 @@ export const Panel = observer(() => {
 
                 <Link to="/sources" className={ isInSources ? "opened" : ""} onClick={() => {updateLocation(false)}}>
                     <FontAwesomeIcon icon={faServer} />
-                    Sources
+                    Устройства
                 </Link>
                 <SoucesLinks display={(page.includes("/dev")) ? "block" : "none"}/>
 
                 <Link to="/settings" className={page.includes(SETTINGS_ROUTE) ? "opened" : ""} onClick={() => {updateLocation()}}>
                     <FontAwesomeIcon icon={faCog}/>
-                    Settings
+                    Настройки
                 </Link>
 
                 {global.isAdmin ? 
                     <Link to={ADVANCED_SETTINGS_ROUTE} className={page.includes(ADVANCED_SETTINGS_ROUTE) ? "opened" : ""} onClick={() => { updateLocation() }}>
                         <FontAwesomeIcon icon={faSliders} />
-                        Advanced Settings
+                        Расширенные
                     </Link>:
                     <></>}
 

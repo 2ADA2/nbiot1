@@ -42,7 +42,7 @@ export const DevInfo = observer(() => {
         }).then(() => global.updateDevices()).catch(() => global.updateToken())
     }
     
-    return <Page header = "Device Settings" subHeader="Настройки устройства" header2 = "Информация об устройстве" elem={
+    return <Page header="Настройки устройства" header2 = "Информация об устройстве" elem={
         <>
             <section className="devInfo">
                 <h3>Информация</h3>
