@@ -21,7 +21,7 @@ export const Sources = observer(() => {
                     <h3>Статус подключения</h3>
                     <section className="state">
                         <h5>Подключение:</h5>
-                        <h6>{global.state ? "установлено" : "не установлено"}</h6>
+                        <h6>{(typeof (global.state) === "string") ? global.state : (global.state) ? "установлено" : "не установлено"}</h6>
                     </section>
                     {(typeof (global.state) === "boolean") ?
                         <button onClick={(e) => updateState(e)}>{global.state ? "разорвать" : "установить"}</button> :

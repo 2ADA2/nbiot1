@@ -70,9 +70,9 @@ class Global {
     async setConnection() {
         const oldState = this.state
         if (this.state) {
-            this.state = "disconnect..."
+            this.state = "разрыв соединения..."
         } else {
-            this.state = "connect...";
+            this.state = "установка соединения...";
         }
         fetch(this.way + "/set state", {
             method: "POST", body: JSON.stringify({
