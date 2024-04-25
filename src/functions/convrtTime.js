@@ -1,10 +1,9 @@
+import {dataToString} from "./dataToString";
+
 export const convertTime = (time, date, newDate = (newTime) =>{}) =>{
     try {
-        const newTime = new Date(time).toISOString().split(".")[0]
-        newDate(newTime)
-        return(newTime)
+        return(dataToString(time))
     } catch (error) {
         newDate(date)
     }
-
 }

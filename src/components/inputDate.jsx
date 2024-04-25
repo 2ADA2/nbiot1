@@ -1,4 +1,3 @@
-
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -15,7 +14,7 @@ export const InputDate = ({date = new Date(), newDate = () => {}}) => {
                 border = "2px, solid, red"
                 format="DD.MM.YYYY HH:mm:ss"
                 views={["year", "month", "day", "hours", "minutes", "seconds"]}
-                onChange={(time) => convertTime(time, date, (newTime) => newDate(newTime))}
+                onChange={(time) => convertTime(new Date(time), new Date(), (newTime) => newDate(newTime))}
             />
         </LocalizationProvider>
     );
