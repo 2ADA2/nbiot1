@@ -156,7 +156,9 @@ class Global {
 
     updateAll() {
         this.updateSettings()
-            .then(() =>this.updateDevices())
+            .then(() => {
+            })
+            .then(() => this.updateDevices())
             .then(() => this.updateConnection())
             .catch(() => this.updateToken())
     }
@@ -168,9 +170,26 @@ class Global {
             () => {
                 throw new Error()
             }, this.token
-        ).catch(() => {
+        )
+            .then(() => {
+                if (this.isAdmin) {
+                    connect(this.way + "/Advanced settings",
+                        (advSettings) => {
+                        localStorage.setItem("advSettings" , advSettings)
+                            this.advSettings = advSettings
+                        }, () => {
+                            throw new Error()
+                        }, this.token)
+                }
+            })
+            .catch(() => {
                 this.updateToken()
             })
+    }
+
+    setAdvSettings(adv){
+        this.advSettings = adv
+        localStorage.setItem("advSettings", adv)
     }
 }
 

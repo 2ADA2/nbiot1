@@ -1,5 +1,5 @@
 {
-    "http" : "http://localhost:3001/mqtt",
+    "http" : "http://93.84.87.22:8002/mqtt",
     "test" : "http://localhost:3001/mqtt",
     "main" : "http://93.84.87.22:8002/mqtt"
 

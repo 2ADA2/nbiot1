@@ -7,7 +7,7 @@ import {observer} from "mobx-react-lite";
 import {errorAnalyze} from "../functions/error";
 
 export const AdvancedSettings = observer(() => {
-    const [settings, setSettings] = useState(localStorage.getItem("advSettings"));
+    const [settings, setSettings] = useState(global.advSettings || localStorage.getItem("advSettings"));
     const [page, setPage] = useState(0)
     const [invalidWeb, setInvalidWeb] = useState()
     const [invalidBack, setInvalidBack] = useState()
@@ -61,7 +61,7 @@ MAC04_09_19_86_11_50=5896`
 
     function handleChange(e) {
         setSettings(e.target.value)
-        localStorage.setItem("advSettings", e.target.value)
+        global.setAdvSettings(e.target.value)
     }
 
     function sendSettings() {
