@@ -1,4 +1,5 @@
 export const dataToString = (data) => {
+    if(isNaN(data.getMonth())) return dataToString(new Date())
     return (
         data.getFullYear() +
         "-" +
@@ -6,10 +7,10 @@ export const dataToString = (data) => {
         "-" +
         data.getDate() +
         "T" +
-        data.getHours() +
+        ((data.getHours()>9) ? data.getHours() : "0" + data.getHours()) +
         ":" +
-        data.getMinutes() +
+        ((data.getMinutes()>9) ? data.getMinutes() : "0" + data.getMinutes()) +
         ":" +
-        data.getSeconds()
+        ((data.getSeconds()>9) ? data.getSeconds() : "0" + data.getSeconds())
     )
 }

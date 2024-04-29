@@ -84,21 +84,20 @@ MAC04_09_19_86_11_50=5896`
         if (!e.target.files[0]) return
         const file = e.target.files[0]
 
-        if (file.name.split(".")[1].includes(name)) {
+        if (file.name.split(".").at(-1).includes(name)) {
             if(name === "zip"){
                 setInvalidWeb(false)
             }else{
                 setInvalidBack(false)
             }
 
-            if (name === "zip") setWeb(file)
-            else setBack(file)
+            if (name === "zip") {
+                setWeb(file)
+            } else setBack(file)
             return true
         } else {
             if(name === "zip"){
                 setInvalidWeb(true)
-            }else{
-                setInvalidBack(true)
             }
             return false
         }
@@ -137,17 +136,17 @@ MAC04_09_19_86_11_50=5896`
                                         {invalidWeb ?
                                             <span
                                                 className='auth-error'
-                                            >неверный файл(ZIP)</span>
+                                            >неверно выбран файл (.zip) </span>
                                             : <></>
                                         }
                                     </div>
                                     <div>
                                         <button onClick={() => updateClient()}>Обновить client</button>
-                                        <input className={"file"} type="file" onChange={(e) => checkFile(e, "exe")}/>
+                                        <input className={"file"} type="file" onChange={(e) => checkFile(e, "")}/>
                                         {invalidBack ?
                                             <span
                                                 className='auth-error'
-                                            >неверный файл(EXE)</span>
+                                            >неверно выбран файл</span>
                                             : <></>
                                         }
                                     </div>
