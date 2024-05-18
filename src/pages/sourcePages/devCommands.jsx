@@ -21,7 +21,7 @@ export const DevCommands = () => {
     const [updateLocation, setUpdateLocation] = useState(localStorage.getItem( device.Device.DevId + "updateLocation") ? JSON.parse(localStorage.getItem( device.Device.DevId + "updateLocation")) : {})
     const [getLocation, setLocation] = useState(localStorage.getItem( device.Device.DevId + "getLocation") ? JSON.parse(localStorage.getItem( device.Device.DevId + "getLocation")) : {})
     const [setParams, setSetParams] = useState(localStorage.getItem( device.Device.DevId + "setParams") ? JSON.parse(localStorage.getItem( device.Device.DevId + "setParams")) : {})
-    const [getParams, setGetParams] = useState(localStorage.getItem( device.Device.DevId + "getParams") ? JSON.parse(localStorage.getItem( device.Device.DevId + "getParams")) : {})
+    const [getParams, setGetParams] = useState({})
     const [onData, setOnData] = useState(localStorage.getItem( device.Device.DevId + "onData") ? JSON.parse(localStorage.getItem( device.Device.DevId + "onData")) : {})
     const [reboot, setReboot] = useState(localStorage.getItem( device.Device.DevId + "reboot") ? JSON.parse(localStorage.getItem( device.Device.DevId + "reboot")) : {});
     const [updateSertificate, setUpdateSertificate] = useState(localStorage.getItem( device.Device.DevId + "updateSertificate") ? JSON.parse(localStorage.getItem( device.Device.DevId + "updateSertificate")) : {});
@@ -43,6 +43,12 @@ export const DevCommands = () => {
     useEffect(() => {
         if (device.empty) global.setLocation("/sources")
     }, [])
+
+    useEffect(() => {
+        if(command !== "getParams") {
+            setGetParams({})
+        }
+    }, [command]);
 
     useEffect(() => {
         let interval
