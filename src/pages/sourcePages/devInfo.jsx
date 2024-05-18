@@ -66,10 +66,10 @@ export const DevInfo = observer(() => {
                     <h5>Версия протокла</h5>
                     <h5>{device.Device["ProtoVer."]}</h5>
                 </div>
-                <div>
-                    <h5>Местоположение устройства</h5>
-                    <h5>empty?</h5>
-                </div>
+                {/*<div>*/}
+                {/*    <h5>Местоположение устройства</h5>*/}
+                {/*    <h5>empty?</h5>*/}
+                {/*</div>*/}
                 <div>
                     <h5>Режим работы сети</h5>
                     <h5>{device.DeviceAttr.Metrics.Mode}</h5>
@@ -78,10 +78,10 @@ export const DevInfo = observer(() => {
                     <h5>Интервал ТУ пакетов, сек</h5>
                     <h5>{device.DeviceAttr.LinkRepeat}</h5>
                 </div>
-                <div>
-                    <h5>Контроль подключенности датчика</h5>
-                    <h5>empty?</h5>
-                </div>
+                {/*<div>*/}
+                {/*    <h5>Контроль подключенности датчика</h5>*/}
+                {/*    <h5>empty?</h5>*/}
+                {/*</div>*/}
                 <div>
                     <h5>Состояние в сети:</h5>
                     <h5>{device.DeviceAttr.Metrics.Online ? "Online" : "Offline"}</h5>

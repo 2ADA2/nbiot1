@@ -1,5 +1,5 @@
 import {Layout} from "./layout/layout";
-import {Routes, Route, Link, Navigate, useLocation} from 'react-router';
+import {Routes, Route, Navigate, useLocation} from 'react-router';
 import {useEffect, useState} from "react";
 import global from "./store/global";
 import {adminRoutes, routes} from "./components/routes";

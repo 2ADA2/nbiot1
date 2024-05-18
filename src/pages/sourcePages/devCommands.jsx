@@ -12,20 +12,20 @@ import {errorAnalyze} from "../../functions/error";
 export const DevCommands = () => {
     const device = useDevice();
     const [command, setCommand] = useState("register")
-    const [commandStatus, setCommandStatus] = useState(localStorage.getItem("commandStatus") ? localStorage.getItem("commandStatus") : "")
+    const [commandStatus, setCommandStatus] = useState(localStorage.getItem( device.Device.DevId + "commandStatus") ? localStorage.getItem( device.Device.DevId + "commandStatus") : "")
     const [onLoad, setOnLoad] = useState(false)
-
-    const [registaerState, setRegistaerState] = useState(localStorage.getItem("registerState") ? JSON.parse(localStorage.getItem("registerState")) : "")
-    const [devState, setDevState] = useState(localStorage.getItem("devState") ? JSON.parse(localStorage.getItem("devState")) : {})
-    const [period, setPeriod] = useState(localStorage.getItem("period") ? JSON.parse(localStorage.getItem("period")) : {})
-    const [updateLocation, setUpdateLocation] = useState(localStorage.getItem("updateLocation") ? JSON.parse(localStorage.getItem("updateLocation")) : {})
-    const [getLocation, setLocation] = useState(localStorage.getItem("getLocation") ? JSON.parse(localStorage.getItem("getLocation")) : {})
-    const [setParams, setSetParams] = useState(localStorage.getItem("setParams") ? JSON.parse(localStorage.getItem("setParams")) : {})
-    const [getParams, setGetParams] = useState(localStorage.getItem("getParams") ? JSON.parse(localStorage.getItem("getParams")) : {})
-    const [onData, setOnData] = useState(localStorage.getItem("onData") ? JSON.parse(localStorage.getItem("onData")) : {})
-    const [reboot, setReboot] = useState(localStorage.getItem("reboot") ? JSON.parse(localStorage.getItem("reboot")) : {});
-    const [updateSertificate, setUpdateSertificate] = useState(localStorage.getItem("updateSertificate") ? JSON.parse(localStorage.getItem("updateSertificate")) : {});
-    const [updateUI, setUpdateUI] = useState(localStorage.getItem("updateUI") ? JSON.parse(localStorage.getItem("updateUI")) : {});
+    
+    const [registaerState, setRegistaerState] = useState(localStorage.getItem( device.Device.DevId + "registerState") ? JSON.parse(localStorage.getItem( device.Device.DevId + "registerState")) : "")
+    const [devState, setDevState] = useState(localStorage.getItem( device.Device.DevId + "devState") ? JSON.parse(localStorage.getItem( device.Device.DevId + "devState")) : {})
+    const [period, setPeriod] = useState(localStorage.getItem( device.Device.DevId + "period") ? JSON.parse(localStorage.getItem( device.Device.DevId + "period")) : {})
+    const [updateLocation, setUpdateLocation] = useState(localStorage.getItem( device.Device.DevId + "updateLocation") ? JSON.parse(localStorage.getItem( device.Device.DevId + "updateLocation")) : {})
+    const [getLocation, setLocation] = useState(localStorage.getItem( device.Device.DevId + "getLocation") ? JSON.parse(localStorage.getItem( device.Device.DevId + "getLocation")) : {})
+    const [setParams, setSetParams] = useState(localStorage.getItem( device.Device.DevId + "setParams") ? JSON.parse(localStorage.getItem( device.Device.DevId + "setParams")) : {})
+    const [getParams, setGetParams] = useState(localStorage.getItem( device.Device.DevId + "getParams") ? JSON.parse(localStorage.getItem( device.Device.DevId + "getParams")) : {})
+    const [onData, setOnData] = useState(localStorage.getItem( device.Device.DevId + "onData") ? JSON.parse(localStorage.getItem( device.Device.DevId + "onData")) : {})
+    const [reboot, setReboot] = useState(localStorage.getItem( device.Device.DevId + "reboot") ? JSON.parse(localStorage.getItem( device.Device.DevId + "reboot")) : {});
+    const [updateSertificate, setUpdateSertificate] = useState(localStorage.getItem( device.Device.DevId + "updateSertificate") ? JSON.parse(localStorage.getItem( device.Device.DevId + "updateSertificate")) : {});
+    const [updateUI, setUpdateUI] = useState(localStorage.getItem( device.Device.DevId + "updateUI") ? JSON.parse(localStorage.getItem( device.Device.DevId + "updateUI")) : {});
 
     //состояния для комманд
     const [trepeat, setTrepeat] = useState(30);
@@ -89,47 +89,47 @@ export const DevCommands = () => {
         switch (command) {
             case "register":
                 setRegistaerState((info || res))
-                localStorage.setItem("registerState", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "registerState", JSON.stringify((info || res)))
                 break;
             case "setPeriod":
                 setPeriod((info || res))
-                localStorage.setItem("period", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "period", JSON.stringify((info || res)))
                 break;
             case "getLocation":
                 setLocation((info || res))
-                localStorage.setItem("getLocation", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "getLocation", JSON.stringify((info || res)))
                 break;
             case "updateLocation":
                 setUpdateLocation((info || res))
-                localStorage.setItem("updateLocation", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "updateLocation", JSON.stringify((info || res)))
                 break;
             case "setParams":
                 setSetParams((info || res))
-                localStorage.setItem("setParams", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "setParams", JSON.stringify((info || res)))
                 break;
             case "getParams":
                 setGetParams((info || res))
-                localStorage.setItem("getParams", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "getParams", JSON.stringify((info || res)))
                 break;
             case "onData":
                 setOnData((info || res))
-                localStorage.setItem("onData", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "onData", JSON.stringify((info || res)))
                 break;
             case "reboot":
                 setReboot((info || res))
-                localStorage.setItem("reboot", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "reboot", JSON.stringify((info || res)))
                 break;
             case "updateSertificate":
                 setUpdateSertificate((info || res))
-                localStorage.setItem("updateSertificate", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "updateSertificate", JSON.stringify((info || res)))
                 break;
             case "devState":
                 setDevState((info || res))
-                localStorage.setItem("devState", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "devState", JSON.stringify((info || res)))
                 break;
             default:
                 setUpdateUI((info || res))
-                localStorage.setItem("updateUI", JSON.stringify((info || res)))
+                localStorage.setItem( device.Device.DevId + "updateUI", JSON.stringify((info || res)))
                 break;
         }
 
