@@ -2,6 +2,7 @@ import {makeAutoObservable} from "mobx";
 import http from "../http.json"
 import {connect} from "../functions/connect";
 import {sortDevs} from "../functions/sortDevs";
+import {errorAnalyze} from "../functions/error";
 
 class Global {
     isAuth = false;
@@ -143,6 +144,7 @@ class Global {
                 .then(res => this.devices = sortDevs(res))
                 .then(() => this.updateConnection())
                 .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
+                .catch((e) => errorAnalyze(e))
 
         }, () => {
             throw new Error()

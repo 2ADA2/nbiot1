@@ -127,7 +127,8 @@ button{
     background-color:#3b495a;
     color:white;
     font-size: 22px;
-    font-family: Roboto;
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
     margin-left: 100px;
     margin-top:50px ;
 }

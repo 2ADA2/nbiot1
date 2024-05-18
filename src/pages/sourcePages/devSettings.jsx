@@ -8,9 +8,10 @@ import {InputDate} from "../../components/inputDate";
 import {useDevice} from "../../hooks/useDevice";
 import {observer} from "mobx-react-lite";
 import {clear, setUTC, startMeasure, startMeasureImit} from "../../functions/requests";
-import axios from "axios";
+import axios, {create} from "axios";
 import {convertTime} from "../../functions/convrtTime";
 import {errorAnalyze} from "../../functions/error";
+import {createList} from "../../functions/createList";
 
 export const DevSettings = observer(() => {
     const device = useDevice()
@@ -44,13 +45,25 @@ export const DevSettings = observer(() => {
         axios.post(global.way + "/measure list/" + device.Device.DevId, {
             "MeasList": "target"
         }, {headers: {"Authorization": global.token}})
-            .then((res) => setTarget(res.data))
+            .then((res) => {
+                if(typeof (res.data) === "object"){
+                    setTarget(createList(res.data))
+                    return
+                }
+                setTarget(res.data)
+            })
             .catch((err) => errorAnalyze(err))
 
         axios.post(global.way + "/measure list/" + device.Device.DevId, {
             "MeasList":"fulfilled "
         }, {headers: {"Authorization": global.token}})
-            .then((res) => setFullFilled(res.data))
+            .then((res) => {
+                if (typeof (res.data) === "object") {
+                    setFullFilled(createList(res.data))
+                    return
+                }
+                setFullFilled(res.data)
+            })
             .catch((err) => errorAnalyze(err))
     }
 
@@ -168,7 +181,7 @@ export const DevSettings = observer(() => {
                 {/* настройки имитатора */}
                 <h3 style={{display: (mode === "imitatorMode") ? "block" : "none"}}>Настройки имитатора</h3>
                 <section className="imitator-settings" style={{display: (mode === "imitatorMode") ? "block" : "none"}}>
-                    <table>
+                    <table style={{cursor:"default"}}>
                         <thead>
                         <tr>
                             <td></td>
@@ -270,11 +283,11 @@ export const DevSettings = observer(() => {
                 <section className="measurements">
                     <div className="console">
                         <h5>Действующие замеры</h5>
-                        <textarea className="measurement-now" value={JSON.stringify(target)}></textarea>
+                        <textarea className="measurement-now" value={target}></textarea>
                     </div>
                     <div className="console">
                         <h5>Выполненные замеры</h5>
-                        <textarea value={JSON.stringify(fullFilled)}></textarea>
+                        <textarea value={fullFilled}></textarea>
                     </div>
                 </section>
 
