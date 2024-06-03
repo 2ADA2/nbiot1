@@ -54,7 +54,18 @@ form .measurement section div .counter{
 .measurements .console{
     width: 50%;
     gap:0;
+    position: relative;
 }
+
+.measurements .clear-measure{
+    position: absolute;
+    right:2px;
+    bottom:2px;
+    width: 60px;
+    height:30px;
+    font-size: 14px;
+}
+
 .measurements  h5{
     font-size: 22px;
     width: 100%;

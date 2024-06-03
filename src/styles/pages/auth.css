@@ -28,6 +28,11 @@
     line-height: 40px;
     animation: show-error 1s ;
 }
+.successfully{
+    border-color:rgb(114, 168, 114);
+    color:rgb(114, 168, 114);
+    animation: show-error-successfully 1s ;
+  }
 .auth div{
     margin-top:40px;
     display: flex;
@@ -37,6 +42,14 @@
 @keyframes show-error {
     0%{
         background-color:#e7b9b9;
+    }
+    100%{
+        background-color:#e08b8b00;
+    }
+}
+@keyframes show-error-successfully {
+    0%{
+        background-color:#b9e7b9;
     }
     100%{
         background-color:#e08b8b00;

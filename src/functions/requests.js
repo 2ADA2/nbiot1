@@ -49,8 +49,8 @@ export const setDBSettings = async (url, state, num, token) => {
     return res
 }
 
-export const startMeasureImit = async (url, data, token) => {
-    const res = await axios.post(url, {
+export const startMeasureImit = async (url, data, token, func) => {
+    axios.post(url, {
         "MeasSchedule": {
             "Tmeas": data.time,
             "Trepeat": data.repeat,
@@ -69,11 +69,10 @@ export const startMeasureImit = async (url, data, token) => {
             "Artist": data.artist
 
         }
-    }, {headers: {"Authorization": token}})
-    return res;
+    }, {headers: {"Authorization": token}}).then((res) => func(res.data))
 }
-export const startMeasure = async (url, data, token) => {
-    const res = await axios.post(url, {
+export const startMeasure = async (url, data, token, func) => {
+    axios.post(url, {
         "MeasSchedule": {
             "Tmeas": data.time,
             "Trepeat": data.repeat,
@@ -88,13 +87,12 @@ export const startMeasure = async (url, data, token) => {
             "Artist": data.artist
 
         }
-    }, {headers: {"Authorization": token}})
-    return res;
+    }, {headers: {"Authorization": token}}).then((res) => func(res.data))
 }
 
-export const clear = async (url, token) => {
+export const clear = async (url, token, measure) => {
     const res = await axios.post(url, {
-            "MeasClear": "all measure list"
+            "MeasClear": measure + " measure list"
         },
         {headers: {"Authorization": token}})
     return res;

@@ -8,17 +8,21 @@ import {InputDate} from "../../components/inputDate";
 import {useDevice} from "../../hooks/useDevice";
 import {observer} from "mobx-react-lite";
 import {clear, setUTC, startMeasure, startMeasureImit} from "../../functions/requests";
-import axios, {create} from "axios";
+import axios from "axios";
 import {convertTime} from "../../functions/convrtTime";
 import {errorAnalyze} from "../../functions/error";
 import {createList} from "../../functions/createList";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { measureStates } from "../../utils/measureStatus";
 
 export const DevSettings = observer(() => {
     const device = useDevice()
     const [date, setDate] = useState(convertTime(new Date()));
 
-    const [target, setTarget] = useState()
-    const [fullFilled, setFullFilled] = useState()
+    const [target, setTarget] = useState("загрузка...")
+    const [fullFilled, setFullFilled] = useState("загрузка...")
+    const [started, setStarted] = useState({"meas add status" : null})
 
     const [time, setTime] = useState(0);
     const [repeat, setRepeat] = useState(0)
@@ -42,7 +46,7 @@ export const DevSettings = observer(() => {
     const [Noise, setNoise] = useState(0);
 
     function getState() {
-        axios.post(global.way + "/measure list/" + device.Device.DevId, {
+        axios.post(global.way + "/list measure/" + device.Device.DevId, {
             "MeasList": "target"
         }, {headers: {"Authorization": global.token}})
             .then((res) => {
@@ -54,7 +58,7 @@ export const DevSettings = observer(() => {
             })
             .catch((err) => errorAnalyze(err))
 
-        axios.post(global.way + "/measure list/" + device.Device.DevId, {
+        axios.post(global.way + "/list measure/" + device.Device.DevId, {
             "MeasList":"fulfilled "
         }, {headers: {"Authorization": global.token}})
             .then((res) => {
@@ -71,6 +75,14 @@ export const DevSettings = observer(() => {
     useEffect(() => {
         if (device.empty) global.setLocation("/sources")
         getState()
+
+        const interval = setInterval(() => {
+            getState()
+        }, 20000)
+
+        return () => {
+            clearInterval(interval)
+        }        
     }, []);
 
     function utcSet() {
@@ -80,8 +92,10 @@ export const DevSettings = observer(() => {
 
     function start(e) {
         e.preventDefault()
+        if(started["meas add status"] === "connect") return
+        setStarted({"meas add status" : "connect"})
         if (mode === "imitatorMode") {
-            startMeasureImit(global.way + "/measure/" + device.Device.DevId, {
+            const res = startMeasureImit(global.way + "/measure/" + device.Device.DevId, {
                 date,
                 time,
                 repeat,
@@ -99,7 +113,8 @@ export const DevSettings = observer(() => {
                 SignB3,
                 SignC3,
                 Noise,
-            }, global.token).then(() => getState())
+            }, global.token, (data) => setStarted(data)).then(() => getState())
+            setStarted(res)
         } else {
             startMeasure(global.way + "/measure/" + device.Device.DevId, {
                 date,
@@ -109,13 +124,13 @@ export const DevSettings = observer(() => {
                 title,
                 comment,
                 artist
-            }, global.token).then(() => getState()).catch(() => global.updateToken())
+            }, global.token, (data) => setStarted(data)).then(() => getState()).catch(() => global.updateToken())
         }
     }
 
-    function clearFields(e) {
+    function clearMeasure(e, measure) {
         e.preventDefault()
-        clear(global.way + '/clear measure/' + device.Device.DevId, global.token)
+        clear(global.way + '/clear measure/' + device.Device.DevId, global.token, measure)
             .then(() => getState())
     }
 
@@ -284,10 +299,12 @@ export const DevSettings = observer(() => {
                     <div className="console">
                         <h5>Действующие замеры</h5>
                         <textarea className="measurement-now" value={target}></textarea>
+                        <button className="clear-measure" onClick={(e) => clearMeasure(e, "target")}><FontAwesomeIcon icon={faTrash}></FontAwesomeIcon></button>
                     </div>
                     <div className="console">
                         <h5>Выполненные замеры</h5>
                         <textarea value={fullFilled}></textarea>
+                        <button className="clear-measure" onClick={(e) => clearMeasure(e, "fulfilled")}><FontAwesomeIcon icon={faTrash}></FontAwesomeIcon></button>
                     </div>
                 </section>
 
@@ -313,15 +330,28 @@ export const DevSettings = observer(() => {
                     </label>
                 </section>
 
-                <span className="buttons">
-                    <button onClick={(e) => start(e)}>
+                <span className="buttons" style={{position:"relative"}}>
+                    <div 
+                        className="meas-started" 
+                        style={{top:-20, position:"absolute", display: (started["meas add status"] === 0 || (started["meas add status"] && started["meas add status"] !== 'connect')) ? "block" : "none"}}
+                    >
+                        {measureStates [started["meas add status"]]}
+                    </div>
+
+                    <div 
+                        className="meas-started meas-started-connect" 
+                        style={{top:-20, position:"absolute", display: (started["meas add status"] === 'connect') ? "block" : "none"}}
+                    >
+                        подключение...
+                    </div>
+
+                    <button onClick={(e) => start(e)} className={started["meas add status"] === "connect" ? "activated-button" : ""}>
                         Отправить
                     </button>
-                    <button onClick={(e) => clearFields(e)}>
+                    <button onClick={(e) => clearMeasure(e, "all")}>
                         Очистить списки
                     </button>
                 </span>
-
             </form>
         }
     />
