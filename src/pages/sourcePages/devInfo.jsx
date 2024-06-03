@@ -7,6 +7,7 @@ import { useDevice } from "../../hooks/useDevice";
 import global from "../../store/global";
 import {observer} from "mobx-react-lite";
 import {setDBSettings} from "../../functions/requests";
+import { getErrors } from "../../functions/statusBitMask";
 
 export const DevInfo = observer(() => {
     const device = useDevice(global.devices)
@@ -105,7 +106,9 @@ export const DevInfo = observer(() => {
                 </section>
                 <section className="devStatus">
                     <h5>Статус устройства</h5>
-                    <textarea value={devState}></textarea>
+                    <textarea 
+                    value={devState + `\n\n` + getErrors(device.DeviceAttr.Metrics.StatusBitMask || 0).join(`\n`)}
+                    ></textarea>
                 </section>
             </section>
 
