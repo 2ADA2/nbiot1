@@ -12,7 +12,7 @@ const errorFlags = {
   10: "ERR_MODEM_SIM_ERR_FLAG - ошибка доступа SIM-карты ",
   11: "ERR_MODEM_REG_CELL_FLAG - ошибка регистрации в сети оператора",
   12: "ERR_MODEM_CERT_FLAG - ошибка наличия/доступа к файлу сертификату",
-  13: "SERVER_HOST_ACCESS_FLAG - подключено устройства к удаленному серверу(MQTT)",
+  13: "SERVER_HOST_ACCESS_FLAG - устройство подключено  к удаленному серверу(MQTT)",
   14: "SERVER_FTP_ACCESS_FLAG - подключено к удаленному серверу (FTP)",
   15: "SERVER_REGISTERED_FLAG - устройство зарегистрировано на сервере с присвоением REG_UID"
 };
