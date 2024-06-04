@@ -19,15 +19,17 @@ export const Counter = ({ count = 0, setCount = () => { }, newCount = () => { } 
             </input>
             <div className="counter" style={{
                 userSelect : "none",
-                justifyContent: "flex-start",
+                justifyContent: "center",
                 height:"50px"
             }}>
-                <button onClick={(e) => { 
+                <button 
+                onClick={(e) => { 
                     e.preventDefault()
                     setCount(1)
                     }}>+</button>
 
-                <button onClick={(e) => { 
+                <button 
+                onClick={(e) => { 
                     e.preventDefault()
                     setCount(-1)
                     }}>-</button>

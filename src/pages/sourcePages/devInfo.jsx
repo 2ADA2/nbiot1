@@ -13,7 +13,7 @@ import { getDeviceState } from "../../functions/deviceState";
 export const DevInfo = observer(() => {
     const device = useDevice(global.devices)
     const [inDB, setInDB] = useState(device.inDB);
-    const [DBNum, setDBNum] = useState(133000);
+    const [DBNum, setDBNum] = useState(localStorage.getItem(device.Device.DevId + "DBNum") || 133000);
     const [already, setAlready] = useState();
     const [devState, setDevState] = useState("state:" + device.DeviceAttr.State)
 
@@ -22,7 +22,6 @@ export const DevInfo = observer(() => {
         if(device.empty) {
             global.setLocation("/sources")
         }
-
     },[]);
 
     useEffect(() => {
@@ -32,6 +31,10 @@ export const DevInfo = observer(() => {
             global.updateDevices()
         }
     }, [inDB])
+
+    useEffect(() => {
+        localStorage.setItem(device.Device.DevId + "DBNum", DBNum)
+    }, [DBNum])
 
     
     function handleClick(e) {
@@ -102,7 +105,7 @@ export const DevInfo = observer(() => {
                             newCount={(val) => setDBNum(((Number(parseInt(val))) > 0) ? Number(parseInt(val)) : 1)}
                         />
                     </div>
-                    <h5 hidden={!already}>MAC already exists</h5>
+                    <h5 hidden={!already} className="meas-started">MAC already exists</h5>
                     <button onClick={(e) => handleClick(e)}>Сохранить</button>
                 </section>
                 <section className="devStatus">

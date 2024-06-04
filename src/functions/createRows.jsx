@@ -3,6 +3,8 @@ import { DEVINFO_ROUTE } from "../utils/consts"
 import global from "../store/global"
 import { observer } from "mobx-react-lite"
 
+
+
 export const CreateRows = observer(() => {
     const navigate = useNavigate()
     //Пустая таблица

@@ -47,6 +47,10 @@
     width: 40%;
     gap:0;
 }
+.page .devInfo .DB .counter-container input{
+    width: 100%;
+    min-width: none;
+}
 
 .devStatus{
     width: 100%;

@@ -3,8 +3,13 @@ import {CreateRows} from "../functions/createRows"
 import "../styles/pages/sources.css"
 import global from "../store/global"
 import {observer} from "mobx-react-lite"
+import { useState } from "react"
+import { CheckBox } from "../components/checkbox"
+import CreateListRows from "../functions/createListRows"
 
 export const Sources = observer(() => {
+
+    const [info, setInfo] = useState(localStorage.getItem("moreSourceInfo"))
 
     function updateState(e) {
         e.preventDefault()
@@ -32,7 +37,17 @@ export const Sources = observer(() => {
 
                 {/* список источников, краткий обзор */}
                 <h3>Список всех устройств</h3>
-                <table>
+
+                <div style={{flexDirection:"row", gap:"20px", marginBottom:20, alignItems:"center"}}>
+                    Подробно
+                    <CheckBox checked={info} setValue={() => {
+                        localStorage.setItem("moreSourceInfo", info?"":true)
+                        setInfo(!info)
+                    }}/>
+                    Список
+                </div>
+                
+                <table style={{display:info?"none":"table"}}>
                     <thead>
                     <tr>
                         <th>ID устройства</th>
@@ -46,6 +61,21 @@ export const Sources = observer(() => {
                     <tbody>
                     {/* генерация таблицы */}
                     <CreateRows/>
+                    </tbody>
+                </table>
+                <table style={{display:info?"table":"none"}}>
+                    <thead>
+                    <tr>
+                        <th>ID устройства</th>
+                        <th>ID устройства</th>
+                        <th>ID устройства</th>
+                        <th>ID устройства</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    {/* генерация таблицы */}
+                    <CreateListRows/>
                     </tbody>
                 </table>
             </div>
