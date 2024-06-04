@@ -27,6 +27,21 @@ export const DevCommands = () => {
     const [updateSertificate, setUpdateSertificate] = useState(localStorage.getItem( device.Device.DevId + "updateSertificate") ? JSON.parse(localStorage.getItem( device.Device.DevId + "updateSertificate")) : {});
     const [updateUI, setUpdateUI] = useState(localStorage.getItem( device.Device.DevId + "updateUI") ? JSON.parse(localStorage.getItem( device.Device.DevId + "updateUI")) : {});
 
+    const cmds = [registaerState,devState,period,updateLocation,getLocation,setParams,getParams,onData,reboot,updateSertificate,updateUI]
+    const setCmds = [
+        (val) => setRegistaerState(val),
+        (val) => setDevState(val),
+        (val) => setPeriod(val),
+        (val) => setUpdateLocation(val),
+        (val) => setLocation(val),
+        (val) => setSetParams(val),
+        (val) => setGetParams(val),
+        (val) => setOnData(val),
+        (val) => setReboot(val),
+        (val) => setUpdateSertificate(val),
+        (val) => setUpdateUI(val)
+    ]
+
     //состояния для комманд
     const [trepeat, setTrepeat] = useState(30);
     const [netDelay, setNetDelay] = useState(0);
@@ -57,9 +72,7 @@ export const DevCommands = () => {
                 axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
                     headers: {"Authorization": global.token}
                 }).then((res) => {
-                    if (!res.data.Info) {
-                        getCommandStatus("", res.data["USER_CMD_RESP"])
-                    }
+                        getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
                 })
                     .catch((err) => errorAnalyze(err, () => setCommandStatus()))
             }, 1000)
@@ -67,12 +80,23 @@ export const DevCommands = () => {
                 axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
                     headers: {"Authorization": global.token}
                 }).then((res) => {
-                    if (!res.data.Info) {
-                        getCommandStatus("", res.data["USER_CMD_RESP"])
-                    }
+                        getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
                 })
             }, 5000)
         }
+
+        if(!commandStatus){
+            for(let i=0; i < cmds.length-1; i++){
+                if(cmds[i] === "execution" || cmds[i] === "accepted for execution"){
+                    if(i===0){
+                        setCmds[i]("")
+                        return
+                    }
+                    setCmds[i]({})
+                }
+            }            
+        }
+
         return () => {
             clearInterval(interval)
         }
