@@ -11,9 +11,9 @@ import {errorAnalyze} from "../../functions/error";
 
 export const DevCommands = () => {
     const device = useDevice();
-    const [command, setCommand] = useState("register")
+    const [command, setCommand] = useState(localStorage.getItem(device.Device.DevId + "cmdName") || "register")
     const [commandStatus, setCommandStatus] = useState(localStorage.getItem( device.Device.DevId + "commandStatus") ? localStorage.getItem( device.Device.DevId + "commandStatus") : "")
-    const [onLoad, setOnLoad] = useState(false)
+    const [onLoad, setOnLoad] = useState(localStorage.getItem(device.Device.DevId + "onLoad") || false)
     
     const [registaerState, setRegistaerState] = useState(localStorage.getItem( device.Device.DevId + "registerState") ? JSON.parse(localStorage.getItem( device.Device.DevId + "registerState")) : "")
     const [devState, setDevState] = useState(localStorage.getItem( device.Device.DevId + "devState") ? JSON.parse(localStorage.getItem( device.Device.DevId + "devState")) : {})
@@ -83,10 +83,14 @@ export const DevCommands = () => {
         setOnLoad(true)
         setCommandStatus(true)
 
+        localStorage.setItem(device.Device.DevId + "onLoad", true)
+        localStorage.setItem(device.Device.DevId + "commandStatus", true)
+
         sendCommand(global.way + "/cmd/" + device.Device.DevId, {
             command, trepeat, timeZone, netDelay, type, timeout, kval, tprepare, senseCheck, UIName
         }, global.token).then((res) => {
             setOnLoad(false)
+            localStorage.setItem(device.Device.DevId + "onLoad", "")
             getCommandStatus(res.data.Info)
         })
     }
@@ -141,6 +145,7 @@ export const DevCommands = () => {
 
         if (info) {
             setCommandStatus(true)
+            localStorage.setItem(device.Device.DevId + "commandStatus", true)
         } else {
             if (res.USER_CMD_RESP) {
                 if (info.USER_CMD_RESP.UPD_LOCATION === "CMD_RUN") return
@@ -148,6 +153,7 @@ export const DevCommands = () => {
                 if (res.USER_CMD_RESP.state !== "complete") return
             }
             setCommandStatus(false)
+            localStorage.setItem(device.Device.DevId + "commandStatus", "")
         }
 
     }
@@ -157,7 +163,10 @@ export const DevCommands = () => {
             <h5>Команда</h5>
             <select
                 className="command"
-                onChange={(e) => setCommand(e.target.value)}
+                onChange={(e) => {
+                    setCommand(e.target.value)
+                    localStorage.setItem(device.Device.DevId + "cmdName", e.target.value)
+                    }}
                 disabled={commandStatus}
                 style={{cursor: commandStatus ? "default" : "pointer"}}
             >
@@ -174,12 +183,12 @@ export const DevCommands = () => {
                     Устаноить период TU пакетов
                 </option>
                 <option
-                    value="updateLocation">
-                    Запросить местоположение
-                </option>
-                <option
                     value="getLocation">
                     Обновить координаты устройства
+                </option>
+                <option
+                    value="updateLocation">
+                    Запросить местоположение
                 </option>
                 <option
                     value="setParams">
@@ -396,6 +405,7 @@ export const DevCommands = () => {
                 onClick={(e) => {
                     e.preventDefault();
                     setCommandStatus("")
+                    localStorage.setItem(device.Device.DevId + "commandStatus", "")
                 }}
                 style={{display: commandStatus ? "block" : "none"}}>Отменить
             </button>

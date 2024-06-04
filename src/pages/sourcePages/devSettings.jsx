@@ -85,6 +85,14 @@ export const DevSettings = observer(() => {
         }        
     }, []);
 
+    useEffect(() => {
+        if(started["meas add status"] !== "connect" && (started["meas add status"] || started["meas add status"]===0)) {
+            setTimeout(() => {
+                setStarted({"meas add status" : null})
+            },2000)
+        }
+    },[started])
+
     function utcSet() {
         setUTC(global.way + "/utc set/" + device.Device.DevId, !device.utc, global.token)
             .then(() => global.updateDevices())
@@ -92,7 +100,7 @@ export const DevSettings = observer(() => {
 
     function start(e) {
         e.preventDefault()
-        if(started["meas add status"] === "connect") return
+        if(started["meas add status"] === "connect" || started["meas add status"]) return
         setStarted({"meas add status" : "connect"})
         if (mode === "imitatorMode") {
             const res = startMeasureImit(global.way + "/measure/" + device.Device.DevId, {
@@ -345,7 +353,7 @@ export const DevSettings = observer(() => {
                         подключение...
                     </div>
 
-                    <button onClick={(e) => start(e)} className={started["meas add status"] === "connect" ? "activated-button" : ""}>
+                    <button onClick={(e) => start(e)} className={started["meas add status"] === "connect" || started["meas add status"] || started["meas add status"]===0 ? "activated-button" : ""}>
                         Отправить
                     </button>
                     <button onClick={(e) => clearMeasure(e, "all")}>
