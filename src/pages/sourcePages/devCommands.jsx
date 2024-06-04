@@ -169,9 +169,11 @@ export const DevCommands = () => {
                     }}
                 disabled={commandStatus}
                 style={{cursor: commandStatus ? "default" : "pointer"}}
+                value={command}
             >
                 <option
-                    value="register">
+                    value="register"
+                    >
                     Зарегистрировать устройство
                 </option>
                 <option
