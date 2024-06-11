@@ -1,0 +1,124 @@
+body .dark .container{
+    background: rgb(44,44,59);
+    color: white;
+}
+
+.dark h1,
+.dark h2,
+.dark .page h3,
+.dark h3,
+dark h4,
+.dark h5,
+.dark .connedtion-details h5,
+.dark h6,
+.dark button,
+.dark .panel-active,
+.dark textarea,
+.dark input,
+.dark .page select,
+.dark select{
+    color: #dedede;
+    border-color: #656565;
+}
+.dark .MuiButtonBase-root{
+    background-color: rgba(255, 255, 255, 0);
+}
+.dark button{
+    border-color: rgb(76, 76, 107);
+    background: rgb(65, 65, 91);
+}
+.dark button:hover{
+    background: rgb(79, 79, 112);
+}
+
+.dark .page h1{
+    color: rgb(201, 201, 255);
+    border-color: rgb(201, 201, 255);
+}
+.dark .UI-settings-page-back{
+    background: rgba(0, 0, 0, 0.53);
+}
+
+.dark .panel-header button{
+    background: rgba(0, 0, 0, 0);
+    transition-duration: 0s;
+    border-bottom: 1px solid gray;
+}
+.dark .panel-header .panel-active{
+    border-bottom: 0;
+}
+.dark .panel-header button:hover{
+    background: rgba(0, 0, 0, 0);
+}
+
+.dark .container .page h2{
+    background: rgb(29,29,38);
+    color: white;
+}
+
+.dark .UI-settings-page{
+    background: rgb(29,29,38);
+    color: white;
+}
+.dark .container .page .section{
+    background: rgb(29,29,38);
+}
+.dark .container .page textarea {
+    background: rgb(29,29,38);
+}
+.dark .container .page input {
+    background: rgb(29,29,38);
+}
+.dark .container .page select,.dark select {
+    background: rgb(29,29,38);
+}
+
+.dark header, .dark .panel{
+    background: rgb(34, 34, 45);
+}
+.dark .opened{
+    border-color: rgb(123, 123, 201);
+}
+
+.dark .panel a{
+    background: rgb(44, 44, 58);
+}
+.dark .panel a:hover{
+    background: rgb(69, 69, 91);
+}
+.dark .panel .nav-links a{
+    background: rgba(57, 57, 79, 0);
+}
+.dark .panel .nav-links a:after{
+    background: rgb(44,44,59);
+}
+
+.dark table th{
+    background: rgb(43, 43, 65);
+    border-color: #4f4f4f;
+}
+.dark table td{
+    color:white;
+    border-color: #4f4f4f;
+}
+
+.dark table .offline{
+    background: #d25a5a;
+}
+.dark table .offline:hover{
+    background: #d56d6d;
+}
+.dark table .online{
+    background: #55af59;
+}
+.dark table .online:hover{
+    background: #63b467;
+}
+
+.dark .checkbox-container input:checked + .switch-slider {
+    background: rgb(127, 127, 178);
+}
+
+.dark .switch-slider::before{
+    background: rgb(44,44,59);
+}

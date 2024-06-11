@@ -21,14 +21,19 @@ export const UISettings = observer(({setModal}) => {
                         <option value='en'>English</option>
                     </select>
                 </div>
-                {/*<div className="label-replacer" style={{marginTop: "40px"}}>*/}
-                {/*    <h5>Внешний вид</h5>*/}
-                {/*    <select value={"light"}>*/}
-                {/*        <option value='light'>светлая</option>*/}
-                {/*        <option value='dark'>тёмная</option>*/}
-                {/*        <option value='universe'>universe</option>*/}
-                {/*    </select>*/}
-                {/*</div>*/}
+                <div className="label-replacer" >
+                    <h5>
+                        <FormattedMessage id = "UISettings.theme"/>
+                    </h5>
+                    <select value={settings.theme} onChange={(e)=> settings.setTheme(e.target.value)}>
+                        <option value='light'>
+                            <FormattedMessage id = "UISettings.theme.light"/>
+                        </option>
+                        <option value='dark'>
+                            <FormattedMessage id = "UISettings.theme.dark"/>
+                        </option>
+                    </select>
+                </div>
                 {/*<div className="label-replacer" style={{marginTop: "40px"}}>*/}
                 {/*    <h5>Масштаб</h5>*/}
                 {/*    <select value={"default"}>*/}

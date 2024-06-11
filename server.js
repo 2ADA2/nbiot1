@@ -87,7 +87,8 @@ app.get('/mqtt/dev%20info/10:19:19:31:11:51', (req, res) => {
                 "Mode": "NBIoT",
                 "GSM siglevel": -50,
                 "Temperature": 29,
-                "StatusBitMask": "0x00006000"
+                "StatusBitMask": "0x00006000",
+                "Online": true,
             }
         }
     })

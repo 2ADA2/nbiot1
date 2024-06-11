@@ -2,6 +2,16 @@ import React, {useState} from 'react'
 import global from '../store/global'
 import "../styles/pages/auth.css"
 import {observer} from 'mobx-react-lite'
+import {FormattedMessage} from "react-intl/lib";
+import {IntlProvider} from "react-intl";
+import RU from "../localization/ru.json";
+import EN from "../localization/en.json";
+import settings from "../store/settings";
+
+const messages = {
+    "ru": RU,
+    "en": EN
+}
 
 export const Auth = observer(() => {
     const [name, setName] = useState("")
@@ -26,7 +36,7 @@ export const Auth = observer(() => {
             })
     }
 
-    return (<>
+    return (<IntlProvider locale={navigator.language} messages={messages[settings.lang]}>
             <header>
                 <h1>NB-IoT collector</h1>
             </header>
@@ -46,17 +56,21 @@ export const Auth = observer(() => {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <div>
-                        {(err) ? <span className='auth-error'>Неверно введён логин или пароль</span> : <span/>}
+                        {(err) ? <span className='auth-error'>
+                            <FormattedMessage id={"incorrect"}/>
+                        </span> : <span/>}
                         {(started)?
                             <button onClick={(e) => e.preventDefault()} className="activated-button">Вход</button> :
-                            <button onClick={(e) => auth(e)}>Войти</button>
+                            <button onClick={(e) => auth(e)}>
+                                <FormattedMessage id={"enterButton"}/>
+                            </button>
                         }
 
                     </div>
 
                 </form>
             </main>
-        </>
+        </IntlProvider>
 
     )
 })

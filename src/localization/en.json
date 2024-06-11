@@ -51,7 +51,7 @@
   "deviceInfo.hardwareVersion": "Hardware version",
   "deviceInfo.protocolVersion": "Protocol version",
   "deviceInfo.networkMode": "Network mode",
-  "deviceInfo.packetInterval": "TU packet interval, sec",
+  "deviceInfo.packetInterval": "Packet interval, sec",
   "deviceInfo.networkStatus": "Network status",
   "deviceInfo.databaseRecording": "Data recording in database",
   "deviceInfo.enterNumber": "Enter number to display in database",
@@ -122,5 +122,13 @@
   "commands.status": "Execution Status",
   "commands.buttons.submit": "Submit",
   "commands.buttons.cancel.text": "Cancel",
-  "commands.command": "Command"
+  "UISettings.theme": "Theme",
+  "UISettings.theme.light": "Light theme",
+  "UISettings.theme.dark": "Dark theme",
+  "commands.command": "Command",
+  "auth": "Authorization",
+  "login": "enter your login",
+  "password": "enter your password",
+  "incorrect": "incorrect login or password",
+  "enterButton": "log in"
 }

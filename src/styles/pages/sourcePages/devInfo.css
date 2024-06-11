@@ -40,7 +40,10 @@
 }
 .page .devInfo .DB div .counter{
     flex-direction: column;
-    gap:0;
+    gap:1px;
+}
+.page .devInfo .DB div input{
+    min-width: 0;
 }
 .page .devInfo .DB .counter-container{
     justify-content: flex-start;

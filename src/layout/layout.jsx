@@ -8,6 +8,7 @@ import {observer} from "mobx-react-lite";
 import settings from "../store/settings";
 import RU from "../localization/ru.json";
 import EN from "../localization/en.json";
+import "../styles/themes/dark.css"
 
 export const Layout = observer(() => {
 

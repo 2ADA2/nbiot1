@@ -14,7 +14,7 @@ import {FormattedMessage} from "react-intl/lib";
 export const DevInfo = observer(() => {
     const device = useDevice(global.devices)
     const [inDB, setInDB] = useState(device.inDB);
-    const [DBNum, setDBNum] = useState(localStorage.getItem(device.Device.DevId + "DBNum") || 133000);
+    const [DBNum, setDBNum] = useState(Number(localStorage.getItem(device.Device.DevId + "DBNum")) || 133000);
     const [already, setAlready] = useState();
     const [devState, setDevState] = useState("state:" + device.DeviceAttr.State)
 

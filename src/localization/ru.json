@@ -154,5 +154,14 @@
 
   "UISettings.header": "Настройки ПО",
   "UISettings.lang": "Язык приложения",
-  "UISettings.button": "Выйти"
+  "UISettings.theme": "Внешний вид",
+  "UISettings.theme.light": "Светлая тема",
+  "UISettings.theme.dark": "Тёмная тема",
+  "UISettings.button": "Выйти",
+
+  "auth": "Авторизация",
+  "login": "введите логин",
+  "password": "введите пароль",
+  "incorrect": "Неверно введён логин или пароль",
+  "enterButton": "Войти"
 }

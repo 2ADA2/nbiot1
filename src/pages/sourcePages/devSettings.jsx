@@ -226,16 +226,16 @@ export const DevSettings = observer(() => {
                     <table style={{cursor:"default"}}>
                         <thead>
                         <tr>
-                            <td></td>
-                            <td>
+                            <th></th>
+                            <th>
                                 <FormattedMessage id = "imitatorSettings.amplitude"/>
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 <FormattedMessage id = "imitatorSettings.frequency"/>
-                            </td>
-                            <td>
+                            </th>
+                            <th>
                                 <FormattedMessage id = "imitatorSettings.phase"/>
-                            </td>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>

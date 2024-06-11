@@ -146,14 +146,14 @@ button:hover{
     height: 25px;
     margin: 0;
     border:none;
-    outline: 1px solid white;
     border-radius:0;
     padding: 0;
     line-height: 25px;
 }
 .counter-container .counter{
     height: 50px;
-    gap:0;
+    gap:1px;
+    padding-left: 1px;
 }
 .page .counter-container input{
     width: 100%;

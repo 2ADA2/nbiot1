@@ -8,6 +8,7 @@ import {observer} from "mobx-react-lite";
 import {LoadingPage} from "./components/loadingPage";
 import {AUTHORIZATION_ROUTE} from "./utils/consts";
 import {Auth} from "./pages/Auth";
+import settings from "./store/settings";
 
 const App = observer(() => {
 
@@ -36,7 +37,7 @@ const App = observer(() => {
     if (global.isLoading) return <LoadingPage toBack={false}/>
 
     return (
-        <div className="App">
+        <div className={"App " + settings.theme}>
             <Routes>
                 <Route path='/' element={<Layout/>}>
 
