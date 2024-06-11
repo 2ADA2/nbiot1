@@ -6,6 +6,7 @@ import {Counter} from "../components/counter";
 import global from "../store/global";
 import {observer} from "mobx-react-lite";
 import {setSettings} from "../functions/requests";
+import {FormattedMessage} from "react-intl/lib";
 
 
 export const Settings = observer(() => {
@@ -45,104 +46,110 @@ export const Settings = observer(() => {
     }
 
     return (
-        <Page header="Настройки" header2="Настройки подключения по MQTT"
-              elem={
-                  <form>
-                      <h3>Connection Details</h3>
-                      <section className="connedtion-details">
-                          <label>
-                              <h5>Host Name</h5>
-                              <input type="text" value={hostName} onChange={(e) => {
-                                  setHostName(e.target.value)
-                              }}></input>
-                          </label>
+        <Page
+            header={<FormattedMessage id="settings.header"/>}
+            header2={<FormattedMessage id = "settings.header2"/>}
+            elem={
+                <form>
+                    <h3>Connection Details</h3>
+                    <section className="connedtion-details">
+                        <label>
+                            <h5>Host Name</h5>
+                            <input type="text" value={hostName} onChange={(e) => {
+                                setHostName(e.target.value)
+                            }}></input>
+                        </label>
 
-                          <label>
-                              <h5>Port</h5>
-                              <input type="number" value={port} onChange={(e) => {
-                                  setPort(e.target.value)
-                              }}></input>
-                          </label>
+                        <label>
+                            <h5>Port</h5>
+                            <input type="number" value={port} onChange={(e) => {
+                                setPort(e.target.value)
+                            }}></input>
+                        </label>
 
-                          <label>
-                              <h5>Client ID</h5>
-                              <input type="number" value={clientId} onChange={(e) => {
-                                  setClientId(e.target.value)
-                              }}></input>
-                          </label>
-                          <div className="label-replacer">
-                              <h5>Clean Session</h5> <CheckBox checked={cleanSession} setValue={() => setCleanSession(!cleanSession)}/>
-                          </div>
-                          <label>
-                              <h5>Keep Alive</h5>
-                              <Counter
-                                  count={keepAlive}
-                                  newCount={(val) => setKeepAlive(((val) >= 0) ? val : keepAlive)}
-                                  setCount={(val) => setKeepAlive(((keepAlive + val) >= 0) ? keepAlive + val : 0)}
-                              />
+                        <label>
+                            <h5>Client ID</h5>
+                            <input type="number" value={clientId} onChange={(e) => {
+                                setClientId(e.target.value)
+                            }}></input>
+                        </label>
+                        <div className="label-replacer">
+                            <h5>Clean Session</h5> <CheckBox checked={cleanSession}
+                                                             setValue={() => setCleanSession(!cleanSession)}/>
+                        </div>
+                        <label>
+                            <h5>Keep Alive</h5>
+                            <Counter
+                                count={keepAlive}
+                                newCount={(val) => setKeepAlive(((val) >= 0) ? val : keepAlive)}
+                                setCount={(val) => setKeepAlive(((keepAlive + val) >= 0) ? keepAlive + val : 0)}
+                            />
 
-                          </label>
-                      </section>
+                        </label>
+                    </section>
 
-                      <h3>Credentials</h3>
-                      <section className="Credentials">
-                          <label>
-                              <h5>User name</h5>
-                              <input type="text" value={userName} onChange={(e) => {
-                                  setUserName(e.target.value)
-                              }}></input>
-                          </label>
+                    <h3>Credentials</h3>
+                    <section className="Credentials">
+                        <label>
+                            <h5>User name</h5>
+                            <input type="text" value={userName} onChange={(e) => {
+                                setUserName(e.target.value)
+                            }}></input>
+                        </label>
 
-                          <label>
-                              <h5>Password</h5>
-                              <input type="text" value={password} onChange={(e) => {
-                                  setPassword(e.target.value)
-                              }}></input>
-                          </label>
-                      </section>
+                        <label>
+                            <h5>Password</h5>
+                            <input type="text" value={password} onChange={(e) => {
+                                setPassword(e.target.value)
+                            }}></input>
+                        </label>
+                    </section>
 
-                      <h3>Last-Will</h3>
-                      <section className="Last-Will">
-                          <label>
-                              <h5>Last-Will Topic</h5>
-                              <input type="text" value={LWTopic} onChange={(e) => {
-                                  setLWTopic(e.target.value)
-                              }}></input>
-                          </label>
+                    <h3>Last-Will</h3>
+                    <section className="Last-Will">
+                        <label>
+                            <h5>Last-Will Topic</h5>
+                            <input type="text" value={LWTopic} onChange={(e) => {
+                                setLWTopic(e.target.value)
+                            }}></input>
+                        </label>
 
-                          <label>
-                              <h5>Last-Will Message</h5>
-                              <input type="text" value={LWMessage} onChange={(e) => {
-                                  setLWMessage(e.target.value)
-                              }}></input>
-                          </label>
+                        <label>
+                            <h5>Last-Will Message</h5>
+                            <input type="text" value={LWMessage} onChange={(e) => {
+                                setLWMessage(e.target.value)
+                            }}></input>
+                        </label>
 
-                          <label>
-                              <h5>Last-Will Qos</h5>
-                              <select defaultValue={LWQos} onChange={(e) => setLWQos(e.target.value)}>
-                                  <option
-                                      value={0}>
-                                      0 - at most once
+                        <label>
+                            <h5>Last-Will Qos</h5>
+                            <select defaultValue={LWQos} onChange={(e) => setLWQos(e.target.value)}>
+                                <option
+                                    value={0}>
+                                    0 - at most once
 
-                                  </option>
-                                  <option
-                                      value={1}>
-                                      1 - at last once
-                                  </option>
-                                  <option
-                                      value={2}>
-                                      2 - exactly once
-                                  </option>
-                              </select>
-                          </label>
+                                </option>
+                                <option
+                                    value={1}>
+                                    1 - at last once
+                                </option>
+                                <option
+                                    value={2}>
+                                    2 - exactly once
+                                </option>
+                            </select>
+                        </label>
 
-                          <div className="label-replacer">
-                              <h5>Last-Will Retain</h5> <CheckBox checked={LWRetain} setValue={() => setLWRetain(!LWRetain)}/>
-                          </div>
-                      </section>
-                      <button onClick={(e) => saveSettings(e)}>Применить</button>
-                  </form>
-              }
+                        <div className="label-replacer">
+                            <h5>Last-Will Retain</h5> <CheckBox checked={LWRetain}
+                                                                setValue={() => setLWRetain(!LWRetain)}/>
+                        </div>
+                    </section>
+                    <button onClick={(e) => saveSettings(e)}>
+                        <FormattedMessage id = "settings.button"/>
+                    </button>
+                </form>
+            }
         />
     )
 })

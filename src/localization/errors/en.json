@@ -1,0 +1,22 @@
+{
+  "0": "ERR_UNKNOWN_SYS_FLAG - unknown",
+  "1": "ERR_XTAL_LF_INIT_FLAG - LFCLK crystal error",
+  "2": "ERR_XTAL_HFCLK_UP_FLAG - HFCLK crystal error",
+  "3": "ERR_FDS_INIT_FLAG - storage module initialization error",
+  "4": "ERR_NFC_INIT_FLAG - NFC module initialization error",
+  "5": "ERR_ADS_INIT_FLAG - sensor signal conversion module initialization error",
+  "6": "ERR_PWR_CTRL_INIT_FLAG - power consumption (battery charge) calculation module initialization error",
+  "7": "ERR_SENS_PWR_ON_FLAG - sensor power on error",
+  "8": "ERR_MODEM_INIT_FLAG - modem module initialization error",
+  "9": "ERR_MODEM_LINK_FLAG - modem connection error",
+  "10": "ERR_MODEM_SIM_ERR_FLAG - SIM card access error",
+  "11": "ERR_MODEM_REG_CELL_FLAG - operator network registration error",
+  "12": "ERR_MODEM_CERT_FLAG - certificate file presence/access error",
+  "13": "SERVER_HOST_ACCESS_FLAG - device connected to remote server (MQTT)",
+  "14": "SERVER_FTP_ACCESS_FLAG - connected to remote server (FTP)",
+  "15": "SERVER_REGISTERED_FLAG - device registered on server with assigned REG_UID",
+
+  "measState1": "MEAS_APPLY_OK - measurement accepted",
+  "measState2": "MEAS_ALREADY_EXISTS - measurement in progress",
+  "measState3": "MEAS_INCORRECT_TIME - incorrect time set"
+}

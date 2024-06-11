@@ -5,6 +5,7 @@ import global from '../store/global'
 import {postReq} from "../functions/requests";
 import {observer} from "mobx-react-lite";
 import {errorAnalyze} from "../functions/error";
+import {FormattedMessage} from "react-intl/lib";
 
 export const AdvancedSettings = observer(() => {
     const [settings, setSettings] = useState(global.advSettings || localStorage.getItem("advSettings"));
@@ -105,48 +106,66 @@ MAC04_09_19_86_11_50=5896`
 
     return (
         <Page
-            header='Расширенные настройки'
-            header2='Настройки администратора'
+            header={<FormattedMessage id = "advSettings.header"/>}
+            header2={<FormattedMessage id = "advSettings.header2"/>}
             elem={
                 <>
                     <nav className="panel-header">
-                        <button onClick={() => setPage(0)} className={(page === 0) ? "panel-active" : ""}>Главная
+                        <button onClick={() => setPage(0)} className={(page === 0) ? "panel-active" : ""}>
+                            <FormattedMessage id = "advSettings.panel.main"/>
                         </button>
-                        <button onClick={() => setPage(1)} className={(page === 1) ? "panel-active" : ""}>Обновление
-                            ПО
+                        <button onClick={() => setPage(1)} className={(page === 1) ? "panel-active" : ""}>
+                            <FormattedMessage id = "advSettings.panel.update"/>
                         </button>
                     </nav>
                     {(page === 0) ?
                         <>
-                            <h3 className="advanced-settings-header">Изменение настроек</h3>
+                            <h3 className="advanced-settings-header">
+                                <FormattedMessage id = "advSettings.main.header"/>
+                            </h3>
                             <section className='advanced-settings'>
                                 <textarea value={settings} onChange={(e) => handleChange(e)}/>
                             </section>
-                            <button onClick={() => sendSettings()}>Сохранить</button>
-                            <button onClick={() => toDefault()}>+ Шаблон</button>
+
+                            <button onClick={() => sendSettings()}>
+                                <FormattedMessage id = "advSettings.main.save"/>
+                            </button>
+                            <button onClick={() => toDefault()}>
+                                <FormattedMessage id = "advSettings.main.sample"/>
+                            </button>
                         </>
                         :
                         (page === 1) ?
                             <>
-                                <h3 className="advanced-settings-header">Обновить</h3>
+                                <h3 className="advanced-settings-header">
+                                    <FormattedMessage id = "advSettings.update.header"/>
+                                </h3>
                                 <section className='advanced-settings'>
                                     <div>
-                                        <button onClick={() => updateWeb()}>Обновить Web</button>
+                                        <button onClick={() => updateWeb()}>
+                                            <FormattedMessage id = "advSettings.update.web"/>
+                                        </button>
                                         <input className={"file"} type="file" onChange={(e) => checkFile(e, "zip")}/>
                                         {invalidWeb ?
                                             <span
                                                 className='auth-error'
-                                            >неверно выбран файл (.zip) </span>
+                                            >
+                                                <FormattedMessage id = "advSettings.updateErr"/>
+                                            </span>
                                             : <></>
                                         }
                                     </div>
                                     <div>
-                                        <button onClick={() => updateClient()}>Обновить client</button>
+                                        <button onClick={() => updateClient()}>
+                                            <FormattedMessage id = "advSettings.update.client"/>
+                                        </button>
                                         <input className={"file"} type="file" onChange={(e) => checkFile(e, "")}/>
                                         {invalidBack ?
                                             <span
                                                 className='auth-error'
-                                            >неверно выбран файл</span>
+                                            >
+                                                <FormattedMessage id = "advSettings.updateErr2"/>
+                                            </span>
                                             : <></>
                                         }
                                     </div>

@@ -15,13 +15,14 @@ import {createList} from "../../functions/createList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { measureStates } from "../../utils/measureStatus";
+import {FormattedMessage, useIntl} from "react-intl/lib";
 
 export const DevSettings = observer(() => {
     const device = useDevice()
     const [date, setDate] = useState(convertTime(new Date()));
 
-    const [target, setTarget] = useState("загрузка...")
-    const [fullFilled, setFullFilled] = useState("загрузка...")
+    const [target, setTarget] = useState()
+    const [fullFilled, setFullFilled] = useState()
     const [started, setStarted] = useState({"meas add status" : null})
 
     const [time, setTime] = useState(0);
@@ -143,22 +144,28 @@ export const DevSettings = observer(() => {
     }
 
     return <Page
-        header="Настройки устройства"
-        header2="Настройки устройства"
+        header={<FormattedMessage id = "deviceSettings.header"/>}
+        header2={<FormattedMessage id = "deviceSettings.subheader"/>}
         elem={
             <form className="devSettings">
-                <h3>Настройки замера</h3>
+                <h3>
+                    <FormattedMessage id = "measurementSettings.title"/>
+                </h3>
                 <section className="measurement">
                     <section className="counters">
                         <div>
-                            <h5>Произвести измерение в</h5>
+                            <h5>
+                                <FormattedMessage id = "measurementSettings.performMeasurementAt"/>
+                            </h5>
                             <InputDate
                                 date={date}
                                 newDate={(newDate) => setDate(newDate)}
                             />
                         </div>
                         <div>
-                            <h5>Время замера, сек</h5>
+                            <h5>
+                                <FormattedMessage id = "measurementSettings.measurementTimeSeconds"/>
+                            </h5>
                             <Counter
                                 count={time}
                                 newCount={(newTime) => setTime((newTime >= 0) ? newTime : time)}
@@ -166,7 +173,9 @@ export const DevSettings = observer(() => {
                             />
                         </div>
                         <div>
-                            <h5>Повторять измерение каждые, сек</h5>
+                            <h5>
+                                <FormattedMessage id = "measurementSettings.repeatMeasurementEverySeconds"/>
+                            </h5>
                             <Counter
                                 count={repeat}
                                 newCount={(newRepeat) => setRepeat((newRepeat >= 0) ? newRepeat : repeat)}
@@ -179,16 +188,24 @@ export const DevSettings = observer(() => {
                             <h5>UTC</h5><CheckBox checked={device.utc} setValue={utcSet}/>
                         </div>
                         <div>
-                            <h5>Режим измерения</h5>
+                            <h5>
+                                <FormattedMessage id = "measurementSettings.measurementMode"/>
+                            </h5>
                             <select onChange={(e) => {
                                 setMode(e.target.value)
                             }}>
-                                <option value="measurementMode">режим измерений</option>
-                                <option value="imitatorMode">режим имитатора</option>
+                                <option value="measurementMode">
+                                    <FormattedMessage id = "measurementSettings.measurementMode"/>
+                                </option>
+                                <option value="imitatorMode">
+                                    <FormattedMessage id = "measurementSettings.imitatorMode"/>
+                                </option>
                             </select>
                         </div>
                         <div>
-                            <h5>Режим фильтра</h5>
+                            <h5>
+                                <FormattedMessage id = "measurementSettings.filterMode"/>
+                            </h5>
                             <select onChange={(e) => {
                                 setFilter(e.target.value)
                             }}>
@@ -202,20 +219,30 @@ export const DevSettings = observer(() => {
                 </section>
 
                 {/* настройки имитатора */}
-                <h3 style={{display: (mode === "imitatorMode") ? "block" : "none"}}>Настройки имитатора</h3>
+                <h3 style={{display: (mode === "imitatorMode") ? "block" : "none"}}>
+                    <FormattedMessage id = "imitatorSettings.title"/>
+                </h3>
                 <section className="imitator-settings" style={{display: (mode === "imitatorMode") ? "block" : "none"}}>
                     <table style={{cursor:"default"}}>
                         <thead>
                         <tr>
                             <td></td>
-                            <td>Амплитуда</td>
-                            <td>Частота</td>
-                            <td>Фаза</td>
+                            <td>
+                                <FormattedMessage id = "imitatorSettings.amplitude"/>
+                            </td>
+                            <td>
+                                <FormattedMessage id = "imitatorSettings.frequency"/>
+                            </td>
+                            <td>
+                                <FormattedMessage id = "imitatorSettings.phase"/>
+                            </td>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
-                            <td>Сигнал А</td>
+                            <td>
+                                <FormattedMessage id = "imitatorSettings.signalA"/>
+                            </td>
                             <td>
                                 <Counter
                                     count={SignA1}
@@ -239,7 +266,9 @@ export const DevSettings = observer(() => {
                             </td>
                         </tr>
                         <tr>
-                            <td>Сигнал B</td>
+                            <td>
+                                <FormattedMessage id = "imitatorSettings.signalB"/>
+                            </td>
                             <td>
                                 <Counter
                                     count={SignB1}
@@ -263,7 +292,9 @@ export const DevSettings = observer(() => {
                             </td>
                         </tr>
                         <tr>
-                            <td>Сигнал C</td>
+                            <td>
+                                <FormattedMessage id = "imitatorSettings.signalC"/>
+                            </td>
                             <td>
                                 <Counter
                                     count={SignC1}
@@ -287,7 +318,9 @@ export const DevSettings = observer(() => {
                             </td>
                         </tr>
                         <tr className="Noise">
-                            <td>Шум</td>
+                            <td>
+                                <FormattedMessage id = "imitatorSettings.noise"/>
+                            </td>
                             <td>
                                 <Counter
                                     count={Noise}
@@ -302,36 +335,52 @@ export const DevSettings = observer(() => {
                     </table>
                 </section>
 
-                <h3>Замеры</h3>
+                <h3>
+                    <FormattedMessage id = "measurements.title"/>
+                </h3>
                 <section className="measurements">
                     <div className="console">
-                        <h5>Действующие замеры</h5>
-                        <textarea className="measurement-now" value={target}></textarea>
+                        <h5>
+                            <FormattedMessage id = "measurements.currentMeasurements"/>
+                        </h5>
+                        <textarea className="measurement-now" value={target ?? useIntl().formatMessage({id:"measurements.loading"})}></textarea>
                         <button className="clear-measure" onClick={(e) => clearMeasure(e, "target")}><FontAwesomeIcon icon={faTrash}></FontAwesomeIcon></button>
                     </div>
                     <div className="console">
-                        <h5>Выполненные замеры</h5>
-                        <textarea value={fullFilled}></textarea>
+                        <h5>
+                            <FormattedMessage id = "measurements.completedMeasurements"/>
+                        </h5>
+                        <textarea value={
+                            fullFilled ?? useIntl().formatMessage({id:"measurements.loading"})
+                        }></textarea>
                         <button className="clear-measure" onClick={(e) => clearMeasure(e, "fulfilled")}><FontAwesomeIcon icon={faTrash}></FontAwesomeIcon></button>
                     </div>
                 </section>
 
-                <h3>Комментарий</h3>
+                <h3>
+                    <FormattedMessage id = "comments.title"/>
+                </h3>
                 <section className="comments">
                     <label>
-                        <h5>Заголовок</h5>
+                        <h5>
+                            <FormattedMessage id = "comments.header"/>
+                        </h5>
                         <input type="text" value={title} onChange={(e) => {
                             setTitle(e.target.value)
                         }}></input>
                     </label>
                     <label>
-                        <h5>Комментарий</h5>
+                        <h5>
+                            <FormattedMessage id = "comments.comment"/>
+                        </h5>
                         <input type="text" value={comment} onChange={(e) => {
                             setComment(e.target.value)
                         }}></input>
                     </label>
                     <label>
-                        <h5>Автор</h5>
+                        <h5>
+                            <FormattedMessage id = "comments.author"/>
+                        </h5>
                         <input type="text" value={artist} onChange={(e) => {
                             setArtist(e.target.value)
                         }}></input>
@@ -350,14 +399,14 @@ export const DevSettings = observer(() => {
                         className="meas-started meas-started-connect" 
                         style={{top:-20, position:"absolute", display: (started["meas add status"] === 'connect') ? "block" : "none"}}
                     >
-                        подключение...
+                        <FormattedMessage id = "messages.connecting"/>
                     </div>
 
                     <button onClick={(e) => start(e)} className={started["meas add status"] === "connect" || started["meas add status"] || started["meas add status"]===0 ? "activated-button" : ""}>
-                        Отправить
+                        <FormattedMessage id = "buttons.submit"/>
                     </button>
                     <button onClick={(e) => clearMeasure(e, "all")}>
-                        Очистить списки
+                        <FormattedMessage id = "buttons.clearLists"/>
                     </button>
                 </span>
             </form>

@@ -1,6 +1,7 @@
 import "../styles/components/UISettings.css"
 import {observer} from "mobx-react-lite";
 import settings from "../store/settings";
+import {FormattedMessage} from "react-intl/lib";
 
 export const UISettings = observer(({setModal}) => {
     return (
@@ -8,9 +9,13 @@ export const UISettings = observer(({setModal}) => {
             <div className="UI-settings-page-back" onClick={() => setModal()}>
             </div>
             <section className={"UI-settings-page"}>
-                <h3>Настройки ПО</h3>
+                <h3>
+                    <FormattedMessage id = "UISettings.header"/>
+                </h3>
                 <div className="label-replacer">
-                    <h5>Язык приложения</h5>
+                    <h5>
+                        <FormattedMessage id = "UISettings.lang"/>
+                    </h5>
                     <select value={settings.lang} onChange={(e)=> settings.setLang(e.target.value)}>
                         <option value='ru'>Русский</option>
                         <option value='en'>English</option>
@@ -32,7 +37,9 @@ export const UISettings = observer(({setModal}) => {
                 {/*        <option value='mini'>50%</option>*/}
                 {/*    </select>*/}
                 {/*</div>*/}
-                <button onClick={() => setModal()}>Выход</button>
+                <button onClick={() => setModal()}>
+                    <FormattedMessage id = "UISettings.button"/>
+                </button>
             </section>
         </>
 

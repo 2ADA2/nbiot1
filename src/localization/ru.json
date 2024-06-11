@@ -57,15 +57,13 @@
 
   "advSettings.update.header": "Обновить",
   "advSettings.update.web": "Обновить Web",
+  "advSettings.updateErr": "Неверно выбран файл (.zip)",
   "advSettings.update.client": "Обновить Client",
+  "advSettings.updateErr2": "Неверно выбран файл",
 
 
 
 
-  "app.title": "NB-IoT коллектор",
-  "header.devices": "Устройства",
-  "header.settings": "Настройки",
-  "header.advancedSettings": "Расширенные",
   "deviceInfo.title": "Информация об устройстве",
   "deviceInfo.header": "Информация",
   "deviceInfo.id": "Идентификационный номер",
@@ -121,6 +119,7 @@
   "measurements.title": "Измерения",
   "measurements.currentMeasurements": "Текущие измерения",
   "measurements.completedMeasurements": "Завершенные измерения",
+  "measurements.loading": "загрузка...",
   "comments.title": "Комментарии",
   "comments.header": "Заголовок",
   "comments.comment": "Комментарий",
@@ -148,7 +147,12 @@
   "commands.options.reboot": "Перезагрузить устройство",
   "commands.options.updateSertificate": "Обновить сертификат",
   "commands.options.updateUI": "Обновить встроенное ПО",
-  "commands.status": "Статус исполнения: OK",
+  "commands.status": "Статус исполнения",
   "commands.buttons.submit": "Отправить",
-  "commands.buttons.cancel.text": "Отменить"
+  "commands.buttons.cancel.text": "Отменить",
+  "commands.command": "Комнада",
+
+  "UISettings.header": "Настройки ПО",
+  "UISettings.lang": "Язык приложения",
+  "UISettings.button": "Выйти"
 }
