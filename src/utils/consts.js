@@ -5,6 +5,7 @@ export const DEVSETTINGS_ROUTE = "/devSettings"
 export const DEVCOMMANDS_ROUTE = "/devCommands"
 export const ADVANCED_SETTINGS_ROUTE = "/advacncedSettings"
 export const AUTHORIZATION_ROUTE = "/authorization"
+export const UISETTINGS_ROUTE = "/uiSettings"
 
 export const EMPTY = {
     "empty": true,

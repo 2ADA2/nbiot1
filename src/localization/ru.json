@@ -1,0 +1,154 @@
+{
+  "panel.devs": "Устройства",
+  "panel.settings": "Настройки",
+  "panel.advSettings": "Расширенные",
+
+  "panel.devInfo": "Информация",
+  "panel.devSettings": "Настройки",
+  "panel.devCommands": "Команды",
+
+
+
+
+
+  "devs.header": "Устройства",
+  "devs.header2": "Список устройств",
+  "devs.section1": "Статус подключения",
+
+  "devs.connect": "Подключение:",
+  "devs.connect.status1": "установлено",
+  "devs.connect.status2": "не установлено",
+  "devs.connect.status3": "разрыв соединения...",
+  "devs.connect.status4": "установка соединения",
+
+  "devs.button.status1": "разорвать",
+  "devs.button.status2": "установить",
+  "devs.button.status3": "подождите...",
+
+  "devs.section2": "Список всех устройств",
+  "devs.more": "Подробно",
+  "devs.list": "Список",
+  "devs.id": "ID устройства",
+  "devs.time": "Время",
+  "devs.signal": "Уровень сигнала GSM",
+  "devs.battery": "Заряд",
+  "devs.temperature": "Температура",
+
+
+
+
+
+  "settings.header": "Настройки",
+  "settings.header2": "Настройки подключение по MQTT",
+  "settings.button": "Применить",
+
+
+
+
+
+  "advSettings.header": "Расширенные настройки",
+  "advSettings.header2": "Настройка администратора",
+  "advSettings.panel.main": "Главная",
+  "advSettings.panel.update": "Обновление ПО",
+
+  "advSettings.main.header": "Изменение настроек",
+  "advSettings.main.sample": "+ Шаблон",
+  "advSettings.main.save": "Сохранить",
+
+  "advSettings.update.header": "Обновить",
+  "advSettings.update.web": "Обновить Web",
+  "advSettings.update.client": "Обновить Client",
+
+
+
+
+  "app.title": "NB-IoT коллектор",
+  "header.devices": "Устройства",
+  "header.settings": "Настройки",
+  "header.advancedSettings": "Расширенные",
+  "deviceInfo.title": "Информация об устройстве",
+  "deviceInfo.header": "Информация",
+  "deviceInfo.id": "Идентификационный номер",
+  "deviceInfo.model": "Модель",
+  "deviceInfo.softwareVersion": "Версия программного обеспечения",
+  "deviceInfo.hardwareVersion": "Версия платы",
+  "deviceInfo.protocolVersion": "Версия протокола",
+  "deviceInfo.networkMode": "Режим работы сети",
+  "deviceInfo.packetInterval": "Интервал ТУ пакетов, сек",
+  "deviceInfo.networkStatus": "Состояние в сети",
+  "deviceInfo.databaseRecording": "Запись данных в БД",
+  "deviceInfo.enterNumber": "Укажите номер для отображения в БД",
+  "deviceInfo.saveButton": "Сохранить",
+  "deviceInfo.statusTitle": "Статус устройства",
+  "deviceInfo.header2": "Состояние устройства",
+  "deviceInfo.configurationStatus": "Состояние конфигурирования",
+  "deviceInfo.configurationStatus1": "Сконфигурированно",
+  "deviceInfo.configurationStatus2": "Не сконфигурированно",
+  "deviceInfo.registrationStatus": "Состояние регистрации",
+  "deviceInfo.registrationStatus1": "Зарегестрированно",
+  "deviceInfo.registrationStatus2": "Не зарегестрированно",
+  "deviceInfo.deviceTime": "Время на устройстве",
+  "deviceInfo.batteryLevel": "Заряд батареи",
+  "deviceInfo.signalLevel": "Уровень приема соты(RSII)",
+  "deviceInfo.temperature": "Температура",
+
+
+
+
+
+  "deviceSettings.header": "Настройки устройства",
+  "deviceSettings.subheader": "Настройки устройства",
+  "measurementSettings.title": "Настройки измерений",
+  "measurementSettings.performMeasurementAt": "Произвести измерение в",
+  "measurementSettings.measurementTimeSeconds": "Время измерения, сек",
+  "measurementSettings.repeatMeasurementEverySeconds": "Повторять измерение каждые, сек",
+  "measurementSettings.utc": "UTC",
+  "measurementSettings.measurementMode": "Режим измерения",
+  "measurementSettings.imitatorMode": "Режим имитатора",
+  "measurementSettings.filterMode": "Режим фильтра",
+  "firMod1": "FIRmod1",
+  "firMod2": "FIRmod2",
+  "firMod3": "FIRmod3",
+  "firMod4": "FIRmod4",
+  "imitatorSettings.title": "Настройки имитатора",
+  "imitatorSettings.signalA": "Сигнал A",
+  "imitatorSettings.signalB": "Сигнал B",
+  "imitatorSettings.signalC": "Сигнал C",
+  "imitatorSettings.noise": "Шум",
+  "imitatorSettings.amplitude": "Амплитуда",
+  "imitatorSettings.frequency": "Частота",
+  "imitatorSettings.phase": "Фаза",
+  "measurements.title": "Измерения",
+  "measurements.currentMeasurements": "Текущие измерения",
+  "measurements.completedMeasurements": "Завершенные измерения",
+  "comments.title": "Комментарии",
+  "comments.header": "Заголовок",
+  "comments.comment": "Комментарий",
+  "comments.author": "Автор",
+  "buttons.submit": "Отправить",
+  "buttons.clearLists": "Очистить списки",
+  "messages.measurementStarted": "Измерение начато",
+  "messages.connecting": "Подключение...",
+
+
+
+
+
+  "commands.header": "Настройки устройства",
+  "commands.subheader": "Команды устройству",
+  "commands.title": "Команды устройству",
+  "commands.options.register": "Зарегистрировать устройство",
+  "commands.options.devState": "Запросить состояние устройства",
+  "commands.options.setPeriod": "Установить период TU пакетов",
+  "commands.options.getLocation": "Обновить координаты устройства",
+  "commands.options.updateLocation": "Запросить местоположение",
+  "commands.options.setParams": "Установить параметры датчика",
+  "commands.options.getParams": "Запросить параметры датчика",
+  "commands.options.onData": "Включить отладочные данные",
+  "commands.options.reboot": "Перезагрузить устройство",
+  "commands.options.updateSertificate": "Обновить сертификат",
+  "commands.options.updateUI": "Обновить встроенное ПО",
+  "commands.status": "Статус исполнения: OK",
+  "commands.buttons.submit": "Отправить",
+  "commands.buttons.cancel.text": "Отменить"
+}

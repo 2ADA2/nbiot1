@@ -15,9 +15,7 @@ function createTime() {
 }
 let devs = {
     "Sources": [
-        "10:19:19:31:11:51",
-        "04:09:19:86:11:50",
-        "11:20:90:13:73:50"
+        "10:19:19:31:11:51"
     ]
 }
 app.get('/mqtt/sources', (req, res) => {
@@ -49,11 +47,30 @@ app.get("/mqtt/settings", (req, res) => {
         }
     })
 })
+app.get('/mqtt/DBState/10:19:19:31:11:51', (req, res) => {
+    res.status(200).json({
+        "DBState":false
+    })
+})
 
-app.get('/mqtt/dev%20info/04:09:19:86:11:50', (req, res) => {
+app.post('/mqtt/DB/10:19:19:31:11:51', (req, res) => {
+    res.status(200).json({
+        "Dev_NumDB":300000
+    })
+})
+
+
+
+app.get('/mqtt/utc%20state/10:19:19:31:11:51', (req, res) => {
+    res.status(200).json({
+        "UTC":true
+    })
+})
+
+app.get('/mqtt/dev%20info/10:19:19:31:11:51', (req, res) => {
     res.status(200).json({
         "Device": {
-            "DevId": "04:09:19:86:11:50",
+            "DevId": "10:19:19:31:11:51",
             "DevName": "MM133.2",
             "SoftVer.": "1.0.0.a",
             "BoardRev.": "1.2",
@@ -75,81 +92,7 @@ app.get('/mqtt/dev%20info/04:09:19:86:11:50', (req, res) => {
         }
     })
 })
-app.get('/mqtt/dev%20info/10:19:19:31:11:51', (req, res) => {
-    res.status(200).json({
-        "Device": {
-            "DevId": "10:19:19:31:11:51",
-            "DevName": "MM133.2",
-            "SoftVer.": "1.0.0.a",
-            "BoardRev.": "1.2",
-            "ProtoVer.": "1.2"
-        },
-        "DeviceAttr": {
-            "localTime": createTime(),
-            "LinkRepeat": 30,
-            "Configured": 0,
-            "State": 0,
-            "Registered": 0,
-            "Metrics": {
-                "Battery": 46,
-                "Mode": "NBIoT",
-                "GSM siglevel": -55,
-                "Temperature": 32,
-                "StatusBitMask": "0x00006000"
-            }
-        }
-    })
-})
-app.get('/mqtt/dev%20info/64', (req, res) => {
-    res.status(200).json({
-        "Device": {
-            "DevId": "11:20:90:13:73:59",
-            "DevName": "MM133.2",
-            "SoftVer.": "1.0.0.a",
-            "BoardRev.": "1.2",
-            "ProtoVer.": "1.2"
-        },
-        "DeviceAttr": {
-            "localTime": createTime(),
-            "LinkRepeat": 30,
-            "Configured": 0,
-            "State": 0,
-            "Registered": 0,
-            "Metrics": {
-                "Battery": 46,
-                "Mode": "NBIoT",
-                "GSM siglevel": -55,
-                "Temperature": 32,
-                "StatusBitMask": "0x00006000"
-            }
-        }
-    })
-})
-app.get('/mqtt/dev%20info/11:20:90:13:73:50', (req, res) => {
-    res.status(200).json({
-        "Device": {
-            "DevId": "11:20:90:13:73:50",
-            "DevName": "MM133.2",
-            "SoftVer.": "1.0.0.a",
-            "BoardRev.": "1.2",
-            "ProtoVer.": "1.2"
-        },
-        "DeviceAttr": {
-            "localTime": createTime(),
-            "LinkRepeat": 30,
-            "Configured": 0,
-            "State": 0,
-            "Registered": 0,
-            "Metrics": {
-                "Battery": 25,
-                "Mode": "NBIoT",
-                "GSM siglevel": -45,
-                "Temperature": 27,
-                "StatusBitMask": "0x00006000"
-            }
-        }
-    })
-})
+
 let state = false
 app.get("/mqtt/state", (req, res) => {
     res.status(200).json({

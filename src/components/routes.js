@@ -5,7 +5,16 @@ import { DevCommands } from "../pages/sourcePages/devCommands";
 import { DevInfo } from "../pages/sourcePages/devInfo";
 import { DevSettings } from "../pages/sourcePages/devSettings";
 import { Sources } from "../pages/sources";
-import { ADVANCED_SETTINGS_ROUTE, DEVCOMMANDS_ROUTE, DEVINFO_ROUTE, DEVSETTINGS_ROUTE, SETTINGS_ROUTE, SOURCES_ROUTE } from "../utils/consts";
+import {
+    ADVANCED_SETTINGS_ROUTE,
+    DEVCOMMANDS_ROUTE,
+    DEVINFO_ROUTE,
+    DEVSETTINGS_ROUTE,
+    SETTINGS_ROUTE,
+    SOURCES_ROUTE,
+    UISETTINGS_ROUTE
+} from "../utils/consts";
+import {UISettings} from "./UISettings";
 
 export const routes = [
     {

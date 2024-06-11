@@ -15,7 +15,7 @@ export const DevCommands = () => {
     const [commandStatus, setCommandStatus] = useState(localStorage.getItem( device.Device.DevId + "commandStatus") ? localStorage.getItem( device.Device.DevId + "commandStatus") : "")
     const [onLoad, setOnLoad] = useState(localStorage.getItem(device.Device.DevId + "onLoad") || false)
     
-    const [registaerState, setRegistaerState] = useState(localStorage.getItem( device.Device.DevId + "registerState") ? JSON.parse(localStorage.getItem( device.Device.DevId + "registerState")) : "")
+    const [registerState, setregisterState] = useState(localStorage.getItem( device.Device.DevId + "registerState") ? JSON.parse(localStorage.getItem( device.Device.DevId + "registerState")) : {})
     const [devState, setDevState] = useState(localStorage.getItem( device.Device.DevId + "devState") ? JSON.parse(localStorage.getItem( device.Device.DevId + "devState")) : {})
     const [period, setPeriod] = useState(localStorage.getItem( device.Device.DevId + "period") ? JSON.parse(localStorage.getItem( device.Device.DevId + "period")) : {})
     const [updateLocation, setUpdateLocation] = useState(localStorage.getItem( device.Device.DevId + "updateLocation") ? JSON.parse(localStorage.getItem( device.Device.DevId + "updateLocation")) : {})
@@ -27,9 +27,9 @@ export const DevCommands = () => {
     const [updateSertificate, setUpdateSertificate] = useState(localStorage.getItem( device.Device.DevId + "updateSertificate") ? JSON.parse(localStorage.getItem( device.Device.DevId + "updateSertificate")) : {});
     const [updateUI, setUpdateUI] = useState(localStorage.getItem( device.Device.DevId + "updateUI") ? JSON.parse(localStorage.getItem( device.Device.DevId + "updateUI")) : {});
 
-    const cmds = [registaerState,devState,period,updateLocation,getLocation,setParams,getParams,onData,reboot,updateSertificate,updateUI]
+    const cmds = [registerState,devState,period,updateLocation,getLocation,setParams,getParams,onData,reboot,updateSertificate,updateUI]
     const setCmds = [
-        (val) => setRegistaerState(val),
+        (val) => setregisterState(val),
         (val) => setDevState(val),
         (val) => setPeriod(val),
         (val) => setUpdateLocation(val),
@@ -122,7 +122,7 @@ export const DevCommands = () => {
     function getCommandStatus(info = "", res = "") {
         switch (command) {
             case "register":
-                setRegistaerState((info || res))
+                setregisterState((info || res))
                 localStorage.setItem( device.Device.DevId + "registerState", JSON.stringify((info || res)))
                 break;
             case "setPeriod":
@@ -169,7 +169,10 @@ export const DevCommands = () => {
 
         if (info) {
             setCommandStatus(true)
+            setOnLoad(true)
+
             localStorage.setItem(device.Device.DevId + "commandStatus", true)
+            localStorage.setItem(device.Device.DevId + "onLoad", true)
         } else {
             if (res.USER_CMD_RESP) {
                 if (info.USER_CMD_RESP.UPD_LOCATION === "CMD_RUN") return
@@ -178,6 +181,9 @@ export const DevCommands = () => {
             }
             setCommandStatus(false)
             localStorage.setItem(device.Device.DevId + "commandStatus", "")
+
+            setOnLoad(false)
+            localStorage.setItem(device.Device.DevId + "onLoad", "")
         }
 
     }
@@ -350,7 +356,7 @@ export const DevCommands = () => {
         </> : (command === "register") ? <>
             <div className={(!onLoad) ? "status" : "status loading-status"}>
                 <h5>Статус исполнения:</h5>
-                <h5>{registaerState.REGISTRATION || registaerState || "no command"}</h5>
+                <h5>{(registerState.REGISTRATION) ? registerState.REGISTRATION : (typeof (registerState) === "string") ? registerState : "no command"}</h5>
             </div>
         </> : (command === "devState") ? <>
             <div className={(!onLoad) ? "status" : "status loading-status"}>

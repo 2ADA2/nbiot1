@@ -5,6 +5,7 @@ import {sortDevs} from "../functions/sortDevs";
 import {errorAnalyze} from "../functions/error";
 
 class Global {
+
     isAuth = false;
     // isAdmin = (localStorage.getItem("isAdmin")) ? JSON.parse(localStorage.getItem("isAdmin")) : null;
     isAdmin = true;
@@ -22,7 +23,6 @@ class Global {
     err = false;
     isLoading = true;
     advSettings = null;
-
 
     constructor() {
         // this.token = ""
@@ -71,9 +71,9 @@ class Global {
     async setConnection() {
         const oldState = this.state
         if (this.state) {
-            this.state = "разрыв соединения..."
+            this.state = 3
         } else {
-            this.state = "установка соединения...";
+            this.state = 4;
         }
         fetch(this.way + "/set state", {
             method: "POST", body: JSON.stringify({

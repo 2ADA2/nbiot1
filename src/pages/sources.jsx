@@ -3,9 +3,10 @@ import {CreateRows} from "../functions/createRows"
 import "../styles/pages/sources.css"
 import global from "../store/global"
 import {observer} from "mobx-react-lite"
-import { useState } from "react"
-import { CheckBox } from "../components/checkbox"
+import {useState} from "react"
+import {CheckBox} from "../components/checkbox"
 import CreateListRows from "../functions/createListRows"
+import {FormattedMessage} from "react-intl/lib";
 
 export const Sources = observer(() => {
 
@@ -18,43 +19,55 @@ export const Sources = observer(() => {
 
     return (
         //страница с источниками: таблица, установка соединения по mqtt
-        <Page header="Устройства"  header2="Список устройств" elem={
+        <Page header={<FormattedMessage id={"devs.header"}/>} header2={<FormattedMessage id={"devs.header2"}/>} elem={
 
             <div className="table-container">
                 {/* установка соединения по mqtt */}
                 <form>
-                    <h3>Статус подключения</h3>
+                    <h3><FormattedMessage id={"devs.section1"}/></h3>
                     <section className="state">
-                        <h5>Подключение:</h5>
-                        <h6>{(typeof (global.state) === "string") ? global.state : (global.state) ? "установлено" : "не установлено"}</h6>
+                        <h5><FormattedMessage id={"devs.connect"}/></h5>
+                        <h6>{
+                            (global.state === 3) ?
+                                <FormattedMessage id={"devs.connect.status3"}/> :
+                                (global.state === 4) ? <FormattedMessage id={"devs.connect.status4"}/> :
+                                    (global.state) ? <FormattedMessage id={"devs.connect.status1"}/>
+                                        : <FormattedMessage id={"devs.connect.status2"}/>
+                        }
+                        </h6>
                     </section>
                     {(typeof (global.state) === "boolean") ?
-                        <button onClick={(e) => updateState(e)}>{global.state ? "разорвать" : "установить"}</button> :
-                        <button onClick={(e) => e.preventDefault()} className="activated-button">{"подождите..."}</button>
+                        <button onClick={(e) => updateState(e)}>
+                            {global.state ? <FormattedMessage id={"devs.button.status1"}/> :
+                                <FormattedMessage id={"devs.button.status2"}/>}
+                        </button> :
+                        <button onClick={(e) => e.preventDefault()} className="activated-button">
+                            {<FormattedMessage id={"devs.button.status3"}/>}
+                        </button>
                     }
 
                 </form>
 
                 {/* список источников, краткий обзор */}
-                <h3>Список всех устройств</h3>
+                <h3><FormattedMessage id={"devs.section2"}/></h3>
 
-                <div style={{flexDirection:"row", gap:"20px", marginBottom:20, alignItems:"center"}}>
-                    Подробно
+                <div style={{flexDirection: "row", gap: "20px", marginBottom: 20, alignItems: "center"}}>
+                    <FormattedMessage id={"devs.more"}/>
                     <CheckBox checked={info} setValue={() => {
-                        localStorage.setItem("moreSourceInfo", info?"":true)
+                        localStorage.setItem("moreSourceInfo", info ? "" : true)
                         setInfo(!info)
                     }}/>
-                    Список
+                    <FormattedMessage id={"devs.list"}/>
                 </div>
-                
-                <table style={{display:info?"none":"table"}}>
+
+                <table style={{display: info ? "none" : "table"}}>
                     <thead>
                     <tr>
-                        <th>ID устройства</th>
-                        <th>Время</th>
-                        <th>уровень сигнала GSM</th>
-                        <th>Заряд</th>
-                        <th>Температура</th>
+                        <th><FormattedMessage id={"devs.id"}/></th>
+                        <th><FormattedMessage id={"devs.time"}/></th>
+                        <th><FormattedMessage id={"devs.signal"}/></th>
+                        <th><FormattedMessage id={"devs.battery"}/></th>
+                        <th><FormattedMessage id={"devs.temperature"}/></th>
                     </tr>
                     </thead>
 
@@ -63,13 +76,13 @@ export const Sources = observer(() => {
                     <CreateRows/>
                     </tbody>
                 </table>
-                <table style={{display:info?"table":"none"}}>
+                <table style={{display: info ? "table" : "none"}}>
                     <thead>
                     <tr>
-                        <th>ID устройства</th>
-                        <th>ID устройства</th>
-                        <th>ID устройства</th>
-                        <th>ID устройства</th>
+                        <th><FormattedMessage id={"devs.id"}/></th>
+                        <th><FormattedMessage id={"devs.id"}/></th>
+                        <th><FormattedMessage id={"devs.id"}/></th>
+                        <th><FormattedMessage id={"devs.id"}/></th>
                     </tr>
                     </thead>
 

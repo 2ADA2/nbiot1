@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom"
+import {Link} from "react-router-dom"
 import "../styles/layout/sourcesLinks.css"
-import { observer } from "mobx-react-lite"
+import {observer} from "mobx-react-lite"
 import global from "../store/global"
-import { DEVCOMMANDS_ROUTE, DEVINFO_ROUTE, DEVSETTINGS_ROUTE } from "../utils/consts"
-import { useDevice } from "../hooks/useDevice"
+import {DEVCOMMANDS_ROUTE, DEVINFO_ROUTE, DEVSETTINGS_ROUTE} from "../utils/consts"
+import {useDevice} from "../hooks/useDevice"
+import {FormattedMessage} from "react-intl/lib";
 
 
 export const SoucesLinks = observer(({display = "none"}) => {
@@ -11,21 +12,21 @@ export const SoucesLinks = observer(({display = "none"}) => {
     const MAC = useDevice().Device.DevId
 
     return (
-        <nav className = "nav-links" style={{display:display}}>
-            <Link 
-                to = {"/devInfo/" + MAC} 
+        <nav className="nav-links" style={{display: display}}>
+            <Link
+                to={DEVINFO_ROUTE  + "/" + MAC}
                 className={(location.includes(DEVINFO_ROUTE) ? "active" : "")}>
-                    Информация
+                <FormattedMessage id = "panel.devInfo"/>
             </Link>
-            <Link 
-                to={"/devSettings/" + MAC} 
+            <Link
+                to={DEVSETTINGS_ROUTE + "/" + MAC}
                 className={(location.includes(DEVSETTINGS_ROUTE) ? "active" : "")}>
-                    Настройки
+                <FormattedMessage id = "panel.devSettings"/>
             </Link>
-            <Link 
-                to={"/devCommands/" + MAC} 
+            <Link
+                to={DEVCOMMANDS_ROUTE + "/" + MAC}
                 className={(location.includes(DEVCOMMANDS_ROUTE) ? "active" : "")}>
-                    Команды
+                <FormattedMessage id = "panel.devCommands"/>
             </Link>
         </nav>
     )
