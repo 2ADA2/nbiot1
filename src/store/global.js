@@ -10,7 +10,6 @@ class Global {
     // isAdmin = (localStorage.getItem("isAdmin")) ? JSON.parse(localStorage.getItem("isAdmin")) : null;
     isAdmin = true;
     way = http.http;
-    location = window.location.href;
 
     user = localStorage.getItem("userName")
     password = localStorage.getItem("password")

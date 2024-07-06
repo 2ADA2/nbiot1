@@ -1,8 +1,8 @@
 import {useState, useEffect} from "react"
-import {Link, Outlet} from "react-router-dom";
+import {Link, Outlet, useNavigate} from "react-router-dom";
 import "../styles/layout/panel.css"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faCog, faGears, faServer, faSliders} from "@fortawesome/free-solid-svg-icons";
+import {faCog, faGears, faLaptopHouse, faServer, faSliders} from "@fortawesome/free-solid-svg-icons";
 import {SoucesLinks} from "./sourcesLinks";
 import Global from "../store/global";
 import {observer} from "mobx-react-lite";
@@ -10,7 +10,7 @@ import {
     ADVANCED_SETTINGS_ROUTE,
     DEVCOMMANDS_ROUTE,
     DEVINFO_ROUTE,
-    DEVSETTINGS_ROUTE,
+    DEVSETTINGS_ROUTE, HOME_ROUTE,
     SETTINGS_ROUTE,
     SOURCES_ROUTE,
     UISETTINGS_ROUTE
@@ -21,13 +21,10 @@ import {UISettings} from "../components/UISettings";
 import {FormattedMessage} from "react-intl/lib";
 
 
-
 export const Panel = observer(() => {
-        const page = Global.location
+        const page = useLocation().pathname
         const location = useLocation()
         const [modal, setModal] = useState(false);
-
-
 
         function updateLocation() {
             Global.setLocation()
@@ -46,6 +43,12 @@ export const Panel = observer(() => {
             <>
                 <aside className="panel" onClick={() => updateLocation()}>
                     <nav className="panel-nav">
+                        <Link to={HOME_ROUTE} className={page === "/" ? "opened" : ""} onClick={() => {
+                            updateLocation(false)
+                        }}>
+                            <FontAwesomeIcon icon={faLaptopHouse}/>
+                            <FormattedMessage id="panel.home"/>
+                        </Link>
 
                         <Link to={SOURCES_ROUTE} className={isInSources ? "opened" : ""} onClick={() => {
                             updateLocation(false)

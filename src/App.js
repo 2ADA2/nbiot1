@@ -12,13 +12,6 @@ import settings from "./store/settings";
 
 const App = observer(() => {
 
-    useEffect(() => {
-        window.addEventListener("popstate", () => {
-            setTimeout(() => global.setLocation(),10)
-        })
-        global.setLocation()
-    }, [])
-
     if (global.err) return <ErrorPage toBack={false} err={global.err}/>
 
     if (!global.isAuth) {

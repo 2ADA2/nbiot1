@@ -1,3 +1,4 @@
+export const HOME_ROUTE = "/"
 export const SOURCES_ROUTE = "/sources"
 export const SETTINGS_ROUTE = "/settings"
 export const DEVINFO_ROUTE = "/devInfo"

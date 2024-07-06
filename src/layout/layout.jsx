@@ -30,7 +30,7 @@ export const Layout = observer(() => {
     return(
         <IntlProvider locale={navigator.language} messages={messages[settings.lang]}>
             <header>
-                <h1>NB-IoT collector</h1>
+                <h1>NB-IoT collector / SH-219</h1>
             </header>
             <Panel/>
             <main>

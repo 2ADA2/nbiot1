@@ -2,12 +2,15 @@ body .dark .container{
     background: rgb(44,44,59);
     color: white;
 }
-
+body .dark .home{
+    background: rgb(44,44,59);
+    color: white;
+}
 .dark h1,
 .dark h2,
 .dark .page h3,
 .dark h3,
-dark h4,
+.dark h4,
 .dark h5,
 .dark .connedtion-details h5,
 .dark h6,
@@ -22,13 +25,17 @@ dark h4,
 }
 .dark .MuiButtonBase-root{
     background-color: rgba(255, 255, 255, 0);
+    transition-duration: 300ms;
 }
+
 .dark button{
     border-color: rgb(76, 76, 107);
     background: rgb(65, 65, 91);
+    transition-duration: 300ms;
 }
 .dark button:hover{
     background: rgb(79, 79, 112);
+    transition-duration: 300ms;
 }
 
 .dark .page h1{
@@ -37,6 +44,7 @@ dark h4,
 }
 .dark .UI-settings-page-back{
     background: rgba(0, 0, 0, 0.53);
+    transition-duration: 300ms;
 }
 
 .dark .panel-header button{
@@ -53,28 +61,35 @@ dark h4,
 
 .dark .container .page h2{
     background: rgb(29,29,38);
+    transition-duration: 300ms;
     color: white;
 }
 
 .dark .UI-settings-page{
     background: rgb(29,29,38);
+    transition-duration: 300ms;
     color: white;
 }
 .dark .container .page .section{
     background: rgb(29,29,38);
+    transition-duration: 300ms;
 }
 .dark .container .page textarea {
     background: rgb(29,29,38);
+    transition-duration: 300ms;
 }
 .dark .container .page input {
     background: rgb(29,29,38);
+    transition-duration: 300ms;
 }
 .dark .container .page select,.dark select {
     background: rgb(29,29,38);
+    transition-duration: 300ms;
 }
 
 .dark header, .dark .panel{
     background: rgb(34, 34, 45);
+    transition-duration: 300ms;
 }
 .dark .opened{
     border-color: rgb(123, 123, 201);
@@ -121,4 +136,5 @@ dark h4,
 
 .dark .switch-slider::before{
     background: rgb(44,44,59);
+    transition-duration: 300ms;
 }

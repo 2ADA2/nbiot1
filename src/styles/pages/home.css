@@ -1,17 +1,38 @@
-.home{
-    height: 100%;
-    width: 100%;
-    display: flex;
-    align-items:center;
-    justify-content: center;
-    min-width: 300px;
-    padding: 40px;
-    
+.sh-219 .console{
+    position: relative;
+    display: grid;
+    grid-template-columns:auto 200px;
+    grid-template-rows: auto 50px;
+    grid-gap: 0;
 }
-.home h1{
-    color:rgb(194, 194, 194);
-    font-size: 11vw;
-    width: 50vw;
-    text-align: center;
-    user-select: none;
+.sh-219 .console .clear-measure{
+    position: absolute;
+    right:2px;
+    top:2px;
+    margin:0;
+    width: 60px;
+    height: 30px;
+    font-size: 14px;
+}
+.sh-219 .console textarea{
+    display: flex;
+    align-items: end;
+    grid-column: 1/3;
+}
+
+.sh-219 .console input,
+.sh-219 .console button:last-child{
+    position: relative;
+    bottom: 2px;
+    grid-row: 2/3;
+    margin: 0;
+    grid-column: 1/2;
+}
+.sh-219 .console input{
+    width: 100%;
+    max-width: none;
+}
+.sh-219 .console button:last-child{
+    grid-column: 2/3;
+    height: 50px;
 }

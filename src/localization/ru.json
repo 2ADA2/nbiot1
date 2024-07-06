@@ -1,4 +1,5 @@
 {
+  "panel.home": "Главная",
   "panel.devs": "Устройства",
   "panel.settings": "Настройки",
   "panel.advSettings": "Расширенные",
@@ -8,6 +9,14 @@
   "panel.devCommands": "Команды",
 
 
+
+  "home.header" : "ШС-219",
+  "home.header2" : "Панель управления",
+
+  "home.panel.home" : "Главная",
+  "home.panel.info" : "Информация",
+
+  "home.console" : "Консоль",
 
 
 

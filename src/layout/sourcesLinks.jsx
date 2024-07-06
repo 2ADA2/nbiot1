@@ -1,14 +1,14 @@
 import {Link} from "react-router-dom"
 import "../styles/layout/sourcesLinks.css"
 import {observer} from "mobx-react-lite"
-import global from "../store/global"
 import {DEVCOMMANDS_ROUTE, DEVINFO_ROUTE, DEVSETTINGS_ROUTE} from "../utils/consts"
 import {useDevice} from "../hooks/useDevice"
 import {FormattedMessage} from "react-intl/lib";
+import {useLocation} from "react-router";
 
 
 export const SoucesLinks = observer(({display = "none"}) => {
-    const location = global.location;
+    const location = useLocation().pathname
     const MAC = useDevice().Device.DevId
 
     return (
