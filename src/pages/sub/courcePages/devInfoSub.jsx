@@ -1,17 +1,17 @@
-import {Page} from "../../components/page"
+import {Page} from "../../../components/page"
 import {useEffect, useState} from "react";
-import "../../styles/pages/sourcePages/devInfo.css"
-import {CheckBox} from "../../components/checkbox";
-import {Counter} from "../../components/counter";
-import {useDevice} from "../../hooks/useDevice";
-import global from "../../store/global";
+import "../../../styles/pages/sourcePages/devInfo.css"
+import {CheckBox} from "../../../components/checkbox";
+import {Counter} from "../../../components/counter";
+import {useDevice} from "../../../hooks/useDevice";
+import global from "../../../store/global";
 import {observer} from "mobx-react-lite";
-import {setDBSettings} from "../../functions/requests";
-import {getErrors} from "../../functions/statusBitMask";
-import {getDeviceState} from "../../functions/deviceState";
+import {setDBSettings} from "../../../functions/requests";
+import {getErrors} from "../../../functions/statusBitMask";
+import {getDeviceState} from "../../../functions/deviceState";
 import {FormattedMessage} from "react-intl/lib";
 
-export const DevInfo = observer(() => {
+export const DevInfoSub = observer(() => {
     const device = useDevice(global.devices)
     const [inDB, setInDB] = useState(device.inDB);
     const [DBNum, setDBNum] = useState(Number(localStorage.getItem(device.Device.DevId + "DBNum")) || 133000);

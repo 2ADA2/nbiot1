@@ -5,6 +5,7 @@ import {DEVCOMMANDS_ROUTE, DEVINFO_ROUTE, DEVSETTINGS_ROUTE} from "../utils/cons
 import {useDevice} from "../hooks/useDevice"
 import {FormattedMessage} from "react-intl/lib";
 import {useLocation} from "react-router";
+import global from "../store/global";
 
 
 export const SoucesLinks = observer(({display = "none"}) => {
@@ -18,11 +19,16 @@ export const SoucesLinks = observer(({display = "none"}) => {
                 className={(location.includes(DEVINFO_ROUTE) ? "active" : "")}>
                 <FormattedMessage id = "panel.devInfo"/>
             </Link>
-            <Link
-                to={DEVSETTINGS_ROUTE + "/" + MAC}
-                className={(location.includes(DEVSETTINGS_ROUTE) ? "active" : "")}>
-                <FormattedMessage id = "panel.devSettings"/>
-            </Link>
+            {
+                (global.progType === "mqtt") ?
+                <Link
+                    to={DEVSETTINGS_ROUTE + "/" + MAC}
+                    className={(location.includes(DEVSETTINGS_ROUTE) ? "active" : "")}>
+                    <FormattedMessage id = "panel.devSettings"/>
+                </Link>
+                : <></>
+            }
+
             <Link
                 to={DEVCOMMANDS_ROUTE + "/" + MAC}
                 className={(location.includes(DEVCOMMANDS_ROUTE) ? "active" : "")}>

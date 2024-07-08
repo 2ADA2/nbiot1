@@ -1,12 +1,14 @@
 export const HOME_ROUTE = "/"
+export const ADVANCED_SETTINGS_ROUTE = "/advacncedSettings"
+
 export const SOURCES_ROUTE = "/sources"
 export const SETTINGS_ROUTE = "/settings"
 export const DEVINFO_ROUTE = "/devInfo"
-export const DEVSETTINGS_ROUTE = "/devSettings"
+export const DEVSETTINGS_ROUTE = "/devSettingsSub.jsx"
 export const DEVCOMMANDS_ROUTE = "/devCommands"
-export const ADVANCED_SETTINGS_ROUTE = "/advacncedSettings"
 export const AUTHORIZATION_ROUTE = "/authorization"
-export const UISETTINGS_ROUTE = "/uiSettings"
+
+
 
 export const EMPTY = {
     "empty": true,

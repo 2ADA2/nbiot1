@@ -1,13 +1,13 @@
 import {useEffect, useState} from "react"
-import {Page} from "../../components/page"
-import global from "../../store/global";
-import "../../styles/pages/sourcePages/devCommands.css"
-import {Counter} from "../../components/counter";
-import {CheckBox} from "../../components/checkbox";
-import {useDevice} from "../../hooks/useDevice";
-import {sendCommand} from "../../functions/requests";
+import {Page} from "../../../components/page"
+import global from "../../../store/global";
+import "../../../styles/pages/sourcePages/devCommands.css"
+import {Counter} from "../../../components/counter";
+import {CheckBox} from "../../../components/checkbox";
+import {useDevice} from "../../../hooks/useDevice";
+import {sendCommand} from "../../../functions/requests";
 import axios from "axios";
-import {errorAnalyze} from "../../functions/error";
+import {errorAnalyze} from "../../../functions/error";
 import {FormattedMessage} from "react-intl/lib";
 
 export const DevCommands = () => {
@@ -100,6 +100,8 @@ export const DevCommands = () => {
 
         return () => {
             clearInterval(interval)
+            setOnLoad(false)
+            localStorage.setItem(device.Device.DevId + "onLoad", false)
         }
     }, [commandStatus]);
 
@@ -256,8 +258,8 @@ export const DevCommands = () => {
                     {/*getParams.GET_SENS_ATTR*/}
                 </section>
                 {(command === "getParams") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5><FormattedMessage id="commands.status"/></h5>{(getParams.GET_SENS_ATTR && !commandStatus) ? <section>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(getParams.GET_SENS_ATTR && !commandStatus) ? <section>
                         <h5 style={{fontSize: "30px"}}>{getParams.GET_SENS_ATTR} </h5>
                         <h3>Info</h3>
                         <div>
@@ -271,8 +273,8 @@ export const DevCommands = () => {
                     </section> : <h5>{(typeof (getParams) === "string") ? getParams : "no command"}</h5>}
                     </div>
                 </> : (command === "setParams") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5></h5>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/></h5>
                         <h5>{(getParams.GET_SENS_ATTR) ? getParams.GET_SENS_ATTR : (typeof (getParams) === "string") ? getParams : "no command"}</h5>
                     </div>
                     <section className="command-settings">
@@ -301,8 +303,8 @@ export const DevCommands = () => {
                         </div>
                     </section>
                 </> : (command === "setPeriod") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5><FormattedMessage id="commands.status"/></h5>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>
                         <h5>{(period.LINKSCHEDULE) ? period.LINKSCHEDULE : (typeof (period) === "string") ? period : "no command"}</h5>
                     </div>
                     <section className="command-settings">
@@ -332,8 +334,8 @@ export const DevCommands = () => {
                         </div>
                     </section>
                 </> : (command === "updateLocation") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5><FormattedMessage id="commands.status"/></h5>{(updateLocation.GET_LOCATION && !commandStatus) ? <section>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(updateLocation.GET_LOCATION && !commandStatus) ? <section>
                         <h5 style={{fontSize: "30px"}}>{updateLocation.GET_LOCATION} </h5>
                         <div>
                             <h5>COORD: </h5>
@@ -360,13 +362,13 @@ export const DevCommands = () => {
                         </div>
                     </section>
                 </> : (command === "register") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5><FormattedMessage id="commands.status"/></h5>
-                        <h5>{(registerState.REGISTRATION) ? registerState.REGISTRATION : (typeof (registerState) === "string") ? registerState : "no command"}</h5>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>
+                        <h5>{(typeof (registerState) === "string" && registerState) ? registerState : "no command" }</h5>
                     </div>
                 </> : (command === "devState") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5><FormattedMessage id="commands.status"/></h5>{(devState.GET_EXT_INFO && !commandStatus) ? <section>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(devState.GET_EXT_INFO && !commandStatus) ? <section>
                         <h5 style={{fontSize: "30px"}}>{devState.GET_EXT_INFO}</h5>
                         <h3>Info</h3>
                         <div>
@@ -388,8 +390,8 @@ export const DevCommands = () => {
                     </section> : <h5>{(typeof (devState) === "string") ? devState : "no command"}</h5>}
                     </div>
                 </> : (command === "getLocation") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5><FormattedMessage id="commands.status"/></h5>{(getLocation.GET_LOCATION && !commandStatus) ? <section>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(getLocation.GET_LOCATION && !commandStatus) ? <section>
                             <h5 style={{fontSize: "30px"}}>{getLocation.GET_LOCATION} </h5>
                             <div>
                                 <h5>COORD: </h5>
@@ -399,23 +401,23 @@ export const DevCommands = () => {
                         <h5>{(typeof (getLocation) === "string") ? getLocation : "no command"}</h5>}
                     </div>
                 </> : (command === "onData") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5><FormattedMessage id="commands.status"/></h5>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>
                         <h5>{(onData.DEBUG_ON) ? onData.DEBUG_ON : (typeof (onData) === "string") ? onData : "no command"}</h5>
                     </div>
                 </> : (command === "reboot") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5><FormattedMessage id="commands.status"/></h5>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>
                         <h5>{(reboot.DEV_REBOOT) ? reboot.DEV_REBOOT : (typeof (reboot) === "string") ? reboot : "no command"}</h5>
                     </div>
                 </> : (command === "updateSertificate") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5><FormattedMessage id="commands.status"/></h5>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>
                         <h5>{(updateSertificate.FTP_СERT_UPD) ? updateSertificate.FTP_СERT_UPD : (typeof (updateSertificate) === "string") ? updateSertificate : "no command"}</h5>
                     </div>
                 </> : (command === "updateUI") ? <>
-                    <div className={(!onLoad) ? "status" : "status loading-status"}>
-                        <h5><FormattedMessage id="commands.status"/></h5>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>
                         <h5>{(updateUI.FTP_FW_UPD) ? updateUI.FTP_FW_UPD : (typeof (updateUI) === "string") ? updateUI : "no command"}</h5>
                     </div>
                     <section className="command-settings">
@@ -437,7 +439,8 @@ export const DevCommands = () => {
                         cmd(e)
                     }}
                             className={commandStatus ? "activated-button" : ""}
-                    >Отправить
+                    >
+                        <FormattedMessage id = "commands.buttons.submit"/>
                     </button>
                     <button
                         onClick={(e) => {
@@ -445,7 +448,8 @@ export const DevCommands = () => {
                             setCommandStatus("")
                             localStorage.setItem(device.Device.DevId + "commandStatus", "")
                         }}
-                        style={{display: commandStatus ? "block" : "none"}}>Отменить
+                        style={{display: commandStatus ? "block" : "none"}}>
+                        <FormattedMessage id = "commands.buttons.cancel.text"/>
                     </button>
                 </div>
             </form>}/>

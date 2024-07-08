@@ -1,11 +1,11 @@
-import {Page} from "../components/page"
-import "../styles/pages/settings.css";
-import {CheckBox} from "../components/checkbox";
+import {Page} from "../../components/page"
+import "../../styles/pages/settings.css";
+import {CheckBox} from "../../components/checkbox";
 import {useState} from "react";
-import {Counter} from "../components/counter";
-import global from "../store/global";
+import {Counter} from "../../components/counter";
+import global from "../../store/global";
 import {observer} from "mobx-react-lite";
-import {setSettings} from "../functions/requests";
+import {setSettings} from "../../functions/requests";
 import {FormattedMessage} from "react-intl/lib";
 
 

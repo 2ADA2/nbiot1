@@ -1,20 +1,20 @@
-import {CheckBox} from "../../components/checkbox";
-import {Counter} from "../../components/counter";
-import {Page} from "../../components/page"
-import global from "../../store/global";
+import {CheckBox} from "../../../components/checkbox";
+import {Counter} from "../../../components/counter";
+import {Page} from "../../../components/page"
+import global from "../../../store/global";
 import {useEffect, useState} from "react"
-import "../../styles/pages/sourcePages/devSettings.css"
-import {InputDate} from "../../components/inputDate";
-import {useDevice} from "../../hooks/useDevice";
+import "../../../styles/pages/sourcePages/devSettings.css"
+import {InputDate} from "../../../components/inputDate";
+import {useDevice} from "../../../hooks/useDevice";
 import {observer} from "mobx-react-lite";
-import {clear, setUTC, startMeasure, startMeasureImit} from "../../functions/requests";
+import {clear, setUTC, startMeasure, startMeasureImit} from "../../../functions/requests";
 import axios from "axios";
-import {convertTime} from "../../functions/convrtTime";
-import {errorAnalyze} from "../../functions/error";
-import {createList} from "../../functions/createList";
+import {convertTime} from "../../../functions/convrtTime";
+import {errorAnalyze} from "../../../functions/error";
+import {createList} from "../../../functions/createList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { measureStates } from "../../utils/measureStatus";
+import {MeasureStates, measureStates} from "../../../utils/measureStatus";
 import {FormattedMessage, useIntl} from "react-intl/lib";
 
 export const DevSettings = observer(() => {
@@ -392,7 +392,7 @@ export const DevSettings = observer(() => {
                         className="meas-started" 
                         style={{top:-20, position:"absolute", display: (started["meas add status"] === 0 || (started["meas add status"] && started["meas add status"] !== 'connect')) ? "block" : "none"}}
                     >
-                        {measureStates [started["meas add status"]]}
+                        <MeasureStates num = {started["meas add status"]}/>
                     </div>
 
                     <div 

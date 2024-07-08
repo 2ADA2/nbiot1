@@ -1,14 +1,14 @@
-import {Page} from "../components/page"
-import {CreateRows} from "../functions/createRows"
-import "../styles/pages/sources.css"
-import global from "../store/global"
+import {Page} from "../../components/page"
+import {CreateRows} from "../../functions/createRows"
+import "../../styles/pages/sources.css"
+import global from "../../store/global"
 import {observer} from "mobx-react-lite"
 import {useState} from "react"
-import {CheckBox} from "../components/checkbox"
-import CreateListRows from "../functions/createListRows"
+import {CheckBox} from "../../components/checkbox"
+import CreateListRows from "../../functions/createListRows"
 import {FormattedMessage} from "react-intl/lib";
 
-export const Sources = observer(() => {
+export const DevList = observer(() => {
 
     const [info, setInfo] = useState(localStorage.getItem("moreSourceInfo"))
 

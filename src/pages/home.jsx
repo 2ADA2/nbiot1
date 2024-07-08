@@ -4,8 +4,11 @@ import {FormattedMessage} from "react-intl/lib";
 import {useRef, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import global from "../store/global";
+import {CheckBox} from "../components/checkbox";
+import {observer} from "mobx-react-lite";
 
-export const Home = () => {
+export const Home = observer(() => {
     const [page, setPage] = useState(0);
     const [consoleVal, setConsoleVal] = useState(localStorage.getItem("consoleVal") || "");
     const [inputVal, setInputVal] = useState("");
@@ -76,7 +79,25 @@ export const Home = () => {
                             </section>
                             :
                             <section>
+                                <div style = {{flexDirection:"row", gap:100}}>
+                                    <h5>Программа:</h5>
+                                    <h5 style = {{textAlign:"start"}}>{global.progType}</h5>
+                                </div>
+                                <div style = {{flexDirection:"row", gap:100}}>
+                                    <h5>
+                                        (временно) сменить программу:
+                                    </h5>
+                                    <h5 style={{display:"flex", gap:40, height:50, alignItems:"center", textAlign:"start"}}>
+                                        <span>
+                                            mqtt
+                                        </span>
 
+                                        <CheckBox checked={global.progType === "sub"} setValue={() => global.setType()}/>
+                                        <span>
+                                            sub
+                                        </span>
+                                    </h5>
+                                </div>
                             </section>
                         }
                     </div>
@@ -84,4 +105,4 @@ export const Home = () => {
             }
         />
     )
-}
+})

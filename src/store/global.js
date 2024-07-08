@@ -10,6 +10,7 @@ class Global {
     // isAdmin = (localStorage.getItem("isAdmin")) ? JSON.parse(localStorage.getItem("isAdmin")) : null;
     isAdmin = true;
     way = http.http;
+    progType = localStorage.getItem("progType") || "mqtt";
 
     user = localStorage.getItem("userName")
     password = localStorage.getItem("password")
@@ -30,6 +31,17 @@ class Global {
         if (this.token) {
             this.isAuth = true;
             this.updateAll()
+        }
+    }
+
+    setType(){
+        if(this.progType === "mqtt") {
+            this.progType = "sub"
+            localStorage.setItem("progType", this.progType);
+        }
+        else {
+            this.progType = "mqtt"
+            localStorage.setItem("progType", this.progType);
         }
     }
 

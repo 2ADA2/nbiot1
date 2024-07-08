@@ -58,12 +58,17 @@ export const Panel = observer(() => {
                         </Link>
                         <SoucesLinks display={(page.includes("/dev")) ? "block" : "none"}/>
 
-                        <Link to={SETTINGS_ROUTE} className={page.includes(SETTINGS_ROUTE) ? "opened" : ""} onClick={() => {
-                            updateLocation()
-                        }}>
-                            <FontAwesomeIcon icon={faCog}/>
-                            <FormattedMessage id="panel.settings"/>
-                        </Link>
+                        {
+                            (global.progType === "mqtt") ?
+                            <Link to={SETTINGS_ROUTE} className={page.includes(SETTINGS_ROUTE) ? "opened" : ""} onClick={() => {
+                                updateLocation()
+                            }}>
+                                <FontAwesomeIcon icon={faCog}/>
+                                <FormattedMessage id="panel.settings"/>
+                            </Link>
+                                : <></>
+                        }
+
 
                         {global.isAdmin ?
                             <Link to={ADVANCED_SETTINGS_ROUTE}

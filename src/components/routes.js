@@ -1,20 +1,21 @@
 import {AdvancedSettings} from "../pages/advancedSettings";
 import { Home } from "../pages/home";
-import { Settings } from "../pages/settings";
-import { DevCommands } from "../pages/sourcePages/devCommands";
-import { DevInfo } from "../pages/sourcePages/devInfo";
-import { DevSettings } from "../pages/sourcePages/devSettings";
-import { Sources } from "../pages/sources";
+import { Settings } from "../pages/mqtt/settings";
+import { DevCommands } from "../pages/mqtt/sourcePages/devCommands";
+import { DevInfo } from "../pages/mqtt/sourcePages/devInfo";
+import { DevSettings } from "../pages/mqtt/sourcePages/devSettings";
+import { Sources } from "../pages/mqtt/sources";
 import {
     ADVANCED_SETTINGS_ROUTE,
     DEVCOMMANDS_ROUTE,
-    DEVINFO_ROUTE,
+    DEVINFO_ROUTE, DEVLIST_ROUTE,
     DEVSETTINGS_ROUTE,
     SETTINGS_ROUTE,
     SOURCES_ROUTE,
-    UISETTINGS_ROUTE
 } from "../utils/consts";
-import {UISettings} from "./UISettings";
+import {DevList} from "../pages/sub/devList";
+import {DevInfoSub} from "../pages/sub/courcePages/devInfoSub";
+import {DevCommandsSub} from "../pages/sub/courcePages/devCommandsSub";
 
 export const routes = [
     {
@@ -41,6 +42,29 @@ export const routes = [
         Element: Home
     }
 ]
+
+export const subRoutes = [
+    {
+        path:"/",
+        Element: Home
+    },
+    {
+        path: SOURCES_ROUTE,
+        Element: DevList
+    },
+    {
+        path:"/devInfo/:id",
+        Element: Home
+    },    {
+        path: DEVINFO_ROUTE + "/:id",
+        Element: DevInfoSub
+    },
+    {
+        path: DEVCOMMANDS_ROUTE + "/:id",
+        Element: DevCommandsSub
+    }
+]
+
 export const adminRoutes = [
      {
         path: ADVANCED_SETTINGS_ROUTE,
