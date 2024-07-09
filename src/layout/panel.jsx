@@ -12,8 +12,7 @@ import {
     DEVINFO_ROUTE,
     DEVSETTINGS_ROUTE, HOME_ROUTE,
     SETTINGS_ROUTE,
-    SOURCES_ROUTE,
-    UISETTINGS_ROUTE
+    SOURCES_ROUTE
 } from "../utils/consts";
 import global from "../store/global";
 import {useLocation} from "react-router";
@@ -58,16 +57,17 @@ export const Panel = observer(() => {
                         </Link>
                         <SoucesLinks display={(page.includes("/dev")) ? "block" : "none"}/>
 
-                        {
-                            (global.progType === "mqtt") ?
-                            <Link to={SETTINGS_ROUTE} className={page.includes(SETTINGS_ROUTE) ? "opened" : ""} onClick={() => {
-                                updateLocation()
-                            }}>
-                                <FontAwesomeIcon icon={faCog}/>
-                                <FormattedMessage id="panel.settings"/>
-                            </Link>
-                                : <></>
-                        }
+                        <Link to={SETTINGS_ROUTE} className={page.includes(SETTINGS_ROUTE) ? "opened" : ""} onClick={() => {
+                            updateLocation()
+                        }}>
+                            <FontAwesomeIcon icon={faCog}/>
+
+                            <FormattedMessage id="panel.settings"/>
+                            {(global.progType === "mqtt") ?
+                                <> mqtt</> : <> sub</>
+                            }
+
+                        </Link>
 
 
                         {global.isAdmin ?

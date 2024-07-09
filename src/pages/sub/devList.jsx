@@ -23,30 +23,6 @@ export const DevList = observer(() => {
 
             <div className="table-container">
                 {/* установка соединения по mqtt */}
-                <form>
-                    <h3><FormattedMessage id={"devs.section1"}/></h3>
-                    <section className="state">
-                        <h5><FormattedMessage id={"devs.connect"}/></h5>
-                        <h6>{
-                            (global.state === 3) ?
-                                <FormattedMessage id={"devs.connect.status3"}/> :
-                                (global.state === 4) ? <FormattedMessage id={"devs.connect.status4"}/> :
-                                    (global.state) ? <FormattedMessage id={"devs.connect.status1"}/>
-                                        : <FormattedMessage id={"devs.connect.status2"}/>
-                        }
-                        </h6>
-                    </section>
-                    {(typeof (global.state) === "boolean") ?
-                        <button onClick={(e) => updateState(e)}>
-                            {global.state ? <FormattedMessage id={"devs.button.status1"}/> :
-                                <FormattedMessage id={"devs.button.status2"}/>}
-                        </button> :
-                        <button onClick={(e) => e.preventDefault()} className="activated-button">
-                            {<FormattedMessage id={"devs.button.status3"}/>}
-                        </button>
-                    }
-
-                </form>
 
                 {/* список источников, краткий обзор */}
                 <h3><FormattedMessage id={"devs.section2"}/></h3>

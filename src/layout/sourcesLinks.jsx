@@ -15,24 +15,21 @@ export const SoucesLinks = observer(({display = "none"}) => {
     return (
         <nav className="nav-links" style={{display: display}}>
             <Link
-                to={DEVINFO_ROUTE  + "/" + MAC}
+                to={DEVINFO_ROUTE + "/" + MAC}
                 className={(location.includes(DEVINFO_ROUTE) ? "active" : "")}>
-                <FormattedMessage id = "panel.devInfo"/>
+                <FormattedMessage id="panel.devInfo"/>
             </Link>
-            {
-                (global.progType === "mqtt") ?
-                <Link
-                    to={DEVSETTINGS_ROUTE + "/" + MAC}
-                    className={(location.includes(DEVSETTINGS_ROUTE) ? "active" : "")}>
-                    <FormattedMessage id = "panel.devSettings"/>
-                </Link>
-                : <></>
-            }
+
+            <Link
+                to={DEVSETTINGS_ROUTE + "/" + MAC}
+                className={(location.includes(DEVSETTINGS_ROUTE) ? "active" : "")}>
+                <FormattedMessage id="panel.devSettings"/>
+            </Link>
 
             <Link
                 to={DEVCOMMANDS_ROUTE + "/" + MAC}
                 className={(location.includes(DEVCOMMANDS_ROUTE) ? "active" : "")}>
-                <FormattedMessage id = "panel.devCommands"/>
+                <FormattedMessage id="panel.devCommands"/>
             </Link>
         </nav>
     )

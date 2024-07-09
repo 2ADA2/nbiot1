@@ -8,7 +8,7 @@ export const LoadingPage = ({toBack = true}) => {
     return (
         <>
             <header style={{display : (toBack) ? "none" : "flex"}}>
-                <h1>NB-IoT collector</h1>
+                <h1>NB-IoT collector / SH-219<sup style={{fontWeight:100, fontSize:8}}>ADA</sup></h1>
             </header>
             <Page header="Connecting" header2="Connecting to the server"
                 elem = {

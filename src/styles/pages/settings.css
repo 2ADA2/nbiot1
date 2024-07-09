@@ -11,6 +11,7 @@
     display: flex;
     justify-content: flex-start;
     gap:40px;
+    align-items: center;
 }
 h5{
     font-weight: 400;

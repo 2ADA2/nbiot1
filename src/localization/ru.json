@@ -51,6 +51,11 @@
   "settings.header2": "Настройки подключение по MQTT",
   "settings.button": "Применить",
 
+  "settings.sub.header2": "Настройки подключение по SUB",
+  "settings.sub.main.header": "Основные параметры",
+  "settings.sub.network.header": "Сетевые параметры и адреса",
+  "settings.sub.sync.header": "Синхронизация и частоты",
+  "settings.sub.stats.header": "Статистика и ошибки",
 
 
 
