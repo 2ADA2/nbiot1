@@ -1,13 +1,13 @@
 import {useState} from 'react'
-import {Page} from '../components/page'
-import "../styles/pages/advancedSettings.css"
-import global from '../store/global'
-import {postReq} from "../functions/requests";
+import {Page} from '../../components/page'
+import "../../styles/pages/advancedSettings.css"
+import global from '../../store/global'
+import {postReq} from "../../functions/requests";
 import {observer} from "mobx-react-lite";
-import {errorAnalyze} from "../functions/error";
+import {errorAnalyze} from "../../functions/error";
 import {FormattedMessage} from "react-intl/lib";
 
-export const AdvancedSettings = observer(() => {
+export const AdvancedSettingsSub = observer(() => {
     const [settings, setSettings] = useState(global.advSettings || localStorage.getItem("advSettings"));
     const [page, setPage] = useState(0)
     const [invalidWeb, setInvalidWeb] = useState()

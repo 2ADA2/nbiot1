@@ -9,8 +9,10 @@ class Global {
     isAuth = false;
     // isAdmin = (localStorage.getItem("isAdmin")) ? JSON.parse(localStorage.getItem("isAdmin")) : null;
     isAdmin = true;
-    way = http.http;
+    way = http.http + "mqtt";
+    subWay = http.http + "sub";
     progType = localStorage.getItem("progType") || "mqtt";
+    processor = null
 
     user = localStorage.getItem("userName")
     password = localStorage.getItem("password")
@@ -43,6 +45,7 @@ class Global {
             this.progType = "mqtt"
             localStorage.setItem("progType", this.progType);
         }
+        this.updateAll()
     }
 
     async authorizate(data) {
@@ -168,14 +171,22 @@ class Global {
     }
 
     updateAll() {
-        this.updateSettings()
-            .then(() => {
-            })
+        this.updateProcessor()
+            .then(() => this.updateSettings())
             .then(() => this.updateDevices())
             .then(() => this.updateConnection())
             .catch(() => this.updateToken())
     }
 
+    async updateProcessor(){
+        connect(
+            http.http + "cat/proc/cpuinfo",
+            (res) => this.processor = res,
+            () => {
+                throw new Error()
+            }, this.token
+        )
+    }
 
     async updateSettings() {
         connect(this.way + "/settings",
@@ -186,13 +197,26 @@ class Global {
         )
             .then(() => {
                 if (this.isAdmin) {
-                    connect(this.way + "/Advanced settings",
-                        (advSettings) => {
-                        localStorage.setItem("advSettings" , advSettings)
-                            this.advSettings = advSettings
-                        }, () => {
-                            throw new Error()
-                        }, this.token)
+                    if(this.progType === "mqtt"){
+                        connect(this.way + "/Advanced settings",
+                            (advSettings) => {
+                                localStorage.setItem("advSettings" , advSettings)
+                                this.advSettings = advSettings
+                            }, () => {
+                                throw new Error()
+                            }, this.token)
+                    } else{
+                        connect(this.subWay + "/Advanced settings",
+                            (advSettings) => {
+                                localStorage.setItem("advSettings" , advSettings)
+                                this.advSettings = advSettings
+                            }, () => {
+                                throw new Error()
+                            }, this.token)
+                    }
+
+                } else{
+                    localStorage.setItem("advSettings" , "")
                 }
             })
             .catch(() => {

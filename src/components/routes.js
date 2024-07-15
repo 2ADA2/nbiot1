@@ -1,4 +1,4 @@
-import {AdvancedSettings} from "../pages/advancedSettings";
+import {AdvancedSettingsSub} from "../pages/sub/advancedSettings";
 import { Home } from "../pages/home";
 import { Settings } from "../pages/mqtt/settings";
 import { DevCommands } from "../pages/mqtt/sourcePages/devCommands";
@@ -18,6 +18,7 @@ import {DevInfoSub} from "../pages/sub/courcePages/devInfoSub";
 import {DevCommandsSub} from "../pages/sub/courcePages/devCommandsSub";
 import {DevSettingsSub} from "../pages/sub/courcePages/devSettings";
 import {SettingsSub} from "../pages/sub/settings";
+import {AdvancedSettings} from "../pages/mqtt/advancedSettings";
 
 export const routes = [
     {
@@ -76,5 +77,11 @@ export const adminRoutes = [
      {
         path: ADVANCED_SETTINGS_ROUTE,
         Element: AdvancedSettings
+    }
+]
+export const adminRoutesSub = [
+    {
+        path: ADVANCED_SETTINGS_ROUTE,
+        Element: AdvancedSettingsSub
     }
 ]

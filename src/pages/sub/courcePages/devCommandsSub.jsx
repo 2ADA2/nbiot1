@@ -14,7 +14,6 @@ export const DevCommandsSub = () => {
     const device = useDevice();
     const [command, setCommand] = useState(localStorage.getItem(device.Device.DevId + "cmdName") || "register")
     const [commandStatus, setCommandStatus] = useState(localStorage.getItem(device.Device.DevId + "commandStatus") ? localStorage.getItem(device.Device.DevId + "commandStatus") : "")
-    const [onLoad, setOnLoad] = useState(localStorage.getItem(device.Device.DevId + "onLoad") || false)
 
     const [registerState, setregisterState] = useState(localStorage.getItem(device.Device.DevId + "registerState") ? JSON.parse(localStorage.getItem(device.Device.DevId + "registerState")) : {})
     const [devState, setDevState] = useState(localStorage.getItem(device.Device.DevId + "devState") ? JSON.parse(localStorage.getItem(device.Device.DevId + "devState")) : {})
@@ -100,24 +99,18 @@ export const DevCommandsSub = () => {
 
         return () => {
             clearInterval(interval)
-            setOnLoad(false)
-            localStorage.setItem(device.Device.DevId + "onLoad", false)
         }
     }, [commandStatus]);
 
     function cmd(e) {
         e.preventDefault()
-        setOnLoad(true)
         setCommandStatus(true)
 
-        localStorage.setItem(device.Device.DevId + "onLoad", true)
         localStorage.setItem(device.Device.DevId + "commandStatus", true)
 
         sendCommand(global.way + "/cmd/" + device.Device.DevId, {
             command, trepeat, timeZone, netDelay, type, timeout, kval, tprepare, senseCheck, UIName
         }, global.token).then((res) => {
-            setOnLoad(false)
-            localStorage.setItem(device.Device.DevId + "onLoad", "")
             getCommandStatus(res.data.Info)
         })
     }
@@ -172,10 +165,7 @@ export const DevCommandsSub = () => {
 
         if (info) {
             setCommandStatus(true)
-            setOnLoad(true)
-
             localStorage.setItem(device.Device.DevId + "commandStatus", true)
-            localStorage.setItem(device.Device.DevId + "onLoad", true)
         } else {
             if (res.USER_CMD_RESP) {
                 if (info.USER_CMD_RESP.UPD_LOCATION === "CMD_RUN") return
@@ -184,9 +174,6 @@ export const DevCommandsSub = () => {
             }
             setCommandStatus(false)
             localStorage.setItem(device.Device.DevId + "commandStatus", "")
-
-            setOnLoad(false)
-            localStorage.setItem(device.Device.DevId + "onLoad", "")
         }
 
     }

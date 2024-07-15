@@ -2,7 +2,7 @@ import {Layout} from "./layout/layout";
 import {Routes, Route, Navigate, useLocation} from 'react-router';
 import {useEffect, useState} from "react";
 import global from "./store/global";
-import {adminRoutes, routes, subRoutes} from "./components/routes";
+import {adminRoutes, adminRoutesSub, routes, subRoutes} from "./components/routes";
 import {ErrorPage} from "./components/errorPage";
 import {observer} from "mobx-react-lite";
 import {LoadingPage} from "./components/loadingPage";
@@ -40,9 +40,13 @@ const App = observer(() => {
                         return <Route key={path} path={path} element={<Element/>}/>
                     })}
 
-                    {global.isAdmin ? adminRoutes.map(({path, Element}) => {
-                        return <Route key={path} path={path} element={<Element/>}/>
-                    }) : <></>}
+                    {global.isAdmin ?
+                        (global.progType === "mqtt") ?
+                            adminRoutes.map(({path, Element}) => {
+                                return <Route key={path} path={path} element={<Element/>}/>
+                            }) : adminRoutesSub.map(({path, Element}) => {
+                                return <Route key={path} path={path} element={<Element/>}/>
+                            }) : <></>}
 
                     <Route
                         path="*"

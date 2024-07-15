@@ -1,4 +1,4 @@
-import {Page} from "../../../components/page"
+ import {Page} from "../../../components/page"
 import "../../../styles/pages/sourcePages/devSettings.css"
 import {observer} from "mobx-react-lite";
 import {FormattedMessage} from "react-intl/lib";

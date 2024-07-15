@@ -5,7 +5,6 @@ import {DEVCOMMANDS_ROUTE, DEVINFO_ROUTE, DEVSETTINGS_ROUTE} from "../utils/cons
 import {useDevice} from "../hooks/useDevice"
 import {FormattedMessage} from "react-intl/lib";
 import {useLocation} from "react-router";
-import global from "../store/global";
 
 
 export const SoucesLinks = observer(({display = "none"}) => {

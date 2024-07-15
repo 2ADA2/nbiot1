@@ -13,6 +13,7 @@ function createTime() {
     return new Date().toISOString().split(".")[0]
 
 }
+
 let devs = {
     "Sources": [
         "10:19:19:31:11:51"
@@ -49,21 +50,20 @@ app.get("/mqtt/settings", (req, res) => {
 })
 app.get('/mqtt/DBState/10:19:19:31:11:51', (req, res) => {
     res.status(200).json({
-        "DBState":false
+        "DBState": false
     })
 })
 
 app.post('/mqtt/DB/10:19:19:31:11:51', (req, res) => {
     res.status(200).json({
-        "Dev_NumDB":300000
+        "Dev_NumDB": 300000
     })
 })
 
 
-
 app.get('/mqtt/utc%20state/10:19:19:31:11:51', (req, res) => {
     res.status(200).json({
-        "UTC":true
+        "UTC": true
     })
 })
 
@@ -94,6 +94,23 @@ app.get('/mqtt/dev%20info/10:19:19:31:11:51', (req, res) => {
     })
 })
 
+app.get('/cat/proc/cpuinfo', (req, res) => {
+    res.status(200).json({
+            "model_name": "ARMv7 Processor rev 2 (v7l)",
+            "BogoMIPS": 994.30,
+            "Features": "half thumb fastmult vfp edsp neon vfpv3 tls vfpd32",
+            "CPU_implementer": "0x41",
+            "CPU_architecture": 7,
+            "CPU_variant": "0x3",
+            "CPU_part": "0xc08",
+            "CPU_revision": 2,
+            "Hardware": "Generic AM33XX (Flattened Device Tree)",
+            "Revision": "0000",
+            "Serial": "80:f5:b5:d8:8b:93"
+        }
+    )
+})
+
 let state = false
 app.get("/mqtt/state", (req, res) => {
     res.status(200).json({
@@ -104,8 +121,8 @@ app.get("/mqtt/state", (req, res) => {
 
 app.post("/mqtt/set%20state", (req, res, next) => {
     state = !state
-    res.status(200).json({"state":state})
-    if(state){
+    res.status(200).json({"state": state})
+    if (state) {
 
     }
 })
@@ -128,6 +145,9 @@ UserInfoUrl=http://192.168.0.201:9109/api/v2.1/User/user-info
 UserName=gateway-3-11
 
 MAC04_09_19_86_11_50=5896`);
+});
+app.get("/sub/Advanced%20settings", function (req, res) {
+    res.send(`advanced sub`);
 });
 
 app.listen(PORT, () => console.log("server started at port " + PORT))
