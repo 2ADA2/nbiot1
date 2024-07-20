@@ -37,6 +37,9 @@ body .dark .home{
     background: rgb(79, 79, 112);
     transition-duration: 300ms;
 }
+.dark .counters button:hover{
+    background: rgba(79, 79, 112, 0);
+}
 
 .dark .page h1{
     color: rgb(201, 201, 255);
@@ -137,4 +140,20 @@ body .dark .home{
 .dark .switch-slider::before{
     background: rgb(44,44,59);
     transition-duration: 300ms;
+}
+
+.dark .frame-list-header svg{
+    border: 1px solid #ffffff;
+}
+
+.dark .frame-list-body {
+    background: rgb(32, 32, 44);
+}
+.dark .frame-list-body .frame{
+    background: rgb(44,44,59);
+}{
+    background: rgb(44,44,59);
+}
+.dark .frame div{
+    background: rgb(44,44,59);
 }

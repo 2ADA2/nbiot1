@@ -109,7 +109,7 @@ export const sendCommand = async (url, data, token) => {
                 }
             }
             break;
-        case "setPeriod" :
+        case "setChos" :
             body = {
                 "USER_CMD": "LINKSCHEDULE",
                 "USER_ARG":{
@@ -168,7 +168,7 @@ export const sendCommand = async (url, data, token) => {
             }
 
             break;
-        case "devState" :
+        case "clearAll" :
             body = {
                 "USER_CMD": "GET_EXT_INFO"
             }

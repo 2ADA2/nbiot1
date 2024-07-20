@@ -16,9 +16,9 @@ export const DevCommands = () => {
     const [commandStatus, setCommandStatus] = useState(localStorage.getItem(device.Device.DevId + "commandStatus") ? localStorage.getItem(device.Device.DevId + "commandStatus") : "")
     const [onLoad, setOnLoad] = useState(localStorage.getItem(device.Device.DevId + "onLoad") || false)
 
-    const [registerState, setregisterState] = useState(localStorage.getItem(device.Device.DevId + "registerState") ? JSON.parse(localStorage.getItem(device.Device.DevId + "registerState")) : {})
-    const [devState, setDevState] = useState(localStorage.getItem(device.Device.DevId + "devState") ? JSON.parse(localStorage.getItem(device.Device.DevId + "devState")) : {})
-    const [period, setPeriod] = useState(localStorage.getItem(device.Device.DevId + "period") ? JSON.parse(localStorage.getItem(device.Device.DevId + "period")) : {})
+    const [addPacage, setAddPacage] = useState(localStorage.getItem(device.Device.DevId + "addPacage") ? JSON.parse(localStorage.getItem(device.Device.DevId + "addPacage")) : {})
+    const [clearAll, setClearAll] = useState(localStorage.getItem(device.Device.DevId + "clearAll") ? JSON.parse(localStorage.getItem(device.Device.DevId + "clearAll")) : {})
+    const [chos, setChos] = useState(localStorage.getItem(device.Device.DevId + "chos") ? JSON.parse(localStorage.getItem(device.Device.DevId + "chos")) : {})
     const [updateLocation, setUpdateLocation] = useState(localStorage.getItem(device.Device.DevId + "updateLocation") ? JSON.parse(localStorage.getItem(device.Device.DevId + "updateLocation")) : {})
     const [getLocation, setLocation] = useState(localStorage.getItem(device.Device.DevId + "getLocation") ? JSON.parse(localStorage.getItem(device.Device.DevId + "getLocation")) : {})
     const [setParams, setSetParams] = useState(localStorage.getItem(device.Device.DevId + "setParams") ? JSON.parse(localStorage.getItem(device.Device.DevId + "setParams")) : {})
@@ -28,11 +28,11 @@ export const DevCommands = () => {
     const [updateSertificate, setUpdateSertificate] = useState(localStorage.getItem(device.Device.DevId + "updateSertificate") ? JSON.parse(localStorage.getItem(device.Device.DevId + "updateSertificate")) : {});
     const [updateUI, setUpdateUI] = useState(localStorage.getItem(device.Device.DevId + "updateUI") ? JSON.parse(localStorage.getItem(device.Device.DevId + "updateUI")) : {});
 
-    const cmds = [registerState, devState, period, updateLocation, getLocation, setParams, getParams, onData, reboot, updateSertificate, updateUI]
+    const cmds = [addPacage, clearAll, chos, updateLocation, getLocation, setParams, getParams, onData, reboot, updateSertificate, updateUI]
     const setCmds = [
-        (val) => setregisterState(val),
-        (val) => setDevState(val),
-        (val) => setPeriod(val),
+        (val) => setAddPacage(val),
+        (val) => setClearAll(val),
+        (val) => setChos(val),
         (val) => setUpdateLocation(val),
         (val) => setLocation(val),
         (val) => setSetParams(val),
@@ -55,10 +55,6 @@ export const DevCommands = () => {
     const [senseCheck, setSenseCheck] = useState(false);
 
     const [UIName, setUIName] = useState(device.Device["SoftVer."])
-
-    useEffect(() => {
-        if (device.empty) global.setLocation("/sources")
-    }, [])
 
     useEffect(() => {
         if (command !== "getParams") {
@@ -125,12 +121,12 @@ export const DevCommands = () => {
     function getCommandStatus(info = "", res = "") {
         switch (command) {
             case "register":
-                setregisterState((info || res))
-                localStorage.setItem(device.Device.DevId + "registerState", JSON.stringify((info || res)))
+                setAddPacage((info || res))
+                localStorage.setItem(device.Device.DevId + "addPacage", JSON.stringify((info || res)))
                 break;
-            case "setPeriod":
-                setPeriod((info || res))
-                localStorage.setItem(device.Device.DevId + "period", JSON.stringify((info || res)))
+            case "setChos":
+                setChos((info || res))
+                localStorage.setItem(device.Device.DevId + "chos", JSON.stringify((info || res)))
                 break;
             case "getLocation":
                 setLocation((info || res))
@@ -160,9 +156,9 @@ export const DevCommands = () => {
                 setUpdateSertificate((info || res))
                 localStorage.setItem(device.Device.DevId + "updateSertificate", JSON.stringify((info || res)))
                 break;
-            case "devState":
-                setDevState((info || res))
-                localStorage.setItem(device.Device.DevId + "devState", JSON.stringify((info || res)))
+            case "clearAll":
+                setClearAll((info || res))
+                localStorage.setItem(device.Device.DevId + "clearAll", JSON.stringify((info || res)))
                 break;
             default:
                 setUpdateUI((info || res))
@@ -215,12 +211,12 @@ export const DevCommands = () => {
                             <FormattedMessage id="commands.options.register"/>
                         </option>
                         <option
-                            value="devState">
-                            <FormattedMessage id="commands.options.devState"/>
+                            value="clearAll">
+                            <FormattedMessage id="commands.options.clearAll"/>
                         </option>
                         <option
-                            value="setPeriod">
-                            <FormattedMessage id="commands.options.setPeriod"/>
+                            value="setChos">
+                            <FormattedMessage id="commands.options.setChos"/>
                         </option>
                         <option
                             value="getLocation">
@@ -302,10 +298,10 @@ export const DevCommands = () => {
                             />
                         </div>
                     </section>
-                </> : (command === "setPeriod") ? <>
+                </> : (command === "setChos") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id = "commands.status"/>:</h5>
-                        <h5>{(period.LINKSCHEDULE) ? period.LINKSCHEDULE : (typeof (period) === "string") ? period : "no command"}</h5>
+                        <h5>{(chos.LINKSCHEDULE) ? chos.LINKSCHEDULE : (typeof (chos) === "string") ? chos : "no command"}</h5>
                     </div>
                     <section className="command-settings">
                         <div>
@@ -364,30 +360,30 @@ export const DevCommands = () => {
                 </> : (command === "register") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id = "commands.status"/>:</h5>
-                        <h5>{(typeof (registerState) === "string" && registerState) ? registerState : "no command" }</h5>
+                        <h5>{(typeof (addPacage) === "string" && addPacage) ? addPacage : "no command" }</h5>
                     </div>
-                </> : (command === "devState") ? <>
+                </> : (command === "clearAll") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(devState.GET_EXT_INFO && !commandStatus) ? <section>
-                        <h5 style={{fontSize: "30px"}}>{devState.GET_EXT_INFO}</h5>
+                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(clearAll.GET_EXT_INFO && !commandStatus) ? <section>
+                        <h5 style={{fontSize: "30px"}}>{clearAll.GET_EXT_INFO}</h5>
                         <h3>Info</h3>
                         <div>
                             <h5>MODEM_IMEI: </h5>
-                            <h5>{devState.MODEM_IMEI}</h5>
+                            <h5>{clearAll.MODEM_IMEI}</h5>
                         </div>
                         <div>
                             <h5>MODEM_VER: </h5>
-                            <h5>{devState.MODEM_VER}</h5>
+                            <h5>{clearAll.MODEM_VER}</h5>
                         </div>
                         <div>
                             <h5>REG_ID: </h5>
-                            <h5>{devState.REG_ID}</h5>
+                            <h5>{clearAll.REG_ID}</h5>
                         </div>
                         <div>
                             <h5>SIM_ICCID: </h5>
-                            <h5>{devState.SIM_ICCID}</h5>
+                            <h5>{clearAll.SIM_ICCID}</h5>
                         </div>
-                    </section> : <h5>{(typeof (devState) === "string") ? devState : "no command"}</h5>}
+                    </section> : <h5>{(typeof (clearAll) === "string") ? clearAll : "no command"}</h5>}
                     </div>
                 </> : (command === "getLocation") ? <>
                     <div className={"status"}>

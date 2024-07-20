@@ -151,8 +151,8 @@
   "commands.subheader": "Команды устройству",
   "commands.title": "Команды устройству",
   "commands.options.register": "Зарегистрировать устройство",
-  "commands.options.devState": "Запросить состояние устройства",
-  "commands.options.setPeriod": "Установить период TU пакетов",
+  "commands.options.clearAll": "Запросить состояние устройства",
+  "commands.options.setChos": "Установить период TU пакетов",
   "commands.options.getLocation": "Обновить координаты устройства",
   "commands.options.updateLocation": "Запросить местоположение",
   "commands.options.setParams": "Установить параметры датчика",
@@ -165,6 +165,9 @@
   "commands.buttons.submit": "Отправить",
   "commands.buttons.cancel.text": "Отменить",
   "commands.command": "Комнада",
+
+  "commands.options.clearAllSub" : "clearAll",
+  "commands.options.setChosSub": "setChos",
 
   "UISettings.header": "Настройки ПО",
   "UISettings.lang": "Язык приложения",

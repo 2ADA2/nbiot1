@@ -12,34 +12,45 @@ import {FormattedMessage} from "react-intl/lib";
 
 export const DevCommandsSub = () => {
     const device = useDevice();
-    const [command, setCommand] = useState(localStorage.getItem(device.Device.DevId + "cmdName") || "register")
+    const [command, setCommand] = useState(localStorage.getItem(device.Device.DevId + "cmdName") || "addPackage")
     const [commandStatus, setCommandStatus] = useState(localStorage.getItem(device.Device.DevId + "commandStatus") ? localStorage.getItem(device.Device.DevId + "commandStatus") : "")
 
-    const [registerState, setregisterState] = useState(localStorage.getItem(device.Device.DevId + "registerState") ? JSON.parse(localStorage.getItem(device.Device.DevId + "registerState")) : {})
-    const [devState, setDevState] = useState(localStorage.getItem(device.Device.DevId + "devState") ? JSON.parse(localStorage.getItem(device.Device.DevId + "devState")) : {})
-    const [period, setPeriod] = useState(localStorage.getItem(device.Device.DevId + "period") ? JSON.parse(localStorage.getItem(device.Device.DevId + "period")) : {})
-    const [updateLocation, setUpdateLocation] = useState(localStorage.getItem(device.Device.DevId + "updateLocation") ? JSON.parse(localStorage.getItem(device.Device.DevId + "updateLocation")) : {})
-    const [getLocation, setLocation] = useState(localStorage.getItem(device.Device.DevId + "getLocation") ? JSON.parse(localStorage.getItem(device.Device.DevId + "getLocation")) : {})
-    const [setParams, setSetParams] = useState(localStorage.getItem(device.Device.DevId + "setParams") ? JSON.parse(localStorage.getItem(device.Device.DevId + "setParams")) : {})
-    const [getParams, setGetParams] = useState({})
-    const [onData, setOnData] = useState(localStorage.getItem(device.Device.DevId + "onData") ? JSON.parse(localStorage.getItem(device.Device.DevId + "onData")) : {})
-    const [reboot, setReboot] = useState(localStorage.getItem(device.Device.DevId + "reboot") ? JSON.parse(localStorage.getItem(device.Device.DevId + "reboot")) : {});
-    const [updateSertificate, setUpdateSertificate] = useState(localStorage.getItem(device.Device.DevId + "updateSertificate") ? JSON.parse(localStorage.getItem(device.Device.DevId + "updateSertificate")) : {});
-    const [updateUI, setUpdateUI] = useState(localStorage.getItem(device.Device.DevId + "updateUI") ? JSON.parse(localStorage.getItem(device.Device.DevId + "updateUI")) : {});
+    const [addPackage, setAddPackage] = useState(localStorage.getItem(device.Device.DevId + "addPackage") ? JSON.parse(localStorage.getItem(device.Device.DevId + "addPackage")) : {})
+    const [clearAll, setClearAll] = useState(localStorage.getItem(device.Device.DevId + "clearAll") ? JSON.parse(localStorage.getItem(device.Device.DevId + "clearAll")) : {})
+    const [chos, setChos] = useState(localStorage.getItem(device.Device.DevId + "chos") ? JSON.parse(localStorage.getItem(device.Device.DevId + "chos")) : {})
+    const [reset, setReset] = useState(localStorage.getItem(device.Device.DevId + "reset") ? JSON.parse(localStorage.getItem(device.Device.DevId + "reset")) : {})
+    const [ble, setBle] = useState(localStorage.getItem(device.Device.DevId + "ble") ? JSON.parse(localStorage.getItem(device.Device.DevId + "ble")) : {})
+    const [gain, setGain] = useState(localStorage.getItem(device.Device.DevId + "gain") ? JSON.parse(localStorage.getItem(device.Device.DevId + "gain")) : {})
+    const [battery, setBattery] = useState(localStorage.getItem(device.Device.DevId + "battery") ? JSON.parse(localStorage.getItem(device.Device.DevId + "battery")) : {})
+    const [rf, setRf] = useState(localStorage.getItem(device.Device.DevId + "rf") ? JSON.parse(localStorage.getItem(device.Device.DevId + "rf")) : {})
+    const [sub, setSub] = useState(localStorage.getItem(device.Device.DevId + "sub") ? JSON.parse(localStorage.getItem(device.Device.DevId + "sub")) : {});
+    const [shedule, setShedule] = useState(localStorage.getItem(device.Device.DevId + "shedule") ? JSON.parse(localStorage.getItem(device.Device.DevId + "shedule")) : {});
+    const [mode, setMode] = useState(localStorage.getItem(device.Device.DevId + "mode") ? JSON.parse(localStorage.getItem(device.Device.DevId + "mode")) : {});
+    const [vibro, setVibro] = useState(localStorage.getItem(device.Device.DevId + "vibro") ? JSON.parse(localStorage.getItem(device.Device.DevId + "vibro")) : {});
+    const [launch, setLaunch] = useState(localStorage.getItem(device.Device.DevId + "launch") ? JSON.parse(localStorage.getItem(device.Device.DevId + "launch")) : {});
+    const [sleep, setSleep] = useState(localStorage.getItem(device.Device.DevId + "sleep") ? JSON.parse(localStorage.getItem(device.Device.DevId + "sleep")) : {});
+    const [settingsSleep, setSettingsSleep] = useState(localStorage.getItem(device.Device.DevId + "settingsSleep") ? JSON.parse(localStorage.getItem(device.Device.DevId + "settingsSleep")) : {});
+    const [imit, setImit] = useState(localStorage.getItem(device.Device.DevId + "imit") ? JSON.parse(localStorage.getItem(device.Device.DevId + "imit")) : {});
 
-    const cmds = [registerState, devState, period, updateLocation, getLocation, setParams, getParams, onData, reboot, updateSertificate, updateUI]
+    const cmds = [addPackage, clearAll, chos, reset, ble, gain, battery, rf, sub, shedule, mode, vibro, launch, sleep, settingsSleep, imit]
     const setCmds = [
-        (val) => setregisterState(val),
-        (val) => setDevState(val),
-        (val) => setPeriod(val),
-        (val) => setUpdateLocation(val),
-        (val) => setLocation(val),
-        (val) => setSetParams(val),
-        (val) => setGetParams(val),
-        (val) => setOnData(val),
-        (val) => setReboot(val),
-        (val) => setUpdateSertificate(val),
-        (val) => setUpdateUI(val)
+        (val) => setAddPackage(val),
+        (val) => setClearAll(val),
+        (val) => setChos(val),
+        (val) => setReset(val),
+        (val) => setBle(val),
+        (val) => setGain(val),
+        (val) => setBattery(val),
+        (val) => setRf(val),
+        (val) => setSub(val),
+        (val) => setShedule(val),
+        (val) => setMode(val),
+        (val) => setVibro(val),
+        (val) => setLaunch(val),
+        (val) => setImit(val),
+        (val) => setSettingsSleep(val),
+        (val) => setSleep(val),
+
     ]
 
     //состояния для комманд
@@ -54,16 +65,6 @@ export const DevCommandsSub = () => {
     const [senseCheck, setSenseCheck] = useState(false);
 
     const [UIName, setUIName] = useState(device.Device["SoftVer."])
-
-    useEffect(() => {
-        if (device.empty) global.setLocation("/sources")
-    }, [])
-
-    useEffect(() => {
-        if (command !== "getParams") {
-            setGetParams({})
-        }
-    }, [command]);
 
     useEffect(() => {
         let interval
@@ -107,59 +108,73 @@ export const DevCommandsSub = () => {
         setCommandStatus(true)
 
         localStorage.setItem(device.Device.DevId + "commandStatus", true)
-
-        sendCommand(global.way + "/cmd/" + device.Device.DevId, {
-            command, trepeat, timeZone, netDelay, type, timeout, kval, tprepare, senseCheck, UIName
-        }, global.token).then((res) => {
-            getCommandStatus(res.data.Info)
-        })
     }
 
     function getCommandStatus(info = "", res = "") {
         switch (command) {
-            case "register":
-                setregisterState((info || res))
-                localStorage.setItem(device.Device.DevId + "registerState", JSON.stringify((info || res)))
+            case "addPackage":
+                setAddPackage((info || res))
+                localStorage.setItem(device.Device.DevId + "addPackage", JSON.stringify((info || res)))
                 break;
-            case "setPeriod":
-                setPeriod((info || res))
-                localStorage.setItem(device.Device.DevId + "period", JSON.stringify((info || res)))
+            case "setChos":
+                setChos((info || res))
+                localStorage.setItem(device.Device.DevId + "chos", JSON.stringify((info || res)))
                 break;
-            case "getLocation":
-                setLocation((info || res))
-                localStorage.setItem(device.Device.DevId + "getLocation", JSON.stringify((info || res)))
+            case "ble":
+                setBle((info || res))
+                localStorage.setItem(device.Device.DevId + "ble", JSON.stringify((info || res)))
                 break;
-            case "updateLocation":
-                setUpdateLocation((info || res))
-                localStorage.setItem(device.Device.DevId + "updateLocation", JSON.stringify((info || res)))
+            case "reset":
+                setReset((info || res))
+                localStorage.setItem(device.Device.DevId + "reset", JSON.stringify((info || res)))
                 break;
-            case "setParams":
-                setSetParams((info || res))
-                localStorage.setItem(device.Device.DevId + "setParams", JSON.stringify((info || res)))
+            case "gain":
+                setGain((info || res))
+                localStorage.setItem(device.Device.DevId + "gain", JSON.stringify((info || res)))
                 break;
-            case "getParams":
-                setGetParams((info || res))
-                localStorage.setItem(device.Device.DevId + "getParams", JSON.stringify((info || res)))
+            case "battery":
+                setBattery((info || res))
+                localStorage.setItem(device.Device.DevId + "battery", JSON.stringify((info || res)))
                 break;
-            case "onData":
-                setOnData((info || res))
-                localStorage.setItem(device.Device.DevId + "onData", JSON.stringify((info || res)))
+            case "rf":
+                setRf((info || res))
+                localStorage.setItem(device.Device.DevId + "rf", JSON.stringify((info || res)))
                 break;
-            case "reboot":
-                setReboot((info || res))
-                localStorage.setItem(device.Device.DevId + "reboot", JSON.stringify((info || res)))
+            case "sub":
+                setSub((info || res))
+                localStorage.setItem(device.Device.DevId + "sub", JSON.stringify((info || res)))
                 break;
-            case "updateSertificate":
-                setUpdateSertificate((info || res))
-                localStorage.setItem(device.Device.DevId + "updateSertificate", JSON.stringify((info || res)))
+            case "shedule":
+                setShedule((info || res))
+                localStorage.setItem(device.Device.DevId + "shedule", JSON.stringify((info || res)))
                 break;
-            case "devState":
-                setDevState((info || res))
-                localStorage.setItem(device.Device.DevId + "devState", JSON.stringify((info || res)))
+            case "vibro":
+                setVibro((info || res))
+                localStorage.setItem(device.Device.DevId + "vibro", JSON.stringify((info || res)))
+                break;
+            case "sleep":
+                setSleep((info || res))
+                localStorage.setItem(device.Device.DevId + "sleep", JSON.stringify((info || res)))
+                break;
+            case "settingsSleep":
+                setSettingsSleep((info || res))
+                localStorage.setItem(device.Device.DevId + "settingsSleep", JSON.stringify((info || res)))
+                break;
+            case "imit":
+                setImit((info || res))
+                localStorage.setItem(device.Device.DevId + "imit", JSON.stringify((info || res)))
+                break;
+            case "launch":
+                setLaunch((info || res))
+                localStorage.setItem(device.Device.DevId + "launch", JSON.stringify((info || res)))
+                break;
+            case "clearAll":
+                setClearAll((info || res))
+                localStorage.setItem(device.Device.DevId + "clearAll", JSON.stringify((info || res)))
                 break;
             default:
-                setUpdateUI((info || res))
-                localStorage.setItem(device.Device.DevId + "updateUI", JSON.stringify((info || res)))
+                setMode((info || res))
+                localStorage.setItem(device.Device.DevId + "mode", JSON.stringify((info || res)))
                 break;
         }
 
@@ -198,222 +213,174 @@ export const DevCommandsSub = () => {
                         value={command}
                     >
                         <option
-                            value="register">
-                            <FormattedMessage id="commands.options.register"/>
+                            value="addPackage">
+                            <FormattedMessage id="commands.options.package"/>
                         </option>
                         <option
-                            value="devState">
-                            <FormattedMessage id="commands.options.devState"/>
+                            value="clearAll">
+                            <FormattedMessage id="commands.options.clearAllSub"/>
                         </option>
                         <option
-                            value="setPeriod">
-                            <FormattedMessage id="commands.options.setPeriod"/>
+                            value="setChos">
+                            <FormattedMessage id="commands.options.setChosSub"/>
                         </option>
                         <option
-                            value="getLocation">
-                            <FormattedMessage id="commands.options.getLocation"/>
+                            value="ble">
+                            <FormattedMessage id="commands.options.ble"/>
                         </option>
                         <option
-                            value="updateLocation">
-                            <FormattedMessage id="commands.options.updateLocation"/>
+                            value="reset">
+                            <FormattedMessage id="commands.options.reset"/>
                         </option>
                         <option
-                            value="setParams">
-                            <FormattedMessage id="commands.options.setParams"/>
+                            value="gain">
+                            <FormattedMessage id="commands.options.gain"/>
                         </option>
                         <option
-                            value="getParams">
-                            <FormattedMessage id="commands.options.getParams"/>
+                            value="battery">
+                            <FormattedMessage id="commands.options.battery"/>
                         </option>
                         <option
-                            value="onData">
-                            <FormattedMessage id="commands.options.onData"/>
+                            value="rf">
+                            <FormattedMessage id="commands.options.rf"/>
                         </option>
                         <option
-                            value="reboot">
-                            <FormattedMessage id="commands.options.reboot"/>
+                            value="sub">
+                            <FormattedMessage id="commands.options.sub"/>
                         </option>
                         <option
-                            value="updateSertificate">
-                            <FormattedMessage id="commands.options.updateSertificate"/>
+                            value="shedule">
+                            <FormattedMessage id="commands.options.shedule"/>
                         </option>
                         <option
-                            value="updateUI">
-                            <FormattedMessage id="commands.options.updateUI"/>
+                            value="mode">
+                            <FormattedMessage id="commands.options.mode"/>
+                        </option>
+                        <option
+                            value="vibro">
+                            <FormattedMessage id="commands.options.vibro"/>
+                        </option>
+                        <option
+                            value="launch">
+                            <FormattedMessage id="commands.options.launch"/>
+                        </option>
+                        <option
+                            value="sleep">
+                            <FormattedMessage id="commands.options.sleep"/>
+                        </option>
+                        <option
+                            value="settingsSleep">
+                            <FormattedMessage id="commands.options.settingsSleep"/>
+                        </option>
+                        <option
+                            value="imit">
+                            <FormattedMessage id="commands.options.imit"/>
                         </option>
                     </select>
-                    {/*getParams.GET_SENS_ATTR*/}
+                    {/*battery.GET_SENS_ATTR*/}
                 </section>
-                {(command === "getParams") ? <>
+                {(command === "battery") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(getParams.GET_SENS_ATTR && !commandStatus) ? <section>
-                        <h5 style={{fontSize: "30px"}}>{getParams.GET_SENS_ATTR} </h5>
-                        <h3>Info</h3>
-                        <div>
-                            <h5>Kv_val: </h5>
-                            <h5>{getParams.Kv_val}</h5>
-                        </div>
-                        <div>
-                            <h5>Tprepare: </h5>
-                            <h5>{getParams.Tprepare}</h5>
-                        </div>
-                    </section> : <h5>{(typeof (getParams) === "string") ? getParams : "no command"}</h5>}
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (battery) === "string") ? battery : "no command"}</h5>
+                        battery
                     </div>
-                </> : (command === "setParams") ? <>
+                </> : (command === "gain") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/></h5>
-                        <h5>{(getParams.GET_SENS_ATTR) ? getParams.GET_SENS_ATTR : (typeof (getParams) === "string") ? getParams : "no command"}</h5>
+                        <h5><FormattedMessage id="commands.status"/></h5>
+                        <h5>{(typeof (battery) === "string") ? battery : "no command"}</h5>
+                        gain
                     </div>
-                    <section className="command-settings">
-                        <div>
-                            <h5>Kval</h5>
-                            <Counter
-                                count={kval}
-                                newCount={(val) => setKval(((val) >= 0) ? val : kval)}
-                                setCount={(val) => setKval(((kval + val) >= 0) ? kval + val : 0)}
-                            />
-                        </div>
-                        <div>
-                            <h5>Tprepare</h5>
-                            <Counter
-                                count={tprepare}
-                                newCount={(val) => setTprepare(((val) >= 0) ? val : tprepare)}
-                                setCount={(val) => setTprepare(((tprepare + val) >= 0) ? tprepare + val : 0)}
-                            />
-                        </div>
-                        <div>
-                            <h5>Sense check</h5>
-                            <CheckBox
-                                checked={senseCheck}
-                                setValue={() => setSenseCheck(!senseCheck)}
-                            />
-                        </div>
-                    </section>
-                </> : (command === "setPeriod") ? <>
+                </> : (command === "setChos") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
-                        <h5>{(period.LINKSCHEDULE) ? period.LINKSCHEDULE : (typeof (period) === "string") ? period : "no command"}</h5>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (chos) === "string") ? chos : "no command"}</h5>
+                        setChos
                     </div>
-                    <section className="command-settings">
-                        <div>
-                            <h5>Trepeat</h5>
-                            <Counter
-                                count={trepeat}
-                                newCount={(val) => setTrepeat(((val) >= 0) ? val : trepeat)}
-                                setCount={(val) => setTrepeat(((trepeat + val) >= 0) ? trepeat + val : 0)}
-                            />
-                        </div>
-                        <div>
-                            <h5>Net Delay</h5>
-                            <Counter
-                                count={netDelay}
-                                newCount={(val) => setNetDelay(((val) >= 0) ? val : netDelay)}
-                                setCount={(val) => setNetDelay(((netDelay + val) >= 0) ? netDelay + val : 0)}
-                            />
-                        </div>
-                        <div>
-                            <h5>Time Zone</h5>
-                            <Counter
-                                count={timeZone}
-                                newCount={(val) => setTimeZone(((val) >= 0) ? val : timeZone)}
-                                setCount={(val) => setTimeZone(((timeZone + val) >= 0) ? timeZone + val : 0)}
-                            />
-                        </div>
-                    </section>
-                </> : (command === "updateLocation") ? <>
+                </> : (command === "reset") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(updateLocation.GET_LOCATION && !commandStatus) ? <section>
-                        <h5 style={{fontSize: "30px"}}>{updateLocation.GET_LOCATION} </h5>
-                        <div>
-                            <h5>COORD: </h5>
-                            <h5>{updateLocation.COORD}</h5>
-                        </div>
-                    </section> : <h5>{(typeof (updateLocation) === "string") ? updateLocation : "no command"}</h5>}
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (reset) === "string") ? reset : "no command"}</h5>
+                        reset
                     </div>
-                    <section className="command-settings">
-                        <div>
-                            <h5>GNSS Type</h5>
-                            <Counter
-                                count={type}
-                                newCount={(val) => setType(((val) >= 0) ? val : type)}
-                                setCount={(val) => setType(((type + val) >= 0) ? type + val : 0)}
-                            />
-                        </div>
-                        <div>
-                            <h5>GNSS Timeout</h5>
-                            <Counter
-                                count={timeout}
-                                newCount={(val) => setTimeout(((val) >= 0) ? val : timeout)}
-                                setCount={(val) => setTimeout(((timeout + val) >= 0) ? timeout + val : 0)}
-                            />
-                        </div>
-                    </section>
-                </> : (command === "register") ? <>
+                </> : (command === "addPackage") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
-                        <h5>{(typeof (registerState) === "string" && registerState) ? registerState : "no command" }</h5>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (addPackage) === "string" && addPackage) ? addPackage : "no command"}</h5>
+                        addPackage
                     </div>
-                </> : (command === "devState") ? <>
+                </> : (command === "clearAll") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(devState.GET_EXT_INFO && !commandStatus) ? <section>
-                        <h5 style={{fontSize: "30px"}}>{devState.GET_EXT_INFO}</h5>
-                        <h3>Info</h3>
-                        <div>
-                            <h5>MODEM_IMEI: </h5>
-                            <h5>{devState.MODEM_IMEI}</h5>
-                        </div>
-                        <div>
-                            <h5>MODEM_VER: </h5>
-                            <h5>{devState.MODEM_VER}</h5>
-                        </div>
-                        <div>
-                            <h5>REG_ID: </h5>
-                            <h5>{devState.REG_ID}</h5>
-                        </div>
-                        <div>
-                            <h5>SIM_ICCID: </h5>
-                            <h5>{devState.SIM_ICCID}</h5>
-                        </div>
-                    </section> : <h5>{(typeof (devState) === "string") ? devState : "no command"}</h5>}
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (clearAll) === "string") ? clearAll : "no command"}</h5>
+                        clearAll
                     </div>
-                </> : (command === "getLocation") ? <>
+                </> : (command === "ble") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(getLocation.GET_LOCATION && !commandStatus) ? <section>
-                            <h5 style={{fontSize: "30px"}}>{getLocation.GET_LOCATION} </h5>
-                            <div>
-                                <h5>COORD: </h5>
-                                <h5>updateLocation.COORD</h5>
-                            </div>
-                        </section> :
-                        <h5>{(typeof (getLocation) === "string") ? getLocation : "no command"}</h5>}
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (ble) === "string") ? ble : "no command"}</h5>
+                        ble
                     </div>
-                </> : (command === "onData") ? <>
+                </> : (command === "rf") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
-                        <h5>{(onData.DEBUG_ON) ? onData.DEBUG_ON : (typeof (onData) === "string") ? onData : "no command"}</h5>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (rf) === "string") ? rf : "no command"}</h5>rf
                     </div>
-                </> : (command === "reboot") ? <>
+                </> : (command === "sub") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
-                        <h5>{(reboot.DEV_REBOOT) ? reboot.DEV_REBOOT : (typeof (reboot) === "string") ? reboot : "no command"}</h5>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (sub) === "string") ? sub : "no command"}</h5>sub
                     </div>
-                </> : (command === "updateSertificate") ? <>
+                </> : (command === "shedule") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
-                        <h5>{(updateSertificate.FTP_СERT_UPD) ? updateSertificate.FTP_СERT_UPD : (typeof (updateSertificate) === "string") ? updateSertificate : "no command"}</h5>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (shedule) === "string") ? shedule : "no command"}</h5>
+                        shedule
                     </div>
-                </> : (command === "updateUI") ? <>
+                </> : (command === "mode") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
-                        <h5>{(updateUI.FTP_FW_UPD) ? updateUI.FTP_FW_UPD : (typeof (updateUI) === "string") ? updateUI : "no command"}</h5>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (mode) === "string") ? mode : "no command"}</h5>
+                        mode
                     </div>
-                    <section className="command-settings">
-                        <div>
-                            <h5>Название</h5>
-                            <input value={UIName} onChange={(e) => setUIName(e.target.value)}/>
-                        </div>
-                    </section>
-                </> : <></>}
+                </> : (command === "vibro") ? <>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (vibro) === "string") ? vibro : "no command"}</h5>
+                        vibro
+                    </div>
+                </> : (command === "vibro") ? <>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (vibro) === "string") ? vibro : "no command"}</h5>
+                        vibro
+                    </div>
+                </> : (command === "launch") ? <>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (launch) === "string") ? launch : "no command"}</h5>
+                        launch
+                    </div>
+                </> : (command === "sleep") ? <>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (sleep) === "string") ? sleep : "no command"}</h5>
+                        sleep
+                    </div>
+                </> : (command === "settingsSleep") ? <>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (settingsSleep) === "string") ? settingsSleep : "no command"}</h5>
+                        settingsSleep
+                    </div>
+                </> : (command === "imit") ? <>
+                    <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (imit) === "string") ? imit : "no command"}</h5>
+                        imit
+                    </div>
+                </> : <>{command}</>
+                }
 
                 <div className="button-container" style={{
                     justifyContent: "start", alignItems: "end", flexDirection: "row"
@@ -427,7 +394,7 @@ export const DevCommandsSub = () => {
                     }}
                             className={commandStatus ? "activated-button" : ""}
                     >
-                        <FormattedMessage id = "commands.buttons.submit"/>
+                        <FormattedMessage id="commands.buttons.submit"/>
                     </button>
                     <button
                         onClick={(e) => {
@@ -436,7 +403,7 @@ export const DevCommandsSub = () => {
                             localStorage.setItem(device.Device.DevId + "commandStatus", "")
                         }}
                         style={{display: commandStatus ? "block" : "none"}}>
-                        <FormattedMessage id = "commands.buttons.cancel.text"/>
+                        <FormattedMessage id="commands.buttons.cancel.text"/>
                     </button>
                 </div>
             </form>}/>

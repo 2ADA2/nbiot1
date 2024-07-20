@@ -16,7 +16,7 @@ export const DevInfo = observer(() => {
     const [inDB, setInDB] = useState(device.inDB);
     const [DBNum, setDBNum] = useState(Number(localStorage.getItem(device.Device.DevId + "DBNum")) || 133000);
     const [already, setAlready] = useState();
-    const [devState, setDevState] = useState("state:" + device.DeviceAttr.State)
+    const [clearAll, setClearAll] = useState("state:" + device.DeviceAttr.State)
 
 
     useEffect(() => {
@@ -141,7 +141,7 @@ export const DevInfo = observer(() => {
                             <FormattedMessage id = "deviceInfo.statusTitle"/>
                         </h5>
                         <textarea
-                            value={devState + getDeviceState(devState)
+                            value={clearAll + getDeviceState(clearAll)
                                 + `\n\n` + getErrors(device.DeviceAttr.Metrics.StatusBitMask || 0).join(`\n`)}
                         ></textarea>
                     </section>
