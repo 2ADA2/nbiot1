@@ -6,6 +6,7 @@ import {useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars, faPlus} from "@fortawesome/free-solid-svg-icons";
 import {Counter} from "../../../components/counter";
+import settings from "../../../store/settings";
 
 function checkFrame(e, style) {
     if (e.target.className === "frame") {
@@ -73,7 +74,8 @@ export const DevSettingsSub = observer(() => {
 
     function dragOverHandler(e) {
         e.preventDefault()
-        checkFrame(e, "0 1px white")
+        checkFrame(e, (settings.theme === "dark") ? "0 1px white" : "0 1px #2c3642");
+
     }
 
     function dragDropHandler(e, frame) {

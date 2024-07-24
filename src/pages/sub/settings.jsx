@@ -36,7 +36,6 @@ export const SettingsSub = observer(() => {
     return (
         <Page
             header={<FormattedMessage id="settings.header"/>}
-            subHeader={"GW settings"}
             header2={<FormattedMessage id="settings.sub.header2"/>}
             elem={
                 <form>

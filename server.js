@@ -150,4 +150,17 @@ app.get("/sub/Advanced%20settings", function (req, res) {
     res.send(`advanced sub`);
 });
 
+app.get("/sh219%20info/cmd_get", function (req, res) {
+    setTimeout(() => {
+        if (req.query["cmd"] === "ping") res.status(200).send(`pong`);
+        else if (req.query["cmd"] === "date") res.status(200).send( new Date().toLocaleDateString("ru-RU") +" " +  new Date().toLocaleTimeString("ru-RU"));
+        else if (req.query["cmd"] === "uname -n") res.status(200).send("localhost:3001");
+        else res.status(200).send("unknown command");
+    },500)
+
+});
+
+
+
+
 app.listen(PORT, () => console.log("server started at port " + PORT))

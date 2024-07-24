@@ -1,4 +1,5 @@
 import axios from "axios";
+import global from "../store/global";
 
 export const setSettings = async (url, data = {}, token) => {
     const res = await axios.post(url,
@@ -27,14 +28,14 @@ export const setSettings = async (url, data = {}, token) => {
 }
 
 export const postReq = async (url, data = "", token) => {
-    const res = await axios.post(url, data, {headers: {"Authorization": token}})
+    const res = await axios.post(url, data, {headers: {"Authorization": token}}).catch((err) => global.catchError(err))
     return res;
 }
 
 export const setUTC = async (url, utc = "", token) => {
     const res = await axios.post(url, {
         "Utc": utc
-    }, {headers: {"Authorization": token}})
+    }, {headers: {"Authorization": token}}).catch((err) => global.catchError(err))
     return res;
 }
 
@@ -44,7 +45,7 @@ export const setDBSettings = async (url, state, num, token) => {
             "State": state,
             "Dev_numDB": Number(num)
         }
-    }, {headers: {"Authorization": token}})
+    }, {headers: {"Authorization": token}}).catch((err) => global.catchError(err))
 
     return res
 }
@@ -69,7 +70,7 @@ export const startMeasureImit = async (url, data, token, func) => {
             "Artist": data.artist
 
         }
-    }, {headers: {"Authorization": token}}).then((res) => func(res.data))
+    }, {headers: {"Authorization": token}}).then((res) => func(res.data)).catch((err) => global.catchError(err))
 }
 export const startMeasure = async (url, data, token, func) => {
     axios.post(url, {
@@ -87,14 +88,14 @@ export const startMeasure = async (url, data, token, func) => {
             "Artist": data.artist
 
         }
-    }, {headers: {"Authorization": token}}).then((res) => func(res.data))
+    }, {headers: {"Authorization": token}}).then((res) => func(res.data)).catch((err) => global.catchError(err))
 }
 
 export const clear = async (url, token, measure) => {
     const res = await axios.post(url, {
             "MeasClear": measure + " measure list"
         },
-        {headers: {"Authorization": token}})
+        {headers: {"Authorization": token}}).catch((err) => global.catchError(err))
     return res;
 }
 
@@ -183,5 +184,5 @@ export const sendCommand = async (url, data, token) => {
     }
     return axios.post(url, body, {
         headers: {"Authorization": token}
-    })
+    }).catch((err) => global.catchError(err))
 }

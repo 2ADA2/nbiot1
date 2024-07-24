@@ -7,23 +7,25 @@ import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import global from "../store/global";
 import {CheckBox} from "../components/checkbox";
 import {observer} from "mobx-react-lite";
+import {sendCmd} from "../functions/cmd";
 
 export const Home = observer(() => {
     const [page, setPage] = useState(0);
     const [consoleVal, setConsoleVal] = useState(localStorage.getItem("consoleVal") || "");
     const [inputVal, setInputVal] = useState("");
 
-    const console = useRef(null);
+    const consoleRef = useRef(null);
 
     const updateHistory = (value) => {
         if (!consoleVal) {
             localStorage.setItem("consoleVal", value);
             setConsoleVal(value);
+            console.log(consoleVal)
             return;
         }
         localStorage.setItem("consoleVal", consoleVal + "\n" + value);
         setConsoleVal(consoleVal + "\n" + value);
-        setTimeout(() => console.current.scrollTo(0, console.current.scrollHeight), 100);
+        setTimeout(() => consoleRef.current.scrollTo(0, consoleRef.current.scrollHeight), 100);
     }
 
     const clearHistory = () => {
@@ -33,8 +35,12 @@ export const Home = observer(() => {
 
     const cmd = () => {
         updateHistory(inputVal)
+        sendCmd(global.shWay + "/cmd_get", global.token, inputVal).then(res => {
+            console.log(res)
+            res.data ? updateHistory( inputVal + `\n` + res.data) :
+                updateHistory( inputVal + `\n` + "no responce")
+        }).catch(() => updateHistory( inputVal + `\n` + "no responce"))
         setInputVal("")
-
     }
 
 
@@ -53,7 +59,7 @@ export const Home = observer(() => {
                                 <FormattedMessage id="home.panel.info"/>
                             </button>
                             <button onClick={() => setPage(2)} className={(page === 2) ? "panel-active" : ""}>
-                                <FormattedMessage id="разработка"/>
+                                разработка
                             </button>
                         </nav>
 
@@ -61,7 +67,7 @@ export const Home = observer(() => {
                             <section>
                                 <h3><FormattedMessage id="home.console"/></h3>
                                 <div className="console">
-                                <textarea value={consoleVal} ref={console}/>
+                                <textarea value={consoleVal} ref={consoleRef}/>
                                     <button
                                         className="clear-measure"
                                         onClick={(e) => clearHistory()}>

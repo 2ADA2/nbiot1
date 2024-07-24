@@ -42,7 +42,7 @@ export const Settings = observer(() => {
             },
             global.token)
             .then(() => global.updateSettings())
-            .catch(() => global.updateToken())
+            .catch((err) => global.catchError(err))
     }
 
     return (

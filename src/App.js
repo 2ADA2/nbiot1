@@ -1,5 +1,5 @@
 import {Layout} from "./layout/layout";
-import {Routes, Route, Navigate, useLocation} from 'react-router';
+import {Routes, Route, Navigate} from 'react-router';
 import {useEffect, useState} from "react";
 import global from "./store/global";
 import {adminRoutes, adminRoutesSub, routes, subRoutes} from "./components/routes";
@@ -9,6 +9,7 @@ import {LoadingPage} from "./components/loadingPage";
 import {AUTHORIZATION_ROUTE} from "./utils/consts";
 import {Auth} from "./pages/Auth";
 import settings from "./store/settings";
+import ErrorBoundary from "./components/errorBoundary";
 
 const App = observer(() => {
 
@@ -30,31 +31,34 @@ const App = observer(() => {
     if (global.isLoading) return <LoadingPage toBack={false}/>
 
     return (
-        <div className={"App " + settings.theme}>
-            <Routes>
-                <Route path='/' element={<Layout/>}>
+        <ErrorBoundary>
+            <div className={"App " + settings.theme}>
+                <Routes>
+                    <Route path='/' element={<Layout/>}>
 
-                    {global.progType === "mqtt" ? routes.map(({path, Element}) => {
-                        return <Route key={path} path={path} element={<Element/>}/>
-                    }) : subRoutes.map(({path, Element}) => {
-                        return <Route key={path} path={path} element={<Element/>}/>
-                    })}
+                        {global.progType === "mqtt" ? routes.map(({path, Element}) => {
+                            return <Route key={path} path={path} element={<Element/>}/>
+                        }) : subRoutes.map(({path, Element}) => {
+                            return <Route key={path} path={path} element={<Element/>}/>
+                        })}
 
-                    {global.isAdmin ?
-                        (global.progType === "mqtt") ?
-                            adminRoutes.map(({path, Element}) => {
-                                return <Route key={path} path={path} element={<Element/>}/>
-                            }) : adminRoutesSub.map(({path, Element}) => {
-                                return <Route key={path} path={path} element={<Element/>}/>
-                            }) : <></>}
+                        {global.isAdmin ?
+                            (global.progType === "mqtt") ?
+                                adminRoutes.map(({path, Element}) => {
+                                    return <Route key={path} path={path} element={<Element/>}/>
+                                }) : adminRoutesSub.map(({path, Element}) => {
+                                    return <Route key={path} path={path} element={<Element/>}/>
+                                }) : <></>}
 
-                    <Route
-                        path="*"
-                        element={<Navigate to="/" replace/>}
-                    />
-                </Route>
-            </Routes>
-        </div>
+                        <Route
+                            path="*"
+                            element={<Navigate to="/" replace/>}
+                        />
+                    </Route>
+                </Routes>
+            </div>
+        </ErrorBoundary>
+
     );
 })
 

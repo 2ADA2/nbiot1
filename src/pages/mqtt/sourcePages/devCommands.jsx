@@ -71,14 +71,14 @@ export const DevCommands = () => {
                 }).then((res) => {
                     getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
                 })
-                    .catch((err) => errorAnalyze(err, () => setCommandStatus()))
+                    .catch((err) => global.catchError(err))
             }, 1000)
             interval = setInterval(() => {
                 axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
                     headers: {"Authorization": global.token}
                 }).then((res) => {
                     getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
-                })
+                }).catch((err) => global.catchError(err))
             }, 5000)
         }
 
@@ -101,7 +101,7 @@ export const DevCommands = () => {
         }
     }, [commandStatus]);
 
-    function cmd(e) {
+    async function  cmd(e) {
         e.preventDefault()
         setOnLoad(true)
         setCommandStatus(true)
@@ -109,13 +109,13 @@ export const DevCommands = () => {
         localStorage.setItem(device.Device.DevId + "onLoad", true)
         localStorage.setItem(device.Device.DevId + "commandStatus", true)
 
-        sendCommand(global.way + "/cmd/" + device.Device.DevId, {
+        await sendCommand(global.way + "/cmd/" + device.Device.DevId, {
             command, trepeat, timeZone, netDelay, type, timeout, kval, tprepare, senseCheck, UIName
         }, global.token).then((res) => {
             setOnLoad(false)
             localStorage.setItem(device.Device.DevId + "onLoad", "")
             getCommandStatus(res.data.Info)
-        })
+        }).catch((err) => global.catchError(err))
     }
 
     function getCommandStatus(info = "", res = "") {

@@ -14,9 +14,9 @@ import {
     SOURCES_ROUTE,
 } from "../utils/consts";
 import {DevList} from "../pages/sub/devList";
-import {DevInfoSub} from "../pages/sub/courcePages/devInfoSub";
-import {DevCommandsSub} from "../pages/sub/courcePages/devCommandsSub";
-import {DevSettingsSub} from "../pages/sub/courcePages/devSettings";
+import {DevInfoSub} from "../pages/sub/sourcePages/devInfoSub";
+import {DevCommandsSub} from "../pages/sub/sourcePages/devCommandsSub";
+import {DevSettingsSub} from "../pages/sub/sourcePages/devSettings";
 import {SettingsSub} from "../pages/sub/settings";
 import {AdvancedSettings} from "../pages/mqtt/advancedSettings";
 

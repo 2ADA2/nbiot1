@@ -11,6 +11,7 @@ class Global {
     isAdmin = true;
     way = http.http + "mqtt";
     subWay = http.http + "sub";
+    shWay = http.http + "sh219 info";
     progType = localStorage.getItem("progType") || "mqtt";
     processor = null
 
@@ -105,8 +106,8 @@ class Global {
     }
 
     updateConnection() {
-        connect(this.way + "/state", (state) => this.state = state.ConnectionState, () => {
-        }, this.token).then(() => {
+        connect(this.way + "/state", this.token).then((res) => {
+            this.state = res.data.ConnectionState
             if (typeof (this.state) !== 'string') localStorage.setItem("state", this.state)
         }).catch(() => this.isAuth = false)
     }
@@ -124,28 +125,22 @@ class Global {
     }
 
     updateDevices() {
-        connect(this.way + "/sources", (deviceList) => {
-            this.deviceList = deviceList.Sources;
+        connect(this.way + "/sources", this.token).then ((res) => {
+            this.deviceList = res.data.Sources;
 
             new Promise((res) => {
                 let newDevs = [];
                 for (let device of Array.from(this.deviceList)) {
 
-                    connect(this.way + "/dev info/" + device, (dev) => {
-
-                        connect(this.way + "/DBState/" + device, (res) => {
-                            dev.inDB = res.PutDBState;
-
-                            connect(this.way + "/utc state/" + device, (res) => {
-                                dev.utc = res.UtcState;
-                                newDevs.push(dev)
-                            }, () => {
-                            }, this.token)
-
-                        }, () => {
-                        }, this.token)
-
-                    }, () => this.updateToken(), this.token)
+                    connect(this.way + "/dev info/" + device, this.token) .then((dev) => {
+                        connect(this.way + "/DBState/" + device, this.token).then((res) => {
+                            dev.inDB = res.data.PutDBState;
+                            connect(this.way + "/utc state/" + device, this.token).then((res) => {
+                                dev.utc = res.data.UtcState;
+                                newDevs.push(dev.data)
+                            })
+                        })
+                    })
 
                 }
                 const interval = setInterval(() => {
@@ -160,9 +155,7 @@ class Global {
                 .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
                 .catch((e) => errorAnalyze(e))
 
-        }, () => {
-            throw new Error()
-        }, this.token)
+        })
             .then(() => localStorage.setItem("devList", JSON.stringify(this.deviceList)))
             .then(() => this.isAuth = true)
             .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
@@ -180,39 +173,29 @@ class Global {
 
     async updateProcessor(){
         connect(
-            http.http + "cat/proc/cpuinfo",
-            (res) => this.processor = res,
-            () => {
-                throw new Error()
-            }, this.token
+            http.http + "cat/proc/cpuinfo", this.token).then(
+            (res) => this.processor = res.data,
         )
     }
 
     async updateSettings() {
-        connect(this.way + "/settings",
-            (settings) => this.settings = settings,
-            () => {
-                throw new Error()
-            }, this.token
+        connect(this.way + "/settings", this.token).then(
+            (settings) => this.settings = settings.data
         )
             .then(() => {
                 if (this.isAdmin) {
                     if(this.progType === "mqtt"){
-                        connect(this.way + "/Advanced settings",
+                        connect(this.way + "/Advanced settings", this.token).then(
                             (advSettings) => {
-                                localStorage.setItem("advSettings" , advSettings)
-                                this.advSettings = advSettings
-                            }, () => {
-                                throw new Error()
-                            }, this.token)
+                                localStorage.setItem("advSettings" , advSettings.data)
+                                this.advSettings = advSettings.data
+                            })
                     } else{
-                        connect(this.subWay + "/Advanced settings",
+                        connect(this.subWay + "/Advanced settings", this.token).then(
                             (advSettings) => {
-                                localStorage.setItem("advSettings" , advSettings)
-                                this.advSettings = advSettings
-                            }, () => {
-                                throw new Error()
-                            }, this.token)
+                                localStorage.setItem("advSettings" , advSettings.data)
+                                this.advSettings = advSettings.data
+                            })
                     }
 
                 } else{
@@ -227,6 +210,10 @@ class Global {
     setAdvSettings(adv){
         this.advSettings = adv
         localStorage.setItem("advSettings", adv)
+    }
+
+    catchError(err){
+        errorAnalyze(err, (err) => this.err = err, () => this.updateToken())
     }
 }
 
