@@ -2,13 +2,14 @@ import {useEffect, useState} from "react"
 import {Page} from "../../../components/page"
 import global from "../../../store/global";
 import "../../../styles/pages/sourcePages/devCommands.css"
-import {Counter} from "../../../components/counter";
-import {CheckBox} from "../../../components/checkbox";
 import {useDevice} from "../../../hooks/useDevice";
-import {sendCommand} from "../../../functions/requests";
 import axios from "axios";
 import {errorAnalyze} from "../../../functions/error";
 import {FormattedMessage} from "react-intl/lib";
+import {sendCommand} from "../../../functions/requests";
+import {sendSubCommand} from "../../../functions/subRequests";
+import {CheckBox} from "../../../components/checkbox";
+import {Counter} from "../../../components/counter";
 
 export const DevCommandsSub = () => {
     const device = useDevice();
@@ -103,11 +104,16 @@ export const DevCommandsSub = () => {
         }
     }, [commandStatus]);
 
-    function cmd(e) {
+    async function cmd(e) {
         e.preventDefault()
         setCommandStatus(true)
 
         localStorage.setItem(device.Device.DevId + "commandStatus", true)
+
+        await sendSubCommand(global.way + "/cmd/" + device.Device.DevId, {command}, global.token).then((res) => {
+            localStorage.setItem(device.Device.DevId + "onLoad", "")
+            getCommandStatus(res.data.Info)
+        }).catch((err) => global.catchError(err))
     }
 
     function getCommandStatus(info = "", res = "") {
@@ -283,102 +289,222 @@ export const DevCommandsSub = () => {
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (battery) === "string") ? battery : "no command"}</h5>
-                        battery
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>GET BLE ADV TIME</h5>
+                            <CheckBox/>
+                        </div>
+                        <div>
+                            <h5>Capaсity</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Threshold voltage</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Threshold percent</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "gain") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/></h5>
                         <h5>{(typeof (battery) === "string") ? battery : "no command"}</h5>
-                        gain
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>M</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>X</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Y</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Z</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "setChos") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (chos) === "string") ? chos : "no command"}</h5>
-                        setChos
                     </div>
                 </> : (command === "reset") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (reset) === "string") ? reset : "no command"}</h5>
-                        reset
                     </div>
                 </> : (command === "addPackage") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (addPackage) === "string" && addPackage) ? addPackage : "no command"}</h5>
-                        addPackage
                     </div>
                 </> : (command === "clearAll") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (clearAll) === "string") ? clearAll : "no command"}</h5>
-                        clearAll
                     </div>
                 </> : (command === "ble") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (ble) === "string") ? ble : "no command"}</h5>
-                        ble
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>TIME</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "rf") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
-                        <h5>{(typeof (rf) === "string") ? rf : "no command"}</h5>rf
+                        <h5>{(typeof (rf) === "string") ? rf : "no command"}</h5>
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Chanal</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Power</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Word</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Speed</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "sub") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
-                        <h5>{(typeof (sub) === "string") ? sub : "no command"}</h5>sub
+                        <h5>{(typeof (sub) === "string") ? sub : "no command"}</h5>
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Gw id</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Dev id</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Win</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "shedule") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (shedule) === "string") ? shedule : "no command"}</h5>
-                        shedule
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Quantity</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Shedul</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Reserv</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "mode") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (mode) === "string") ? mode : "no command"}</h5>
-                        mode
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Mode</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "vibro") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (vibro) === "string") ? vibro : "no command"}</h5>
-                        vibro
                     </div>
-                </> : (command === "vibro") ? <>
-                    <div className={"status"}>
-                        <h5><FormattedMessage id="commands.status"/>:</h5>
-                        <h5>{(typeof (vibro) === "string") ? vibro : "no command"}</h5>
-                        vibro
-                    </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Scale</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "launch") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (launch) === "string") ? launch : "no command"}</h5>
-                        launch
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Threshold </h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Settings</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Time</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "sleep") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (sleep) === "string") ? sleep : "no command"}</h5>
-                        sleep
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Mode</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "settingsSleep") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (settingsSleep) === "string") ? settingsSleep : "no command"}</h5>
-                        settingsSleep
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Settings</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : (command === "imit") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (imit) === "string") ? imit : "no command"}</h5>
-                        imit
                     </div>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Mode</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Phase</h5>
+                            <Counter/>
+                        </div>
+                        <div>
+                            <h5>Ampli</h5>
+                            <Counter/>
+                        </div>
+                    </section>
                 </> : <>{command}</>
                 }
 
