@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { DEVINFO_ROUTE } from "../utils/consts"
 import global from "../store/global"
 import { observer } from "mobx-react-lite"
@@ -11,7 +11,7 @@ export const CreateRows = observer(() => {
     if (!global.deviceList.length || !global.devices.length) return (
         <>
             <tr className="empty-row" >
-                <td colSpan="6">
+                <td colSpan="6" style={{color:"#383838"}}>
                     No sources
                 </td>
             </tr>
@@ -50,6 +50,6 @@ export const CreateRows = observer(() => {
         )
     }
 
-    return <>{rows}</>
+    return rows
 
 })
