@@ -36,7 +36,6 @@ export const Home = observer(() => {
     const cmd = () => {
         updateHistory(inputVal)
         sendCmd(global.shWay + "/cmd_get", global.token, inputVal).then(res => {
-            console.log(res)
             res.data ? updateHistory( inputVal + `\n` + res.data) :
                 updateHistory( inputVal + `\n` + "no responce")
         }).catch(() => updateHistory( inputVal + `\n` + "no responce"))

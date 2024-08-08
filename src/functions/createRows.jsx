@@ -8,15 +8,28 @@ import { observer } from "mobx-react-lite"
 export const CreateRows = observer(() => {
     const navigate = useNavigate()
     //Пустая таблица
-    if (!global.deviceList.length || !global.devices.length) return (
-        <>
-            <tr className="empty-row" >
-                <td colSpan="6" style={{color:"#383838"}}>
-                    No sources
-                </td>
-            </tr>
-        </>
-    )
+    try{
+        if (!global.deviceList.length || !global.devices.length) return (
+            <>
+                <tr className="empty-row" >
+                    <td colSpan="6" style={{color:"#383838"}}>
+                        No sources
+                    </td>
+                </tr>
+            </>
+        )
+    } catch{
+        return (
+            <>
+                <tr className="empty-row" >
+                    <td colSpan="6" style={{color:"#383838"}}>
+                        No sources
+                    </td>
+                </tr>
+            </>
+        )
+    }
+
     function changeLocation(device) {
         navigate(DEVINFO_ROUTE + "/" + device.Device.DevId)
         global.setLocation()

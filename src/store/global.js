@@ -3,7 +3,6 @@ import http from "../http.json"
 import {connect} from "../functions/connect";
 import {sortDevs} from "../functions/sortDevs";
 import {errorAnalyze} from "../functions/error";
-import axios from "axios";
 
 class Global {
 
@@ -34,11 +33,12 @@ class Global {
         makeAutoObservable(this)
         if (this.token) {
             this.isAuth = true;
-            axios.get(this.shWay + "/protocol type", {headers: {token: this.token}})
+            connect(this.shWay + "/protocol type", this.token)
                 .then(res => {
                     if (this.progType !== res.data["Protocol type"]) this.setType()
-                }).then(() => this.updateAll())
-
+                }).then(() => this.updateAll()).catch((err) => {
+                errorAnalyze(err, (err) => this.err = err, () => this.updateToken())
+            })
         }
     }
 
@@ -131,6 +131,8 @@ class Global {
     updateDevicesSub() {
         connect(this.subWay + "/sources", this.token).then((res) => {
             this.deviceList = res.data.Sources;
+        }).catch((err) => {
+            errorAnalyze(err, (err) => this.err = err, () => this.updateToken())
         })
     }
 
@@ -169,7 +171,6 @@ class Global {
             .then(() => localStorage.setItem("devList", JSON.stringify(this.deviceList)))
             .then(() => this.isAuth = true)
             .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
-            .then(() => this.isLoading = false)
             .catch(() => this.updateToken())
     }
 
@@ -180,12 +181,14 @@ class Global {
                 .then(() => this.updateSettings()) // auto-check prog type
                 .then(() => this.updateDevices())
                 .then(() => this.updateConnection())
+                .then(() => this.isLoading = false)
                 .catch(() => this.updateToken())
             :
 
             this.updateProcessor()
                 .then(() => this.updateSettings()) // auto-check prog type
                 .then(() => this.updateDevicesSub())
+                .then(() => this.isLoading = false)
                 .catch(() => this.updateToken())
     }
 
@@ -220,8 +223,8 @@ class Global {
                     localStorage.setItem("advSettings", "")
                 }
             })
-            .catch(() => {
-                this.updateToken()
+            .catch((err) => {
+                this.catchError(err)
             })
     }
 

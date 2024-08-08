@@ -2,9 +2,9 @@ import {Page} from "../../../components/page"
 import "../../../styles/pages/sourcePages/devSettings.css"
 import {observer} from "mobx-react-lite";
 import {FormattedMessage} from "react-intl/lib";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBars, faPlus} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faPencil, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {Counter} from "../../../components/counter";
 import settings from "../../../store/settings";
 
@@ -23,18 +23,32 @@ function checkFrame(e, style) {
     }
 }
 
+function generateID (frameList){
+    let id = 0
+    while (frameList.filter(e => e.id === id).length){
+        id += 1
+    }
+    return id
+
+}
+
 export const DevSettingsSub = observer(() => {
-    const [frameList, setFrameList] = useState([]);
+    const [frameList, setFrameList] = useState(localStorage.getItem("frameList") ? JSON.parse(localStorage.getItem("frameList")) : []);
 
     const [settingsStatus, setSettingsStatus] = useState();
     const [count, setCount] = useState(1);
     const [interval, setInterval] = useState(1);
     const [type, setType] = useState();
-    const [isAdd, setIsAdd] = useState(false);
+    const [settingsId, setSettingsId] = useState(null);
+    const [settingsParams, setSettingsParams] = useState({});
 
 
     const [currentFrame, setCurrentFrame] = useState(null);
-    const [mouseOn, setMouseOn] = useState(false)
+    const [mouseOn, setMouseOn] = useState(false);
+
+    useEffect(() => {
+        localStorage.setItem("frameList", JSON.stringify(frameList));
+    }, [frameList]);
 
 
     function handleChange(num, count, setter) {
@@ -44,17 +58,17 @@ export const DevSettingsSub = observer(() => {
     }
 
     function add() {
+        clearSettings()
         setType("frame TU")
-        setIsAdd(true);
         setCount(1);
         setInterval(1);
         setSettingsStatus(true);
+        setSettingsId(null)
     }
 
     function newFrame() {
-        setFrameList([...frameList, {count, interval, type, id: frameList.length, order: frameList.length}])
+        setFrameList([...frameList, {count, interval, type, id: generateID(frameList), order: frameList.length}])
         setType()
-        setIsAdd(false);
         setCount(1);
         setInterval(1);
         setSettingsStatus(false);
@@ -103,15 +117,15 @@ export const DevSettingsSub = observer(() => {
             }
 
             if (currentFrame.order < f.order) {
-                if(frame.order < f.order) {
+                if (frame.order < f.order) {
                     return {...f, order: f.order}
                 }
-                return {...f, order: f.order-1}
+                return {...f, order: f.order - 1}
             } else {
-                if(frame.order > f.order) {
+                if (frame.order > f.order) {
                     return {...f, order: f.order}
                 }
-                return {...f, order: f.order+1}
+                return {...f, order: f.order + 1}
             }
 
 
@@ -126,8 +140,42 @@ export const DevSettingsSub = observer(() => {
         } else {
             return -1
         }
+    }
 
+    const clearSettings = () => {
+        setSettingsStatus()
+        setType()
+        setSettingsId(null)
+        setSettingsParams({});
+    }
 
+    const delFrame = () => {
+        let count = -1
+        let newFrameList = frameList.map((frame) => {
+            if(frame.id !== settingsId){
+                count += 1
+                return {...frame, order:count}
+            }
+            return null
+        })
+
+        setFrameList(newFrameList.filter(f => f !== null))
+        console.log(frameList)
+        clearSettings()
+    }
+
+    const updateFrame = () => {
+        let newFrameList = frameList.slice()
+        const oldFrame = frameList.filter(f => f.id === settingsId)[0]
+        newFrameList.splice(oldFrame.order, 1, {
+            count:settingsParams.count,
+            interval:settingsParams.interval,
+            type:oldFrame.type,
+            id: oldFrame.id,
+            order: oldFrame.order,
+        })
+        setFrameList(newFrameList)
+        clearSettings()
     }
 
     return <Page
@@ -167,8 +215,21 @@ export const DevSettingsSub = observer(() => {
                                     <button
                                         onMouseEnter={() => setMouseOn(true)}
                                         onMouseLeave={() => setMouseOn(false)}
+                                        style={{minWidth: 40}}
                                     >
                                         <FontAwesomeIcon icon={faBars}/>
+                                    </button>
+
+                                    <button
+                                        style={{minWidth: 40}}
+                                        onClick={() => {
+                                            clearSettings()
+                                            setSettingsId(frame.id)
+                                            setSettingsStatus("settings")
+                                            setSettingsParams({interval:frame.interval, count:frame.count})
+                                        }}
+                                    >
+                                        <FontAwesomeIcon icon={faPencil}/>
                                     </button>
                                     <div>
                                         {frame.count} раз(а)
@@ -191,7 +252,7 @@ export const DevSettingsSub = observer(() => {
                 </section>
                 <h3>Настройки frame</h3>
                 <section style={{marginTop: 20}}>
-                    {(!settingsStatus) ?
+                    {!settingsStatus ?
                         <>
                             <h1>
                                 Не выбрано
@@ -200,7 +261,7 @@ export const DevSettingsSub = observer(() => {
                                 Выберите нужный пункт в расписании для настройки
                             </h2>
                         </>
-                        : (type === "frame TU") ?
+                        : (settingsStatus && type === "frame TU") ?
                             <>
                                 <h1 style={{fontSize: 40, marginBottom: 40}}>Новое расписание</h1>
                                 <select
@@ -226,23 +287,74 @@ export const DevSettingsSub = observer(() => {
                                         setCount={(num) => handleChange(num, count, (num) => setCount(num))}
                                     />
                                 </div>
-                                <button onClick={() => newFrame()}>
-                                    Добавить
-                                </button>
-                            </>
-                            :
-                            <>
-                                <h1 style={{fontSize: 40, marginBottom: 40}}>Новое расписание</h1>
-                                <select
-                                    style={{minWidth: "200px", marginBottom: 40}}
-                                    onChange={e => setType(e.target.value)}>
-                                    <option value={"frame TU"}>frame TU</option>
-                                    <option value={"other"}>other</option>
-                                </select>
-                                <div>
-                                    other
+
+                                <div className="frame-buttons-container">
+                                    <button onClick={() => newFrame()}>
+                                        Добавить
+                                    </button>
+                                    <button onClick={() => {
+                                        clearSettings()
+                                    }}>
+                                        Отменить
+                                    </button>
                                 </div>
                             </>
+                            : (settingsStatus && type === "other") ?
+                                <>
+                                    <h1 style={{fontSize: 40, marginBottom: 40}}>Новое расписание</h1>
+                                    <select
+                                        style={{minWidth: "200px", marginBottom: 40}}
+                                        onChange={e => setType(e.target.value)}>
+                                        <option value={"frame TU"}>frame TU</option>
+                                        <option value={"other"}>other</option>
+                                    </select>
+                                    <div>
+                                        other
+                                    </div>
+                                    <div className="frame-buttons-container">
+                                        <button onClick={() => {
+                                            clearSettings()
+                                        }}>
+                                            Отменить
+                                        </button>
+                                    </div>
+
+                                </>
+                                :
+                                <>
+                                    <h1 style={{fontSize: 40, marginBottom: 40}}>Изменение расписания</h1>
+                                    <div style={{flexDirection: "row", gap: 40}}>
+                                    <h5 style={{width: "auto"}}>Интервал, мин:</h5>
+                                        <Counter
+                                            count={settingsParams.interval}
+                                            newCount={(num) => (num > 0) ? setSettingsParams({...settingsParams, interval:num}) : setSettingsParams({...settingsParams, interval:1})}
+                                            setCount={(num) => handleChange(num, settingsParams.interval, (num) => setSettingsParams({...settingsParams, interval:num}))}
+                                        />
+                                    </div>
+
+                                    <div style={{flexDirection: "row", gap: 40, marginTop: 20}}>
+                                        <h5 style={{width: "auto"}}>Количество повторов:</h5>
+                                        <Counter
+                                            count={settingsParams.count}
+                                            newCount={(num) => (num > 0) ? setSettingsParams({...settingsParams, count:num}) : setSettingsParams({...settingsParams, count:1})}
+                                            setCount={(num) => handleChange(num, settingsParams.count, (num) => setSettingsParams({...settingsParams, count:num}))}
+                                        />
+                                    </div>
+                                    <div className="frame-buttons-container">
+                                        <button onClick={updateFrame}>
+                                            Сохранить
+                                        </button>
+                                        <button onClick={() => {
+                                            clearSettings()
+                                        }}>
+                                            Отменить
+                                        </button>
+                                        <button onClick={delFrame} style={{ width:70}}>
+                                            <FontAwesomeIcon icon={faTrash}/>
+                                        </button>
+                                    </div>
+
+                                </>
                     }
                 </section>
             </div>

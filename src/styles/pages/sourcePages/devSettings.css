@@ -171,7 +171,8 @@ form .measurement section div .counter{
 
 .frame div{
     padding: 10px;
-    min-width: 150px;
+    min-width: clamp(100px, 8vw, 150px);
+    font-size: clamp(16px, 2vw, 24px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -191,6 +192,14 @@ form .measurement section div .counter{
     gap:0;
     padding: 5px;
     background: #e5e7f1;
+}
+main .page .frame-buttons-container{
+   flex-direction: row;
+    margin-top: 40px;
+}
+
+main .page .frame-buttons-container button{
+    margin: 0;
 }
 
 .frame button{

@@ -9,7 +9,6 @@ import CreateListRows from "../../functions/createListRows"
 import {FormattedMessage} from "react-intl/lib";
 
 export const DevList = observer(() => {
-
     const [info, setInfo] = useState(localStorage.getItem("moreSourceInfo"))
 
     function updateState(e) {
