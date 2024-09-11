@@ -21,7 +21,7 @@ class Global {
 
     state = (localStorage.getItem("state")) ? JSON.parse(localStorage.getItem("state")) : null;
     devices = (localStorage.getItem("devices")) ? JSON.parse(localStorage.getItem("devices")) : [];
-    deviceList = (localStorage.getItem("deviceList")) ? JSON.parse(localStorage.getItem("devList")) : [];
+    deviceList = (localStorage.getItem("deviceList")) ? JSON.parse(localStorage.getItem("deviceList")) : [];
     settings = null;
     err = false;
     isLoading = true;
@@ -33,12 +33,8 @@ class Global {
         makeAutoObservable(this)
         if (this.token) {
             this.isAuth = true;
-            connect(this.shWay + "/protocol type", this.token)
-                .then(res => {
-                    if (this.progType !== res.data["Protocol type"]) this.setType()
-                }).then(() => this.updateAll()).catch((err) => {
-                errorAnalyze(err, (err) => this.err = err, () => this.updateToken())
-            })
+            this.updateType()
+            this.updateAll()
         }
     }
 
@@ -51,6 +47,26 @@ class Global {
             localStorage.setItem("progType", this.progType);
         }
         this.updateAll()
+    }
+
+    updateType() {
+        connect(this.shWay + "/protocol type", this.token)
+            .then(res => {
+                this.progType = res.data["Protocol type"]
+                localStorage.setItem("progType", this.progType);
+            }).then(() => this.updateAll()).catch((err) => {
+            errorAnalyze(err, (err) => this.err = err, () => this.updateToken())
+        })
+    }
+
+    intervalUpdate() {
+        this.updateProcessor()
+        switch (this.progType) {
+            case "mqtt":
+                this.updateDevices()
+            case "sub":
+                this.updateDevicesSub()
+        }
     }
 
     async authorizate(data) {
@@ -72,11 +88,15 @@ class Global {
                 this.password = data.password;
                 localStorage.setItem("userName", this.userName)
                 localStorage.setItem("password", this.password)
+                this.isAuth = true
                 if (this.userName === "admin") {
                     this.isAdmin = true;
                     localStorage.setItem("isAdmin", "true")
                 }
-            }).then(() => setTimeout(() => this.updateAll(), 500))
+            }).then(() => {
+            this.updateType()
+        })
+            .then(() => setTimeout(() => this.updateAll(), 500))
             .catch(err => this.err = err)
         return !this.err
     }
@@ -131,9 +151,23 @@ class Global {
     updateDevicesSub() {
         connect(this.subWay + "/sources", this.token).then((res) => {
             this.deviceList = res.data.Sources;
-        }).catch((err) => {
-            errorAnalyze(err, (err) => this.err = err, () => this.updateToken())
+        }).then(() => {
+            this.devices = []
+            let ids = this.deviceList.slice()
+            this.deviceList.forEach(d => {
+                connect(this.subWay + "/dev info/" + d, this.token)
+                    .then((res) => {
+                        if(!this.devices.length || !ids.includes(res.data.Device.DevId)){
+                            console.log(ids)
+                            ids.splice(ids.indexOf(res.data.Device.DevId), 1)
+                            this.devices = [...this.devices, res.data]
+                        }
+                    })
+            })
         })
+            .catch((err) => {
+                errorAnalyze(err, (err) => this.err = err, () => this.updateToken())
+            })
     }
 
     updateDevices() {
@@ -153,42 +187,43 @@ class Global {
                             })
                         })
                     })
-
                 }
-                const interval = setInterval(() => {
-                    if (newDevs.length === this.deviceList.length && this.settings) {
-                        res(newDevs)
-                        clearInterval(interval)
-                    }
-                }, 20)
             })
-                .then(res => this.devices = sortDevs(res))
                 .then(() => this.updateConnection())
-                .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
                 .catch((e) => errorAnalyze(e))
 
         })
-            .then(() => localStorage.setItem("devList", JSON.stringify(this.deviceList)))
             .then(() => this.isAuth = true)
-            .then(() => localStorage.setItem("devices", JSON.stringify(this.devices)))
             .catch(() => this.updateToken())
     }
 
+    async checkDevs() {
+        const interval = setInterval(() => {
+            if (this.devices.length === this.deviceList.length && this.settings) {
+                this.isLoading = false
+                this.devices = sortDevs(this.devices)
+                localStorage.setItem("devices", JSON.stringify(this.devices))
+                localStorage.setItem("deviceList", JSON.stringify(this.deviceList))
+                clearInterval(interval)
+                return
+            }
+        }, 20)
+    }
+
     updateAll() {
+
         this.progType === "mqtt" ?
 
             this.updateProcessor()
                 .then(() => this.updateSettings()) // auto-check prog type
-                .then(() => this.updateDevices())
                 .then(() => this.updateConnection())
-                .then(() => this.isLoading = false)
+                .then(() => this.checkDevs())
                 .catch(() => this.updateToken())
             :
 
             this.updateProcessor()
                 .then(() => this.updateSettings()) // auto-check prog type
-                .then(() => this.updateDevicesSub())
-                .then(() => this.isLoading = false)
+                .then(() => this.checkDevs())
                 .catch(() => this.updateToken())
     }
 

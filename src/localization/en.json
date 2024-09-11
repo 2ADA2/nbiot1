@@ -46,6 +46,7 @@
   "advSettings.panel.update": "Software Update",
   "advSettings.main.header": "Settings",
   "advSettings.main.sample": "+ Template",
+  "advSettings.main.cancel": "Cancel",
   "advSettings.main.save": "Save",
   "advSettings.update.header": "Update",
   "advSettings.update.web": "Update Web",

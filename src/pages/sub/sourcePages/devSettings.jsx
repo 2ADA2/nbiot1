@@ -160,7 +160,6 @@ export const DevSettingsSub = observer(() => {
         })
 
         setFrameList(newFrameList.filter(f => f !== null))
-        console.log(frameList)
         clearSettings()
     }
 

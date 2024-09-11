@@ -5,13 +5,15 @@ import global from "../store/global"
 export default function CreateListRows() {
     const navigate = useNavigate()
 
-    if (!global.deviceList || !global.deviceList.length || !global.devices.length) return (
-        <tr className="empty-row">
-            <td colSpan="6">
-                No sources
-            </td>
-        </tr>
-    )
+    if (!global.deviceList || !global.deviceList.length || !global.devices.length) {
+        return (
+            <tr className="empty-row">
+                <td colSpan="6">
+                    No sources
+                </td>
+            </tr>
+        )
+    }
 
 
     function changeLocation(device) {

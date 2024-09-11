@@ -1,14 +1,10 @@
 import {Page} from "../../../components/page"
 import {useEffect, useState} from "react";
 import "../../../styles/pages/sourcePages/devInfo.css"
-import {CheckBox} from "../../../components/checkbox";
-import {Counter} from "../../../components/counter";
 import {useDevice} from "../../../hooks/useDevice";
 import global from "../../../store/global";
 import {observer} from "mobx-react-lite";
 import {setDBSettings} from "../../../functions/requests";
-import {getErrors} from "../../../functions/statusBitMask";
-import {getDeviceState} from "../../../functions/deviceState";
 import {FormattedMessage} from "react-intl/lib";
 
 export const DevInfoSub = observer(() => {
@@ -19,17 +15,17 @@ export const DevInfoSub = observer(() => {
     const [clearAll, setClearAll] = useState("state:" + device.DeviceAttr.State)
 
 
-    useEffect(() => {
-        if (device.empty) {
-            global.setBle("/sources")
-        }
-    }, []);
+    // useEffect(() => {
+    //     if (device.empty) {
+    //         global.setBle("/sources")
+    //     }
+    // }, []);
 
     useEffect(() => {
         if (!inDB) {
             setDBSettings(global.way + '/DB/' + device.Device.DevId, inDB, DBNum, global.token)
             setAlready(false)
-            global.updateDevices()
+            global.updateDevicesSub()
         }
     }, [inDB])
 
@@ -45,7 +41,7 @@ export const DevInfoSub = observer(() => {
                 setAlready(true)
             } else setAlready(false)
 
-        }).then(() => global.updateDevices()).catch(() => global.updateToken())
+        }).then(() => global.updateDevicesSub()).catch(() => global.updateToken())
     }
 
     return <Page

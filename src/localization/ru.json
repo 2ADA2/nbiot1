@@ -68,6 +68,7 @@
   "advSettings.main.header": "Изменение настроек",
   "advSettings.main.sample": "+ Шаблон",
   "advSettings.main.save": "Сохранить",
+  "advSettings.main.cancel": "Отменить",
 
   "advSettings.update.header": "Обновить",
   "advSettings.update.web": "Обновить Web",

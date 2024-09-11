@@ -14,8 +14,9 @@ export const Layout = observer(() => {
 
     //внешний вид
     useEffect(() => {
+        global.intervalUpdate()
         const interval = setInterval(() => {
-            global.updateDevices()
+            global.intervalUpdate()
         }, 60000);
         return () => {
             clearInterval(interval)

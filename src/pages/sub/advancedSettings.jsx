@@ -41,7 +41,7 @@ MAC04_09_19_86_11_50=5896`
     function updateWeb() {
         if (web && !invalidWeb) {
             setErr()
-            postReq(global.way + "/frontend update", web, global.token).catch((err) => console.log(err))
+            postReq(global.way + "/frontend update", web, global.token)
                 .then(res => {
                     if (!res) throw new Error()
                 })
@@ -104,6 +104,11 @@ MAC04_09_19_86_11_50=5896`
         }
     }
 
+    function cancel() {
+        global.updateSettings()
+        setSettings(global.advSettings)
+    }
+
     return (
         <Page
             header={<FormattedMessage id = "advSettings.header"/>}
@@ -121,24 +126,27 @@ MAC04_09_19_86_11_50=5896`
                     {(page === 0) ?
                         <>
                             <h3 className="advanced-settings-header">
-                                <FormattedMessage id = "advSettings.main.header"/>
+                                <FormattedMessage id="advSettings.main.header"/>
                             </h3>
                             <section className='advanced-settings'>
                                 <textarea value={settings} onChange={(e) => handleChange(e)}/>
                             </section>
 
                             <button onClick={() => sendSettings()}>
-                                <FormattedMessage id = "advSettings.main.save"/>
+                                <FormattedMessage id="advSettings.main.save"/>
                             </button>
                             <button onClick={() => toDefault()}>
-                                <FormattedMessage id = "advSettings.main.sample"/>
+                                <FormattedMessage id="advSettings.main.sample"/>
+                            </button>
+                            <button onClick={() => cancel()}>
+                                <FormattedMessage id="advSettings.main.cancel"/>
                             </button>
                         </>
                         :
                         (page === 1) ?
                             <>
                                 <h3 className="advanced-settings-header">
-                                    <FormattedMessage id = "advSettings.update.header"/>
+                                <FormattedMessage id = "advSettings.update.header"/>
                                 </h3>
                                 <section className='advanced-settings'>
                                     <div>

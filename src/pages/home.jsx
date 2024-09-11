@@ -20,7 +20,6 @@ export const Home = observer(() => {
         if (!consoleVal) {
             localStorage.setItem("consoleVal", value);
             setConsoleVal(value);
-            console.log(consoleVal)
             return;
         }
         localStorage.setItem("consoleVal", consoleVal + "\n" + value);

@@ -1,27 +1,20 @@
 import {Page} from "../../components/page"
-import {CreateRows} from "../../functions/createRows"
 import "../../styles/pages/sources.css"
-import global from "../../store/global"
 import {observer} from "mobx-react-lite"
 import {useState} from "react"
 import {CheckBox} from "../../components/checkbox"
-import CreateListRows from "../../functions/createListRows"
 import {FormattedMessage} from "react-intl/lib";
+import {CreateRows} from "../../functions/createRows";
+import CreateListRows from "../../functions/createListRows";
 
 export const DevList = observer(() => {
     const [info, setInfo] = useState(localStorage.getItem("moreSourceInfo"))
-
-    function updateState(e) {
-        e.preventDefault()
-        global.setConnection()
-    }
 
     return (
         //страница с источниками: таблица, установка соединения по mqtt
         <Page header={<FormattedMessage id={"devs.header"}/>} header2={<FormattedMessage id={"devs.header2"}/>} elem={
 
             <div className="table-container">
-                {/* установка соединения по mqtt */}
 
                 {/* список источников, краткий обзор */}
                 <h3><FormattedMessage id={"devs.section2"}/></h3>
@@ -62,7 +55,6 @@ export const DevList = observer(() => {
                     </thead>
 
                     <tbody>
-                    {/* генерация таблицы */}
                     <CreateListRows/>
                     </tbody>
                 </table>
