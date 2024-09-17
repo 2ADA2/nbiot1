@@ -15,8 +15,8 @@ export const SettingsSub = observer(() => {
     const [encryptionState, setEncryptionState] = useState(global.settings["Encryption state"] || false);
     const [fifoState, setFifoState] = useState(global.settings["FIFO State"] || false);
     const [macAddr, setMacAddr] = useState(global.settings["MAC addr"]);
-    const [swVersion, setSwVersion] = useState(global.settings["MAC addr"]);
-    const [localTime, setLocalTime] = useState(global.settings["SW version"]);
+    const [swVersion, setSwVersion] = useState(global.settings["SW version"]);
+    const [localTime, setLocalTime] = useState(global.settings["Local time"]);
     const [addrRS485, setAddrRS485] = useState(global.settings["Addr RS485"] || 1);
     const [addrSUB, setAddrSUB] = useState(global.settings["Addr SUB"] || 1);
     const [subChannel, setSubChannel] = useState(global.settings["SUB channel"] || 1);
@@ -26,11 +26,14 @@ export const SettingsSub = observer(() => {
     const [keyAES128, setKeyAES128] = useState("");
     const [countRXFIFO, setCountRXFIFO] = useState(global.settings["Count RX FIFO"]);
     const [countOverflowRXFIFO, setCountOverflowRXFIFO] = useState(global.settings["Count overflow RX FIFO"]);
-    const [countCRCError, setCountCRCError] = useState(global.settings["CRC Error"] || false);
+    const [countCRCError, setCountCRCError] = useState(global.settings["CRC Error"] || 0);
     const [peketCount, setPeketCount] = useState(global.settings["Peket count"]);
     const [numTXFIFO, setNumTXFIFO] = useState(global.settings["Num TX FIFO"]);
     const [typeLastTXRequest, setTypeLastTXRequest] = useState(global.settings["Type last TX request"]);
     const [countTXFIFO, setCountTXFIFO] = useState(global.settings["Count TX FIFO"]);
+
+    const [txFifo, setTxFifo] = useState(0);
+    const [rxFifo, setRxFifo] = useState(0);
 
     const sendParams = (e) => {
         e.preventDefault()
@@ -194,28 +197,56 @@ export const SettingsSub = observer(() => {
 
                         <label>
                             <h5>Count RX FIFO</h5>
-                            <CheckBox checked={countRXFIFO} setValue={() => setCountRXFIFO(!countRXFIFO)}/>
-                        </label>
-                        <label>
-                            <h5>Count overflow RX FIFO</h5>
-                            <CheckBox checked={countOverflowRXFIFO}
-                                      setValue={() => setCountOverflowRXFIFO(!countOverflowRXFIFO)}/>
-                        </label>
-                        <label>
-                            <h5>Count CRC Error</h5>
-                            <CheckBox checked={countCRCError} setValue={() => setCountCRCError(!countCRCError)}/>
-                        </label>
-                        <label>
-                            <h5>Peket count</h5>
-                            <CheckBox checked={peketCount} setValue={() => setPeketCount(!peketCount)}/>
-                        </label>
-                        <label>
-                            <h5>Num TX FIFO</h5>
-                            <CheckBox checked={numTXFIFO} setValue={() => setNumTXFIFO(!numTXFIFO)}/>
+                            <Counter count={countRXFIFO}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setCountRXFIFO(1)  : setCountRXFIFO(num)
+                                     }}
+                                     setCount={(num) => (countRXFIFO + num >= 0) ? setCountRXFIFO(countRXFIFO + num) : setCountRXFIFO(countRXFIFO)}
+                            />
+                            <CheckBox checked={rxFifo} setValue={() => setRxFifo(!rxFifo)}/>
                         </label>
                         <label>
                             <h5>Count TX FIFO</h5>
-                            <CheckBox checked={countTXFIFO} setValue={() => setCountTXFIFO(!countTXFIFO)}/>
+                            <Counter count={countTXFIFO}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setCountTXFIFO(1)  : setCountTXFIFO(num)
+                                     }}
+                                     setCount={(num) => (countTXFIFO + num >= 0) ? setCountTXFIFO(countTXFIFO + num) : setCountTXFIFO(countTXFIFO)}
+                            />
+                            <CheckBox checked={txFifo} setValue={() => setTxFifo(!txFifo)}/>
+                        </label>
+
+                        <label>
+                            <h5>Count overflow RX FIFO</h5>
+                            <Counter count={countOverflowRXFIFO}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setCountOverflowRXFIFO(1)  : setCountOverflowRXFIFO(num)
+                                     }}
+                                     setCount={(num) => (countOverflowRXFIFO + num >= 0) ? setCountOverflowRXFIFO(countOverflowRXFIFO + num) : setCountOverflowRXFIFO(countOverflowRXFIFO)}
+                            />
+                        </label>
+                        <label>
+                            <h5>Count CRC Error</h5>
+                            <Counter count={countCRCError}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setCountCRCError(1)  : setCountCRCError(num)
+                                     }}
+                                     setCount={(num) => (countCRCError + num >= 0) ? setCountCRCError(countCRCError + num) : setCountCRCError(countCRCError)}
+                            />
+                        </label>
+                        <label>
+                            <h5>Peket count</h5>
+                            <Counter count={peketCount}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setPeketCount(1)  : setPeketCount(num)
+                                     }}
+                                     setCount={(num) => (peketCount + num >= 0) ? setPeketCount(peketCount + num) : setPeketCount(peketCount)}
+                            />
                         </label>
                         {/*<label>*/}
                         {/*    <h5>Type last TX request</h5>*/}
@@ -225,7 +256,7 @@ export const SettingsSub = observer(() => {
 
                     </section>
                     <button onClick={(e) => e.preventDefault()}>
-                        <FormattedMessage id="settings.button"/>
+                        <FormattedMessage id="settings.resetButton"/>
                     </button>
                 </form>
             }

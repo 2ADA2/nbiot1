@@ -54,6 +54,7 @@
   "settings.header": "Настройки",
   "settings.header2": "Настройки подключение по MQTT",
   "settings.button": "Применить",
+  "settings.resetButton" : "Сбросить",
 
   "settings.sub.header2": "Настройки подключение по SUB",
   "settings.sub.main.header": "Основные параметры",

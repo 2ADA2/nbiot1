@@ -129,7 +129,7 @@ class Global {
             })
     }
 
-    updateConnection() {
+    async updateConnection() {
         connect(this.way + "/state", this.token).then((res) => {
             this.state = res.data.ConnectionState
             if (typeof (this.state) !== 'string') localStorage.setItem("state", this.state)
