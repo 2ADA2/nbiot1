@@ -198,6 +198,7 @@ class Global {
     }
 
     async checkDevs() {
+
         const interval = setInterval(() => {
             if (this.devices.length === this.deviceList.length && this.settings) {
                 this.isLoading = false
@@ -207,24 +208,22 @@ class Global {
                 clearInterval(interval)
                 return
             }
-        }, 20)
+        }, 100)
     }
 
     updateAll() {
 
-        this.progType === "mqtt" ?
-
-            this.updateProcessor()
-                .then(() => this.updateSettings()) // auto-check prog type
-                .then(() => this.updateConnection())
-                .then(() => this.checkDevs())
-                .catch(() => this.updateToken())
-            :
-
-            this.updateProcessor()
-                .then(() => this.updateSettings()) // auto-check prog type
-                .then(() => this.checkDevs())
-                .catch(() => this.updateToken())
+        this.updateProcessor()
+            .then(() => this.updateSettings())
+            .then(() => {
+                this.progType === "mqtt" ?
+                    this.updateConnection()
+                        .then(() => this.checkDevs())
+                        .catch(() => this.updateToken())
+                    :
+                    this.checkDevs()
+                        .catch(() => this.updateToken())
+            })
     }
 
     async updateProcessor() {
@@ -236,7 +235,10 @@ class Global {
 
     async updateSettings() {
         connect((this.progType === "mqtt") ? this.way + "/settings" : this.subWay + "/gw settings", this.token).then(
-            (settings) => this.settings = settings.data
+            (settings) => {
+                this.settings = settings.data
+                if (this.progType === "sub") this.settings = this.settings.GW_Settings
+            }
         )
             .then(() => {
                 if (this.isAdmin) {

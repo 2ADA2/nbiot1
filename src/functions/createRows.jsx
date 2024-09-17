@@ -2,11 +2,10 @@ import { useNavigate } from "react-router-dom"
 import { DEVINFO_ROUTE } from "../utils/consts"
 import global from "../store/global"
 import { observer } from "mobx-react-lite"
-import {useEffect} from "react";
 
 
 
-export const CreateRows = observer(() => {
+export const CreateRows = observer(({isSub = false}) => {
     const navigate = useNavigate()
 
     //Пустая таблица
@@ -50,12 +49,23 @@ export const CreateRows = observer(() => {
                 <td> 
                     {device.Device.DevId || "no data"}
                 </td>
-                <td>
-                    {device.DeviceAttr.localTime || "no data"}
-                </td>
-                <td>
-                    {device.DeviceAttr.Metrics["GSM siglevel"] || "no data"}
-                </td>
+                {
+                    (!isSub)?
+                    <td>
+                        {device.DeviceAttr.localTime || "no data"}
+                    </td>:<></>
+                }
+                {
+                    (!isSub) ?
+                    <td>
+                        {device.DeviceAttr.Metrics["GSM siglevel"] || "no data"}
+                    </td>
+                        :
+                    <td>
+                        {device.DeviceAttr.Metrics["RSSI level"] || "no data"}
+                    </td>
+                }
+
                 <td>
                     {device.DeviceAttr.Metrics.Battery || "no data"}
                 </td>

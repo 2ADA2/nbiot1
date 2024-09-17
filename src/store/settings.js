@@ -21,3 +21,63 @@ class Settings {
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default new Settings()
+
+
+
+
+
+
+
+
+
+// {
+//     "GW_Settings": {
+//     "Addr RS485": 60,
+//         "Addr SUB": 40,
+//         "Count RX FIFO": 5,
+//         "Count TX FIFO": 0,
+//         "Count overflow RX FIFO": 0,
+//         "Encryption state": "ok",
+//         "FIFO State": "eptty",
+//         "Local time": "1.0.5",
+//         "MAC addr": "04:09:19:86:12:15",
+//         "Num TX FIFO": 2,
+//         "Peket count": 100,
+//         "SUB speed": 100,
+//         "SW version": "1.0.5",
+//         "State": "ok",
+//         "Sync word": "sync",
+//         "TX Power": 14,
+//         "Temperature": 27,
+//         "Type last TX request": 7
+// }
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

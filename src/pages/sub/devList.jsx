@@ -32,8 +32,7 @@ export const DevList = observer(() => {
                     <thead>
                     <tr>
                         <th><FormattedMessage id={"devs.id"}/></th>
-                        <th><FormattedMessage id={"devs.time"}/></th>
-                        <th><FormattedMessage id={"devs.signal"}/></th>
+                        <th><FormattedMessage id={"devs.subSignal"}/></th>
                         <th><FormattedMessage id={"devs.battery"}/></th>
                         <th><FormattedMessage id={"devs.temperature"}/></th>
                     </tr>
@@ -41,7 +40,7 @@ export const DevList = observer(() => {
 
                     <tbody>
                     {/* генерация таблицы */}
-                    <CreateRows/>
+                    <CreateRows isSub ={true}/>
                     </tbody>
                 </table>
                 <table style={{display: info ? "table" : "none"}}>

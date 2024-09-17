@@ -94,6 +94,33 @@ app.get('/mqtt/dev%20info/10:19:19:31:11:51', (req, res) => {
     })
 })
 
+app.get('/sub/dev%20info/10:19:19:31:11:51', (req, res) => {
+    res.status(200).json({
+        "Device": {
+            "DevId": "10:19:19:31:11:51",
+            "DevName": "MM133.2",
+            "SoftVer.": "1.0.0.a",
+            "BoardRev.": "1.2",
+            "ProtoVer.": "1.2"
+        },
+        "DeviceAttr": {
+            "localTime": createTime(),
+            "LinkRepeat": 30,
+            "Configured": 0,
+            "State": 0,
+            "Registered": 0,
+            "Metrics": {
+                "Battery": 11,
+                "Mode": "NBIoT",
+                "RSSI siglevel": -50,
+                "Temperature": 29,
+                "StatusBitMask": "0x00006000",
+                "Online": true,
+            }
+        }
+    })
+})
+
 app.get('/cat/proc/cpuinfo', (req, res) => {
     res.status(200).json({
             "model_name": "ARMv7 Processor rev 2 (v7l)",
@@ -162,7 +189,9 @@ app.get("/sh219%20info/protocol%20type", function (req, res) {
 });
 
 app.get("/sub/gw%20settings", function (req, res) {
-    res.status(200).json(devs);
+    res.status(200).json({GW_Settings:{
+            State:"123"
+        }});
 });
 app.get("/sub/sources", function (req, res) {
     res.status(200).json(devs);

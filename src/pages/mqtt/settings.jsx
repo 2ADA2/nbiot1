@@ -141,8 +141,8 @@ export const Settings = observer(() => {
                         </label>
 
                         <div className="label-replacer">
-                            <h5>Last-Will Retain</h5> <CheckBox checked={LWRetain}
-                                                                setValue={() => setLWRetain(!LWRetain)}/>
+                            <h5>Last-Will Retain</h5>
+                            <CheckBox checked={LWRetain} setValue={() => setLWRetain(!LWRetain)}/>
                         </div>
                     </section>
                     <button onClick={(e) => saveSettings(e)}>

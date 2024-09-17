@@ -1,3 +1,5 @@
+
+
 {
   "panel.home": "Главная",
   "panel.devs": "Устройства",
@@ -43,6 +45,8 @@
   "devs.battery": "Заряд",
   "devs.temperature": "Температура",
 
+  "devs.subSignal": "Уровень сигнала RSSI",
+
 
 
 
@@ -53,9 +57,8 @@
 
   "settings.sub.header2": "Настройки подключение по SUB",
   "settings.sub.main.header": "Основные параметры",
-  "settings.sub.network.header": "Сетевые параметры и адреса",
-  "settings.sub.sync.header": "Синхронизация и частоты",
-  "settings.sub.stats.header": "Статистика и ошибки",
+  "settings.sub.change.header": "Изменяемые параметры",
+  "settings.sub.checkbox.header": "Сбрасываемые парметры",
 
 
 
