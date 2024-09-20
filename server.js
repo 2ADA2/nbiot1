@@ -7,7 +7,9 @@ const PORT = 3001;
 const urlencodedParser = express.urlencoded({extended: false});
 const app = express()
 
+app.use(express.json())
 app.use(cors())
+app.use(express.urlencoded({extended: false}));
 
 function createTime() {
     return new Date().toISOString().split(".")[0]
@@ -121,23 +123,6 @@ app.get('/sub/dev%20info/10:19:19:31:11:51', (req, res) => {
     })
 })
 
-app.get('/cat/proc/cpuinfo', (req, res) => {
-    res.status(200).json({
-            "model_name": "ARMv7 Processor rev 2 (v7l)",
-            "BogoMIPS": 994.30,
-            "Features": "half thumb fastmult vfp edsp neon vfpv3 tls vfpd32",
-            "CPU_implementer": "0x41",
-            "CPU_architecture": 7,
-            "CPU_variant": "0x3",
-            "CPU_part": "0xc08",
-            "CPU_revision": 2,
-            "Hardware": "Generic AM33XX (Flattened Device Tree)",
-            "Revision": "0000",
-            "Serial": "80:f5:b5:d8:8b:93"
-        }
-    )
-})
-
 let state = false
 app.get("/mqtt/state", (req, res) => {
     res.status(200).json({
@@ -178,9 +163,20 @@ app.get("/sub/Advanced%20settings", function (req, res) {
 });
 
 app.post("/sh219%20info/cmd_get", function (req, res) {
-    setTimeout(() => {
-        res.status(200).send("pong");
-    }, 500)
+    if (req.body.CMD === "cat /proc/cpuinfo") {
+        res.status(200).send("model name      : ARMv7 Processor rev 2 (v7l)\n" +
+            "BogoMIPS        : 994.30\n" +
+            "Features        : half thumb fastmult vfp edsp neon vfpv3 tls vfpd32\n" +
+            "CPU implementer : 0x41\n" +
+            "CPU architecture: 7\n" +
+            "CPU variant     : 0x3\n" +
+            "CPU part        : 0xc08\n" +
+            "CPU revision    : 2\n" +
+            "\n" +
+            "Hardware        : Generic AM33XX (Flattened Device Tree)\n" +
+            "Revision        : 0000\n" +
+            "Serial          : 80:f5:b5:d8:8b:93")
+    } else res.status(200).send("pong")
 
 });
 
@@ -189,9 +185,11 @@ app.get("/sh219%20info/protocol%20type", function (req, res) {
 });
 
 app.get("/sub/gw%20settings", function (req, res) {
-    res.status(200).json({GW_Settings:{
-            State:"123"
-        }});
+    res.status(200).json({
+        GW_Settings: {
+            State: "123"
+        }
+    });
 });
 app.get("/sub/sources", function (req, res) {
     res.status(200).json(devs);

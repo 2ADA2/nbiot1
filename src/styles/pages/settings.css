@@ -136,7 +136,6 @@ button{
 button:hover{
     background-color:#425063;
 }
-
 .page .counter-container{
     display: flex;
     flex-direction: row;

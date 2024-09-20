@@ -7,6 +7,7 @@ import {FormattedMessage} from "react-intl/lib";
 import {Counter} from "../../components/counter";
 import {CheckBox} from "../../components/checkbox";
 import axios from "axios";
+import {sendCmd} from "../../functions/cmd";
 
 
 export const SettingsSub = observer(() => {
@@ -32,11 +33,12 @@ export const SettingsSub = observer(() => {
     const [typeLastTXRequest, setTypeLastTXRequest] = useState(global.settings["Type last TX request"]);
     const [countTXFIFO, setCountTXFIFO] = useState(global.settings["Count TX FIFO"]);
 
-    const [txFifo, setTxFifo] = useState(0);
-    const [rxFifo, setRxFifo] = useState(0);
+    const [txFifo, setTxFifo] = useState(false);
+    const [rxFifo, setRxFifo] = useState(false);
+    const [syncTime, setSyncTime] = useState(false);
+    const [cmdCount, setCmdCount] = useState(0);
 
-    const sendParams = (e) => {
-        e.preventDefault()
+    const sendParams = () => {
         axios.post(global.subWay + "/gw settings", {
                 GW_Settings: {
                     "Addr RS485": addrRS485,
@@ -52,6 +54,36 @@ export const SettingsSub = observer(() => {
                 }
             },
             {headers: {"Authorization": global.token}}).catch((e) => global.catchError(e))
+    }
+
+    const waitCMD = (f = () => {
+    }) => {
+        setCmdCount(cmdCount + 1)
+        const cmdInterval = setInterval(async () => {
+            const res = await f()
+            if (res.USER_CMD_RESP) {
+                clearInterval(cmdInterval)
+                setCmdCount(cmdCount - 1)
+            }
+        }, 5000)
+    }
+
+    const reset = (e) => {
+        e.preventDefault()
+
+        switch (true) {
+            case rxFifo:
+                waitCMD(() => sendCmd(global.subWay + "/clear RX FIFO", global.token))
+            case txFifo:
+                waitCMD(() => sendCmd(global.subWay + "/clear RX FIFO", global.token))
+            case txFifo:
+                waitCMD(() => sendCmd(global.subWay + "/synchronize time", global.token))
+        }
+    }
+
+    const updateSettings = (e) => {
+        e.preventDefault()
+        waitCMD(() => sendParams())
     }
 
     return (
@@ -187,7 +219,11 @@ export const SettingsSub = observer(() => {
                             <h5>Encryption state</h5>
                             <CheckBox checked={encryptionState} setValue={() => setEncryptionState(!encryptionState)}/>
                         </label>
-                        <button style={{marginTop: 20}} onClick={(e) => sendParams(e)}>
+                        <button
+                            style={{marginTop: 20}}
+                            onClick={(e) => updateSettings(e)}
+                            className={(cmdCount) ? "activated-button" : ""}
+                        >
                             <FormattedMessage id="settings.button"/>
                         </button>
 
@@ -197,56 +233,44 @@ export const SettingsSub = observer(() => {
 
                         <label>
                             <h5>Count RX FIFO</h5>
-                            <Counter count={countRXFIFO}
-                                     newCount={(num) => {
-                                         (num < 0) ?
-                                             setCountRXFIFO(1)  : setCountRXFIFO(num)
-                                     }}
-                                     setCount={(num) => (countRXFIFO + num >= 0) ? setCountRXFIFO(countRXFIFO + num) : setCountRXFIFO(countRXFIFO)}
-                            />
+                            <span style={{minWidth: 50}}>
+                                {countRXFIFO}
+                            </span>
                             <CheckBox checked={rxFifo} setValue={() => setRxFifo(!rxFifo)}/>
                         </label>
                         <label>
                             <h5>Count TX FIFO</h5>
-                            <Counter count={countTXFIFO}
-                                     newCount={(num) => {
-                                         (num < 0) ?
-                                             setCountTXFIFO(1)  : setCountTXFIFO(num)
-                                     }}
-                                     setCount={(num) => (countTXFIFO + num >= 0) ? setCountTXFIFO(countTXFIFO + num) : setCountTXFIFO(countTXFIFO)}
-                            />
+                            <span style={{minWidth: 50}}>
+                                {countTXFIFO}
+                            </span>
                             <CheckBox checked={txFifo} setValue={() => setTxFifo(!txFifo)}/>
                         </label>
 
                         <label>
+                            <h5>Synchronize time</h5>
+                            <span style={{minWidth: 50}}>
+
+                            </span>
+                            <CheckBox checked={syncTime} setValue={() => setSyncTime(!syncTime)}/>
+                        </label>
+
+                        <label>
                             <h5>Count overflow RX FIFO</h5>
-                            <Counter count={countOverflowRXFIFO}
-                                     newCount={(num) => {
-                                         (num < 0) ?
-                                             setCountOverflowRXFIFO(1)  : setCountOverflowRXFIFO(num)
-                                     }}
-                                     setCount={(num) => (countOverflowRXFIFO + num >= 0) ? setCountOverflowRXFIFO(countOverflowRXFIFO + num) : setCountOverflowRXFIFO(countOverflowRXFIFO)}
-                            />
+                            <span>
+                                {countOverflowRXFIFO}
+                            </span>
                         </label>
                         <label>
                             <h5>Count CRC Error</h5>
-                            <Counter count={countCRCError}
-                                     newCount={(num) => {
-                                         (num < 0) ?
-                                             setCountCRCError(1)  : setCountCRCError(num)
-                                     }}
-                                     setCount={(num) => (countCRCError + num >= 0) ? setCountCRCError(countCRCError + num) : setCountCRCError(countCRCError)}
-                            />
+                            <span>
+                                {countCRCError}
+                            </span>
                         </label>
                         <label>
                             <h5>Peket count</h5>
-                            <Counter count={peketCount}
-                                     newCount={(num) => {
-                                         (num < 0) ?
-                                             setPeketCount(1)  : setPeketCount(num)
-                                     }}
-                                     setCount={(num) => (peketCount + num >= 0) ? setPeketCount(peketCount + num) : setPeketCount(peketCount)}
-                            />
+                            <span>
+                                {peketCount}
+                            </span>
                         </label>
                         {/*<label>*/}
                         {/*    <h5>Type last TX request</h5>*/}
@@ -255,7 +279,10 @@ export const SettingsSub = observer(() => {
                         {/*</label>*/}
 
                     </section>
-                    <button onClick={(e) => e.preventDefault()}>
+                    <button
+                        onClick={(e) => reset(e)}
+                        className={(cmdCount) ? "activated-button" : ""}
+                    >
                         <FormattedMessage id="settings.resetButton"/>
                     </button>
                 </form>

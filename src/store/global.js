@@ -3,15 +3,16 @@ import http from "../http.json"
 import {connect} from "../functions/connect";
 import {sortDevs} from "../functions/sortDevs";
 import {errorAnalyze} from "../functions/error";
+import {sendCmd} from "../functions/cmd";
 
 class Global {
 
     isAuth = false;
     // isAdmin = (localStorage.getItem("isAdmin")) ? JSON.parse(localStorage.getItem("isAdmin")) : null;
     isAdmin = true;
-    way = http.http + "mqtt";
-    subWay = http.http + "sub";
-    shWay = http.http + "sh219 info";
+    way = (http.http ?? window.location.origin+"/") + "mqtt";
+    subWay = (http.http ?? window.location.origin+"/") + "sub";
+    shWay = (http.http ?? window.location.origin+"/") + "sh219 info";
     progType = localStorage.getItem("progType") || "mqtt";
     processor = null
 
@@ -158,7 +159,6 @@ class Global {
                 connect(this.subWay + "/dev info/" + d, this.token)
                     .then((res) => {
                         if(!this.devices.length || !ids.includes(res.data.Device.DevId)){
-                            console.log(ids)
                             ids.splice(ids.indexOf(res.data.Device.DevId), 1)
                             this.devices = [...this.devices, res.data]
                         }
@@ -227,10 +227,9 @@ class Global {
     }
 
     async updateProcessor() {
-        connect(
-            http.http + "cat/proc/cpuinfo", this.token).then(
-            (res) => this.processor = res.data,
-        )
+        await sendCmd(this.shWay + "/cmd_get", this.token, "cat /proc/cpuinfo").then(res => {
+            this.processor = (res.data.split("\n"))
+        })
     }
 
     async updateSettings() {

@@ -13,6 +13,7 @@ export const Home = observer(() => {
     const [page, setPage] = useState(0);
     const [consoleVal, setConsoleVal] = useState(localStorage.getItem("consoleVal") || "");
     const [inputVal, setInputVal] = useState("");
+    const [proc, setProc] = useState(global.processor);
 
     const consoleRef = useRef(null);
 
@@ -35,9 +36,9 @@ export const Home = observer(() => {
     const cmd = () => {
         updateHistory(inputVal)
         sendCmd(global.shWay + "/cmd_get", global.token, inputVal).then(res => {
-            res.data ? updateHistory( inputVal + `\n` + res.data) :
-                updateHistory( inputVal + `\n` + "no responce")
-        }).catch(() => updateHistory( inputVal + `\n` + "no responce"))
+            res.data ? updateHistory(inputVal + `\n` + res.data) :
+                updateHistory(inputVal + `\n` + "no responce")
+        }).catch(() => updateHistory(inputVal + `\n` + "no responce"))
         setInputVal("")
     }
 
@@ -65,7 +66,7 @@ export const Home = observer(() => {
                             <section>
                                 <h3><FormattedMessage id="home.console"/></h3>
                                 <div className="console">
-                                <textarea value={consoleVal} ref={consoleRef}/>
+                                    <textarea value={consoleVal} ref={consoleRef}/>
                                     <button
                                         className="clear-measure"
                                         onClick={(e) => clearHistory()}>
@@ -86,51 +87,14 @@ export const Home = observer(() => {
                             </section>
                             : (page === 1) ?
                                 <section style={{marginTop: 20}}>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Модель:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.model_name}</h5>
-                                    </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Скорость процессора:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.BogoMIPS}</h5>
-                                    </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Особенности:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.Features}</h5>
-                                    </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Производитель процессора:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.CPU_implementer}</h5>
-                                    </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Архитектура процессора:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.CPU_architecture}</h5>
-                                    </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Вариант процессора:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.CPU_variant}</h5>
-                                    </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Часть процессора:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.CPU_part}</h5>
-                                    </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Ревизия процессора:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.CPU_revision}</h5>
-                                    </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Оборудование:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.Hardware}</h5>
-                                    </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Ревизия оборудования:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.Revision}</h5>
-                                    </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5>Серийный номер:</h5>
-                                        <h5 style={{textAlign: "start"}}>{global.processor.Serial}</h5>
-                                    </div>
-                                </section>
+                                    {proc.map(i =>
+                                        <div style={{flexDirection: "row", gap: 100}}>
+                                            <h5 style={{textAlign:"start", width:"100%", marginLeft:"10%"}}>{i}</h5>
+                                        </div>
+                                    )
+                                    }
+
+                                < /section>
                                 :
                                 <section>
                                     <div style={{flexDirection: "row", gap: 100}}>

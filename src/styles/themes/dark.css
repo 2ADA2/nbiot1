@@ -157,3 +157,14 @@ body .dark .home{
 .dark .frame div{
     background: rgb(44,44,59);
 }
+
+.dark form .activated-button, .dark dev .activated-button{
+    background-color: #535e7b;
+    border-color: #3b4b5a;
+    cursor: default;
+}
+.dark form .activated-button:hover, .dark dev .activated-button:hover{
+    background-color: #535e7b;
+    border-color: #3b4b5a;
+    cursor: default;
+}
