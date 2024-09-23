@@ -8,6 +8,8 @@ import {Counter} from "../../components/counter";
 import {CheckBox} from "../../components/checkbox";
 import axios from "axios";
 import {sendCmd} from "../../functions/cmd";
+import {connect} from "../../functions/connect";
+import {errorAnalyze} from "../../functions/error";
 
 
 export const SettingsSub = observer(() => {
@@ -38,8 +40,9 @@ export const SettingsSub = observer(() => {
     const [syncTime, setSyncTime] = useState(false);
     const [cmdCount, setCmdCount] = useState(0);
 
-    const sendParams = () => {
-        axios.post(global.subWay + "/gw settings", {
+    const sendParams = async () => {
+        setCmdCount(1)
+        await axios.post(global.subWay + "/gw settings", {
                 GW_Settings: {
                     "Addr RS485": addrRS485,
                     "Addr SUB": addrSUB,
@@ -54,36 +57,35 @@ export const SettingsSub = observer(() => {
                 }
             },
             {headers: {"Authorization": global.token}}).catch((e) => global.catchError(e))
+            .then(res => waitCMD())
     }
 
-    const waitCMD = (f = () => {
-    }) => {
-        setCmdCount(cmdCount + 1)
-        const cmdInterval = setInterval(async () => {
-            const res = await f()
-            if (res.USER_CMD_RESP) {
-                clearInterval(cmdInterval)
-                setCmdCount(cmdCount - 1)
-            }
+    const waitCMD = async() => {
+        const cmdInterval = setInterval(() => {
+             connect(global.subWay + "/cmd execution state", global.token)
+                .then((res) => {
+                    clearInterval(cmdInterval)
+                    setCmdCount(0)
+                }).catch(e => global.catchError(e))
         }, 5000)
     }
 
     const reset = (e) => {
         e.preventDefault()
-
         switch (true) {
             case rxFifo:
-                waitCMD(() => sendCmd(global.subWay + "/clear RX FIFO", global.token))
+                sendCmd(global.subWay + "/clear RX FIFO", global.token)
             case txFifo:
-                waitCMD(() => sendCmd(global.subWay + "/clear RX FIFO", global.token))
+                sendCmd(global.subWay + "/clear RX FIFO", global.token)
             case txFifo:
-                waitCMD(() => sendCmd(global.subWay + "/synchronize time", global.token))
+                sendCmd(global.subWay + "/synchronize time", global.token)
         }
     }
 
-    const updateSettings = (e) => {
+    const updateSettings = async (e) => {
         e.preventDefault()
-        waitCMD(() => sendParams())
+        await sendParams()
+            .then(() => waitCMD())
     }
 
     return (

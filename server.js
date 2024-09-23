@@ -191,9 +191,18 @@ app.get("/sub/gw%20settings", function (req, res) {
         }
     });
 });
+app.post("/sub/gw%20settings", function (req, res) {
+    res.status(200).json("accepted to execution")
+});
+
+app.get("/sub/cmd%20execution%20state", function (req, res) {
+    res.status(200).json("ok");
+});
+
 app.get("/sub/sources", function (req, res) {
     res.status(200).json(devs);
 });
+
 
 
 app.post("/api/auth/register", (req, res, next) => {
