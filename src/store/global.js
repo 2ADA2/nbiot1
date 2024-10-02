@@ -6,13 +6,14 @@ import {errorAnalyze} from "../functions/error";
 import {sendCmd} from "../functions/cmd";
 
 class Global {
+    http = localStorage.getItem("http") ?? http.http
 
     isAuth = false;
     // isAdmin = (localStorage.getItem("isAdmin")) ? JSON.parse(localStorage.getItem("isAdmin")) : null;
     isAdmin = true;
-    way = (http.http ?? window.location.origin+"/") + "mqtt";
-    subWay = (http.http ?? window.location.origin+"/") + "sub";
-    shWay = (http.http ?? window.location.origin+"/") + "sh219 info";
+    way = (this.http ?? window.location.origin+"/") + "mqtt";
+    subWay = (this.http ?? window.location.origin+"/") + "sub";
+    shWay = (this.http ?? window.location.origin+"/") + "sh219 info";
     progType = localStorage.getItem("progType") || "mqtt";
     processor = null
 
@@ -29,6 +30,11 @@ class Global {
     advSettings = null;
 
     constructor() {
+        if (this.http === "this"){
+            this.way = window.location.origin+"/" + "mqtt";
+            this.subWay = window.location.origin+"/" + "sub";
+            this.shWay =  window.location.origin+"/" + "sh219 info";
+        }
         // this.token = ""
         // localStorage.setItem("token", "")
         makeAutoObservable(this)
@@ -61,7 +67,6 @@ class Global {
     }
 
     intervalUpdate() {
-        this.updateProcessor()
         switch (this.progType) {
             case "mqtt":
                 this.updateDevices()

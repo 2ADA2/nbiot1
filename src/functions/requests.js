@@ -28,8 +28,8 @@ export const setSettings = async (url, data = {}, token) => {
 }
 
 export const postReq = async (url, data = "", token) => {
-    const res = await axios.post(url, data, {headers: {"Authorization": token}}).catch((err) => global.catchError(err))
-    return res;
+    return await axios.post(url, data, {headers: {"Authorization": token}}).catch((err) => global.catchError(err))
+
 }
 
 export const setUTC = async (url, utc = "", token) => {

@@ -203,6 +203,16 @@ app.get("/sub/sources", function (req, res) {
     res.status(200).json(devs);
 });
 
+app.post("/sub/clear%20RX%20FIFO", function (req, res) {
+    res.status(200).json(devs);
+});
+app.post("/sub/clear%20TX%20FIFO", function (req, res) {
+    res.status(200).json(devs);
+});
+app.post("/sub/Synchronize%20time", function (req, res) {
+    res.status(200).json(devs);
+});
+
 
 
 app.post("/api/auth/register", (req, res, next) => {

@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Page} from '../../components/page'
 import "../../styles/pages/advancedSettings.css"
 import global from '../../store/global'
@@ -13,6 +13,7 @@ export const AdvancedSettingsSub = observer(() => {
     const [invalidWeb, setInvalidWeb] = useState()
     const [invalidBack, setInvalidBack] = useState()
 
+    const [message, setMessage] = useState();
     const [back, setBack] = useState()
     const [web, setWeb] = useState()
     const [err, setErr] = useState()
@@ -38,12 +39,21 @@ UserName=gateway-3-11
 [TransferSource]
 MAC04_09_19_86_11_50=5896`
 
+    useEffect(() => {
+        if (page === 0) {
+            setInvalidWeb(null)
+            setInvalidBack(null)
+        }
+    }, [page]);
+
     function updateWeb() {
         if (web && !invalidWeb) {
             setErr()
             postReq(global.way + "/frontend update", web, global.token)
                 .then(res => {
-                    if (!res) throw new Error()
+                    setMessage("Frontend updated")
+                    setWeb()
+                    setTimeout(() => setMessage(), 2000)
                 })
                 .then(() => setErr())
                 .catch((err) => errorAnalyze(err, (message) => setErr(message)))
@@ -55,6 +65,11 @@ MAC04_09_19_86_11_50=5896`
         if (back && !invalidBack) {
             setErr()
             postReq(global.way + "/backend update", back, global.token)
+                .then(res => {
+                    setMessage("Backend updated")
+                    setBack()
+                    setTimeout(() => setMessage(), 2000)
+                })
                 .then(() => setErr())
                 .catch((err) => errorAnalyze(err, (message) => setErr(message)))
         } else setInvalidBack(true)
@@ -66,7 +81,7 @@ MAC04_09_19_86_11_50=5896`
     }
 
     function sendSettings() {
-        postReq(global.way + "/Advanced settings", settings, global.token)
+        postReq(global.subWay + "/Advanced settings", settings, global.token)
     }
 
     function toDefault() {
@@ -86,9 +101,9 @@ MAC04_09_19_86_11_50=5896`
         const file = e.target.files[0]
 
         if (file.name.split(".").at(-1).includes(name)) {
-            if(name === "zip"){
+            if (name === "zip") {
                 setInvalidWeb(false)
-            }else{
+            } else {
                 setInvalidBack(false)
             }
 
@@ -97,7 +112,7 @@ MAC04_09_19_86_11_50=5896`
             } else setBack(file)
             return true
         } else {
-            if(name === "zip"){
+            if (name === "zip") {
                 setInvalidWeb(true)
             }
             return false
@@ -111,16 +126,22 @@ MAC04_09_19_86_11_50=5896`
 
     return (
         <Page
-            header={<FormattedMessage id = "advSettings.header"/>}
-            header2={<FormattedMessage id = "advSettings.header2"/>}
+            header={<FormattedMessage id="advSettings.header"/>}
+            header2={<FormattedMessage id="advSettings.header2"/>}
             elem={
                 <>
+                    {
+                        (message) ? <div className={"modal"}>
+                            {message + " <"}
+                        </div> : <></>
+                    }
+
                     <nav className="panel-header">
                         <button onClick={() => setPage(0)} className={(page === 0) ? "panel-active" : ""}>
-                            <FormattedMessage id = "advSettings.panel.main"/>
+                            <FormattedMessage id="advSettings.panel.main"/>
                         </button>
                         <button onClick={() => setPage(1)} className={(page === 1) ? "panel-active" : ""}>
-                            <FormattedMessage id = "advSettings.panel.update"/>
+                            <FormattedMessage id="advSettings.panel.update"/>
                         </button>
                     </nav>
                     {(page === 0) ?
@@ -146,33 +167,33 @@ MAC04_09_19_86_11_50=5896`
                         (page === 1) ?
                             <>
                                 <h3 className="advanced-settings-header">
-                                <FormattedMessage id = "advSettings.update.header"/>
+                                    <FormattedMessage id="advSettings.update.header"/>
                                 </h3>
                                 <section className='advanced-settings'>
                                     <div>
                                         <button onClick={() => updateWeb()}>
-                                            <FormattedMessage id = "advSettings.update.web"/>
+                                            <FormattedMessage id="advSettings.update.web"/>
                                         </button>
                                         <input className={"file"} type="file" onChange={(e) => checkFile(e, "zip")}/>
                                         {invalidWeb ?
                                             <span
                                                 className='auth-error'
                                             >
-                                                <FormattedMessage id = "advSettings.updateErr"/>
+                                                <FormattedMessage id="advSettings.updateErr"/>
                                             </span>
                                             : <></>
                                         }
                                     </div>
                                     <div>
                                         <button onClick={() => updateClient()}>
-                                            <FormattedMessage id = "advSettings.update.client"/>
+                                            <FormattedMessage id="advSettings.update.client"/>
                                         </button>
                                         <input className={"file"} type="file" onChange={(e) => checkFile(e, "")}/>
                                         {invalidBack ?
                                             <span
                                                 className='auth-error'
                                             >
-                                                <FormattedMessage id = "advSettings.updateErr2"/>
+                                                <FormattedMessage id="advSettings.updateErr2"/>
                                             </span>
                                             : <></>
                                         }
@@ -185,7 +206,7 @@ MAC04_09_19_86_11_50=5896`
                                                 lineHeight: "50px",
                                                 height: "50px",
                                                 fontSize: "28px",
-                                                marginTop:"40px"
+                                                marginTop: "40px"
                                             }}
                                         >{err}</span>
                                         : <></>

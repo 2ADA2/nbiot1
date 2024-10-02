@@ -1,6 +1,6 @@
 import {Page} from "../../components/page"
 import "../../styles/pages/settings.css";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import global from "../../store/global";
 import {observer} from "mobx-react-lite";
 import {FormattedMessage} from "react-intl/lib";
@@ -9,7 +9,6 @@ import {CheckBox} from "../../components/checkbox";
 import axios from "axios";
 import {sendCmd} from "../../functions/cmd";
 import {connect} from "../../functions/connect";
-import {errorAnalyze} from "../../functions/error";
 
 
 export const SettingsSub = observer(() => {
@@ -40,9 +39,14 @@ export const SettingsSub = observer(() => {
     const [syncTime, setSyncTime] = useState(false);
     const [cmdCount, setCmdCount] = useState(0);
 
-    const sendParams = async () => {
+    useEffect(() => {
+        console.log(cmdCount)
+    },[cmdCount])
+
+    const sendParams = (e) => {
+        e.preventDefault()
         setCmdCount(1)
-        await axios.post(global.subWay + "/gw settings", {
+        axios.post(global.subWay + "/gw settings", {
                 GW_Settings: {
                     "Addr RS485": addrRS485,
                     "Addr SUB": addrSUB,
@@ -56,36 +60,40 @@ export const SettingsSub = observer(() => {
 
                 }
             },
-            {headers: {"Authorization": global.token}}).catch((e) => global.catchError(e))
+            {headers: {"Authorization": global.token}})
             .then(res => waitCMD())
+            .catch((e) => global.catchError(e))
     }
 
-    const waitCMD = async() => {
+    const waitCMD = async () => {
         const cmdInterval = setInterval(() => {
-             connect(global.subWay + "/cmd execution state", global.token)
+            connect(global.subWay + "/cmd execution state", global.token)
                 .then((res) => {
-                    clearInterval(cmdInterval)
-                    setCmdCount(0)
+                    if (res.data.Info !== "execution" || cmdCount) {
+                        console.log("clear:" + res.data.Info + cmdCount)
+                        clearInterval(cmdInterval)
+                        setCmdCount(0)
+                    }
                 }).catch(e => global.catchError(e))
         }, 5000)
     }
 
     const reset = (e) => {
         e.preventDefault()
-        switch (true) {
-            case rxFifo:
-                sendCmd(global.subWay + "/clear RX FIFO", global.token)
-            case txFifo:
-                sendCmd(global.subWay + "/clear RX FIFO", global.token)
-            case txFifo:
-                sendCmd(global.subWay + "/synchronize time", global.token)
+        if(rxFifo)sendCmd(global.subWay + "/clear RX FIFO", global.token)
+        if (txFifo)sendCmd(global.subWay + "/clear TX FIFO", global.token)
+
+        if(rxFifo || txFifo){
+            setCmdCount(1)
+            waitCMD()
         }
     }
 
-    const updateSettings = async (e) => {
+    const cmdSyncTime = (e) => {
         e.preventDefault()
-        await sendParams()
-            .then(() => waitCMD())
+        setCmdCount(1)
+        sendCmd(global.subWay + "/synchronize time", global.token).then(() => waitCMD())
+
     }
 
     return (
@@ -125,6 +133,15 @@ export const SettingsSub = observer(() => {
                         <h3>
                             <FormattedMessage id="settings.sub.change.header"/>
                         </h3>
+
+                        <label>
+                            <h5>Synchronize time</h5>
+                            <button style={{margin: 0}}
+                                    onClick={(e) => cmdSyncTime(e)}
+                                    className={(cmdCount) ? "activated-button" : ""}>
+                                Synchronize
+                            </button>
+                        </label>
 
                         <label>
                             <h5>Addr RS485</h5>
@@ -223,7 +240,7 @@ export const SettingsSub = observer(() => {
                         </label>
                         <button
                             style={{marginTop: 20}}
-                            onClick={(e) => updateSettings(e)}
+                            onClick={(e) => sendParams(e)}
                             className={(cmdCount) ? "activated-button" : ""}
                         >
                             <FormattedMessage id="settings.button"/>
@@ -246,14 +263,6 @@ export const SettingsSub = observer(() => {
                                 {countTXFIFO}
                             </span>
                             <CheckBox checked={txFifo} setValue={() => setTxFifo(!txFifo)}/>
-                        </label>
-
-                        <label>
-                            <h5>Synchronize time</h5>
-                            <span style={{minWidth: 50}}>
-
-                            </span>
-                            <CheckBox checked={syncTime} setValue={() => setSyncTime(!syncTime)}/>
                         </label>
 
                         <label>

@@ -158,3 +158,38 @@ button:hover{
 .page .counter-container input{
     width: 100%;
 }
+
+.modal{
+    position: fixed;
+    top:100px;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    padding-right: 20px ;
+    animation: show-modal 2s both;
+    background: #52b052;
+    width: 270px;
+    height: 50px;
+    font-size: 24px;
+}
+
+@keyframes show-modal{
+    0%{
+        right:-20px;
+        opacity: 0;
+    }
+    30%{
+        right:20px;
+        opacity: 1;
+    }
+    70%{
+        right:20px;
+        opacity: 1;
+    }
+    100%{
+        right:-20px;
+        opacity: 0;
+    }
+}
+
+

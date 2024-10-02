@@ -71,7 +71,7 @@ export const DevCommandsSub = () => {
         let interval
         if (commandStatus) {
             setTimeout(() => {
-                axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
+                axios.get(global.subWay + "/cmd execution state/" + device.Device.DevId, {
                     headers: {"Authorization": global.token}
                 }).then((res) => {
                     getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
@@ -79,7 +79,7 @@ export const DevCommandsSub = () => {
                     .catch((err) => errorAnalyze(err, () => setCommandStatus()))
             }, 1000)
             interval = setInterval(() => {
-                axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
+                axios.get(global.subWay + "/cmd execution state/" + device.Device.DevId, {
                     headers: {"Authorization": global.token}
                 }).then((res) => {
                     getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
@@ -110,7 +110,7 @@ export const DevCommandsSub = () => {
 
         localStorage.setItem(device.Device.DevId + "commandStatus", true)
 
-        await sendSubCommand(global.way + "/cmd/" + device.Device.DevId, {command}, global.token).then((res) => {
+        await sendSubCommand(global.subWay + "/cmd/" + device.Device.DevId, {command}, global.token).then((res) => {
             localStorage.setItem(device.Device.DevId + "onLoad", "")
             getCommandStatus(res.data.Info)
         }).catch((err) => global.catchError(err))

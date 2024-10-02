@@ -13,7 +13,7 @@ import ErrorBoundary from "./components/errorBoundary";
 
 const App = observer(() => {
 
-    if (global.err) return <ErrorPage toBack={false} err={global.err}/>
+    if (global.err) return <ErrorPage toBack={global.err.name === "404"} err={global.err}/>
 
     if (!global.isAuth) {
         return (

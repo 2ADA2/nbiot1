@@ -11,6 +11,7 @@
   "home.panel.home": "Console",
   "home.panel.info": "Information",
   "home.console": "Console",
+  "home.processor" : "Processor",
   "devs.header": "Devices",
   "devs.header2": "List of devices",
   "devs.section1": "Connection status",

@@ -6,7 +6,7 @@ import global from "../store/global";
 export const ErrorPage = ({toBack = true, err = {}}) => {
     return (
         <>
-            <header style={{display : toBack ? "none" : "flex"}}>
+            <header >
                 <h1>NB-IoT collector</h1>
             </header>
             <Page header = "Connecting" header2="Connecting to the server (Failed)"
@@ -25,7 +25,7 @@ export const ErrorPage = ({toBack = true, err = {}}) => {
                                 <h5>Error stack:</h5><h5>{err.stack || "none"}</h5>
                             </div>
                         </section>
-                        {toBack ? <button><Link to = "/" onClick={() => global.setLocation("/")}>На главную</Link></button> : <h2>Случилась какая-то проблема при попытке связаться с сервером, попробуйте подключиться попозже</h2>}
+                        {toBack ? <button><Link to = "/authorization" onClick={() => global.updateToken()}>На главную</Link></button>:<></> }
                     </section>
                 }
             />            

@@ -52,10 +52,10 @@ export const Home = observer(() => {
                     <div className={"sh-219"}>
                         <nav className="panel-header">
                             <button onClick={() => setPage(0)} className={(page === 0) ? "panel-active" : ""}>
-                                <FormattedMessage id="home.panel.home"/>
+                                <FormattedMessage id="home.panel.info"/>
                             </button>
                             <button onClick={() => setPage(1)} className={(page === 1) ? "panel-active" : ""}>
-                                <FormattedMessage id="home.panel.info"/>
+                                <FormattedMessage id="home.panel.home"/>
                             </button>
                             <button onClick={() => setPage(2)} className={(page === 2) ? "panel-active" : ""}>
                                 разработка
@@ -63,38 +63,40 @@ export const Home = observer(() => {
                         </nav>
 
                         {(page === 0) ?
-                            <section>
-                                <h3><FormattedMessage id="home.console"/></h3>
-                                <div className="console">
-                                    <textarea value={consoleVal} ref={consoleRef}/>
-                                    <button
-                                        className="clear-measure"
-                                        onClick={(e) => clearHistory()}>
-                                        <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
-                                    </button>
+                            <section style={{marginTop: 20}}>
+                                <h3><FormattedMessage id="home.processor"/></h3>
+                                {proc.map(i =>
+                                    <div style={{flexDirection: "row", gap: 100}}>
+                                        <h5 style={{textAlign: "start", width: "100%", marginLeft: "10%"}}>{i}</h5>
+                                    </div>
+                                )
+                                }
 
-                                    <input
-                                        value={inputVal}
-                                        onChange={(e) => setInputVal(e.target.value)}
-                                        onKeyDown={(e) => {
-                                            if (e.code === "Enter") {
-                                                if (inputVal) cmd()
-                                            }
-                                        }}
-                                    />
-                                    <button onClick={cmd}>Enter</button>
-                                </div>
-                            </section>
+                            < /section>
                             : (page === 1) ?
-                                <section style={{marginTop: 20}}>
-                                    {proc.map(i =>
-                                        <div style={{flexDirection: "row", gap: 100}}>
-                                            <h5 style={{textAlign:"start", width:"100%", marginLeft:"10%"}}>{i}</h5>
-                                        </div>
-                                    )
-                                    }
+                                <section>
+                                    <h3><FormattedMessage id="home.console"/></h3>
+                                    <div className="console">
+                                        <textarea value={consoleVal} ref={consoleRef}/>
+                                        <button
+                                            className="clear-measure"
+                                            onClick={(e) => clearHistory()}>
+                                            <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                                        </button>
 
-                                < /section>
+                                        <input
+                                            value={inputVal}
+                                            onChange={(e) => setInputVal(e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.code === "Enter") {
+                                                    if (inputVal) cmd()
+                                                }
+                                            }}
+                                        />
+                                        <button onClick={cmd}>Enter</button>
+                                    </div>
+                                </section>
+
                                 :
                                 <section>
                                     <div style={{flexDirection: "row", gap: 100}}>
