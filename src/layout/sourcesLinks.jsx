@@ -5,6 +5,8 @@ import {DEVCOMMANDS_ROUTE, DEVINFO_ROUTE, DEVSETTINGS_ROUTE} from "../utils/cons
 import {useDevice} from "../hooks/useDevice"
 import {FormattedMessage} from "react-intl/lib";
 import {useLocation} from "react-router";
+import {faGears, faListCheck, faTerminal} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 
 export const SoucesLinks = observer(({display = "none"}) => {
@@ -16,19 +18,28 @@ export const SoucesLinks = observer(({display = "none"}) => {
             <Link
                 to={DEVINFO_ROUTE + "/" + MAC}
                 className={(location.includes(DEVINFO_ROUTE) ? "active" : "")}>
-                <FormattedMessage id="panel.devInfo"/>
+                   <FontAwesomeIcon icon={faListCheck}/>
+                <span>
+                      <FormattedMessage id="panel.devInfo"/>
+                </span>
             </Link>
 
             <Link
                 to={DEVSETTINGS_ROUTE + "/" + MAC}
                 className={(location.includes(DEVSETTINGS_ROUTE) ? "active" : "")}>
-                <FormattedMessage id="panel.devSettings"/>
+                    <FontAwesomeIcon icon={faGears}/>
+                <span>
+                    <FormattedMessage id="panel.devSettings"/>
+                </span>
             </Link>
 
             <Link
                 to={DEVCOMMANDS_ROUTE + "/" + MAC}
                 className={(location.includes(DEVCOMMANDS_ROUTE) ? "active" : "")}>
-                <FormattedMessage id="panel.devCommands"/>
+                     <FontAwesomeIcon icon={faTerminal}/>
+                <span>
+                     <FormattedMessage id="panel.devCommands"/>
+                </span>
             </Link>
         </nav>
     )

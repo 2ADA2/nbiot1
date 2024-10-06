@@ -93,3 +93,32 @@
     background-color: #49586b;
     width: 30px;
 }
+
+@media(max-width: 1100px){
+    .panel{
+        width: 70px;
+    }
+    .panel a{
+        padding-left:20px;
+    }
+
+    .panel span{
+        display: none;
+    }
+    .panel svg{
+        font-size: 24px;
+    }
+    .panel-nav .opened {
+        border-left: 5px solid #22aef2;
+    }
+    .nav-links span:first-child{
+        display: block;
+    }
+    .nav-links span:last-child{
+        display: none;
+    }
+    main{
+        padding-left:70px;
+    }
+
+}

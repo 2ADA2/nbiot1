@@ -46,26 +46,36 @@ export const Panel = observer(() => {
                             updateLocation(false)
                         }}>
                             <FontAwesomeIcon icon={faLaptopHouse}/>
-                            <FormattedMessage id="panel.home"/>
+                            <span>
+                                <FormattedMessage id="panel.home"/>
+                            </span>
+
                         </Link>
 
                         <Link to={SOURCES_ROUTE} className={isInSources ? "opened" : ""} onClick={() => {
                             updateLocation(false)
                         }}>
                             <FontAwesomeIcon icon={faServer}/>
-                            <FormattedMessage id="panel.devs"/>
+                            <span>
+                                <FormattedMessage id="panel.devs"/>
+                            </span>
+
                         </Link>
                         <SoucesLinks display={(page.includes("/dev")) ? "block" : "none"}/>
 
-                        <Link to={SETTINGS_ROUTE} className={page.includes(SETTINGS_ROUTE) ? "opened" : ""} onClick={() => {
-                            updateLocation()
-                        }}>
+                        <Link to={SETTINGS_ROUTE} className={page.includes(SETTINGS_ROUTE) ? "opened" : ""}
+                              onClick={() => {
+                                  updateLocation()
+                              }}>
                             <FontAwesomeIcon icon={faCog}/>
 
+                            <span>
                             <FormattedMessage id="panel.settings"/>
-                            {(global.progType === "mqtt") ?
-                                <> mqtt</> : <> sub</>
-                            }
+                                {(global.progType === "mqtt") ?
+                                    <> mqtt</> : <> sub</>
+                                }
+                            </span>
+
 
                         </Link>
 
@@ -76,7 +86,10 @@ export const Panel = observer(() => {
                                 updateLocation()
                             }}>
                                 <FontAwesomeIcon icon={faSliders}/>
-                                <FormattedMessage id="panel.advSettings"/>
+                                <span>
+                                    <FormattedMessage id="panel.advSettings"/>
+                                 </span>
+
                             </Link> :
                             <></>}
 

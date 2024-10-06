@@ -21,7 +21,7 @@
     background-color: white;
     z-index: 1001;
     padding: 40px;
-    animation: show-modal 0.2s both;
+    animation:  show-modal-UI-settings 0.2s both;
     border-radius: 2px;
 }
 
@@ -51,7 +51,7 @@
     margin: 0;
 }
 
-@keyframes show-modal {
+@keyframes show-modal-UI-settings {
     0% {
         opacity: 0;
         transform: scale(1, 0.9);

@@ -1,6 +1,7 @@
 body {
   height: 100%;
   margin: 0;
+  min-width: 900px;
   font-family: Roboto, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -10,7 +11,6 @@ body {
 
 html{
   height: 100%;
-  min-width: 1150px;
 }
 
 #root{

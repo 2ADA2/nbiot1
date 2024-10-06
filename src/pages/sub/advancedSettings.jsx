@@ -153,13 +153,13 @@ MAC04_09_19_86_11_50=5896`
                                 <textarea value={settings} onChange={(e) => handleChange(e)}/>
                             </section>
 
-                            <button onClick={() => sendSettings()}>
+                            <button onClick={() => sendSettings()} className={"adv-button"}>
                                 <FormattedMessage id="advSettings.main.save"/>
                             </button>
-                            <button onClick={() => toDefault()}>
+                            <button onClick={() => toDefault()} className={"adv-button"}>
                                 <FormattedMessage id="advSettings.main.sample"/>
                             </button>
-                            <button onClick={() => cancel()}>
+                            <button onClick={() => cancel()} className={"adv-button"}>
                                 <FormattedMessage id="advSettings.main.cancel"/>
                             </button>
                         </>

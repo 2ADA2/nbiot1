@@ -6,10 +6,9 @@ import {useDevice} from "../../../hooks/useDevice";
 import axios from "axios";
 import {errorAnalyze} from "../../../functions/error";
 import {FormattedMessage} from "react-intl/lib";
-import {sendCommand} from "../../../functions/requests";
 import {sendSubCommand} from "../../../functions/subRequests";
-import {CheckBox} from "../../../components/checkbox";
 import {Counter} from "../../../components/counter";
+import {CheckBox} from "../../../components/checkbox";
 
 export const DevCommandsSub = () => {
     const device = useDevice();
@@ -55,17 +54,36 @@ export const DevCommandsSub = () => {
     ]
 
     //состояния для комманд
-    const [trepeat, setTrepeat] = useState(30);
-    const [netDelay, setNetDelay] = useState(0);
-    const [timeZone, setTimeZone] = useState(0);
-    const [type, setType] = useState(1);
-    const [timeout, setTimeout] = useState(300);
+    const [bleTime, setBleTime] = useState(0);
+    const [m, setM] = useState(0);
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
+    const [z, setZ] = useState(0);
+    const [bleAdvTime, setBleAdvTime] = useState(false);
+    const [capacity, setCapacity] = useState(0);
+    const [thresholdVoltage, setThresholdVoltage] = useState(0);
+    const [thresholdPrecent, setThresholdPrecent] = useState(0);
+    const [chanal, setChanal] = useState(0);
+    const [power, setPower] = useState(0);
+    const [word, setWord] = useState(0);
+    const [speed, setSpeed] = useState(0);
+    const [gwId, setGwId] = useState(0);
+    const [devId, setDevId] = useState(0);
+    const [win, setWin] = useState(0);
+    const [quantity, setQuantity] = useState(0);
+    const [shedul, setShedul] = useState(0);
+    const [reserv, setReserv] = useState(0);
+    const [modeVal, setModeVal] = useState(0);
+    const [scale, setScale] = useState(0);
+    const [threshold, setThreshold] = useState(0);
+    const [settings, setSettings] = useState(0);
+    const [time, setTime] = useState(0);
+    const [sleepMode, setSleepMode] = useState(0);
+    const [sleepSettings, setSleepSettings] = useState(0);
+    const [imitMode, setImitMode] = useState(0);
+    const [phase, setPhase] = useState(0);
+    const [ampli, setAmpli] = useState(0);
 
-    const [kval, setKval] = useState(100);
-    const [tprepare, setTprepare] = useState(10);
-    const [senseCheck, setSenseCheck] = useState(false);
-
-    const [UIName, setUIName] = useState(device.Device["SoftVer."])
 
     useEffect(() => {
         let interval
@@ -293,19 +311,37 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>GET BLE ADV TIME</h5>
-                            <CheckBox/>
+                            <CheckBox checked={bleAdvTime} setValue={() => setBleAdvTime(!bleAdvTime)}/>
                         </div>
                         <div>
                             <h5>Capaсity</h5>
-                            <Counter/>
+                            <Counter count={capacity}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setCapacity(0) : setCapacity(num)
+                                     }}
+                                     setCount={(num) => (capacity + num > 0) ? setCapacity(capacity + num) : setCapacity(0)}
+                            />
                         </div>
                         <div>
                             <h5>Threshold voltage</h5>
-                            <Counter/>
+                            <Counter count={sleepSettings}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setSleepSettings(0) : setSleepSettings(num)
+                                     }}
+                                     setCount={(num) => (sleepSettings + num > 0) ? setSleepSettings(sleepSettings + num) : setSleepSettings(0)}
+                            />
                         </div>
                         <div>
                             <h5>Threshold percent</h5>
-                            <Counter/>
+                            <Counter count={thresholdPrecent}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setThresholdPrecent(0) : setThresholdPrecent(num)
+                                     }}
+                                     setCount={(num) => (thresholdPrecent + num > 0) ? setThresholdPrecent(thresholdPrecent + num) : setThresholdPrecent(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "gain") ? <>
@@ -316,19 +352,43 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>M</h5>
-                            <Counter/>
+                            <Counter count={m}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setM(0) : setM(num)
+                                     }}
+                                     setCount={(num) => (m + num > 0) ? setM(m + num) : setM(0)}
+                            />
                         </div>
                         <div>
                             <h5>X</h5>
-                            <Counter/>
+                            <Counter count={x}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setX(0) : setX(num)
+                                     }}
+                                     setCount={(num) => (x + num > 0) ? setX(x + num) : setX(0)}
+                            />
                         </div>
                         <div>
                             <h5>Y</h5>
-                            <Counter/>
+                            <Counter count={y}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setY(0) : setY(num)
+                                     }}
+                                     setCount={(num) => (y + num > 0) ? setY(y + num) : setY(0)}
+                            />
                         </div>
                         <div>
                             <h5>Z</h5>
-                            <Counter/>
+                            <Counter count={z}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setZ(0) : setZ(num)
+                                     }}
+                                     setCount={(num) => (z + num > 0) ? setZ(z + num) : setZ(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "setChos") ? <>
@@ -359,7 +419,13 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>TIME</h5>
-                            <Counter/>
+                            <Counter count={bleTime}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setBleTime(0) : setBleTime(num)
+                                     }}
+                                     setCount={(num) => (bleTime + num > 0) ? setBleTime(bleTime + num) : setBleTime(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "rf") ? <>
@@ -370,19 +436,43 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Chanal</h5>
-                            <Counter/>
+                            <Counter count={chanal}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setChanal(0) : setChanal(num)
+                                     }}
+                                     setCount={(num) => (chanal + num > 0) ? setChanal(chanal + num) : setChanal(0)}
+                            />
                         </div>
                         <div>
                             <h5>Power</h5>
-                            <Counter/>
+                            <Counter count={power}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setPower(0) : setPower(num)
+                                     }}
+                                     setCount={(num) => (power + num > 0) ? setPower(power + num) : setPower(0)}
+                            />
                         </div>
                         <div>
                             <h5>Word</h5>
-                            <Counter/>
+                            <Counter count={word}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setWord(0) : setWord(num)
+                                     }}
+                                     setCount={(num) => (word + num > 0) ? setWord(word + num) : setWord(0)}
+                            />
                         </div>
                         <div>
                             <h5>Speed</h5>
-                            <Counter/>
+                            <Counter count={speed}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setSpeed(0) : setSpeed(num)
+                                     }}
+                                     setCount={(num) => (speed + num > 0) ? setSpeed(speed + num) : setSpeed(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "sub") ? <>
@@ -393,15 +483,33 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Gw id</h5>
-                            <Counter/>
+                            <Counter count={gwId}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setGwId(0) : setGwId(num)
+                                     }}
+                                     setCount={(num) => (gwId + num > 0) ? setGwId(gwId + num) : setGwId(0)}
+                            />
                         </div>
                         <div>
                             <h5>Dev id</h5>
-                            <Counter/>
+                            <Counter count={devId}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setDevId(0) : setDevId(num)
+                                     }}
+                                     setCount={(num) => (devId + num > 0) ? setDevId(devId + num) : setDevId(0)}
+                            />
                         </div>
                         <div>
                             <h5>Win</h5>
-                            <Counter/>
+                            <Counter count={win}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setWin(0) : setWin(num)
+                                     }}
+                                     setCount={(num) => (win + num > 0) ? setWin(win + num) : setWin(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "shedule") ? <>
@@ -412,15 +520,33 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Quantity</h5>
-                            <Counter/>
+                            <Counter count={quantity}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setQuantity(0) : setQuantity(num)
+                                     }}
+                                     setCount={(num) => (quantity + num > 0) ? setQuantity(quantity + num) : setQuantity(0)}
+                            />
                         </div>
                         <div>
                             <h5>Shedul</h5>
-                            <Counter/>
+                            <Counter count={shedul}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setShedul(0) : setShedul(num)
+                                     }}
+                                     setCount={(num) => (shedul + num > 0) ? setShedul(shedul + num) : setShedul(0)}
+                            />
                         </div>
                         <div>
                             <h5>Reserv</h5>
-                            <Counter/>
+                            <Counter count={reserv}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setReserv(0) : setReserv(num)
+                                     }}
+                                     setCount={(num) => (reserv + num > 0) ? setReserv(reserv + num) : setReserv(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "mode") ? <>
@@ -431,7 +557,13 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Mode</h5>
-                            <Counter/>
+                            <Counter count={mode}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setMode(0) : setMode(num)
+                                     }}
+                                     setCount={(num) => (mode + num > 0) ? setMode(mode + num) : setMode(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "vibro") ? <>
@@ -442,7 +574,13 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Scale</h5>
-                            <Counter/>
+                            <Counter count={scale}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setScale(0) : setScale(num)
+                                     }}
+                                     setCount={(num) => (scale + num > 0) ? setScale(scale + num) : setScale(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "launch") ? <>
@@ -453,15 +591,33 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Threshold </h5>
-                            <Counter/>
+                            <Counter count={threshold}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setThreshold(0) : setThreshold(num)
+                                     }}
+                                     setCount={(num) => (threshold + num > 0) ? setThreshold(threshold + num) : setThreshold(0)}
+                            />
                         </div>
                         <div>
                             <h5>Settings</h5>
-                            <Counter/>
+                            <Counter count={sleepSettings}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setSleepSettings(0) : setSleepSettings(num)
+                                     }}
+                                     setCount={(num) => (sleepSettings + num > 0) ? setSleepSettings(sleepSettings + num) : setSleepSettings(0)}
+                            />
                         </div>
                         <div>
                             <h5>Time</h5>
-                            <Counter/>
+                            <Counter count={time}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setTime(0) : setTime(num)
+                                     }}
+                                     setCount={(num) => (time + num > 0) ? setTime(time + num) : setTime(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "sleep") ? <>
@@ -472,7 +628,13 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Mode</h5>
-                            <Counter/>
+                            <Counter count={modeVal}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setModeVal(0) : setModeVal(num)
+                                     }}
+                                     setCount={(num) => (modeVal + num > 0) ? setModeVal(modeVal + num) : setModeVal(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "settingsSleep") ? <>
@@ -483,7 +645,13 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Settings</h5>
-                            <Counter/>
+                            <Counter count={sleepSettings}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setSleepSettings(0) : setSleepSettings(num)
+                                     }}
+                                     setCount={(num) => (sleepSettings + num > 0) ? setSleepSettings(sleepSettings + num) : setSleepSettings(0)}
+                            />
                         </div>
                     </section>
                 </> : (command === "imit") ? <>
@@ -494,15 +662,33 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Mode</h5>
-                            <Counter/>
+                            <Counter count={imitMode}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setImitMode(0) : setImitMode(num)
+                                     }}
+                                     setCount={(num) => (imitMode + num > 0) ? setImitMode(imitMode + num) : setImitMode(0)}
+                            />
                         </div>
                         <div>
                             <h5>Phase</h5>
-                            <Counter/>
+                            <Counter count={phase}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setPhase(0) : setPhase(num)
+                                     }}
+                                     setCount={(num) => (phase + num > 0) ? setPhase(phase + num) : setPhase(0)}
+                            />
                         </div>
                         <div>
                             <h5>Ampli</h5>
-                            <Counter/>
+                            <Counter count={ampli}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setAmpli(0) : setAmpli(num)
+                                     }}
+                                     setCount={(num) => (ampli + num > 0) ? setAmpli(ampli + num) : setAmpli(0)}
+                            />
                         </div>
                     </section>
                 </> : <>{command}</>

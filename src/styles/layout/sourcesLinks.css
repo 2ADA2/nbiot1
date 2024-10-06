@@ -7,6 +7,7 @@
     justify-content: space-between;
     overflow: hidden;
     margin: 0;
+    position: relative;
 }
 .panel .nav-links a:hover{
     background-color:#323d4b;
@@ -25,4 +26,37 @@
 }
 .panel .nav-links .active:after{
     left:16px;
+}
+.nav-links span:first-child{
+    display: none;
+}
+.panel .nav-links a svg{
+    display: none;
+}
+
+@media(max-width: 1100px){
+    .panel .nav-links a svg{
+        display: block;
+    }
+    .nav-links span{
+        display: none;
+    }
+    .panel .nav-links a{
+        padding-left:20px;
+    }
+    .panel .nav-links a:after{
+        content: "";
+        display: block;
+        position: absolute;
+        width: 30px;
+        height: 30px;
+        background-color: #eef1f6;
+        transform: rotate(45deg);
+        left:90px;
+        transition-duration: 300ms;
+    }
+    .panel .nav-links .active:after{
+        position: absolute;
+        left:65px;
+    }
 }
