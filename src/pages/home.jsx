@@ -66,9 +66,7 @@ export const Home = observer(() => {
                             <section style={{marginTop: 20}}>
                                 <h3><FormattedMessage id="home.processor"/></h3>
                                 {proc.map(i =>
-                                    <div style={{flexDirection: "row", gap: 100}}>
-                                        <h5 style={{textAlign: "start", width: "100%", marginLeft: "10%"}}>{i}</h5>
-                                    </div>
+                                    <h5 className={"one-blocked"}>{i}</h5>
                                 )
                                 }
 
@@ -99,11 +97,11 @@ export const Home = observer(() => {
 
                                 :
                                 <section>
-                                    <div style={{flexDirection: "row", gap: 100}}>
+                                    <div className={"div-info"}>
                                         <h5>Программа:</h5>
                                         <h5 style={{textAlign: "start"}}>{global.progType}</h5>
                                     </div>
-                                    <div style={{flexDirection: "row", gap: 100}}>
+                                    <div className={"div-info"}>
                                         <h5>
                                             (временно) сменить программу:
                                         </h5>

@@ -1,26 +1,25 @@
-.connedtion-details{
+.connedtion-details, .Last-Will, .Credentials{
     display: flex;
     flex-direction: column;
-    gap:20px;
-    font-size: 20px;
-    max-width: 2000px;
+    grid-gap:20px;
+    padding: clamp(20px, 2vw, 100px);
 }
-.connedtion-details label{
-    min-width: 650px;
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    gap:40px;
+label{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 20px;
+    align-items: center;
+}
+.label-replacer{
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 20px;
     align-items: center;
 }
 h5{
     font-weight: 400;
     color:#7c7c7c;
-    width: 40%;
-    line-height: 50px;
-    font-size: 24px;
     text-align: end;
-    min-width: 260px;
 }
 
 input{
@@ -31,8 +30,7 @@ input{
     color:#444444;
     padding: 0;
     padding-left: 5px;
-    min-width: 350px;
-    max-width: 500px;
+    width: clamp(300px, 20vw, 400px);
 }
 
 input:focus{
@@ -40,102 +38,10 @@ input:focus{
     outline: none;
 }
 
-h3{
-    font-weight: 400;
-    color: #505050;
-    font-size: 30px;
-    padding-bottom: 10px;
-}
-
-h3::after{
-    margin-top:5px;
-    content:"";
-    display: block;
-    width:100%;
-    min-width: 200px;
-    height: 1px;
-    background-color:#9c9c9c;
-}
-
-.Credentials{
-    display: flex;
-    width: 100%;
-    padding-right: 20%;
-    padding-top:20px;
-    justify-content: space-around;
-    align-items: flex-end;
-    gap:40px;
-    max-width: 2000px;
-}
-
-.Credentials h5{
-    min-width: 200px;
-    text-align: start;
-}
-
-.Credentials input{
-    min-width: 200px;
-    width: 100%;
-    max-width: 700px;
-}
-
-.Last-Will{
-    display: flex;
-    flex-direction: column;
-    gap:20px;
-    margin-top:40px;
-    font-size: 26px;
-    max-width: 2000px;
-}
-
-.Last-Will label{
-    min-width: 650px;
-    width: 100%;
-    text-align: end;
-    display: flex;
-    justify-content: flex-start;
-    gap:40px;
-}
-
-.Last-Will select{
-    font-size: 26px;
-    color:#505050;
-    border:2px solid #bebebe;
-    border-radius:2px;
-    min-width: 350px;
-}
-
 .Last-Will select option{
     font-size: 26px;
 }
 
-.Last-Will select:focus{
-    border:2px solid #868686;
-    outline: none;
-}
-
-.page .label-replacer{
-    flex-direction: row;
-    gap:40px;
-}
-
-button{
-    width: 200px;
-    height: 55px;
-    border:2px solid #29333f;
-    border-radius: 2px;
-    cursor: pointer;
-    background-color:#3b495a;
-    color:white;
-    font-size: 22px;
-    font-family: "Roboto", sans-serif;
-    font-style: normal;
-    margin-left: 100px;
-    margin-top:50px ;
-}
-button:hover{
-    background-color:#425063;
-}
 .page .counter-container{
     display: flex;
     flex-direction: row;
@@ -155,41 +61,8 @@ button:hover{
     gap:1px;
     padding-left: 1px;
 }
-.page .counter-container input{
-    width: 100%;
+
+form .center-button{
+    display: block;
+    margin: 40px auto 0 auto;
 }
-
-.modal{
-    position: fixed;
-    top:100px;
-    display: flex;
-    justify-content: center;
-    align-items: end;
-    padding-right: 20px ;
-    animation: show-modal 2s both;
-    background: #52b052;
-    width: 270px;
-    height: 50px;
-    font-size: 24px;
-}
-
-@keyframes show-modal{
-    0%{
-        right:-20px;
-        opacity: 0;
-    }
-    30%{
-        right:20px;
-        opacity: 1;
-    }
-    70%{
-        right:20px;
-        opacity: 1;
-    }
-    100%{
-        right:-20px;
-        opacity: 0;
-    }
-}
-
-

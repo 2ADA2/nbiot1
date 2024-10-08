@@ -4,6 +4,9 @@
     gap:40px;
     padding-left: 40px;
 }
+.commands select{
+    width: 360px;
+}
 .commands h5{
     min-width: 0;
     width: auto;
@@ -19,10 +22,11 @@
 }
 
 .page form .status {
+    display: flex;
     flex-direction: row;
     gap:40px;
     padding-left: 40px;
-    min-height: 300px;
+    margin-top: 20px;
 }
 .page form .status section{
     width: 50%;
@@ -43,7 +47,9 @@
     margin-top: 40px;
     padding-left: 40px;
     display: flex;
+    justify-content: flex-end;
     flex-direction: column;
+    flex: 1 1 auto;
     gap:20px;
 }
 .command-settings h5{
@@ -56,21 +62,20 @@
 } 
 .page .command-settings div{
     flex-direction: row;
-}
-.page .command-settings div .counter{
-    flex-direction: column;
+    display: flex;
 }
 
 form .button-container{
-    flex:1 1 auto;
     justify-content: flex-end;
     padding-left: 40px;
     max-width: 2000px;
     max-height: 500px;
+    margin-top: 40px;
 }
-.button-container button{
-    margin: 0;
-}
+
 form{
     height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column ;
 }

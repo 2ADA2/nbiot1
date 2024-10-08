@@ -292,7 +292,7 @@ export const SettingsSub = observer(() => {
                     </section>
                     <button
                         onClick={(e) => reset(e)}
-                        className={(cmdCount) ? "activated-button" : ""}
+                        className={(cmdCount) ? "activated-button center-button" : "center-button"}
                     >
                         <FormattedMessage id="settings.resetButton"/>
                     </button>

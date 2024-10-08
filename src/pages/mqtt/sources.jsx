@@ -51,7 +51,7 @@ export const Sources = observer(() => {
                 {/* список источников, краткий обзор */}
                 <h3><FormattedMessage id={"devs.section2"}/></h3>
 
-                <div style={{flexDirection: "row", gap: "20px", marginBottom: 20, alignItems: "center"}}>
+                <div style={{display:"flex",flexDirection: "row", gap: "20px", marginBottom: 20, alignItems: "center"}}>
                     <FormattedMessage id={"devs.more"}/>
                     <CheckBox checked={info} setValue={() => {
                         localStorage.setItem("moreSourceInfo", info ? "" : true)

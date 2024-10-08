@@ -1,23 +1,22 @@
-.page .devInfo div{
-    flex-direction: row;
-    justify-content: flex-end;
-    gap:40px;
-    height: 5vw;
-    min-height: 60px;
-    max-height: 70px;
-    max-width: 3000px;
+.devInfo div{
+    display: grid;
+    grid-template-columns:1fr 1fr;
+    grid-gap: 40px;
+    grid-row-align: center;
 }
+.page .devInfo div :last-child{
+    text-align: start;
+}
+
+.page .devInfo div h5{
+    line-height: clamp(30px, 4vw, 60px);
+}
+
 .page .devInfo div:first-child{
     margin-top: 40px;
 }
 .devInfo h5{
     font-size: clamp(16px, 1.4vw, 24px);
-}
-.page .devInfo div h5{
-    width: 40%;
-    text-align: start;
-    margin: 20px 0;
-    user-select: auto;
 }
 .page .devInfo div .checkbox-container{
     width: 40%;
@@ -52,7 +51,6 @@
 }
 .page .devInfo .DB .counter-container input{
     width: 100%;
-    min-width: none;
 }
 
 .devStatus{

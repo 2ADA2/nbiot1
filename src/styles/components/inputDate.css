@@ -29,7 +29,8 @@
 .css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
     min-width: 100%;
     max-width: none;
+    height: 50px;
 }
 .css-z3c6am-MuiFormControl-root-MuiTextField-root{
-    width: 40%;
+    max-width: 300px;
 }

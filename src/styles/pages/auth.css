@@ -19,6 +19,7 @@
 .auth input{
     width: 100%;
     max-width: none;
+    margin-top: 20px;
 }
 .auth-error{
     border-left: 2px solid #e08b8b;

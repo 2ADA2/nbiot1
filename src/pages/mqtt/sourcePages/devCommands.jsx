@@ -101,7 +101,7 @@ export const DevCommands = () => {
         }
     }, [commandStatus]);
 
-    async function  cmd(e) {
+    async function cmd(e) {
         e.preventDefault()
         setOnLoad(true)
         setCommandStatus(true)
@@ -255,22 +255,24 @@ export const DevCommands = () => {
                 </section>
                 {(command === "getParams") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(getParams.GET_SENS_ATTR && !commandStatus) ? <section>
-                        <h5 style={{fontSize: "30px"}}>{getParams.GET_SENS_ATTR} </h5>
-                        <h3>Info</h3>
-                        <div>
-                            <h5>Kv_val: </h5>
-                            <h5>{getParams.Kv_val}</h5>
-                        </div>
-                        <div>
-                            <h5>Tprepare: </h5>
-                            <h5>{getParams.Tprepare}</h5>
-                        </div>
-                    </section> : <h5>{(typeof (getParams) === "string") ? getParams : "no command"}</h5>}
+                        <h5><FormattedMessage id="commands.status"/>:</h5>{(getParams.GET_SENS_ATTR && !commandStatus) ?
+                        <section>
+                            <h5 style={{fontSize: "30px"}}>{getParams.GET_SENS_ATTR} </h5>
+                            <h3>Info</h3>
+                            <div>
+                                <h5>Kv_val: </h5>
+                                <h5>{getParams.Kv_val}</h5>
+                            </div>
+                            <div>
+                                <h5>Tprepare: </h5>
+                                <h5>{getParams.Tprepare}</h5>
+                            </div>
+                        </section> : <h5>{(typeof (getParams) === "string") ? getParams : "no command"}</h5>}
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "setParams") ? <>
-                    <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/></h5>
+                <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/></h5>
                         <h5>{(getParams.GET_SENS_ATTR) ? getParams.GET_SENS_ATTR : (typeof (getParams) === "string") ? getParams : "no command"}</h5>
                     </div>
                     <section className="command-settings">
@@ -300,7 +302,7 @@ export const DevCommands = () => {
                     </section>
                 </> : (command === "setChos") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(chos.LINKSCHEDULE) ? chos.LINKSCHEDULE : (typeof (chos) === "string") ? chos : "no command"}</h5>
                     </div>
                     <section className="command-settings">
@@ -331,7 +333,8 @@ export const DevCommands = () => {
                     </section>
                 </> : (command === "updateLocation") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(updateLocation.GET_LOCATION && !commandStatus) ? <section>
+                        <h5><FormattedMessage id="commands.status"/>:
+                        </h5>{(updateLocation.GET_LOCATION && !commandStatus) ? <section>
                         <h5 style={{fontSize: "30px"}}>{updateLocation.GET_LOCATION} </h5>
                         <div>
                             <h5>COORD: </h5>
@@ -359,35 +362,39 @@ export const DevCommands = () => {
                     </section>
                 </> : (command === "register") ? <>
                     <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
-                        <h5>{(typeof (addPacage) === "string" && addPacage) ? addPacage : "no command" }</h5>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
+                        <h5>{(typeof (addPacage) === "string" && addPacage) ? addPacage : "no command"}</h5>
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "clearAll") ? <>
-                    <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(clearAll.GET_EXT_INFO && !commandStatus) ? <section>
-                        <h5 style={{fontSize: "30px"}}>{clearAll.GET_EXT_INFO}</h5>
-                        <h3>Info</h3>
-                        <div>
-                            <h5>MODEM_IMEI: </h5>
-                            <h5>{clearAll.MODEM_IMEI}</h5>
-                        </div>
-                        <div>
-                            <h5>MODEM_VER: </h5>
-                            <h5>{clearAll.MODEM_VER}</h5>
-                        </div>
-                        <div>
-                            <h5>REG_ID: </h5>
-                            <h5>{clearAll.REG_ID}</h5>
-                        </div>
-                        <div>
-                            <h5>SIM_ICCID: </h5>
-                            <h5>{clearAll.SIM_ICCID}</h5>
-                        </div>
-                    </section> : <h5>{(typeof (clearAll) === "string") ? clearAll : "no command"}</h5>}
+                <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>{(clearAll.GET_EXT_INFO && !commandStatus) ?
+                        <section>
+                            <h5 style={{fontSize: "30px"}}>{clearAll.GET_EXT_INFO}</h5>
+                            <h3>Info</h3>
+                            <div>
+                                <h5>MODEM_IMEI: </h5>
+                                <h5>{clearAll.MODEM_IMEI}</h5>
+                            </div>
+                            <div>
+                                <h5>MODEM_VER: </h5>
+                                <h5>{clearAll.MODEM_VER}</h5>
+                            </div>
+                            <div>
+                                <h5>REG_ID: </h5>
+                                <h5>{clearAll.REG_ID}</h5>
+                            </div>
+                            <div>
+                                <h5>SIM_ICCID: </h5>
+                                <h5>{clearAll.SIM_ICCID}</h5>
+                            </div>
+                        </section> : <h5>{(typeof (clearAll) === "string") ? clearAll : "no command"}</h5>}
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "getLocation") ? <>
-                    <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>{(getLocation.GET_LOCATION && !commandStatus) ? <section>
+                <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:
+                        </h5>{(getLocation.GET_LOCATION && !commandStatus) ? <section>
                             <h5 style={{fontSize: "30px"}}>{getLocation.GET_LOCATION} </h5>
                             <div>
                                 <h5>COORD: </h5>
@@ -395,25 +402,30 @@ export const DevCommands = () => {
                             </div>
                         </section> :
                         <h5>{(typeof (getLocation) === "string") ? getLocation : "no command"}</h5>}
+                        <section className="command-settings"></section>
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "onData") ? <>
-                    <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
+                <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(onData.DEBUG_ON) ? onData.DEBUG_ON : (typeof (onData) === "string") ? onData : "no command"}</h5>
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "reboot") ? <>
-                    <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
+                <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(reboot.DEV_REBOOT) ? reboot.DEV_REBOOT : (typeof (reboot) === "string") ? reboot : "no command"}</h5>
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "updateSertificate") ? <>
-                    <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
+                <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(updateSertificate.FTP_СERT_UPD) ? updateSertificate.FTP_СERT_UPD : (typeof (updateSertificate) === "string") ? updateSertificate : "no command"}</h5>
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "updateUI") ? <>
-                    <div className={"status"}>
-                        <h5><FormattedMessage id = "commands.status"/>:</h5>
+                <div className={"status"}>
+                        <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(updateUI.FTP_FW_UPD) ? updateUI.FTP_FW_UPD : (typeof (updateUI) === "string") ? updateUI : "no command"}</h5>
                     </div>
                     <section className="command-settings">
@@ -436,7 +448,7 @@ export const DevCommands = () => {
                     }}
                             className={commandStatus ? "activated-button" : ""}
                     >
-                        <FormattedMessage id = "commands.buttons.submit"/>
+                        <FormattedMessage id="commands.buttons.submit"/>
                     </button>
                     <button
                         onClick={(e) => {
@@ -445,7 +457,7 @@ export const DevCommands = () => {
                             localStorage.setItem(device.Device.DevId + "commandStatus", "")
                         }}
                         style={{display: commandStatus ? "block" : "none"}}>
-                        <FormattedMessage id = "commands.buttons.cancel.text"/>
+                        <FormattedMessage id="commands.buttons.cancel.text"/>
                     </button>
                 </div>
             </form>}/>

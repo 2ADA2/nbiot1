@@ -130,29 +130,29 @@ MAC04_09_19_86_11_50=5896`
                             </h3>
                             <section className='advanced-settings'>
                                 <textarea value={settings} onChange={(e) => handleChange(e)}/>
+                                <button onClick={() => sendSettings()}>
+                                    <FormattedMessage id="advSettings.main.save"/>
+                                </button>
+                                <button onClick={() => toDefault()}>
+                                    <FormattedMessage id="advSettings.main.sample"/>
+                                </button>
+                                <button onClick={() => cancel()}>
+                                    <FormattedMessage id="advSettings.main.cancel"/>
+                                </button>
                             </section>
 
-                            <button onClick={() => sendSettings()}>
-                                <FormattedMessage id="advSettings.main.save"/>
-                            </button>
-                            <button onClick={() => toDefault()}>
-                                <FormattedMessage id="advSettings.main.sample"/>
-                            </button>
-                            <button onClick={() => cancel()}>
-                                <FormattedMessage id="advSettings.main.cancel"/>
-                            </button>
 
                         </>
                         :
                         (page === 1) ?
                             <>
                                 <h3 className="advanced-settings-header">
-                                <FormattedMessage id = "advSettings.update.header"/>
+                                    <FormattedMessage id="advSettings.update.header"/>
                                 </h3>
                                 <section className='advanced-settings'>
                                     <div>
                                         <button onClick={() => updateWeb()}>
-                                            <FormattedMessage id = "advSettings.update.web"/>
+                                        <FormattedMessage id = "advSettings.update.web"/>
                                         </button>
                                         <input className={"file"} type="file" onChange={(e) => checkFile(e, "zip")}/>
                                         {invalidWeb ?

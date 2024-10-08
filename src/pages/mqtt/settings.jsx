@@ -145,7 +145,7 @@ export const Settings = observer(() => {
                             <CheckBox checked={LWRetain} setValue={() => setLWRetain(!LWRetain)}/>
                         </div>
                     </section>
-                    <button onClick={(e) => saveSettings(e)}>
+                    <button onClick={(e) => saveSettings(e)} className = {"center-button"}>
                         <FormattedMessage id = "settings.button"/>
                     </button>
                 </form>

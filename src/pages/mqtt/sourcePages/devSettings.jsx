@@ -153,7 +153,7 @@ export const DevSettings = observer(() => {
                 </h3>
                 <section className="measurement">
                     <section className="counters">
-                        <div>
+                        <div className={"meas-block"}>
                             <h5>
                                 <FormattedMessage id = "measurementSettings.performMeasurementAt"/>
                             </h5>
@@ -162,7 +162,7 @@ export const DevSettings = observer(() => {
                                 newDate={(newDate) => setDate(newDate)}
                             />
                         </div>
-                        <div>
+                        <div className={"meas-block"}>
                             <h5>
                                 <FormattedMessage id = "measurementSettings.measurementTimeSeconds"/>
                             </h5>
@@ -172,7 +172,7 @@ export const DevSettings = observer(() => {
                                 setCount={(newTime) => setTime((newTime + time >= 0) ? newTime + time : time)}
                             />
                         </div>
-                        <div>
+                        <div className={"meas-block"}>
                             <h5>
                                 <FormattedMessage id = "measurementSettings.repeatMeasurementEverySeconds"/>
                             </h5>
@@ -184,10 +184,10 @@ export const DevSettings = observer(() => {
                         </div>
                     </section>
                     <section className="inputs">
-                        <div>
+                        <div className={"meas-block"}>
                             <h5>UTC</h5><CheckBox checked={device.utc} setValue={utcSet}/>
                         </div>
-                        <div>
+                        <div className={"meas-block"}>
                             <h5>
                                 <FormattedMessage id = "measurementSettings.measurementMode"/>
                             </h5>
@@ -202,7 +202,7 @@ export const DevSettings = observer(() => {
                                 </option>
                             </select>
                         </div>
-                        <div>
+                        <div className={"meas-block"}>
                             <h5>
                                 <FormattedMessage id = "measurementSettings.filterMode"/>
                             </h5>

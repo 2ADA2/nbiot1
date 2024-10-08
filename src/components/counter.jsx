@@ -20,7 +20,10 @@ export const Counter = ({ count = 0, setCount = () => { }, newCount = () => { } 
             <div className="counter" style={{
                 userSelect : "none",
                 justifyContent: "center",
-                height:"50px"
+                height:"50px",
+                display: "flex",
+                "flexDirection": "column",
+                gap:1,
             }}>
                 <button 
                 onClick={(e) => { 
@@ -32,7 +35,13 @@ export const Counter = ({ count = 0, setCount = () => { }, newCount = () => { } 
                 onClick={(e) => { 
                     e.preventDefault()
                     setCount(-1)
-                    }}>-</button>
+                    }}
+                style={{
+                    display: "flex",
+                    "alignItems": "center",
+                    "justifyContent": "center",
+                }}
+                >-</button>
             </div>
         </div>
     )

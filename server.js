@@ -181,7 +181,7 @@ app.post("/sh219%20info/cmd_get", function (req, res) {
 });
 
 app.get("/sh219%20info/protocol%20type", function (req, res) {
-    res.status(200).send({"Protocol type": "sub"});
+    res.status(200).send({"Protocol type": "mqtt"});
 });
 
 app.get("/sub/gw%20settings", function (req, res) {

@@ -1,29 +1,14 @@
-
-.table-container h3 {
-    font-weight: 400;
-    color: #505050;
-    font-size: 30px;
-    padding-bottom: 10px;
-    max-width: 2000px;
+.table-container h3{
+    margin: 30px 0 20px 0;
 }
-
-.table-container h3::after {
-    margin-top: 5px;
-    content: "";
-    display: block;
-    width: 100%;
-    min-width: 200px;
-    height: 1px;
-    background-color: #9c9c9c;
-}
-form{
+.table-container form{
     display: flex;
     flex-direction: column;
-    gap:40px;
+    gap:clamp(20px, 1vw, 40px);
     font-size: 26px;
     max-width: 2000px;
 }
-form .state{
+.table-container form .state{
     min-width: 650px;
     width: 100%;
     display: flex;
@@ -32,12 +17,14 @@ form .state{
 }
 .state h5{
     width: 50%;
+    font-size: clamp(20px, 2vw, 24px);
+    line-height: 30px;
 }
 h6{
-    font-size: 26px;
     margin: 0;
+    font-size: clamp(20px, 2vw, 24px);
     vertical-align: middle;
-    line-height: 50px;
+    line-height: 30px;
     color: #383838;
 }
 form button{

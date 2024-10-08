@@ -1,5 +1,4 @@
 .connedtion-details .checkbox-container {
-    width: 40%;
     display: flex;
     align-self: center;
     flex-direction: row;
@@ -7,12 +6,6 @@
 
 .checkbox-container{
     user-select: none;
-}
-.connedtion-details h5{
-        font-weight: 400;
-        color: #7c7c7c;
-        width: 40%;
-        line-height: 50px;
 }
 
 .checkbox-container .checkbox {
@@ -64,13 +57,4 @@
 }
 .checkbox-container input:checked + .switch-slider {
     background-color:#3b495a;
-}
-.connedtion-details .label-replacer{
-        min-width: 650px;
-        width: 100%;
-        text-align: end;
-        display: flex;
-        justify-content: flex-start;
-        flex-direction: row;
-        gap: 40px;
 }

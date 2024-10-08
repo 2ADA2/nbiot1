@@ -11,37 +11,28 @@ form .measurement section{
     width: 50%;
     justify-content: space-between;
 }
-form .measurement section:last-child h5{ 
-    width: 50%;
-    min-width: 0;
-}
-form .measurement section div{
-    flex-direction: row;
-}
-
-form .measurement section div .counter{
-    flex-direction: column;
-}
-.measurement h5{
-    text-align: start;
-    font-size: clamp(16px, 1vw, 30px);
-    width: 50%;
-    line-height: 50px;
+.measurement .meas-block{
+    display: grid;
+    grid-template-columns:1fr 1fr;
+    grid-gap: 20px;
 }
 .measurement input{
     min-width: 100px;
     max-width: none;
+    width: auto;
 }
-.measurement .counter-container{
-    width: 40%;
-    max-width: 500px;
-    min-width: 0;
+.measurement h5{
+    font-size: clamp(14px, 2vw, 20px);
+    line-height: 50px;
 }
 .measurement select{
-    min-width: 100px;
-    width: 50%;
-    font-size: clamp(10px, 1vw,30px);
+    width: auto;
+    max-width: 350px;
 }
+.measurement section div{
+    display: flex;
+}
+
 
 .measurement .inputs{
     width: 40%;
@@ -56,22 +47,19 @@ form .measurement section div .counter{
     gap:0;
     position: relative;
 }
-
+.measurements .console textarea{
+    width: 100%;
+}
+.console h5{
+    text-align: start;
+}
 .measurements .clear-measure{
     position: absolute;
-    right:2px;
-    bottom:2px;
+    right:0;
+    bottom:6px;
     width: 60px;
     height:30px;
     font-size: 14px;
-}
-
-.measurements  h5{
-    font-size: 22px;
-    width: 100%;
-    text-align: start;
-    margin-left: 40px;
-    margin-bottom:0 ;
 }
 .imitator-settings thead {
     background-color: #3b495a;
@@ -121,7 +109,7 @@ form .measurement section div .counter{
     width: 100%;
 }
 .comments label h5{
-    width: auto;
+    width: clamp(140px, 15vw, 200px);
     text-align: start;
     margin-left: 40px;
 }
@@ -144,19 +132,20 @@ form .measurement section div .counter{
     .measurement{
         flex-direction: column;
     }
+    .measurement h5{
+        font-size: 20px;
+    }
+    .measurement .measurement{
+        flex-direction: column;
+        display: grid;
+        grid-template-columns:2fr 1fr;
+
+    }
     form .measurement section, form .measurement .inputs{
         width: 100%;
     }
-    form .measurement section div{
-        justify-content: space-between;
-    }
     .inputs div:first-child{
         justify-content: flex-start;
-    }
-    .measurement h5{
-        text-align: start;
-        width: 50%;
-        line-height: 50px;
     }
 }
 
