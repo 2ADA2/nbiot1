@@ -396,21 +396,25 @@ export const DevCommandsSub = () => {
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (chos) === "string") ? chos : "no command"}</h5>
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "reset") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (reset) === "string") ? reset : "no command"}</h5>
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "addPackage") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (addPackage) === "string" && addPackage) ? addPackage : "no command"}</h5>
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "clearAll") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (clearAll) === "string") ? clearAll : "no command"}</h5>
                     </div>
+                    <section className="command-settings"></section>
                 </> : (command === "ble") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
@@ -705,6 +709,7 @@ export const DevCommandsSub = () => {
                         cmd(e)
                     }}
                             className={commandStatus ? "activated-button" : ""}
+                            style={{display: "inline-block"}}
                     >
                         <FormattedMessage id="commands.buttons.submit"/>
                     </button>
@@ -714,7 +719,7 @@ export const DevCommandsSub = () => {
                             setCommandStatus("")
                             localStorage.setItem(device.Device.DevId + "commandStatus", "")
                         }}
-                        style={{display: commandStatus ? "block" : "none"}}>
+                        style={{display: commandStatus ? "inline-block" : "none", margin:0, marginLeft:40}}>
                         <FormattedMessage id="commands.buttons.cancel.text"/>
                     </button>
                 </div>

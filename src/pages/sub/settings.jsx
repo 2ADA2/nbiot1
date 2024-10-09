@@ -109,25 +109,25 @@ export const SettingsSub = observer(() => {
 
                         <label>
                             <h5>State</h5>
-                            <span>{state}</span>
+                            <h5>{state}</h5>
                         </label>
 
                         <label>
                             <h5>Temperature</h5>
-                            <span>{temperature}</span>
+                            <h5>{temperature}</h5>
                         </label>
 
                         <label>
                             <h5>MAC addr</h5>
-                            <span>{macAddr}</span>
+                            <h5>{macAddr}</h5>
                         </label>
                         <label>
                             <h5>SW version</h5>
-                            <span>{swVersion}</span>
+                            <h5>{swVersion}</h5>
                         </label>
                         <label>
                             <h5>Local time</h5>
-                            <span>{localTime}</span>
+                            <h5>{localTime}</h5>
                         </label>
 
                         <h3>
@@ -250,38 +250,38 @@ export const SettingsSub = observer(() => {
                             <FormattedMessage id="settings.sub.checkbox.header"/>
                         </h3>
 
-                        <label>
+                        <label className={"triple-label"}>
                             <h5>Count RX FIFO</h5>
-                            <span style={{minWidth: 50}}>
+                            <h5 style={{minWidth: 50}}>
                                 {countRXFIFO}
-                            </span>
+                            </h5>
                             <CheckBox checked={rxFifo} setValue={() => setRxFifo(!rxFifo)}/>
                         </label>
-                        <label>
+                        <label  className={"triple-label"}>
                             <h5>Count TX FIFO</h5>
-                            <span style={{minWidth: 50}}>
-                                {countTXFIFO}
-                            </span>
+                            <h5 style={{minWidth: 50}}>
+                                {countTXFIFO}123
+                            </h5>
                             <CheckBox checked={txFifo} setValue={() => setTxFifo(!txFifo)}/>
                         </label>
 
                         <label>
                             <h5>Count overflow RX FIFO</h5>
-                            <span>
+                            <h5>
                                 {countOverflowRXFIFO}
-                            </span>
+                            </h5>
                         </label>
                         <label>
                             <h5>Count CRC Error</h5>
-                            <span>
+                            <h5>
                                 {countCRCError}
-                            </span>
+                            </h5>
                         </label>
                         <label>
                             <h5>Peket count</h5>
-                            <span>
+                            <h5>
                                 {peketCount}
-                            </span>
+                            </h5>
                         </label>
                         {/*<label>*/}
                         {/*    <h5>Type last TX request</h5>*/}

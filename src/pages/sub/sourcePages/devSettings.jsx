@@ -269,8 +269,8 @@ export const DevSettingsSub = observer(() => {
                                     <option value={"frame TU"}>frame TU</option>
                                     <option value={"other"}>other</option>
                                 </select>
-                                <div style={{flexDirection: "row", gap: 40}}>
-                                    <h5 style={{width: "auto"}}>Интервал, мин:</h5>
+                                <div style={{display:"flex",flexDirection: "row", gap: 40}}>
+                                    <h5 style={{width: "clamp(200px, 25vw, 300px)", lineHeight:"50px", textAlign:"start"}}>Интервал, мин:</h5>
                                     <Counter
                                         count={interval}
                                         newCount={(count) => (count > 0) ? setInterval(count) : setInterval(1)}
@@ -278,8 +278,8 @@ export const DevSettingsSub = observer(() => {
                                     />
                                 </div>
 
-                                <div style={{flexDirection: "row", gap: 40, marginTop: 20}}>
-                                    <h5 style={{width: "auto"}}>Количество повторов:</h5>
+                                <div style={{display:"flex",flexDirection: "row", gap: 40, marginTop: 20}}>
+                                    <h5 style={{width: "clamp(200px, 25vw, 300px)", lineHeight:"50px", textAlign:"start"}}>Количество повторов:</h5>
                                     <Counter
                                         count={count}
                                         newCount={(count) => (count > 0) ? setCount(count) : setCount(1)}
@@ -288,7 +288,7 @@ export const DevSettingsSub = observer(() => {
                                 </div>
 
                                 <div className="frame-buttons-container">
-                                    <button onClick={() => newFrame()}>
+                                    <button onClick={() => newFrame()} style={{"margin-right" : 20}}>
                                         Добавить
                                     </button>
                                     <button onClick={() => {

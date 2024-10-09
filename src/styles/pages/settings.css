@@ -21,6 +21,17 @@ h5{
     color:#7c7c7c;
     text-align: end;
 }
+label h5:last-child{
+    text-align: start;
+}
+
+.triple-label{
+    display: grid;
+    grid-template-columns: 4fr 2fr 6fr;
+}
+.triple-label :nth-child(2){
+    text-align: start;
+}
 
 input{
     height: 50px;

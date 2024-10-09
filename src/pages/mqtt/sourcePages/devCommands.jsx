@@ -447,6 +447,7 @@ export const DevCommands = () => {
                         cmd(e)
                     }}
                             className={commandStatus ? "activated-button" : ""}
+                            style={{display: "inline-block"}}
                     >
                         <FormattedMessage id="commands.buttons.submit"/>
                     </button>
@@ -456,7 +457,7 @@ export const DevCommands = () => {
                             setCommandStatus("")
                             localStorage.setItem(device.Device.DevId + "commandStatus", "")
                         }}
-                        style={{display: commandStatus ? "block" : "none"}}>
+                        style={{display: commandStatus ? "inline-block" : "none", margin:0, marginLeft:40}}>
                         <FormattedMessage id="commands.buttons.cancel.text"/>
                     </button>
                 </div>

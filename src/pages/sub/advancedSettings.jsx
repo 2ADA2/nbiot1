@@ -175,11 +175,11 @@ MAC04_09_19_86_11_50=5896`
                                         </button>
                                         <input className={"file"} type="file" onChange={(e) => checkFile(e, "zip")}/>
                                         {invalidWeb ?
-                                            <span
+                                            <h5
                                                 className='auth-error'
                                             >
                                                 <FormattedMessage id="advSettings.updateErr"/>
-                                            </span>
+                                            </h5>
                                             : <></>
                                         }
                                     </div>
@@ -189,16 +189,16 @@ MAC04_09_19_86_11_50=5896`
                                         </button>
                                         <input className={"file"} type="file" onChange={(e) => checkFile(e, "")}/>
                                         {invalidBack ?
-                                            <span
+                                            <h5
                                                 className='auth-error'
                                             >
                                                 <FormattedMessage id="advSettings.updateErr2"/>
-                                            </span>
+                                            </h5>
                                             : <></>
                                         }
                                     </div>
                                     {err ?
-                                        <span
+                                        <h5
                                             className='auth-error'
                                             style={{
                                                 display: "block",
@@ -207,7 +207,7 @@ MAC04_09_19_86_11_50=5896`
                                                 fontSize: "28px",
                                                 marginTop: "40px"
                                             }}
-                                        >{err}</span>
+                                        >{err}</h5>
                                         : <></>
                                     }
                                 </section>
