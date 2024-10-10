@@ -23,9 +23,9 @@ function checkFrame(e, style) {
     }
 }
 
-function generateID (frameList){
+function generateID(frameList) {
     let id = 0
-    while (frameList.filter(e => e.id === id).length){
+    while (frameList.filter(e => e.id === id).length) {
         id += 1
     }
     return id
@@ -152,9 +152,9 @@ export const DevSettingsSub = observer(() => {
     const delFrame = () => {
         let count = -1
         let newFrameList = frameList.map((frame) => {
-            if(frame.id !== settingsId){
+            if (frame.id !== settingsId) {
                 count += 1
-                return {...frame, order:count}
+                return {...frame, order: count}
             }
             return null
         })
@@ -167,9 +167,9 @@ export const DevSettingsSub = observer(() => {
         let newFrameList = frameList.slice()
         const oldFrame = frameList.filter(f => f.id === settingsId)[0]
         newFrameList.splice(oldFrame.order, 1, {
-            count:settingsParams.count,
-            interval:settingsParams.interval,
-            type:oldFrame.type,
+            count: settingsParams.count,
+            interval: settingsParams.interval,
+            type: oldFrame.type,
             id: oldFrame.id,
             order: oldFrame.order,
         })
@@ -214,18 +214,18 @@ export const DevSettingsSub = observer(() => {
                                     <button
                                         onMouseEnter={() => setMouseOn(true)}
                                         onMouseLeave={() => setMouseOn(false)}
-                                        style={{minWidth: 40}}
+                                        style={{display: "flex", justifyContent: "center", alignItems: "center"}}
                                     >
                                         <FontAwesomeIcon icon={faBars}/>
                                     </button>
 
                                     <button
-                                        style={{minWidth: 40}}
+                                        style={{display: "flex", justifyContent: "center", alignItems: "center"}}
                                         onClick={() => {
                                             clearSettings()
                                             setSettingsId(frame.id)
                                             setSettingsStatus("settings")
-                                            setSettingsParams({interval:frame.interval, count:frame.count})
+                                            setSettingsParams({interval: frame.interval, count: frame.count})
                                         }}
                                     >
                                         <FontAwesomeIcon icon={faPencil}/>
@@ -241,9 +241,6 @@ export const DevSettingsSub = observer(() => {
                                     </div>
                                     <div>
                                         ID : {frame.id}
-                                    </div>
-                                    <div>
-                                        order : {frame.order}
                                     </div>
                                 </div>
                             )}
@@ -269,8 +266,12 @@ export const DevSettingsSub = observer(() => {
                                     <option value={"frame TU"}>frame TU</option>
                                     <option value={"other"}>other</option>
                                 </select>
-                                <div style={{display:"flex",flexDirection: "row", gap: 40}}>
-                                    <h5 style={{width: "clamp(200px, 25vw, 300px)", lineHeight:"50px", textAlign:"start"}}>Интервал, мин:</h5>
+                                <div style={{display: "flex", flexDirection: "row", gap: 40}}>
+                                    <h5 style={{
+                                        width: "clamp(200px, 25vw, 300px)",
+                                        lineHeight: "50px",
+                                        textAlign: "start"
+                                    }}>Интервал, мин:</h5>
                                     <Counter
                                         count={interval}
                                         newCount={(count) => (count > 0) ? setInterval(count) : setInterval(1)}
@@ -278,8 +279,12 @@ export const DevSettingsSub = observer(() => {
                                     />
                                 </div>
 
-                                <div style={{display:"flex",flexDirection: "row", gap: 40, marginTop: 20}}>
-                                    <h5 style={{width: "clamp(200px, 25vw, 300px)", lineHeight:"50px", textAlign:"start"}}>Количество повторов:</h5>
+                                <div style={{display: "flex", flexDirection: "row", gap: 40, marginTop: 20}}>
+                                    <h5 style={{
+                                        width: "clamp(200px, 25vw, 300px)",
+                                        lineHeight: "50px",
+                                        textAlign: "start"
+                                    }}>Количество повторов:</h5>
                                     <Counter
                                         count={count}
                                         newCount={(count) => (count > 0) ? setCount(count) : setCount(1)}
@@ -288,7 +293,7 @@ export const DevSettingsSub = observer(() => {
                                 </div>
 
                                 <div className="frame-buttons-container">
-                                    <button onClick={() => newFrame()} style={{"margin-right" : 20}}>
+                                    <button onClick={() => newFrame()} style={{"margin-right": 20}}>
                                         Добавить
                                     </button>
                                     <button onClick={() => {
@@ -322,33 +327,53 @@ export const DevSettingsSub = observer(() => {
                                 :
                                 <>
                                     <h1 style={{fontSize: 40, marginBottom: 40}}>Изменение расписания</h1>
-                                    <div style={{flexDirection: "row", gap: 40}}>
-                                    <h5 style={{width: "auto"}}>Интервал, мин:</h5>
+                                    <div style={{display: "flex", flexDirection: "row", gap: 40}}>
+                                        <h5 style={{
+                                            width: "clamp(200px, 25vw, 300px)",
+                                            lineHeight: "50px",
+                                            textAlign: "start"
+                                        }}>Интервал, мин:</h5>
                                         <Counter
                                             count={settingsParams.interval}
-                                            newCount={(num) => (num > 0) ? setSettingsParams({...settingsParams, interval:num}) : setSettingsParams({...settingsParams, interval:1})}
-                                            setCount={(num) => handleChange(num, settingsParams.interval, (num) => setSettingsParams({...settingsParams, interval:num}))}
+                                            newCount={(num) => (num > 0) ? setSettingsParams({
+                                                ...settingsParams,
+                                                interval: num
+                                            }) : setSettingsParams({...settingsParams, interval: 1})}
+                                            setCount={(num) => handleChange(num, settingsParams.interval, (num) => setSettingsParams({
+                                                ...settingsParams,
+                                                interval: num
+                                            }))}
                                         />
                                     </div>
 
-                                    <div style={{flexDirection: "row", gap: 40, marginTop: 20}}>
-                                        <h5 style={{width: "auto"}}>Количество повторов:</h5>
+                                    <div style={{display: "flex", flexDirection: "row", gap: 40, marginTop:20}}>
+                                        <h5 style={{
+                                            width: "clamp(200px, 25vw, 300px)",
+                                            lineHeight: "50px",
+                                            textAlign: "start"
+                                        }}>Количество повторов:</h5>
                                         <Counter
                                             count={settingsParams.count}
-                                            newCount={(num) => (num > 0) ? setSettingsParams({...settingsParams, count:num}) : setSettingsParams({...settingsParams, count:1})}
-                                            setCount={(num) => handleChange(num, settingsParams.count, (num) => setSettingsParams({...settingsParams, count:num}))}
+                                            newCount={(num) => (num > 0) ? setSettingsParams({
+                                                ...settingsParams,
+                                                count: num
+                                            }) : setSettingsParams({...settingsParams, count: 1})}
+                                            setCount={(num) => handleChange(num, settingsParams.count, (num) => setSettingsParams({
+                                                ...settingsParams,
+                                                count: num
+                                            }))}
                                         />
                                     </div>
                                     <div className="frame-buttons-container">
-                                        <button onClick={updateFrame}>
+                                        <button onClick={updateFrame} style={{marginRight:20}}>
                                             Сохранить
                                         </button>
                                         <button onClick={() => {
                                             clearSettings()
-                                        }}>
+                                        }} style={{marginRight:20}}>
                                             Отменить
                                         </button>
-                                        <button onClick={delFrame} style={{ width:70}}>
+                                        <button onClick={delFrame} style={{width: 70}}>
                                             <FontAwesomeIcon icon={faTrash}/>
                                         </button>
                                     </div>
