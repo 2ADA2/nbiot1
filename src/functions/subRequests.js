@@ -7,7 +7,7 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "ADDITIONAL PACKAGE",
                 "USER_ARG": {
-                    "Type": 7
+                    "Type": data.type
                 }
             }
             break;
@@ -17,11 +17,11 @@ export const sendSubCommand = async (url, data, token) => {
             }
             break;
 
-        case "chos" :
+        case "setChos" :
             body = {
                 "USER_CMD": "SET CHOS IMG VALID",
                 "USER_ARG": {
-                    "Img": 7
+                    "Img": data.img
                 }
 
             }
@@ -40,7 +40,7 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET BLE ADV TIME",
                 "USER_ARG": {
-                    "Time": 5//"1-10"
+                    "Time": data.bleTime//"1-10"
                 }
             }
 
@@ -49,10 +49,10 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET GAIN",
                 "USER_ARG": {
-                    "M": 1, //1-254,
-                    "Y": 1, //1-254,
-                    "Z": 1, //1-254
-                    "X": 1 //1-254,
+                    "M": data.m, //1-254,
+                    "Y": data.y, //1-254,
+                    "Z": data.z, //1-254
+                    "X": data.x //1-254,
                 }
 
             }
@@ -62,9 +62,9 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET BATTERY PARAM",
                 "USER_ARG": {
-                    "Capaсity": "uint64",
-                    "Threshold voltage": "uint16",
-                    "Threshold percent": "uint8"
+                    "Capaсity": data.capacity,
+                    "Threshold voltage":data.thresholdVoltage,
+                    "Threshold percent":data.thresholdPrecent
                 }
 
             }
@@ -74,10 +74,10 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET SUB RF PARAM",
                 "USER_ARG": {
-                    "Chanal": "uint32",
-                    "Power": "uint32",
-                    "Word": "uint32",
-                    "Speed": "uint32"
+                    "Chanal": data.chanal,
+                    "Power": data.power,
+                    "Word": data.word,
+                    "Speed": data.speed
                 }
 
             }
@@ -87,9 +87,9 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET SUB PARAM",
                 "USER_ARG": {
-                    "Gw id": "uint32",
-                    "Dev id": "uint32",
-                    "Win": "uint32"
+                    "Gw id": data.gwId,
+                    "Dev id": data.devId,
+                    "Win": data.win
                 }
 
             }
@@ -99,9 +99,9 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET SUB SHEDULE",
                 "USER_ARG": {
-                    "Quantity": "uint32",
-                    "Shedul": "[uint16, uint16, uint8]",
-                    "Reserv": "[uint32, uint32]",
+                    "Quantity": data.quantity,
+                    "Shedul": data.shedul,
+                    "Reserv": data.reserv,
                 }
 
             }
@@ -110,7 +110,7 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET MODE",
                 "USER_ARG":{
-                    "Mode":   "uint8",// Режим работы (0 – обычный; 1 – счетчик)
+                    "Mode":   data.mainMode,// Режим работы (0 – обычный; 1 – счетчик)
                 }
 
             }
@@ -119,7 +119,7 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "VIBRO ACCEL SCALE",
                 "USER_ARG":{
-                    "Scale":   "uint32",
+                    "Scale":   data.scale,
                 }
 
             }
@@ -128,9 +128,9 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET TRAC LAUNCH",
                 "USER_ARG":{
-                    "Threshold ":   "[uint32, uint8]",
-                    "Settings":   "[uint16, uint16,uint8,uint8]",
-                    "Time":  "[uint16, uint16]"
+                    "Threshold ": data.threshold,
+                    "Settings": data.launchSettings ,
+                    "Time": data.time
                 }
 
             }
@@ -139,7 +139,7 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET SLEEP MODE",
                 "USER_ARG":{
-                    "Mode":   "uint8",	 // Режим работы (0 – обычный; 1 –пониженного потребления)
+                    "Mode":   data.sleepMode	 // Режим работы (0 – обычный; 1 –пониженного потребления)
                 }
 
             }
@@ -148,7 +148,7 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET SETTINGS SLEEP MODE ",
                 "USER_ARG":{
-                    "Settings":   "[uint8, uint8]"
+                    "Settings": data.sleepSettings
                 }
 
             }
@@ -157,13 +157,14 @@ export const sendSubCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "SET IMIT SETTINGS",
                 "USER_ARG":{
-                    "Mode ":   "uint16",
-                    "Phase":   "[uint16, uint16,uint16]",
-                    "Ampli":  "[uint16, uint16, uint16, uint16]",
+                    "Mode ":   data.imitMode,
+                    "Phase":  data.phase,
+                    "Ampli":  data.ampli,
                 }
 
             }
     }
+    console.log(body)
     return await axios.post(url, body, {
         headers: {"Authorization": token}
     })

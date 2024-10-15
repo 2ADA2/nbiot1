@@ -58,3 +58,13 @@
 .checkbox-container input:checked + .switch-slider {
     background-color:#3b495a;
 }
+
+@media (max-width: 1200px) {
+    .checkbox-container .switch{
+        width: 60px;
+        height: 30px;
+    }
+    .checkbox-container input:checked + .switch-slider::before {
+        transform: translateX(28px) translateY(-1px);
+    }
+}

@@ -54,12 +54,15 @@ export const DevCommandsSub = () => {
     ]
 
     //состояния для комманд
+    const [type, setType] = useState(0);
+    const [img, setImg] = useState(0);
     const [bleTime, setBleTime] = useState(0);
     const [m, setM] = useState(0);
     const [x, setX] = useState(0);
     const [y, setY] = useState(0);
     const [z, setZ] = useState(0);
     const [bleAdvTime, setBleAdvTime] = useState(false);
+    const [bleAdvSettings, setBleAdvSettings] = useState(0);
     const [capacity, setCapacity] = useState(0);
     const [thresholdVoltage, setThresholdVoltage] = useState(0);
     const [thresholdPrecent, setThresholdPrecent] = useState(0);
@@ -76,14 +79,17 @@ export const DevCommandsSub = () => {
     const [modeVal, setModeVal] = useState(0);
     const [scale, setScale] = useState(0);
     const [threshold, setThreshold] = useState(0);
+    const [launchSettings, setLaunchSettings] = useState(0);
     const [settings, setSettings] = useState(0);
     const [time, setTime] = useState(0);
     const [sleepMode, setSleepMode] = useState(0);
+    const [mainMode, setMainMode] = useState(0);
     const [sleepSettings, setSleepSettings] = useState(0);
     const [imitMode, setImitMode] = useState(0);
     const [phase, setPhase] = useState(0);
     const [ampli, setAmpli] = useState(0);
 
+    const values = {img, type, launchSettings,bleTime, m, x, y, z, bleAdvTime, capacity, thresholdVoltage, thresholdPrecent, chanal, power, word, speed, gwId, devId, win, quantity, shedul, reserv, modeVal, scale, threshold, settings, time, sleepMode, sleepSettings,mainMode, imitMode, phase, ampli}
 
     useEffect(() => {
         let interval
@@ -128,7 +134,9 @@ export const DevCommandsSub = () => {
 
         localStorage.setItem(device.Device.DevId + "commandStatus", true)
 
-        await sendSubCommand(global.subWay + "/cmd/" + device.Device.DevId, {command}, global.token).then((res) => {
+        await sendSubCommand(global.subWay + "/cmd/" + device.Device.DevId, {...values, command}, global.token)
+            .then((res) => {
+                if(!res) return
             localStorage.setItem(device.Device.DevId + "onLoad", "")
             getCommandStatus(res.data.Info)
         }).catch((err) => global.catchError(err))
@@ -325,12 +333,12 @@ export const DevCommandsSub = () => {
                         </div>
                         <div>
                             <h5>Threshold voltage</h5>
-                            <Counter count={sleepSettings}
+                            <Counter count={thresholdVoltage}
                                      newCount={(num) => {
                                          (num < 0) ?
-                                             setSleepSettings(0) : setSleepSettings(num)
+                                             setThresholdVoltage(0) : setThresholdVoltage(num)
                                      }}
-                                     setCount={(num) => (sleepSettings + num > 0) ? setSleepSettings(sleepSettings + num) : setSleepSettings(0)}
+                                     setCount={(num) => (thresholdVoltage + num > 0) ? setThresholdVoltage(thresholdVoltage + num) : setThresholdVoltage(0)}
                             />
                         </div>
                         <div>
@@ -396,7 +404,18 @@ export const DevCommandsSub = () => {
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (chos) === "string") ? chos : "no command"}</h5>
                     </div>
-                    <section className="command-settings"></section>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Img</h5>
+                            <Counter count={img}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setImg(0) : setImg(num)
+                                     }}
+                                     setCount={(num) => (img + num > 0) ? setImg(img + num) : setImg(0)}
+                            />
+                        </div>
+                    </section>
                 </> : (command === "reset") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
@@ -408,7 +427,18 @@ export const DevCommandsSub = () => {
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(typeof (addPackage) === "string" && addPackage) ? addPackage : "no command"}</h5>
                     </div>
-                    <section className="command-settings"></section>
+                    <section className="command-settings">
+                        <div>
+                            <h5>Type</h5>
+                            <Counter count={type}
+                                     newCount={(num) => {
+                                         (num < 0) ?
+                                             setType(0) : setType(num)
+                                     }}
+                                     setCount={(num) => (type + num > 0) ? setType(type + num) : setType(0)}
+                            />
+                        </div>
+                    </section>
                 </> : (command === "clearAll") ? <>
                     <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
@@ -561,12 +591,12 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Mode</h5>
-                            <Counter count={mode}
+                                <Counter count={mainMode}
                                      newCount={(num) => {
                                          (num < 0) ?
-                                             setMode(0) : setMode(num)
+                                             setMainMode(0) : setMainMode(num)
                                      }}
-                                     setCount={(num) => (mode + num > 0) ? setMode(mode + num) : setMode(0)}
+                                     setCount={(num) => (mainMode + num > 0) ? setMainMode(mainMode + num) : setMainMode(0)}
                             />
                         </div>
                     </section>
@@ -605,12 +635,12 @@ export const DevCommandsSub = () => {
                         </div>
                         <div>
                             <h5>Settings</h5>
-                            <Counter count={sleepSettings}
+                            <Counter count={launchSettings}
                                      newCount={(num) => {
                                          (num < 0) ?
-                                             setSleepSettings(0) : setSleepSettings(num)
+                                             setLaunchSettings(0) : setLaunchSettings(num)
                                      }}
-                                     setCount={(num) => (sleepSettings + num > 0) ? setSleepSettings(sleepSettings + num) : setSleepSettings(0)}
+                                     setCount={(num) => (launchSettings + num > 0) ? setLaunchSettings(launchSettings + num) : setLaunchSettings(0)}
                             />
                         </div>
                         <div>
@@ -632,12 +662,12 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Mode</h5>
-                            <Counter count={modeVal}
+                            <Counter count={sleepMode}
                                      newCount={(num) => {
                                          (num < 0) ?
-                                             setModeVal(0) : setModeVal(num)
+                                             setSleepMode(0) : setSleepMode(num)
                                      }}
-                                     setCount={(num) => (modeVal + num > 0) ? setModeVal(modeVal + num) : setModeVal(0)}
+                                     setCount={(num) => (sleepMode + num > 0) ? setSleepMode(sleepMode + num) : setSleepMode(0)}
                             />
                         </div>
                     </section>
@@ -719,7 +749,7 @@ export const DevCommandsSub = () => {
                             setCommandStatus("")
                             localStorage.setItem(device.Device.DevId + "commandStatus", "")
                         }}
-                        style={{display: commandStatus ? "inline-block" : "none", margin:0, marginLeft:40}}>
+                        style={{display: commandStatus ? "inline-block" : "none", margin: 0, marginLeft: 40}}>
                         <FormattedMessage id="commands.buttons.cancel.text"/>
                     </button>
                 </div>
