@@ -156,11 +156,11 @@ MAC04_09_19_86_11_50=5896`
                                         </button>
                                         <input className={"file"} type="file" onChange={(e) => checkFile(e, "zip")}/>
                                         {invalidWeb ?
-                                            <span
+                                            <div
                                                 className='auth-error'
                                             >
                                                 <FormattedMessage id = "advSettings.updateErr"/>
-                                            </span>
+                                            </div>
                                             : <></>
                                         }
                                     </div>
@@ -170,11 +170,11 @@ MAC04_09_19_86_11_50=5896`
                                         </button>
                                         <input className={"file"} type="file" onChange={(e) => checkFile(e, "")}/>
                                         {invalidBack ?
-                                            <span
+                                            <div
                                                 className='auth-error'
                                             >
                                                 <FormattedMessage id = "advSettings.updateErr2"/>
-                                            </span>
+                                            </div>
                                             : <></>
                                         }
                                     </div>

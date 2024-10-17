@@ -14,7 +14,6 @@ export const DevCommandsSub = () => {
     const device = useDevice();
     const [command, setCommand] = useState(localStorage.getItem(device.Device.DevId + "cmdName") || "addPackage")
     const [commandStatus, setCommandStatus] = useState(localStorage.getItem(device.Device.DevId + "commandStatus") ? localStorage.getItem(device.Device.DevId + "commandStatus") : "")
-
     const [addPackage, setAddPackage] = useState(localStorage.getItem(device.Device.DevId + "addPackage") ? JSON.parse(localStorage.getItem(device.Device.DevId + "addPackage")) : {})
     const [clearAll, setClearAll] = useState(localStorage.getItem(device.Device.DevId + "clearAll") ? JSON.parse(localStorage.getItem(device.Device.DevId + "clearAll")) : {})
     const [chos, setChos] = useState(localStorage.getItem(device.Device.DevId + "chos") ? JSON.parse(localStorage.getItem(device.Device.DevId + "chos")) : {})
@@ -89,29 +88,62 @@ export const DevCommandsSub = () => {
     const [phase, setPhase] = useState(0);
     const [ampli, setAmpli] = useState(0);
 
-    const values = {img, type, launchSettings,bleTime, m, x, y, z, bleAdvTime, capacity, thresholdVoltage, thresholdPrecent, chanal, power, word, speed, gwId, devId, win, quantity, shedul, reserv, modeVal, scale, threshold, settings, time, sleepMode, sleepSettings,mainMode, imitMode, phase, ampli}
+    const values = {
+        img,
+        type,
+        launchSettings,
+        bleTime,
+        m,
+        x,
+        y,
+        z,
+        bleAdvTime,
+        capacity,
+        thresholdVoltage,
+        thresholdPrecent,
+        chanal,
+        power,
+        word,
+        speed,
+        gwId,
+        devId,
+        win,
+        quantity,
+        shedul,
+        reserv,
+        modeVal,
+        scale,
+        threshold,
+        settings,
+        time,
+        sleepMode,
+        sleepSettings,
+        mainMode,
+        imitMode,
+        phase,
+        ampli
+    }
 
     useEffect(() => {
+        console.log(">", commandStatus)
         let interval
         if (commandStatus) {
-            setTimeout(() => {
-                axios.get(global.subWay + "/cmd execution state/" + device.Device.DevId, {
-                    headers: {"Authorization": global.token}
-                }).then((res) => {
-                    getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
-                })
-                    .catch((err) => errorAnalyze(err, () => setCommandStatus()))
-            }, 1000)
+            axios.get(global.subWay + "/cmd execution state/" + device.Device.DevId, {
+                headers: {"Authorization": global.token}
+            }).then((res) => {
+                getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
+            })
+                .catch((err) => errorAnalyze(err, () => setCommandStatus(false)))
+
             interval = setInterval(() => {
+                if (!commandStatus) clearInterval(interval)
                 axios.get(global.subWay + "/cmd execution state/" + device.Device.DevId, {
                     headers: {"Authorization": global.token}
                 }).then((res) => {
                     getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
                 })
             }, 5000)
-        }
-
-        if (!commandStatus) {
+        } else {
             for (let i = 0; i < cmds.length - 1; i++) {
                 if (cmds[i] === "execution" || cmds[i] === "accepted for execution") {
                     if (i === 0) {
@@ -128,21 +160,20 @@ export const DevCommandsSub = () => {
         }
     }, [commandStatus]);
 
-    async function cmd(e) {
+    const cmd = async (e) => {
         e.preventDefault()
-        setCommandStatus(true)
-
-        localStorage.setItem(device.Device.DevId + "commandStatus", true)
 
         await sendSubCommand(global.subWay + "/cmd/" + device.Device.DevId, {...values, command}, global.token)
             .then((res) => {
-                if(!res) return
-            localStorage.setItem(device.Device.DevId + "onLoad", "")
-            getCommandStatus(res.data.Info)
-        }).catch((err) => global.catchError(err))
+                if (!res) return
+                localStorage.setItem(device.Device.DevId + "onLoad", "")
+                getCommandStatus(res.data.Info)
+            }).catch((err) => global.catchError(err))
     }
 
-    function getCommandStatus(info = "", res = "") {
+    const getCommandStatus = (info = "", res = "") => {
+        console.log(commandStatus)
+        if (!commandStatus) return
         switch (command) {
             case "addPackage":
                 setAddPackage((info || res))
@@ -210,10 +241,7 @@ export const DevCommandsSub = () => {
                 break;
         }
 
-        if (info) {
-            setCommandStatus(true)
-            localStorage.setItem(device.Device.DevId + "commandStatus", true)
-        } else {
+        if (!info) {
             if (res.USER_CMD_RESP) {
                 if (info.USER_CMD_RESP.UPD_LOCATION === "CMD_RUN") return
             } else if (res.USER_CMD_RESP) {
@@ -591,7 +619,7 @@ export const DevCommandsSub = () => {
                     <section className="command-settings">
                         <div>
                             <h5>Mode</h5>
-                                <Counter count={mainMode}
+                            <Counter count={mainMode}
                                      newCount={(num) => {
                                          (num < 0) ?
                                              setMainMode(0) : setMainMode(num)
@@ -736,6 +764,8 @@ export const DevCommandsSub = () => {
                             e.preventDefault()
                             return
                         }
+                        setCommandStatus(true)
+                        localStorage.setItem(device.Device.DevId + "commandStatus", true)
                         cmd(e)
                     }}
                             className={commandStatus ? "activated-button" : ""}
@@ -745,8 +775,9 @@ export const DevCommandsSub = () => {
                     </button>
                     <button
                         onClick={(e) => {
+                            console.log(false)
                             e.preventDefault();
-                            setCommandStatus("")
+                            setCommandStatus(false)
                             localStorage.setItem(device.Device.DevId + "commandStatus", "")
                         }}
                         style={{display: commandStatus ? "inline-block" : "none", margin: 0, marginLeft: 40}}>

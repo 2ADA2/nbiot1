@@ -1,11 +1,17 @@
-body .dark .container{
-    background: rgb(44,44,59);
+body {
+    background: rgb(44, 44, 59);
+}
+
+body .dark .container {
+    background: rgb(44, 44, 59);
     color: white;
 }
-body .dark .home{
-    background: rgb(44,44,59);
+
+body .dark .home {
+    background: rgb(44, 44, 59);
     color: white;
 }
+
 .dark h1,
 .dark h2,
 .dark .page h3,
@@ -19,117 +25,135 @@ body .dark .home{
 .dark textarea,
 .dark input,
 .dark .page select,
-.dark select{
+.dark select {
     color: #dedede;
     border-color: #656565;
 }
-.dark .MuiButtonBase-root{
+
+.dark .MuiButtonBase-root {
     background-color: rgba(255, 255, 255, 0);
     transition-duration: 300ms;
 }
 
-.dark button{
+.dark button {
     border-color: rgb(76, 76, 107);
     background: rgb(65, 65, 91);
     transition-duration: 300ms;
 }
-.dark button:hover{
+
+.dark button:hover {
     background: rgb(79, 79, 112);
     transition-duration: 300ms;
 }
-.dark .counters button:hover{
+
+.dark .counters button:hover {
     background: rgba(79, 79, 112, 0);
 }
 
-.dark .page h1{
+.dark .page h1 {
     color: rgb(201, 201, 255);
     border-color: rgb(201, 201, 255);
 }
-.dark .UI-settings-page-back{
+
+.dark .UI-settings-page-back {
     background: rgba(0, 0, 0, 0.53);
     transition-duration: 300ms;
 }
 
-.dark .panel-header button{
+.dark .panel-header button {
     background: rgba(0, 0, 0, 0);
     transition-duration: 0s;
     border-bottom: 1px solid gray;
 }
-.dark .panel-header .panel-active{
+
+.dark .panel-header .panel-active {
     border-bottom: 0;
 }
-.dark .panel-header button:hover{
+
+.dark .panel-header button:hover {
     background: rgba(0, 0, 0, 0);
 }
 
-.dark .container .page h2{
-    background: rgb(29,29,38);
+.dark .container .page h2 {
+    background: rgb(29, 29, 38);
     transition-duration: 300ms;
     color: white;
 }
 
-.dark .UI-settings-page{
-    background: rgb(29,29,38);
+.dark .UI-settings-page {
+    background: rgb(29, 29, 38);
     transition-duration: 300ms;
     color: white;
 }
-.dark .container .page .section{
-    background: rgb(29,29,38);
+
+.dark .container .page .section {
+    background: rgb(29, 29, 38);
     transition-duration: 300ms;
 }
+
 .dark .container .page textarea {
-    background: rgb(29,29,38);
-    transition-duration: 300ms;
-}
-.dark .container .page input {
-    background: rgb(29,29,38);
-    transition-duration: 300ms;
-}
-.dark .container .page select,.dark select {
-    background: rgb(29,29,38);
+    background: rgb(29, 29, 38);
     transition-duration: 300ms;
 }
 
-.dark header, .dark .panel{
+.dark .container .page input {
+    background: rgb(29, 29, 38);
+    transition-duration: 300ms;
+}
+
+.dark .container .page select, .dark select {
+    background: rgb(29, 29, 38);
+    transition-duration: 300ms;
+}
+
+.dark header, .dark .panel {
     background: rgb(34, 34, 45);
     transition-duration: 300ms;
 }
-.dark .opened{
+
+.dark .opened {
     border-color: rgb(123, 123, 201);
 }
 
-.dark .panel a{
+.dark .panel a {
     background: rgb(44, 44, 58);
 }
-.dark .panel a:hover{
+
+.dark .panel a:hover {
     background: rgb(69, 69, 91);
 }
-.dark .panel .nav-links a{
+
+.dark .panel .nav-links a {
     background: rgba(57, 57, 79, 0);
 }
-.dark .panel .nav-links a:after{
-    background: rgb(44,44,59);
+
+.dark .panel .nav-links a:after {
+    background: rgb(44, 44, 59);
 }
 
-.dark table th{
+.dark table th {
     background: rgb(43, 43, 65);
     border-color: #4f4f4f;
 }
-.dark table td{
-    color:white;
+
+.dark table td {
+    color: white;
     border-color: #4f4f4f;
 }
 
-.dark table .offline{
+.dark table .offline {
     background: #d25a5a;
 }
-.dark table .offline:hover{
+
+.dark table .offline:hover {
     background: #d56d6d;
 }
-.dark table .online{
+
+.dark table .online {
     background: #55af59;
 }
-.dark table .online:hover{
+
+.dark table .online:hover {
     background: #63b467;
 }
 
@@ -137,33 +161,38 @@ body .dark .home{
     background: rgb(127, 127, 178);
 }
 
-.dark .switch-slider::before{
-    background: rgb(44,44,59);
+.dark .switch-slider::before {
+    background: rgb(44, 44, 59);
     transition-duration: 300ms;
 }
 
-.dark .frame-list-header svg{
+.dark .frame-list-header svg {
     border: 1px solid #ffffff;
 }
 
 .dark .frame-list-body {
     background: rgb(32, 32, 44);
 }
-.dark .frame-list-body .frame{
-    background: rgb(44,44,59);
-}{
-    background: rgb(44,44,59);
-}
-.dark .frame div{
-    background: rgb(44,44,59);
+
+.dark .frame-list-body .frame {
+    background: rgb(44, 44, 59);
 }
 
-.dark form .activated-button, .dark dev .activated-button{
+{
+    background: rgb(44, 44, 59)
+;
+}
+.dark .frame div {
+    background: rgb(44, 44, 59);
+}
+
+.dark form .activated-button, .dark dev .activated-button {
     background-color: #535e7b;
     border-color: #3b4b5a;
     cursor: default;
 }
-.dark form .activated-button:hover, .dark dev .activated-button:hover{
+
+.dark form .activated-button:hover, .dark dev .activated-button:hover {
     background-color: #535e7b;
     border-color: #3b4b5a;
     cursor: default;

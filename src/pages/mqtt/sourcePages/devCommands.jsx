@@ -7,14 +7,12 @@ import {CheckBox} from "../../../components/checkbox";
 import {useDevice} from "../../../hooks/useDevice";
 import {sendCommand} from "../../../functions/requests";
 import axios from "axios";
-import {errorAnalyze} from "../../../functions/error";
 import {FormattedMessage} from "react-intl/lib";
 
 export const DevCommands = () => {
     const device = useDevice();
     const [command, setCommand] = useState(localStorage.getItem(device.Device.DevId + "cmdName") || "register")
     const [commandStatus, setCommandStatus] = useState(localStorage.getItem(device.Device.DevId + "commandStatus") ? localStorage.getItem(device.Device.DevId + "commandStatus") : "")
-    const [onLoad, setOnLoad] = useState(localStorage.getItem(device.Device.DevId + "onLoad") || false)
 
     const [addPacage, setAddPacage] = useState(localStorage.getItem(device.Device.DevId + "addPacage") ? JSON.parse(localStorage.getItem(device.Device.DevId + "addPacage")) : {})
     const [clearAll, setClearAll] = useState(localStorage.getItem(device.Device.DevId + "clearAll") ? JSON.parse(localStorage.getItem(device.Device.DevId + "clearAll")) : {})
@@ -65,14 +63,13 @@ export const DevCommands = () => {
     useEffect(() => {
         let interval
         if (commandStatus) {
-            setTimeout(() => {
-                axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
-                    headers: {"Authorization": global.token}
-                }).then((res) => {
-                    getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
-                })
-                    .catch((err) => global.catchError(err))
-            }, 1000)
+            axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
+                headers: {"Authorization": global.token}
+            }).then((res) => {
+                getCommandStatus(res.data.Info, res.data["USER_CMD_RESP"])
+            })
+                .catch((err) => global.catchError(err))
+
             interval = setInterval(() => {
                 axios.get(global.way + "/cmd execution state/" + device.Device.DevId, {
                     headers: {"Authorization": global.token}
@@ -96,24 +93,18 @@ export const DevCommands = () => {
 
         return () => {
             clearInterval(interval)
-            setOnLoad(false)
-            localStorage.setItem(device.Device.DevId + "onLoad", false)
         }
     }, [commandStatus]);
 
     async function cmd(e) {
         e.preventDefault()
-        setOnLoad(true)
         setCommandStatus(true)
 
-        localStorage.setItem(device.Device.DevId + "onLoad", true)
         localStorage.setItem(device.Device.DevId + "commandStatus", true)
 
         await sendCommand(global.way + "/cmd/" + device.Device.DevId, {
             command, trepeat, timeZone, netDelay, type, timeout, kval, tprepare, senseCheck, UIName
         }, global.token).then((res) => {
-            setOnLoad(false)
-            localStorage.setItem(device.Device.DevId + "onLoad", "")
             getCommandStatus(res.data.Info)
         }).catch((err) => global.catchError(err))
     }
@@ -168,10 +159,8 @@ export const DevCommands = () => {
 
         if (info) {
             setCommandStatus(true)
-            setOnLoad(true)
 
             localStorage.setItem(device.Device.DevId + "commandStatus", true)
-            localStorage.setItem(device.Device.DevId + "onLoad", true)
         } else {
             if (res.USER_CMD_RESP) {
                 if (info.USER_CMD_RESP.UPD_LOCATION === "CMD_RUN") return
@@ -180,9 +169,6 @@ export const DevCommands = () => {
             }
             setCommandStatus(false)
             localStorage.setItem(device.Device.DevId + "commandStatus", "")
-
-            setOnLoad(false)
-            localStorage.setItem(device.Device.DevId + "onLoad", "")
         }
 
     }
@@ -271,7 +257,7 @@ export const DevCommands = () => {
                     </div>
                     <section className="command-settings"></section>
                 </> : (command === "setParams") ? <>
-                <div className={"status"}>
+                    <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/></h5>
                         <h5>{(getParams.GET_SENS_ATTR) ? getParams.GET_SENS_ATTR : (typeof (getParams) === "string") ? getParams : "no command"}</h5>
                     </div>
@@ -367,7 +353,7 @@ export const DevCommands = () => {
                     </div>
                     <section className="command-settings"></section>
                 </> : (command === "clearAll") ? <>
-                <div className={"status"}>
+                    <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>{(clearAll.GET_EXT_INFO && !commandStatus) ?
                         <section>
                             <h5 style={{fontSize: "30px"}}>{clearAll.GET_EXT_INFO}</h5>
@@ -392,7 +378,7 @@ export const DevCommands = () => {
                     </div>
                     <section className="command-settings"></section>
                 </> : (command === "getLocation") ? <>
-                <div className={"status"}>
+                    <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:
                         </h5>{(getLocation.GET_LOCATION && !commandStatus) ? <section>
                             <h5 style={{fontSize: "30px"}}>{getLocation.GET_LOCATION} </h5>
@@ -406,25 +392,25 @@ export const DevCommands = () => {
                     </div>
                     <section className="command-settings"></section>
                 </> : (command === "onData") ? <>
-                <div className={"status"}>
+                    <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(onData.DEBUG_ON) ? onData.DEBUG_ON : (typeof (onData) === "string") ? onData : "no command"}</h5>
                     </div>
                     <section className="command-settings"></section>
                 </> : (command === "reboot") ? <>
-                <div className={"status"}>
+                    <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(reboot.DEV_REBOOT) ? reboot.DEV_REBOOT : (typeof (reboot) === "string") ? reboot : "no command"}</h5>
                     </div>
                     <section className="command-settings"></section>
                 </> : (command === "updateSertificate") ? <>
-                <div className={"status"}>
+                    <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(updateSertificate.FTP_СERT_UPD) ? updateSertificate.FTP_СERT_UPD : (typeof (updateSertificate) === "string") ? updateSertificate : "no command"}</h5>
                     </div>
                     <section className="command-settings"></section>
                 </> : (command === "updateUI") ? <>
-                <div className={"status"}>
+                    <div className={"status"}>
                         <h5><FormattedMessage id="commands.status"/>:</h5>
                         <h5>{(updateUI.FTP_FW_UPD) ? updateUI.FTP_FW_UPD : (typeof (updateUI) === "string") ? updateUI : "no command"}</h5>
                     </div>
@@ -457,7 +443,7 @@ export const DevCommands = () => {
                             setCommandStatus("")
                             localStorage.setItem(device.Device.DevId + "commandStatus", "")
                         }}
-                        style={{display: commandStatus ? "inline-block" : "none", margin:0, marginLeft:40}}>
+                        style={{display: commandStatus ? "inline-block" : "none", margin: 0, marginLeft: 40}}>
                         <FormattedMessage id="commands.buttons.cancel.text"/>
                     </button>
                 </div>

@@ -22,7 +22,7 @@
     top:100px;
     display: flex;
     justify-content: center;
-    align-items: end;
+    align-items: center;
     padding-right: 20px ;
     animation: show-modal 2s both;
     background: #52b052;

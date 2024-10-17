@@ -164,7 +164,6 @@ export const sendSubCommand = async (url, data, token) => {
 
             }
     }
-    console.log(body)
     return await axios.post(url, body, {
         headers: {"Authorization": token}
     })
