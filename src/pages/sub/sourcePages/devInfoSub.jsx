@@ -4,6 +4,7 @@ import {useDevice} from "../../../hooks/useDevice";
 import global from "../../../store/global";
 import {observer} from "mobx-react-lite";
 import {FormattedMessage} from "react-intl/lib";
+import {getErrors} from "../../../functions/statusBitMask";
 
 export const DevInfoSub = observer(() => {
     const device = useDevice(global.devices)
@@ -19,52 +20,60 @@ export const DevInfoSub = observer(() => {
                     </h3>
                     <div>
                         <h5>
-                            <FormattedMessage id="deviceInfo.id"/>
+                            <FormattedMessage id="deviceInfo.id"/> :
                         </h5>
                         <h5>{device.Device.DevId}</h5>
                     </div>
                     <div>
                         <h5>
-                            <FormattedMessage id="deviceInfo.model"/>
+                            <FormattedMessage id="deviceInfo.model"/> :
                         </h5>
                         <h5>{device.Device.DevName}</h5>
                     </div>
                     <div>
                         <h5>
-                            <FormattedMessage id="deviceInfo.softwareVersion"/>
+                            <FormattedMessage id="deviceInfo.softwareVersion"/> :
                         </h5>
                         <h5>{device.Device["SoftVer."]}</h5>
                     </div>
                     <div>
                         <h5>
-                            <FormattedMessage id="deviceInfo.hardwareVersion"/>
+                            <FormattedMessage id="deviceInfo.hardwareVersion"/> :
                         </h5>
                         <h5>{device.Device["BoardRev."]}</h5>
                     </div>
                     <div>
                         <h5>
-                            <FormattedMessage id="deviceInfo.protocolVersion"/>
+                            <FormattedMessage id="deviceInfo.protocolVersion"/> :
                         </h5>
                         <h5>{device.Device["ProtoVer."]}</h5>
                     </div>
                     <div>
                         <h5>
-                            <FormattedMessage id="deviceInfo.networkMode"/>
+                            <FormattedMessage id="deviceInfo.Window"/> :
                         </h5>
-                        <h5>{device.DeviceAttr.Metrics.Mode}</h5>
+                        <h5>{device.DeviceAttr.Window}</h5>
                     </div>
                     <div>
                         <h5>
-                            <FormattedMessage id="deviceInfo.packetInterval"/>
+                            <FormattedMessage id="deviceInfo.NumChannel"/> :
                         </h5>
-                        <h5>{device.DeviceAttr.LinkRepeat}</h5>
+                        <h5>{device.DeviceAttr.NumChannel}</h5>
                     </div>
                     <div>
                         <h5>
-                            <FormattedMessage id="deviceInfo.networkStatus"/>
+                            <FormattedMessage id="deviceInfo.networkStatus"/> :
                         </h5>
                         <h5>{device.DeviceAttr.Metrics.Online ? "Online" : "Offline"}</h5>
                     </div>
+                    <section className="devStatus">
+                        <h5>
+                            <FormattedMessage id="deviceInfo.statusTitle"/>
+                        </h5>
+                        <textarea value={getErrors(device.DeviceAttr.Metrics.StatusBitMask || 0).join(`\n`)}>
+
+                        </textarea>
+                    </section>
                 </section>
             </>
 

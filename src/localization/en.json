@@ -81,6 +81,9 @@
   "deviceInfo.batteryLevel": "Battery level",
   "deviceInfo.signalLevel": "Cell reception level (RSII)",
   "deviceInfo.temperature": "Temperature",
+  "deviceInfo.NumChannel": "Num channel",
+  "deviceInfo.Window": "Window",
+
   "deviceSettings.header": "Device Settings",
   "deviceSettings.subheader": "Device Settings",
   "measurementSettings.title": "Measurement Settings",

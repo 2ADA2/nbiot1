@@ -109,6 +109,8 @@
   "deviceInfo.batteryLevel": "Заряд батареи",
   "deviceInfo.signalLevel": "Уровень приема соты(RSII)",
   "deviceInfo.temperature": "Температура",
+  "deviceInfo.NumChannel": "Номер канала",
+  "deviceInfo.Window": "Окно",
 
 
 
