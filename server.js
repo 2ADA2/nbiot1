@@ -100,7 +100,7 @@ app.get('/sub/dev%20info/10:19:19:31:11:51', (req, res) => {
     res.status(200).json({
         "Device": {
             "DevId": "10:19:19:31:11:51",
-            "DevName": "MM133.2",
+            "DevName": "MM101.1",
             "SoftVer.": "1.0.0.a",
             "BoardRev.": "1.2",
             "ProtoVer.": "1.2"
@@ -191,7 +191,7 @@ app.get("/sub/gw%20settings", function (req, res) {
 app.post("/sub/gw%20settings", function (req, res) {
     res.status(200).json("accepted to execution")
 });
-app.post("/sub/cmd/", function (req, res) {
+app.post("/sub/cmd/10:19:19:31:11:51", function (req, res) {
     if (req.body.USER_CMD === "GET SUB SHEDULE") {
         res.status(200).json({
             "Quantity": 2,

@@ -10,6 +10,7 @@ import settings from "../../../store/settings";
 import axios from "axios";
 import global from "../../../store/global"
 import {devices as devs} from "../../../utils/devices";
+import {useDevice} from "../../../hooks/useDevice";
 
 const devices = devs
 
@@ -38,28 +39,29 @@ function generateID(frameList) {
 
 export const DevSettingsSub = observer(() => {
     const [frameList, setFrameList] = useState(localStorage.getItem("frameList") ? JSON.parse(localStorage.getItem("frameList")) : []);
-
+    const [isErr, setIsErr] = useState(false);
+    const devInfo = useDevice()
     const [settingsStatus, setSettingsStatus] = useState();
     const [count, setCount] = useState(1);
     const [interval, setInterval] = useState(1);
-    const [type, setType] = useState("MM101.1");
+    const [type, setType] = useState(null);
     const [settingsId, setSettingsId] = useState(null);
     const [settingsParams, setSettingsParams] = useState({});
 
 
     const [currentFrame, setCurrentFrame] = useState(null);
     const [mouseOn, setMouseOn] = useState(false);
-
-    const [device, setDevice] = useState(null);
     const [types, setTypes] = useState([]);
 
     useEffect(() => {
+        if(devInfo.Device.DevName == "no data") return
         localStorage.setItem("frameList", JSON.stringify(frameList));
-        axios.post(global.subWay + "/cmd",
-            {USER_CMD: "Set SUB SHEDULE",
-                "USER_ARG":{
-                    Quantity:frameList.length,
-                    Shedule:frameList.map(e => [e.interval, e.count, types.indexOf(e.type)])
+        axios.post(global.subWay + "/cmd/" + devInfo.Device.DevId,
+            {
+                USER_CMD: "Set SUB SHEDULE",
+                "USER_ARG": {
+                    Quantity: frameList.length,
+                    Shedule: frameList.map(e => [e.interval, e.count, types.indexOf(e.type)])
                 }
             },
             {
@@ -70,17 +72,37 @@ export const DevSettingsSub = observer(() => {
     }, [frameList]);
 
     useEffect(() => {
-        axios.post(global.subWay + "/cmd",
-            {USER_CMD: "GET SUB SHEDULE"},
-            {
-                headers: {
-                    "authorization": global.token
-                }
-            })
-        setDevice("MM101.1")
-        setTypes(devices["MM101.1"])
-
-    }, []);
+        if (devInfo.Device.DevName !== "no data") {
+            if (!Object.keys(devices).includes(devInfo.Device.DevName)) {
+                setIsErr(true)
+                return
+            }
+            setTypes(devices[devInfo.Device.DevName])
+            const types = devices[devInfo.Device.DevName]
+            axios.post(global.subWay + "/cmd/" + devInfo.Device.DevId,
+                {USER_CMD: "GET SUB SHEDULE"},
+                {
+                    headers: {
+                        "authorization": global.token
+                    }
+                })
+                .then(res => {
+                    const frameList = []
+                    let id = 0
+                    res.data.Shedul.forEach((e) => {
+                        frameList.push({
+                            interval:e[0],
+                            count:e[1],
+                            type:types[e[2]],
+                            id,
+                            order: frameList.length
+                        })
+                        id+=1
+                    })
+                    setFrameList(frameList)
+                })
+        }
+    }, [devInfo]);
 
 
     function handleChange(num, count, setter) {
@@ -213,7 +235,7 @@ export const DevSettingsSub = observer(() => {
         header={<FormattedMessage id="deviceSettings.header"/>}
         header2={<>
             <FormattedMessage id="deviceSettings.subheader"/>
-            <span style={{paddingLeft: "10px"}}>{device}</span>
+            <span style={{paddingLeft: "10px"}}>{devInfo.Device.DevName}</span>
         </>}
         elem={
             <div className={"devSettingsSub"}>
@@ -350,17 +372,27 @@ export const DevSettingsSub = observer(() => {
                 </section>
                 <h3>Расписание</h3>
                 <section className={"frame-list"}>
-                    <div className="frame-list-header">
-                        <FontAwesomeIcon
-                            onClick={add}
-                            icon={faPlus}
-                            style={{
-                                cursor: "pointer",
-                                display: "inline-block",
-                                width: "20px",
-                                "borderRadius": "5px"
-                            }}/>
-                    </div>
+                    {isErr ?
+                        <div>
+                            <div>Unknown device: <span style = {{paddingLeft:10}}>{devInfo.Device.DevName}</span></div>
+                            <div>
+                                Available devices: {Object.keys(devices).map(e => <span style = {{paddingLeft:10}}>{e}</span>)
+                            }
+                            </div>
+                        </div>
+                        :
+                        <div className="frame-list-header">
+                            <FontAwesomeIcon
+                                onClick={add}
+                                icon={faPlus}
+                                style={{
+                                    cursor: "pointer",
+                                    display: "inline-block",
+                                    width: "20px",
+                                    "borderRadius": "5px"
+                                }}/>
+                        </div>
+                    }
                     <div className="frame-list-body" style={{minHeight: 100}}>
                         {
                             frameList.map(frame =>
@@ -376,7 +408,7 @@ export const DevSettingsSub = observer(() => {
 
                                     draggable={mouseOn}
                                     className={"frame"}
-                                    style={{flexDirection: "row", maxWidth:1000}}>
+                                    style={{flexDirection: "row", maxWidth: 1000}}>
                                     <button
                                         onMouseEnter={() => setMouseOn(true)}
                                         onMouseLeave={() => setMouseOn(false)}
@@ -403,7 +435,12 @@ export const DevSettingsSub = observer(() => {
                                         {frame.interval} мин
                                     </div>
                                     <div
-                                        style={{flex: "1 1 auto", display:"flex", justifyContent: "start", alignItems: "start"}}>
+                                        style={{
+                                            flex: "1 1 auto",
+                                            display: "flex",
+                                            justifyContent: "start",
+                                            alignItems: "start"
+                                        }}>
                                         {frame.type}
                                     </div>
                                     <div>
