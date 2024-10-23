@@ -86,13 +86,13 @@ textarea:focus {
     outline: none;
 }
 
-form .activated-button, dev .activated-button {
+form .activated-button, div .activated-button {
     background-color: #535e7b;
     border-color: #3b4b5a;
     cursor: default;
 }
 
-form .activated-button:hover, dev .activated-button:hover {
+form .activated-button:hover, div .activated-button:hover {
     background-color: #535e7b;
     border-color: #3b4b5a;
     cursor: default;

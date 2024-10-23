@@ -38,7 +38,7 @@ function generateID(frameList) {
 }
 
 export const DevSettingsSub = observer(() => {
-    const [frameList, setFrameList] = useState(localStorage.getItem("frameList") ? JSON.parse(localStorage.getItem("frameList")) : []);
+    const [frameList, setFrameList] = useState([]);
     const [isErr, setIsErr] = useState(false);
     const devInfo = useDevice()
     const [settingsStatus, setSettingsStatus] = useState();
@@ -52,23 +52,10 @@ export const DevSettingsSub = observer(() => {
     const [currentFrame, setCurrentFrame] = useState(null);
     const [mouseOn, setMouseOn] = useState(false);
     const [types, setTypes] = useState([]);
+    const [message, setMessage] = useState();
 
     useEffect(() => {
         if(devInfo.Device.DevName == "no data") return
-        localStorage.setItem("frameList", JSON.stringify(frameList));
-        axios.post(global.subWay + "/cmd/" + devInfo.Device.DevId,
-            {
-                USER_CMD: "Set SUB SHEDULE",
-                "USER_ARG": {
-                    Quantity: frameList.length,
-                    Shedule: frameList.map(e => [e.interval, e.count, types.indexOf(e.type)])
-                }
-            },
-            {
-                headers: {
-                    "authorization": global.token
-                }
-            })
     }, [frameList]);
 
     useEffect(() => {
@@ -229,6 +216,37 @@ export const DevSettingsSub = observer(() => {
         })
         setFrameList(newFrameList)
         clearSettings()
+    }
+
+    const sendList = () => {
+        if(message) return
+        if(frameList.length===0){
+            setMessage("!Empty list")
+            setTimeout(() => {
+                setMessage("")
+            },2000)
+            return
+        }
+        axios.post(global.subWay + "/cmd/" + devInfo.Device.DevId,
+            {
+                USER_CMD: "Set SUB SHEDULE",
+                "USER_ARG": {
+                    Quantity: frameList.length,
+                    Shedule: frameList.map(e => [e.interval, e.count, types.indexOf(e.type)])
+                }
+            },
+            {
+                headers: {
+                    "authorization": global.token
+                }
+            }).then(() => {
+                console.log("sended:" + JSON.stringify(frameList))
+                setFrameList([])
+                setMessage("Применено")
+                setTimeout(() => {
+                    setMessage("")
+                },2000)
+        })
     }
 
     return <Page
@@ -450,6 +468,16 @@ export const DevSettingsSub = observer(() => {
                             )}
                     </div>
                 </section>
+                <button
+                    style={{marginLeft:0}}
+                    onClick={() => sendList()}
+                    className={message ? "activated-button" : ""}
+                >send</button>
+                {
+                    (message) ? <div className={"modal"}>
+                        {message + " <"}
+                    </div> : <></>
+                }
             </div>
         }
     />

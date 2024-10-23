@@ -34,19 +34,25 @@ export const DevInfoSub = observer(() => {
                         <h5>
                             <FormattedMessage id="deviceInfo.softwareVersion"/> :
                         </h5>
-                        <h5>{device.Device["SoftVer."]}</h5>
+                        <h5>{device.Device["SoftVer"]}</h5>
                     </div>
                     <div>
                         <h5>
-                            <FormattedMessage id="deviceInfo.hardwareVersion"/> :
+                            <FormattedMessage id="deviceInfo.battery"/> :
                         </h5>
-                        <h5>{device.Device["BoardRev."]}</h5>
+                        <h5>{device.DeviceAttr.Metrics.Battery}</h5>
                     </div>
                     <div>
                         <h5>
-                            <FormattedMessage id="deviceInfo.protocolVersion"/> :
+                            RSSI level:
                         </h5>
-                        <h5>{device.Device["ProtoVer."]}</h5>
+                        <h5>{device.DeviceAttr.Metrics["RSSI level"]}</h5>
+                    </div>
+                    <div>
+                        <h5>
+                            <FormattedMessage id="deviceInfo.temperature"/> :
+                        </h5>
+                        <h5>{device.DeviceAttr.Metrics.Temperature}</h5>
                     </div>
                     <div>
                         <h5>
@@ -58,7 +64,7 @@ export const DevInfoSub = observer(() => {
                         <h5>
                             <FormattedMessage id="deviceInfo.NumChannel"/> :
                         </h5>
-                        <h5>{device.DeviceAttr.NumChannel}</h5>
+                        <h5>{device.DeviceAttr.NumChanel}</h5>
                     </div>
                     <div>
                         <h5>

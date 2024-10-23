@@ -83,6 +83,7 @@
   "deviceInfo.temperature": "Temperature",
   "deviceInfo.NumChannel": "Num channel",
   "deviceInfo.Window": "Window",
+  "deviceInfo.battery": "Battery",
 
   "deviceSettings.header": "Device Settings",
   "deviceSettings.subheader": "Device Settings",

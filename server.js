@@ -101,12 +101,12 @@ app.get('/sub/dev%20info/10:19:19:31:11:51', (req, res) => {
         "Device": {
             "DevId": "10:19:19:31:11:51",
             "DevName": "MM101.1",
-            "SoftVer.": "1.0.0.a",
-            "BoardRev.": "1.2",
-            "ProtoVer.": "1.2"
+            "SoftVer": "1.0.0.a",
+            "BoardRev": "1.2",
+            "ProtoVer": "1.2"
         },
         "DeviceAttr": {
-            "NumChannel": 30,
+            "NumChanel": 30,
             "Window": 0,
             "Metrics": {
                 "Battery": 11,

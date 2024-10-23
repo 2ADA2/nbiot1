@@ -41,6 +41,11 @@ body .dark .home {
     transition-duration: 300ms;
 }
 
+.dark .modal{
+    background: #538d53;
+    color:white;
+}
+
 .dark button:hover {
     background: rgb(79, 79, 112);
     transition-duration: 300ms;

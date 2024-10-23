@@ -1,4 +1,6 @@
+
 {
+    "http" : "http://localhost:3001/",
     "test" : "http://localhost:3001/",
     "main" : "http://93.84.87.22:8002/"
 }
