@@ -274,67 +274,83 @@ export const DevCommandsSub = () => {
                     >
                         <option
                             value="addPackage">
-                            <FormattedMessage id="commands.options.package"/>
+                            {/*<FormattedMessage id="commands.options.package"/>*/}
+                            Additional Package
                         </option>
                         <option
                             value="clearAll">
-                            <FormattedMessage id="commands.options.clearAllSub"/>
+                            {/*<FormattedMessage id="commands.options.clearAllSub"/>*/}
+                            Clear all
                         </option>
                         <option
                             value="setChos">
-                            <FormattedMessage id="commands.options.setChosSub"/>
+                            {/*<FormattedMessage id="commands.options.setChosSub"/>*/}
+                            Set chos img valid
                         </option>
                         <option
                             value="ble">
-                            <FormattedMessage id="commands.options.ble"/>
+                            {/*<FormattedMessage id="commands.options.ble"/>*/}
+                            Set ble adv time
                         </option>
                         <option
                             value="reset">
-                            <FormattedMessage id="commands.options.reset"/>
+                            {/*<FormattedMessage id="commands.options.reset"/>*/}
+                            Reset
                         </option>
                         <option
                             value="gain">
-                            <FormattedMessage id="commands.options.gain"/>
+                            {/*<FormattedMessage id="commands.options.gain"/>*/}
+                            Set gain
                         </option>
                         <option
                             value="battery">
-                            <FormattedMessage id="commands.options.battery"/>
+                            {/*<FormattedMessage id="commands.options.battery"/>*/}
+                            Set battery param
                         </option>
                         <option
                             value="rf">
-                            <FormattedMessage id="commands.options.rf"/>
+                            {/*<FormattedMessage id="commands.options.rf"/>*/}
+                            Set sub rf param
                         </option>
                         <option
                             value="sub">
-                            <FormattedMessage id="commands.options.sub"/>
+                            {/*<FormattedMessage id="commands.options.sub"/>*/}
+                            Set sub param
                         </option>
                         <option
                             value="shedule">
-                            <FormattedMessage id="commands.options.shedule"/>
+                            {/*<FormattedMessage id="commands.options.shedule"/>*/}
+                            Set sub shedule
                         </option>
                         <option
                             value="mode">
-                            <FormattedMessage id="commands.options.mode"/>
+                            {/*<FormattedMessage id="commands.options.mode"/>*/}
+                            Set mode
                         </option>
                         <option
                             value="vibro">
-                            <FormattedMessage id="commands.options.vibro"/>
+                            {/*<FormattedMessage id="commands.options.vibro"/>*/}
+                            Vibro accel scale
                         </option>
                         <option
                             value="launch">
-                            <FormattedMessage id="commands.options.launch"/>
+                            {/*<FormattedMessage id="commands.options.launch"/>*/}
+                            Set trac launch
                         </option>
                         <option
                             value="sleep">
-                            <FormattedMessage id="commands.options.sleep"/>
+                            {/*<FormattedMessage id="commands.options.sleep"/>*/}
+                            Set sleep mode
                         </option>
                         <option
                             value="settingsSleep">
-                            <FormattedMessage id="commands.options.settingsSleep"/>
+                            {/*<FormattedMessage id="commands.options.settingsSleep"/>*/}
+                            Set settings sleep mode
                         </option>
                         <option
                             value="imit">
-                            <FormattedMessage id="commands.options.imit"/>
+                            {/*<FormattedMessage id="commands.options.imit"/>*/}
+                            Set imit settings
                         </option>
                     </select>
                     {/*battery.GET_SENS_ATTR*/}
@@ -391,9 +407,9 @@ export const DevCommandsSub = () => {
                             <Counter count={m}
                                      newCount={(num) => {
                                          (num < 0) ?
-                                             setM(0) : setM(num)
+                                             setM(0) : (num > 254) ? setM(254) : setM(num)
                                      }}
-                                     setCount={(num) => (m + num > 0) ? setM(m + num) : setM(0)}
+                                     setCount={(num) => (m + num > 0 && m + num < 255) ? setM(m + num) : setM(m)}
                             />
                         </div>
                         <div>
@@ -401,9 +417,9 @@ export const DevCommandsSub = () => {
                             <Counter count={x}
                                      newCount={(num) => {
                                          (num < 0) ?
-                                             setX(0) : setX(num)
+                                             setX(0) : (num > 254) ? setX(254) : setX(num)
                                      }}
-                                     setCount={(num) => (x + num > 0) ? setX(x + num) : setX(0)}
+                                     setCount={(num) => (x + num > 0 && x + num < 255) ? setX(x + num) : setX(x)}
                             />
                         </div>
                         <div>
@@ -411,9 +427,9 @@ export const DevCommandsSub = () => {
                             <Counter count={y}
                                      newCount={(num) => {
                                          (num < 0) ?
-                                             setY(0) : setY(num)
+                                             setY(0) : (num > 254) ? setY(254) : setY(num)
                                      }}
-                                     setCount={(num) => (y + num > 0) ? setY(y + num) : setY(0)}
+                                     setCount={(num) => (y + num > 0 && y + num < 255) ? setY(y + num) : setY(y)}
                             />
                         </div>
                         <div>
@@ -421,9 +437,9 @@ export const DevCommandsSub = () => {
                             <Counter count={z}
                                      newCount={(num) => {
                                          (num < 0) ?
-                                             setZ(0) : setZ(num)
+                                             setZ(0) : (num > 254) ? setZ(254) : setZ(num)
                                      }}
-                                     setCount={(num) => (z + num > 0) ? setZ(z + num) : setZ(0)}
+                                     setCount={(num) => (z + num > 0 && z + num < 255) ? setZ(z + num) : setZ(z)}
                             />
                         </div>
                     </section>
@@ -484,9 +500,9 @@ export const DevCommandsSub = () => {
                             <Counter count={bleTime}
                                      newCount={(num) => {
                                          (num < 0) ?
-                                             setBleTime(0) : setBleTime(num)
+                                             setBleTime(0) : (num > 10) ? setBleTime(10) : setBleTime(num)
                                      }}
-                                     setCount={(num) => (bleTime + num > 0) ? setBleTime(bleTime + num) : setBleTime(0)}
+                                     setCount={(num) => (bleTime + num > 0 && bleTime + num < 11) ? setBleTime(bleTime + num) : setBleTime(bleTime)}
                             />
                         </div>
                     </section>
