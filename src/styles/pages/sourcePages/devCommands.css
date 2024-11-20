@@ -59,10 +59,12 @@
 }
 .page .command-settings .counter-container{
     width: auto;
+    gap:0;
 } 
 .page .command-settings div{
     flex-direction: row;
     display: flex;
+    gap:clamp(0px, 1vw, 40px);
 }
 
 form .button-container{

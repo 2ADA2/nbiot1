@@ -99,7 +99,7 @@ form .activated-button:hover, div .activated-button:hover {
 }
 
 .panel-header {
-    margin-top: 40px;
+    margin-top: 20px;
     height: 60px;
     display: flex;
     align-items: flex-end;
@@ -128,6 +128,8 @@ form .activated-button:hover, div .activated-button:hover {
     margin: 0;
     height: 40px;
     padding-bottom: 3px;
+    padding-top:5px;
+    font-size: 20px;
 }
 
 .panel-header .panel-active {
@@ -187,14 +189,15 @@ select {
 .one-blocked {
     margin: auto;
     text-align: start;
-    font-size: clamp(16px, 2vw, 24px);
-    line-height: clamp(30px, 3vw, 40px);
+    font-size: 22px;
+    line-height: 36px;
+    font-weight: 100;
 }
 
 .div-info {
     display: grid;
     grid-template-columns:1fr 1fr;
-    grid-gap: 20px;
+    grid-gap: 30px;
     grid-row-align: center;
 }
 
@@ -204,7 +207,7 @@ select {
 }
 
 h5 {
-    font-size: clamp(16px, 2vw, 24px);
-    line-height: clamp(30px, 3vw, 40px);
+    font-size:22px;
+    line-height: 36px;
 
 }

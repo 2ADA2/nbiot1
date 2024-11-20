@@ -61,6 +61,9 @@ form .measurement section{
     height:30px;
     font-size: 14px;
 }
+.imitator-settings, .measurement, .measurements{
+    margin-bottom: 20px;
+}
 .imitator-settings thead {
     background-color: #3b495a;
     color:white;
@@ -148,7 +151,9 @@ form .measurement section{
         justify-content: flex-start;
     }
 }
-
+.frame-settings{
+    margin-bottom: 20px;
+}
 .frame-list-body{
     margin-top: 20px;
     background: #eef1f6;
@@ -160,8 +165,8 @@ form .measurement section{
 
 .frame div{
     padding: 10px;
-    min-width: clamp(100px, 8vw, 150px);
-    font-size: clamp(16px, 2vw, 24px);
+    width: 120px;
+    font-size: 22px;
     display: flex;
     justify-content: center;
     align-items: center;

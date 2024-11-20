@@ -2,16 +2,16 @@
     min-height: 100%;
     background-color: #eef1f6;
     width: 100%;
-    padding: 20px;
+    padding:20px;
+    padding-top: 10px;
     display: flex;
     justify-content: center;
 }
 
 h3 {
-    margin-top: 30px;
     font-weight: 400;
     color: #505050;
-    font-size: clamp(20px, 2vw, 30px);
+    font-size: 24px;
     padding-bottom: 10px;
 }
 
@@ -33,10 +33,10 @@ h3::after {
 }
 
 .page h1 {
-    margin-bottom: 20px;
-    padding-left: 20px;
+    margin-bottom: 10px;
+    padding-left: 10px;
     border-left: 2px solid #3f6cab;
-    font-size: 40px;
+    font-size: 36px;
     color: #3f6cab;
     font-weight: 400;
 }
@@ -50,8 +50,7 @@ h3::after {
 .page .section {
     width: 100%;
     background-color: white;
-    padding: 40px;
-    padding-top: 0;
+    padding: 20px 40px;
     height: 100%;
 }
 
@@ -59,14 +58,15 @@ h3::after {
     display: flex;
     align-items: center;
     height: 70px;
-    line-height: 40px;
-    padding: 15px 20px;
+    line-height: 20px;
+    padding: 0 20px;
     background-color: white;
     margin: 0;
     min-width: 100%;
     margin-bottom: 2px;
     font-weight: 400;
     box-sizing: border-box;
+    font-size: 24px;
 }
 
 .page aside {
@@ -75,11 +75,8 @@ h3::after {
 
 @media (max-width: 1000px) {
     .page h2{
-        font-size: 24px;
+        font-size: 20px;
         height: 50px;
         padding-left: 20px;
-    }
-    .page h3{
-
     }
 }

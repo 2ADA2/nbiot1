@@ -4,19 +4,24 @@
     grid-gap: 40px;
     grid-row-align: center;
 }
+.devInfo h3{
+    margin-bottom: 10px;
+}
 .page .devInfo div :last-child{
     text-align: start;
 }
 
 .page .devInfo div h5{
-    line-height: clamp(30px, 4vw, 60px);
+    font-size: 22px;
+    line-height: 40px;
+    font-weight: 100;
 }
 
 .page .devInfo div:first-child{
     margin-top: 40px;
 }
 .devInfo h5{
-    font-size: clamp(16px, 1.4vw, 24px);
+    font-size: 22px
 }
 .page .devInfo div .checkbox-container{
     width: 40%;
@@ -40,6 +45,7 @@
 .page .devInfo .DB div .counter{
     flex-direction: column;
     gap:1px;
+    bottom: 0;
 }
 .page .devInfo .DB div input{
     min-width: 0;
