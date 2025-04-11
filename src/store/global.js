@@ -70,8 +70,10 @@ class Global {
         switch (this.progType) {
             case "mqtt":
                 this.updateDevices()
+                break
             case "sub":
                 this.updateDevicesSub()
+                break
         }
     }
 
@@ -177,18 +179,18 @@ class Global {
 
     updateDevices() {
         connect(this.way + "/sources", this.token).then((res) => {
-            this.deviceList = res.data.Sources;
+            this.deviceList = res.data.Sources.slice();
 
             new Promise((res) => {
                 let newDevs = [];
                 for (let device of Array.from(this.deviceList)) {
-
                     connect(this.way + "/dev info/" + device, this.token).then((dev) => {
                         connect(this.way + "/DBState/" + device, this.token).then((res) => {
                             dev.inDB = res.data.PutDBState;
                             connect(this.way + "/utc state/" + device, this.token).then((res) => {
                                 dev.utc = res.data.UtcState;
                                 newDevs.push(dev.data)
+                                if(newDevs.length === this.deviceList.length) this.devices = newDevs
                             })
                         })
                     })
@@ -217,7 +219,6 @@ class Global {
     }
 
     updateAll() {
-
         this.updateProcessor()
             .then(() => this.updateSettings())
             .then(() => {
