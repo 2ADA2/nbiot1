@@ -90,7 +90,7 @@ app.get('/mqtt/dev%20info/10:19:19:31:11:51', (req, res) => {
                 "GSM siglevel": -50,
                 "Temperature": 29,
                 "StatusBitMask": "0x00006000",
-                "Online": true,
+                "Online": false,
             }
         }
     })
@@ -113,7 +113,7 @@ app.get('/sub/dev%20info/10:19:19:31:11:51', (req, res) => {
                 "RSSI level": -50,
                 "Temperature": 29,
                 "StatusBitMask": "0x00006000",
-                "Online": true,
+                "Online": false,
             },
 
         }
@@ -161,18 +161,20 @@ app.get("/sub/Advanced%20settings", function (req, res) {
 
 app.post("/sh219%20info/cmd_get", function (req, res) {
     if (req.body.CMD === "cat /proc/cpuinfo") {
-        res.status(200).send("model name      : ARMv7 Processor rev 2 (v7l)\n" +
-            "BogoMIPS        : 994.30\n" +
-            "Features        : half thumb fastmult vfp edsp neon vfpv3 tls vfpd32\n" +
-            "CPU implementer : 0x41\n" +
-            "CPU architecture: 7\n" +
-            "CPU variant     : 0x3\n" +
-            "CPU part        : 0xc08\n" +
-            "CPU revision    : 2\n" +
-            "\n" +
-            "Hardware        : Generic AM33XX (Flattened Device Tree)\n" +
-            "Revision        : 0000\n" +
-            "Serial          : 80:f5:b5:d8:8b:93")
+        setTimeout(() => {
+            res.status(200).send("model name      : ARMv7 Processor rev 2 (v7l)\n" +
+                "BogoMIPS        : 994.30\n" +
+                "Features        : half thumb fastmult vfp edsp neon vfpv3 tls vfpd32\n" +
+                "CPU implementer : 0x41\n" +
+                "CPU architecture: 7\n" +
+                "CPU variant     : 0x3\n" +
+                "CPU part        : 0xc08\n" +
+                "CPU revision    : 2\n" +
+                "\n" +
+                "Hardware        : Generic AM33XX (Flattened Device Tree)\n" +
+                "Revision        : 0000\n" +
+                "Serial          : 80:f5:b5:d8:8b:93")
+        },100000)
     } else res.status(200).send("pong")
 
 });

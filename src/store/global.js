@@ -94,12 +94,9 @@ class Global {
                 localStorage.setItem("token", res["Token"])
                 this.userName = data.name;
                 this.password = data.password;
-                localStorage.setItem("userName", this.userName)
-                localStorage.setItem("password", this.password)
                 this.isAuth = true
                 if (this.userName === "admin") {
                     this.isAdmin = true;
-                    localStorage.setItem("isAdmin", "true")
                 }
             }).then(() => {
             this.updateType()

@@ -4,13 +4,14 @@ import {observer} from "mobx-react-lite";
 import {FormattedMessage} from "react-intl/lib";
 import {useEffect, useState} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faBars, faPencil, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faBars, faCopy, faPencil, faPlus, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {Counter} from "../../../components/counter";
 import settings from "../../../store/settings";
 import axios from "axios";
 import global from "../../../store/global"
 import {devices as devs} from "../../../utils/devices";
 import {useDevice} from "../../../hooks/useDevice";
+import {Form} from "react-router-dom";
 
 const devices = devs
 
@@ -40,6 +41,7 @@ function generateID(frameList) {
 export const DevSettingsSub = observer(() => {
     const [frameList, setFrameList] = useState([]);
     const [isErr, setIsErr] = useState(false);
+    const [isListErr, setIsListErr] = useState(false);
     const devInfo = useDevice()
     const [settingsStatus, setSettingsStatus] = useState();
     const [count, setCount] = useState(1);
@@ -47,6 +49,7 @@ export const DevSettingsSub = observer(() => {
     const [type, setType] = useState(null);
     const [settingsId, setSettingsId] = useState(null);
     const [settingsParams, setSettingsParams] = useState({});
+    const [isRefactor, setIsRefactor] = useState(false);
 
 
     const [currentFrame, setCurrentFrame] = useState(null);
@@ -55,7 +58,7 @@ export const DevSettingsSub = observer(() => {
     const [message, setMessage] = useState();
 
     useEffect(() => {
-        if(devInfo.Device.DevName == "no data") return
+        if (devInfo.Device.DevName == "no data") return
     }, [frameList]);
 
     useEffect(() => {
@@ -74,17 +77,19 @@ export const DevSettingsSub = observer(() => {
                     }
                 })
                 .then(res => {
+                    if (isRefactor) return
+                    setIsRefactor(true)
                     const frameList = []
                     let id = 0
                     res.data.Shedul.forEach((e) => {
                         frameList.push({
-                            interval:e[0],
-                            count:e[1],
-                            type:types[e[2]],
+                            interval: e[0],
+                            count: e[1],
+                            type: types[e[2]],
                             id,
                             order: frameList.length
                         })
-                        id+=1
+                        id += 1
                     })
                     setFrameList(frameList)
                 })
@@ -185,7 +190,7 @@ export const DevSettingsSub = observer(() => {
 
     const clearSettings = () => {
         setSettingsStatus()
-        setType()
+        setType("TU")
         setSettingsId(null)
         setSettingsParams({});
     }
@@ -219,12 +224,14 @@ export const DevSettingsSub = observer(() => {
     }
 
     const sendList = () => {
-        if(message) return
-        if(frameList.length===0){
-            setMessage("!Empty list")
+        if (message) return
+        if (frameList.length === 0) {
+            setIsListErr(true)
+            setMessage(<FormattedMessage id={"list.emptyList"}/>)
             setTimeout(() => {
                 setMessage("")
-            },2000)
+                setIsListErr(false)
+            }, 2000)
             return
         }
         axios.post(global.subWay + "/cmd/" + devInfo.Device.DevId,
@@ -240,13 +247,29 @@ export const DevSettingsSub = observer(() => {
                     "authorization": global.token
                 }
             }).then(() => {
-                console.log("sended:" + JSON.stringify(frameList))
-                setFrameList([])
-                setMessage("Применено")
-                setTimeout(() => {
-                    setMessage("")
-                },2000)
+            console.log("sended:" + JSON.stringify(frameList))
+            setFrameList([])
+            setMessage(<FormattedMessage id={"list.success"}/>)
+            setTimeout(() => {
+                setMessage("")
+            }, 2000)
         })
+    }
+
+    const copy = (id) => {
+        let changed = false
+        let newFrameList = []
+        frameList.forEach((f) => {
+            if (f.id === id) {
+                changed = true
+                newFrameList.push(f)
+                newFrameList.push({...f, order: f.order + 1, id: generateID(frameList)})
+                return
+            }
+
+            newFrameList.push((changed) ? {...f, order: f.order + 1} : f)
+        })
+        setFrameList([...newFrameList])
     }
 
     return <Page
@@ -257,20 +280,22 @@ export const DevSettingsSub = observer(() => {
         </>}
         elem={
             <div className={"devSettingsSub"}>
-                <h3>Настройки frame</h3>
+                <h3><FormattedMessage id={"list.header"}/></h3>
                 <section style={{marginTop: 20}} className={"frame-settings"}>
                     {!settingsStatus ?
                         <>
                             <h1>
-                                Не выбрано
+                                <FormattedMessage id={"list.noOption"}/>
                             </h1>
                             <h2>
-                                Выберите нужный пункт в расписании для настройки
+                                <FormattedMessage id={"list.chooseAnOption"}/>
                             </h2>
                         </>
                         : (settingsStatus === "settings" && type) ?
                             <>
-                                <h1 style={{fontSize: 40, marginBottom: 40}}>Новое расписание</h1>
+                                <h1 style={{fontSize: 40, marginBottom: 40}}>
+                                    <FormattedMessage id={"newList"}/>
+                                </h1>
                                 <select onChange={(e) => {
                                     setType(e.target.value)
                                 }}
@@ -288,7 +313,9 @@ export const DevSettingsSub = observer(() => {
                                         width: "clamp(200px, 25vw, 300px)",
                                         lineHeight: "50px",
                                         textAlign: "start"
-                                    }}>interval, min:</h5>
+                                    }}>
+                                        <FormattedMessage id={"list.intervalMin"}/>:
+                                    </h5>
                                     <Counter
                                         count={interval}
                                         newCount={(count) => (count > 0) ? setInterval(count) : setInterval(1)}
@@ -301,7 +328,9 @@ export const DevSettingsSub = observer(() => {
                                         width: "clamp(200px, 25vw, 300px)",
                                         lineHeight: "50px",
                                         textAlign: "start"
-                                    }}>count:</h5>
+                                    }}>
+                                        <FormattedMessage id={"list.count"}/>:
+                                    </h5>
                                     <Counter
                                         count={count}
                                         newCount={(count) => (count > 0) ? setCount(count) : setCount(1)}
@@ -311,12 +340,12 @@ export const DevSettingsSub = observer(() => {
 
                                 <div className="frame-buttons-container">
                                     <button onClick={() => newFrame()} style={{"margin-right": 20}}>
-                                        Добавить
+                                        <FormattedMessage id={"list.Add"}/>
                                     </button>
                                     <button onClick={() => {
                                         clearSettings()
                                     }}>
-                                        Отменить
+                                        <FormattedMessage id={"commands.buttons.cancel.text"}/>
                                     </button>
                                 </div>
                             </>
@@ -340,7 +369,7 @@ export const DevSettingsSub = observer(() => {
                                         width: "clamp(200px, 25vw, 300px)",
                                         lineHeight: "50px",
                                         textAlign: "start"
-                                    }}>interval, min:</h5>
+                                    }}><FormattedMessage id={"list.intervalMin"}/>:</h5>
                                     <Counter
                                         count={settingsParams.interval}
                                         newCount={(num) => (num > 0) ? setSettingsParams({
@@ -359,7 +388,7 @@ export const DevSettingsSub = observer(() => {
                                         width: "clamp(200px, 25vw, 300px)",
                                         lineHeight: "50px",
                                         textAlign: "start"
-                                    }}>count:</h5>
+                                    }}><FormattedMessage id={"list.count"}/>:</h5>
                                     <Counter
                                         count={settingsParams.count}
                                         newCount={(num) => (num > 0) ? setSettingsParams({
@@ -374,12 +403,12 @@ export const DevSettingsSub = observer(() => {
                                 </div>
                                 <div className="frame-buttons-container">
                                     <button onClick={updateFrame} style={{marginRight: 20}}>
-                                        Сохранить
+                                        <FormattedMessage id={"deviceInfo.saveButton"}/>
                                     </button>
                                     <button onClick={() => {
                                         clearSettings()
                                     }} style={{marginRight: 20}}>
-                                        Отменить
+                                        <FormattedMessage id={"advSettings.main.cancel"}/>
                                     </button>
                                     <button onClick={delFrame} style={{width: 70}}>
                                         <FontAwesomeIcon icon={faTrash}/>
@@ -388,13 +417,16 @@ export const DevSettingsSub = observer(() => {
                             </>
                     }
                 </section>
-                <h3>Расписание</h3>
+                <h3>
+                    <FormattedMessage id={"list.schedule"}/>
+                </h3>
                 <section className={"frame-list"}>
                     {isErr ?
                         <div>
-                            <div>Unknown device: <span style = {{paddingLeft:10}}>{devInfo.Device.DevName}</span></div>
+                            <div>Unknown device: <span style={{paddingLeft: 10}}>{devInfo.Device.DevName}</span></div>
                             <div>
-                                Available devices: {Object.keys(devices).map(e => <span style = {{paddingLeft:10}}>{e}</span>)
+                                Available devices: {Object.keys(devices).map(e => <span
+                                style={{paddingLeft: 10}}>{e}</span>)
                             }
                             </div>
                         </div>
@@ -447,10 +479,12 @@ export const DevSettingsSub = observer(() => {
                                         <FontAwesomeIcon icon={faPencil}/>
                                     </button>
                                     <div>
-                                        {frame.count} раз(а)
+                                        {frame.count}
+                                        <FormattedMessage id={"list.times"}/>
                                     </div>
                                     <div>
-                                        {frame.interval} мин
+                                        {frame.interval}
+                                        <FormattedMessage id={"list.min"}/>
                                     </div>
                                     <div
                                         style={{
@@ -464,20 +498,28 @@ export const DevSettingsSub = observer(() => {
                                     <div>
                                         ID : {frame.id}
                                     </div>
+                                    <button onClick={() => copy(frame.id)}>
+                                       <FontAwesomeIcon icon={faCopy}/>
+                                    </button>
                                 </div>
                             )}
                     </div>
                 </section>
                 <button
-                    style={{marginLeft:0}}
+                    style={{marginLeft: 0}}
                     onClick={() => sendList()}
                     className={message ? "activated-button" : ""}
-                >send</button>
+                ><FormattedMessage id={"list.send"}/></button>
                 {
-                    (message) ? <div className={"modal"}>
-                        {message + " <"}
+                    (message) ? <div className={isListErr ? "modal-err modal" : "modal"}>
+                        {message}
                     </div> : <></>
                 }
+                <button
+                    style={{marginLeft: 20}}
+                    onClick={() => setFrameList([])}
+                    className={message ? "activated-button" : ""}
+                ><FormattedMessage id={"list.clear"}/></button>
             </div>
         }
     />

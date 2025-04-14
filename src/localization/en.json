@@ -147,5 +147,20 @@
   "login": "enter your login",
   "password": "enter your password",
   "incorrect": "incorrect login or password",
-  "enterButton": "log in"
+  "enterButton": "log in",
+  "advSettings.put": "Choose a file",
+  "list.newList": "New Schedule",
+  "list.chooseAnOption": "Choose an option to configure",
+  "list.noOption": "Not selected",
+  "list.Add": "Add",
+  "list.times": "time(s)",
+  "list.min": "min",
+  "list.schedule": "Schedule",
+  "list.send": "Send",
+  "list.header": "Schedule Settings",
+  "list.intervalMin": "Interval, min",
+  "list.count": "Number of times",
+  "list.success": "Schedule sent <",
+  "list.emptyList": "Empty schedule <",
+  "list.clear": "Clear"
 }

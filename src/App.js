@@ -1,6 +1,5 @@
 import {Layout} from "./layout/layout";
 import {Routes, Route, Navigate} from 'react-router';
-import {useEffect, useState} from "react";
 import global from "./store/global";
 import {adminRoutes, adminRoutesSub, routes, subRoutes} from "./components/routes";
 import {ErrorPage} from "./components/errorPage";

@@ -10,6 +10,7 @@ import CreateListRows from "../../functions/createListRows";
 export const DevList = observer(() => {
     const [info, setInfo] = useState(localStorage.getItem("moreSourceInfo"))
 
+
     return (
         //страница с источниками: таблица, установка соединения по mqtt
         <Page header={<FormattedMessage id={"devs.header"}/>} header2={<FormattedMessage id={"devs.header2"}/>} elem={

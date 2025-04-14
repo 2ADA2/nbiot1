@@ -81,6 +81,10 @@
   "advSettings.update.client": "Обновить Client",
   "advSettings.updateErr2": "Неверно выбран файл",
 
+  "advSettings.put": "Выберите файл",
+
+
+
 
 
 
@@ -151,6 +155,22 @@
   "buttons.clearLists": "Очистить списки",
   "messages.measurementStarted": "Измерение начато",
   "messages.connecting": "Подключение...",
+
+  "list.newList": "Новое расписание",
+  "list.chooseAnOption": "Выберете пункт для настройки",
+  "list.noOption": "Не выбрано",
+  "list.Add": "Добавть",
+  "list.times": "раз(а)",
+  "list.min": "мин",
+  "list.schedule": "Расписание",
+  "list.send": "Отправить",
+  "list.header": "Настройки расписания",
+  "list.intervalMin": "Интервал, мин",
+  "list.count": "Количество раз",
+  "list.success": "Расписание отправлено <",
+  "list.emptyList": "Пустое расписание <",
+  "list.clear": "Очистить",
+
 
 
 

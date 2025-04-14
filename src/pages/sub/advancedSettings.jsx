@@ -39,6 +39,9 @@ UserName=gateway-3-11
 [TransferSource]
 MAC04_09_19_86_11_50=5896`
 
+    const [backFileName, setBackFileName] = useState();
+    const [webFileName, setWebFileName] = useState();
+
     useEffect(() => {
         if (page === 0) {
             setInvalidWeb(null)
@@ -109,7 +112,12 @@ MAC04_09_19_86_11_50=5896`
 
             if (name === "zip") {
                 setWeb(file)
-            } else setBack(file)
+                setWebFileName(file.name)
+                console.log(file.name)
+            } else {
+                setBack(file)
+                setBackFileName(file.name)
+            }
             return true
         } else {
             if (name === "zip") {
@@ -173,7 +181,11 @@ MAC04_09_19_86_11_50=5896`
                                         <button onClick={() => updateWeb()}>
                                             <FormattedMessage id="advSettings.update.web"/>
                                         </button>
-                                        <input className={"file"} type="file" onChange={(e) => checkFile(e, "zip")}/>
+                                        <label className={"file-container"}>
+                                            {webFileName || <FormattedMessage id={"advSettings.put"}/>}
+                                            <input className={"file"} type="file"
+                                                   onChange={(e) => checkFile(e, "zip")}/>
+                                        </label>
                                         {invalidWeb ?
                                             <div
                                                 className='auth-error'
@@ -187,7 +199,10 @@ MAC04_09_19_86_11_50=5896`
                                         <button onClick={() => updateClient()}>
                                             <FormattedMessage id="advSettings.update.client"/>
                                         </button>
-                                        <input className={"file"} type="file" onChange={(e) => checkFile(e, "")}/>
+                                        <label className={"file-container"}>
+                                            {backFileName || <FormattedMessage id={"advSettings.put"}/>}
+                                            <input className={"file"} type="file" onChange={(e) => checkFile(e, "")}/>
+                                        </label>
                                         {invalidBack ?
                                             <div
                                                 className='auth-error'

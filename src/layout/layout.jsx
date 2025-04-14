@@ -31,7 +31,7 @@ export const Layout = observer(() => {
     return(
         <IntlProvider locale={navigator.language} messages={messages[settings.lang]}>
             <header>
-                <h1>NB-IoT collector / SH-219<sup style={{fontWeight:100, fontSize:20}}>{global.progType}</sup></h1>
+                <h1>NB-IoT collector<sup style={{fontWeight:100, fontSize:20}}>{global.progType}</sup></h1>
             </header>
             <Panel/>
             <main>

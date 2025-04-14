@@ -20,7 +20,7 @@ class ErrorBoundary extends Component {
 
     render() {
         if(this.state.hasError) {
-            return <ErrorPage err={this.error} toBack={false}/>
+            return <ErrorPage err={this.error} toBack={!!localStorage.getItem("token")}/>
         }
         return this.props.children
     }

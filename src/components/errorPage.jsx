@@ -27,7 +27,6 @@ export const ErrorPage = ({toBack = true, err = {}}) => {
                         </section>
                         {toBack ? <button><Link to = "/authorization" onClick={() => {
                             window.location.reload()
-                            global.updateToken()
                         }}>На главную</Link></button>:<></> }
                     </section>
                 }
