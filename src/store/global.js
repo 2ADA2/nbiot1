@@ -4,6 +4,7 @@ import {connect} from "../functions/connect";
 import {sortDevs} from "../functions/sortDevs";
 import {errorAnalyze} from "../functions/error";
 import {sendCmd} from "../functions/cmd";
+import axios from "axios";
 
 class Global {
     http = localStorage.getItem("http") ?? http.http
@@ -11,9 +12,9 @@ class Global {
     isAuth = false;
     // isAdmin = (localStorage.getItem("isAdmin")) ? JSON.parse(localStorage.getItem("isAdmin")) : null;
     isAdmin = true;
-    way = (this.http ?? window.location.origin+"/") + "mqtt";
-    subWay = (this.http ?? window.location.origin+"/") + "sub";
-    shWay = (this.http ?? window.location.origin+"/") + "sh219 info";
+    way = (this.http ?? window.location.origin + "/") + "mqtt";
+    subWay = (this.http ?? window.location.origin + "/") + "sub";
+    shWay = (this.http ?? window.location.origin + "/") + "sh219 info";
     progType = localStorage.getItem("progType") || "mqtt";
     processor = null
 
@@ -30,10 +31,10 @@ class Global {
     advSettings = null;
 
     constructor() {
-        if (this.http === "this"){
-            this.way = window.location.origin+"/" + "mqtt";
-            this.subWay = window.location.origin+"/" + "sub";
-            this.shWay =  window.location.origin+"/" + "sh219 info";
+        if (this.http === "this" || !this.http) {
+            this.way = window.location.origin + "/" + "mqtt";
+            this.subWay = window.location.origin + "/" + "sub";
+            this.shWay = window.location.origin + "/" + "sh219 info";
         }
         // this.token = ""
         // localStorage.setItem("token", "")
@@ -41,7 +42,6 @@ class Global {
         if (this.token) {
             this.isAuth = true;
             this.updateType()
-            this.updateAll()
         }
     }
 
@@ -114,19 +114,25 @@ class Global {
 
     async setConnection() {
         const oldState = this.state
-        if (this.state) {
+        if (this.state === 1) {
             this.state = 3
         } else {
             this.state = 4;
         }
-        fetch(this.way + "/set state", {
-            method: "POST", body: JSON.stringify({
-                "MQTT_connect": !oldState
-            }), headers: {
+        axios.post(this.way + "/set state", {
+            "MQTT_connect": oldState !== 1
+        }, {
+            headers: {
                 "authorization": this.token
             }
         }).then((res) => {
-            if (!res.ok) throw new Error()
+            if (res.status === 200) {
+                this.state === 3 ?
+                    this.state = 2
+                    :
+                    this.state = 1
+                localStorage.setItem("state", this.state)
+            } else throw new Error()
         }).then(() => this.updateDevices())
             .catch(() => {
                 this.isAuth = false
@@ -136,7 +142,10 @@ class Global {
 
     async updateConnection() {
         connect(this.way + "/state", this.token).then((res) => {
-            this.state = res.data.ConnectionState
+            res.data.ConnectionState ?
+                this.state = 1
+                :
+                this.state = 2
             if (typeof (this.state) !== 'string') localStorage.setItem("state", this.state)
         }).catch(() => this.isAuth = false)
     }
@@ -162,7 +171,7 @@ class Global {
             this.deviceList.forEach(d => {
                 connect(this.subWay + "/dev info/" + d, this.token)
                     .then((res) => {
-                        if(!this.devices.length || !ids.includes(res.data.Device.DevId)){
+                        if (!this.devices.length || !ids.includes(res.data.Device.DevId)) {
                             ids.splice(ids.indexOf(res.data.Device.DevId), 1)
                             this.devices = [...this.devices, res.data]
                         }
@@ -187,7 +196,7 @@ class Global {
                             connect(this.way + "/utc state/" + device, this.token).then((res) => {
                                 dev.utc = res.data.UtcState;
                                 newDevs.push(dev.data)
-                                if(newDevs.length === this.deviceList.length) this.devices = newDevs
+                                if (newDevs.length === this.deviceList.length) this.devices = newDevs
                             })
                         })
                     })

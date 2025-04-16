@@ -23,18 +23,11 @@ export const DevInfo = observer(() => {
         if (device.empty) {
             global.setLocation("/sources")
         }
+        return
     }, []);
 
     useEffect(() => {
-        if (!inDB) {
-            setDBSettings(global.way + '/DB/' + device.Device.DevId, inDB, DBNum, global.token)
-            setAlready(false)
-            global.updateDevices()
-        }
-    }, [inDB])
-
-    useEffect(() => {
-        localStorage.setItem(device.Device.DevId + "DBNum", DBNum)
+        if(!device.empty) localStorage.setItem(device.Device.DevId + "DBNum", DBNum)
     }, [DBNum])
 
 

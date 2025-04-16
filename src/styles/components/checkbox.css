@@ -6,6 +6,9 @@
 
 .checkbox-container{
     user-select: none;
+    display: inline-flex;
+    align-items: center;
+    transform: scale(0.9);
 }
 
 .checkbox-container .checkbox {

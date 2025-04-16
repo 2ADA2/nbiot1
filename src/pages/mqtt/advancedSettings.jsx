@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import {Page} from '../../components/page'
 import "../../styles/pages/advancedSettings.css"
 import global from '../../store/global'
@@ -13,6 +13,7 @@ export const AdvancedSettings = observer(() => {
     const [invalidWeb, setInvalidWeb] = useState()
     const [invalidBack, setInvalidBack] = useState()
 
+    const [message, setMessage] = useState();
     const [back, setBack] = useState()
     const [web, setWeb] = useState()
     const [err, setErr] = useState()
@@ -38,12 +39,25 @@ UserName=gateway-3-11
 [TransferSource]
 MAC04_09_19_86_11_50=5896`
 
+    const [backFileName, setBackFileName] = useState();
+    const [webFileName, setWebFileName] = useState();
+
+    useEffect(() => {
+        if (page === 0) {
+            setInvalidWeb(null)
+            setInvalidBack(null)
+        }
+    }, [page]);
+
     function updateWeb() {
         if (web && !invalidWeb) {
             setErr()
             postReq(global.way + "/frontend update", web, global.token)
                 .then(res => {
-                    if (!res) throw new Error()
+                    setMessage("Frontend updated")
+                    setWeb()
+                    setWebFileName()
+                    setTimeout(() => setMessage(), 2000)
                 })
                 .then(() => setErr())
                 .catch((err) => errorAnalyze(err, (message) => setErr(message)))
@@ -55,6 +69,12 @@ MAC04_09_19_86_11_50=5896`
         if (back && !invalidBack) {
             setErr()
             postReq(global.way + "/backend update", back, global.token)
+                .then(res => {
+                    setMessage("Backend updated")
+                    setBack()
+                    setBackFileName()
+                    setTimeout(() => setMessage(), 2000)
+                })
                 .then(() => setErr())
                 .catch((err) => errorAnalyze(err, (message) => setErr(message)))
         } else setInvalidBack(true)
@@ -86,18 +106,23 @@ MAC04_09_19_86_11_50=5896`
         const file = e.target.files[0]
 
         if (file.name.split(".").at(-1).includes(name)) {
-            if(name === "zip"){
+            if (name === "zip") {
                 setInvalidWeb(false)
-            }else{
+            } else {
                 setInvalidBack(false)
             }
 
             if (name === "zip") {
                 setWeb(file)
-            } else setBack(file)
+                setWebFileName(file.name)
+                console.log(file.name)
+            } else {
+                setBack(file)
+                setBackFileName(file.name)
+            }
             return true
         } else {
-            if(name === "zip"){
+            if (name === "zip") {
                 setInvalidWeb(true)
             }
             return false
@@ -146,29 +171,41 @@ MAC04_09_19_86_11_50=5896`
                         :
                         (page === 1) ?
                             <>
+                                {
+                                    (message) && <div className={message && "modal"}>
+                                        {message}
+                                    </div>
+                                }
                                 <h3 className="advanced-settings-header">
                                     <FormattedMessage id="advSettings.update.header"/>
                                 </h3>
                                 <section className='advanced-settings'>
                                     <div>
                                         <button onClick={() => updateWeb()}>
-                                        <FormattedMessage id = "advSettings.update.web"/>
+                                            <FormattedMessage id="advSettings.update.web"/>
                                         </button>
-                                        <input className={"file"} type="file" onChange={(e) => checkFile(e, "zip")}/>
+                                        <label className={"file-container"}>
+                                            {webFileName || <FormattedMessage id={"advSettings.put"}/>}
+                                            <input className={"file"} type="file"
+                                                   onChange={(e) => checkFile(e, "zip")}/>
+                                        </label>
                                         {invalidWeb ?
                                             <div
                                                 className='auth-error'
                                             >
-                                                <FormattedMessage id = "advSettings.updateErr"/>
+                                                <FormattedMessage id="advSettings.updateErr"/>
                                             </div>
                                             : <></>
                                         }
                                     </div>
                                     <div>
                                         <button onClick={() => updateClient()}>
-                                            <FormattedMessage id = "advSettings.update.client"/>
+                                            <FormattedMessage id="advSettings.update.client"/>
                                         </button>
-                                        <input className={"file"} type="file" onChange={(e) => checkFile(e, "")}/>
+                                        <label className={"file-container"}>
+                                            {backFileName || <FormattedMessage id={"advSettings.put"}/>}
+                                            <input className={"file"} type="file" onChange={(e) => checkFile(e, "")}/>
+                                        </label>
                                         {invalidBack ?
                                             <div
                                                 className='auth-error'

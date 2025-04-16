@@ -12,6 +12,7 @@ export const InputDate = ({date = new Date(), newDate = () => {}}) => {
                 defaultValue={dayjs(date)}
                 ampm = {false}
                 border = "2px, solid, red"
+                sx={{width:"273px"}}
                 format="DD.MM.YYYY HH:mm:ss"
                 views={["year", "month", "day", "hours", "minutes", "seconds"]}
                 onChange={(time) => convertTime(new Date(time), new Date(), (newTime) => newDate(newTime))}

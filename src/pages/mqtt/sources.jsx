@@ -17,6 +17,12 @@ export const Sources = observer(() => {
         global.setConnection()
     }
 
+    // global status:
+    // 1 - ok
+    // 2 - no connection
+    // 3 - connection break
+    // 4 - establishing a connection
+
     return (
         //страница с источниками: таблица, установка соединения по mqtt
         <Page header={<FormattedMessage id={"devs.header"}/>} header2={<FormattedMessage id={"devs.header2"}/>} elem={
@@ -31,14 +37,14 @@ export const Sources = observer(() => {
                             (global.state === 3) ?
                                 <FormattedMessage id={"devs.connect.status3"}/> :
                                 (global.state === 4) ? <FormattedMessage id={"devs.connect.status4"}/> :
-                                    (global.state) ? <FormattedMessage id={"devs.connect.status1"}/>
+                                    (global.state === 1) ? <FormattedMessage id={"devs.connect.status1"}/>
                                         : <FormattedMessage id={"devs.connect.status2"}/>
                         }
                         </h6>
                     </section>
-                    {(typeof (global.state) === "boolean") ?
+                    {(global.state === 1 || global.state === 2) ?
                         <button onClick={(e) => updateState(e)}>
-                            {global.state ? <FormattedMessage id={"devs.button.status1"}/> :
+                            {global.state===1 ? <FormattedMessage id={"devs.button.status1"}/> :
                                 <FormattedMessage id={"devs.button.status2"}/>}
                         </button> :
                         <button onClick={(e) => e.preventDefault()} className="activated-button">
