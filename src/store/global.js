@@ -225,8 +225,7 @@ class Global {
     }
 
     updateAll() {
-        this.updateProcessor()
-            .then(() => this.updateSettings())
+        this.updateSettings()
             .then(() => {
                 this.progType === "mqtt" ?
                     this.updateConnection()

@@ -16,7 +16,7 @@
   "14": "SERVER_FTP_ACCESS_FLAG - connected to remote server (FTP)",
   "15": "SERVER_REGISTERED_FLAG - device registered on server with assigned REG_UID",
 
-  "measState1": "MEAS_APPLY_OK - measurement accepted",
-  "measState2": "MEAS_ALREADY_EXISTS - measurement in progress",
-  "measState3": "MEAS_INCORRECT_TIME - incorrect time set"
+  "measState1": "measurement accepted",
+  "measState2": "measurement in progress",
+  "measState3": "incorrect time set"
 }

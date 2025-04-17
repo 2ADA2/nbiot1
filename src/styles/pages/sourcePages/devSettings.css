@@ -47,8 +47,24 @@ form .measurement section{
     gap:0;
     position: relative;
 }
-.measurements .console textarea{
+.measurements .console .measurements-list{
     width: 100%;
+    border:1px solid black;
+    height: 200px;
+    overflow-y: scroll;
+    padding: 4px;
+}
+
+.measurements-list-item{
+    display: grid;
+    grid-template-columns:1fr 2fr;
+    grid-template-rows:20px 20px;
+    cursor: pointer;
+    margin-bottom:4px;
+    border:1px solid black;
+    padding:6px;
+    font-size: 14px;
+    border-radius: 5px;
 }
 .console h5{
     text-align: start;
@@ -56,7 +72,7 @@ form .measurement section{
 .measurements .clear-measure{
     position: absolute;
     right:0;
-    bottom:6px;
+    bottom:0;
     width: 60px;
     height:30px;
     font-size: 14px;

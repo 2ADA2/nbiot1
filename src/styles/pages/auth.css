@@ -1,58 +1,81 @@
-.auth-page{
-    padding-top:80px;
+.auth-page {
+    padding-top: 80px;
     justify-content: flex-start;
     align-items: center;
     max-width: none;
 }
-.auth{
-    margin-top:20px;
+
+.auth {
+    margin-top: 20px;
     background-color: white;
     height: 500px;
-    padding:40px;
+    padding: 40px;
     max-width: 1000px;
     min-width: 800px;
 }
-.auth div button{
+
+.auth div button {
     justify-content: flex-start;
-    margin:0;
+    margin: 0;
 }
-.auth input{
+
+.auth input {
     width: 100%;
     max-width: none;
     margin-top: 20px;
 }
-.auth-error{
+
+.auth-error {
     border-left: 2px solid #e08b8b;
+    display: inline-flex;
+    align-items: center;
     padding-left: 20px;
     color: #e08b8b;
-    height: 40px;
-    line-height: 40px;
-    animation: show-error 1s ;
+    height: 24px;
+    line-height: 24px;
+    animation: show-error 1s;
 }
-.successfully{
-    border-color:rgb(114, 168, 114);
-    color:rgb(114, 168, 114);
-    animation: show-error-successfully 1s ;
-  }
-.auth div{
-    margin-top:40px;
+
+.successfully {
+    border-color: rgb(114, 168, 114);
+    color: rgb(114, 168, 114);
+    animation: show-error-successfully 1s;
+}
+
+.neutral {
+    border-color: rgb(107, 107, 107);
+    color: rgb(107, 107, 107);
+    animation: show-error-neutral 1s;
+}
+
+.auth div {
+    margin-top: 40px;
     display: flex;
     justify-content: space-between;
 }
 
 @keyframes show-error {
-    0%{
-        background-color:#e7b9b9;
+    0% {
+        background-color: #e7b9b9;
     }
-    100%{
-        background-color:#e08b8b00;
+    100% {
+        background-color: #e08b8b00;
+    }
+}
+
+@keyframes show-error-successfully {
+    0% {
+        background-color: #b9e7b9;
+    }
+    100% {
+        background-color: #e08b8b00;
     }
 }
 @keyframes show-error-successfully {
-    0%{
-        background-color:#b9e7b9;
+    0% {
+        background-color: rgb(107, 107, 107);
     }
-    100%{
-        background-color:#e08b8b00;
+    100% {
+        background-color: #e08b8b00;
     }
 }
