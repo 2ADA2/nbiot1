@@ -202,3 +202,22 @@ body .dark .home {
     border-color: #3b4b5a;
     cursor: default;
 }
+.dark .cls-btn{
+    background:none;
+    color: #4f6379;
+    display: inline;
+    border: none;
+    width: auto;
+    font-size: 18px;
+    position: relative;
+    height: 25px;
+    left:10px;
+}
+.dark .cls-btn:hover{
+    background:none;
+    color: #5e6980;
+    display: inline;
+    border: none;
+    width: auto;
+    font-size: 18px;
+}

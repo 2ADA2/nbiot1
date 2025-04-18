@@ -41,18 +41,31 @@ form .measurement section{
 .measurements{
     display: flex;
     gap:2px;
+    justify-content: center;
 }
 .measurements .console{
     width: 50%;
     gap:0;
     position: relative;
+    max-width: 800px;
+}
+.measurements h5{
+    display: inline-flex;
 }
 .measurements .console .measurements-list{
     width: 100%;
-    border:1px solid black;
+    border:1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
     height: 200px;
     overflow-y: scroll;
     padding: 4px;
+    max-width: 800px;
+}
+
+.measurements .console .cls-btn{
+    position: absolute;
+    bottom: 0;
+    left:0;
 }
 
 .measurements-list-item{
@@ -61,22 +74,42 @@ form .measurement section{
     grid-template-rows:20px 20px;
     cursor: pointer;
     margin-bottom:4px;
-    border:1px solid black;
+    outline:1px solid black;
     padding:6px;
     font-size: 14px;
     border-radius: 5px;
+    border-right: 20px solid rgba(0, 0, 0, 0.5)
+}
+.measurements-list-item:hover {
+    border-color: rgba(0, 0, 0, 0.45);
+}
+.real{
+    border-right: 10px solid #72ff7e;
 }
 .console h5{
     text-align: start;
 }
-.measurements .clear-measure{
-    position: absolute;
-    right:0;
-    bottom:0;
-    width: 60px;
-    height:30px;
-    font-size: 14px;
+.cls-btn{
+    background:none;
+    color: #4f6379;
+    display: inline;
+    border: none;
+    width: auto;
+    font-size: 18px;
+    position: relative;
+    height: 25px;
+    left:10px;
 }
+
+.cls-btn:hover{
+    background:none;
+    color: #353f4f;
+    display: inline;
+    border: none;
+    width: auto;
+    font-size: 18px;
+}
+
 .imitator-settings, .measurement, .measurements{
     margin-bottom: 20px;
 }

@@ -13,7 +13,7 @@ export const Home = observer(() => {
     const [page, setPage] = useState(0);
     const [consoleVal, setConsoleVal] = useState(localStorage.getItem("consoleVal") || "");
     const [inputVal, setInputVal] = useState("");
-    const [proc, setProc] = useState(global.processor);
+    const [proc, setProc] = useState(global.processor || []);
 
     const consoleRef = useRef(null);
 

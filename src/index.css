@@ -172,6 +172,9 @@ button {
 button:hover {
     background-color: #425063;
 }
+.def-btn{
+    margin:0;
+}
 
 select:focus {
     border: 2px solid #868686;

@@ -52,35 +52,39 @@ export const DevSettings = observer(() => {
         }, {headers: {"Authorization": global.token}})
             .then((res) => {
                 if (typeof (res.data) === "object") {
-                    setTarget(res.data.MeasList)
+                    setTarget(res.data.MeasList || [])
                     return
                 }
-                setTarget("no data")
+                setTarget([])
             })
-            .catch((err) => errorAnalyze(err))
+            .catch((err) => {
+                errorAnalyze(err)
+                setTarget([])
+            })
 
         axios.post(global.way + "/list measure/" + device.Device.DevId, {
             "MeasList": "fulfilled "
         }, {headers: {"Authorization": global.token}})
             .then((res) => {
                 if (typeof (res.data) === "object") {
-                    setFullFilled(CreateList(res.data))
+                    setFullFilled(res.data.MeasList || [])
                     return
                 }
-                setFullFilled("no data")
+                setFullFilled([])
             })
-            .catch((err) => errorAnalyze(err))
+            .catch((err) => {
+                setFullFilled([])
+                errorAnalyze(err)
+            })
     }
 
 
     useEffect(() => {
         if (device.empty) global.setLocation("/sources")
         getState()
-
         const interval = setInterval(() => {
             getState()
         }, 20000)
-
         return () => {
             clearInterval(interval)
         }
@@ -338,35 +342,49 @@ export const DevSettings = observer(() => {
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (target)? CreateList(target) : <FormattedMessage id="measurements.loading"/>
+                            (target) ? <CreateList mass = {target}/> : <FormattedMessage id="measurements.loading"/>
                         }
+                        <button className="cls-btn" onClick={(e) => clearMeasure(e, "target")}>
+                            <FontAwesomeIcon icon={faTrash}/>
+                        </button>
                     </div>
-                              {/*value={target ?? useIntl().formatMessage({id: "measurements.loading"})}>*/}
-                    <button className="clear-measure" onClick={(e) => clearMeasure(e, "target")}><FontAwesomeIcon
-                        icon={faTrash}></FontAwesomeIcon></button>
+                    {/*value={target ?? useIntl().formatMessage({id: "measurements.loading"})}>*/}
                 </div>
 
                 <div className="console">
-                    <h5>
+                <h5>
                         <FormattedMessage id="measurements.completedMeasurements"/>
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (fullFilled) ? fullFilled : <FormattedMessage id="measurements.loading"/>
+                            (fullFilled) ? <CreateList mass ={fullFilled}/> : <FormattedMessage id="measurements.loading"/>
                         }
+
+                        <button className="cls-btn" onClick={(e) => clearMeasure(e, "fullFilled")}>
+                            <FontAwesomeIcon icon={faTrash}/>
+                        </button>
                     </div>
-                    <button className="clear-measure" onClick={(e) => clearMeasure(e, "fulfilled")}><FontAwesomeIcon
-                        icon={faTrash}></FontAwesomeIcon></button>
                 </div>
             </section>
 
+            <button className={"def-btn"} onClick={(e) => clearMeasure(e, "all")} style={{margin: "0 auto 20px auto"}}>
+                <FormattedMessage id="buttons.clearLists"/>
+            </button>
             <h3>
                 <FormattedMessage id="comments.title"/>
+                <button className="cls-btn" onClick={(e) => {
+                    e.preventDefault()
+                    setComment("")
+                    setArtist("")
+                    setTitle("")
+                }}>
+                    <FontAwesomeIcon icon={faTrash}/>
+                </button>
             </h3>
             <section className="comments">
                 <label>
                     <h5>
-                    <FormattedMessage id="comments.header"/>
+                        <FormattedMessage id="comments.header"/>
                     </h5>
                     <input type="text" value={title} onChange={(e) => {
                         setTitle(e.target.value)
@@ -415,12 +433,9 @@ export const DevSettings = observer(() => {
                         </span>
                     </div>
 
-                    <button onClick={(e) => start(e)}
+                    <button onClick={(e) => start(e)} style={{marginTop: 0}}
                             className={started["meas add status"] === "connect" || started["meas add status"] || started["meas add status"] === 0 ? "activated-button" : ""}>
                         <FormattedMessage id="buttons.submit"/>
-                    </button>
-                    <button onClick={(e) => clearMeasure(e, "all")}>
-                        <FormattedMessage id="buttons.clearLists"/>
                     </button>
                 </span>
         </form>}

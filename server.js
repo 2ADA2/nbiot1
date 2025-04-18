@@ -180,7 +180,7 @@ app.post("/sh219%20info/cmd_get", function (req, res) {
 });
 
 app.get("/sh219%20info/protocol%20type", function (req, res) {
-    res.status(200).send({"Protocol type": "sub"});
+    res.status(200).send({"Protocol type": "mqtt"});
 });
 
 app.get("/sub/gw%20settings", function (req, res) {
@@ -188,6 +188,13 @@ app.get("/sub/gw%20settings", function (req, res) {
         GW_Settings: {
             State: "123"
         }
+    });
+});
+app.post("/mqtt/list%20measure/10:19:19:31:11:51", function (req, res) {
+    res.status(200).json({
+        MeasList: [
+            "12.11.2007T4:17:54"
+        ]
     });
 });
 app.post("/sub/gw%20settings", function (req, res) {
