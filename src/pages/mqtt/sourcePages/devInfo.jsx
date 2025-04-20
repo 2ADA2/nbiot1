@@ -44,6 +44,7 @@ export const DevInfo = observer(() => {
     return <Page
         header={<FormattedMessage id = "deviceSettings.header"/>}
         header2={<FormattedMessage id = "deviceInfo.title"/>}
+        subHeader={device.Device.DevId}
         elem={
             <>
                 <section className="devInfo">

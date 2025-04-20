@@ -24,6 +24,8 @@ export const DevSettings = observer(() => {
     const [target, setTarget] = useState()
     const [fullFilled, setFullFilled] = useState()
     const [started, setStarted] = useState({"meas add status": null})
+    const [targetInfo, setTargetInfo] = useState([]);
+    const [fullFilledInfo, setFullFilledInfo] = useState([]);
 
     const [time, setTime] = useState(0);
     const [repeat, setRepeat] = useState(0)
@@ -77,6 +79,34 @@ export const DevSettings = observer(() => {
                 errorAnalyze(err)
             })
     }
+
+    async function getMeasInfo(list, type) {
+        let newTargetList = []
+        for (let i of list) {
+            const res = await axios.post(global.way + "/measure inf/" + device.Device.DevId, {
+                "MeasList": type,
+                "Tstart": i
+            }, {
+                headers: {"Authorization": global.token}
+            })
+            newTargetList.push(res.data)
+        }
+        return newTargetList
+    }
+
+    useEffect(() => {
+        if (target) {
+            getMeasInfo(target, "target").then(res => {
+                setTargetInfo(res)
+            })
+        }
+    }, [target]);
+
+    useEffect(() => {
+        if (fullFilled) {
+            getMeasInfo(fullFilled, "fulfilled").then(res => setFullFilledInfo(res))
+        }
+    }, [fullFilled]);
 
 
     useEffect(() => {
@@ -144,6 +174,7 @@ export const DevSettings = observer(() => {
     return <Page
         header={<FormattedMessage id="deviceSettings.header"/>}
         header2={<FormattedMessage id="deviceSettings.subheader"/>}
+        subHeader={device.Device.DevId}
         elem={<form className="devSettings">
             <h3>
                 <FormattedMessage id="measurementSettings.title"/>
@@ -342,7 +373,8 @@ export const DevSettings = observer(() => {
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (target) ? <CreateList mass = {target}/> : <FormattedMessage id="measurements.loading"/>
+                            (target) ? <CreateList mass={targetInfo} type={"target"}/> :
+                                <FormattedMessage id="measurements.loading"/>
                         }
                         <button className="cls-btn" onClick={(e) => clearMeasure(e, "target")}>
                             <FontAwesomeIcon icon={faTrash}/>
@@ -352,12 +384,13 @@ export const DevSettings = observer(() => {
                 </div>
 
                 <div className="console">
-                <h5>
+                    <h5>
                         <FormattedMessage id="measurements.completedMeasurements"/>
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (fullFilled) ? <CreateList mass ={fullFilled}/> : <FormattedMessage id="measurements.loading"/>
+                            (fullFilled) ? <CreateList mass={fullFilledInfo} type={"fullFilled"}/> :
+                                <FormattedMessage id="measurements.loading"/>
                         }
 
                         <button className="cls-btn" onClick={(e) => clearMeasure(e, "fullFilled")}>

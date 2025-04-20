@@ -176,6 +176,7 @@ export const DevCommands = () => {
     return <Page
         header={<FormattedMessage id="commands.header"/>}
         header2={<FormattedMessage id="commands.subheader"/>}
+        subHeader={device.Device.DevId}
         elem={
             <form>
                 <section className="commands">

@@ -185,7 +185,8 @@ class Global {
 
     updateDevices() {
         connect(this.way + "/sources", this.token).then((res) => {
-            this.deviceList = res.data.Sources.slice();
+            res = res.data.Sources.slice();
+            this.deviceList = res
 
             new Promise((res) => {
                 let newDevs = [];
@@ -196,7 +197,9 @@ class Global {
                             connect(this.way + "/utc state/" + device, this.token).then((res) => {
                                 dev.utc = res.data.UtcState;
                                 newDevs.push(dev.data)
-                                if (newDevs.length === this.deviceList.length) this.devices = newDevs
+                                if (newDevs.length === this.deviceList.length) {
+                                    this.devices = newDevs
+                                }
                             })
                         })
                     })

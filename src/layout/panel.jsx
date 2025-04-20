@@ -40,7 +40,7 @@ export const Panel = observer(() => {
 
         return (
             <>
-                <div style={{position:"fixed", bottom:2, left:10, fontSize:8, zIndex:3001, color:"white"}}>v 0.10.5</div>
+                <div style={{position:"fixed", bottom:2, left:10, fontSize:8, zIndex:3001, color:"white"}}>v 0.11</div>
                 <aside className="panel" onClick={() => updateLocation()}>
                     <nav className="panel-nav">
                         <Link to={HOME_ROUTE} className={page === "/" ? "opened" : ""} onClick={() => {

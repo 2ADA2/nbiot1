@@ -18,7 +18,8 @@ function createTime() {
 
 let devs = {
     "Sources": [
-        "10:19:19:31:11:51"
+        "10:19:19:31:11:51",
+
     ]
 }
 app.get('/mqtt/sources', (req, res) => {
@@ -54,6 +55,45 @@ app.get('/mqtt/DBState/10:19:19:31:11:51', (req, res) => {
     res.status(200).json({
         "DBState": false
     })
+})
+
+app.post("/mqtt/measure%20inf/10:19:19:31:11:51", (req, res) => {
+    if(req.body.Tstart === "12.11.2007T4:20:00"){
+        res.status(200).json({
+            "MeasSchedule": {
+                "Tmeas": 30,
+                "Trepeat": 0,
+                "Tstart": "2022-08-25T09:39:19",
+                "MeasType": "Real",
+                "FIRmode": 0
+            },
+            "MeasComment": {
+                "Title": "",
+                "Comment": "",
+                "Artist": ""
+            }
+        })
+    } else if (req.body.Tstart === "12.11.2007T4:17:54"){
+        res.status(200).json({
+            "MeasSchedule": {
+                "Tmeas": 10,
+                "Trepeat": 0,
+                "Tstart": "12.11.2007T4:17:54",
+                "MeasType": "Imit",
+                "FIRmode": 1,
+                "Nois": 10,
+                "Sig1": [1000, 100, 0],
+                "Sig2": [1500, 50, 45],
+                "Sig3": [2000, 20, 15]
+            },
+            "MeasComment": {
+                "Title": "Тестовое измерение",
+                "Comment": "Когда выполниться провести релаьное",
+                "Artist": "Артем Дубровский"
+            }
+        })
+    }
+
 })
 
 app.post('/mqtt/DB/10:19:19:31:11:51', (req, res) => {
@@ -119,6 +159,14 @@ app.get('/sub/dev%20info/10:19:19:31:11:51', (req, res) => {
         }
     })
 })
+app.post("/mqtt/list%20measure/10:19:19:31:11:51", function (req, res) {
+    res.status(200).json({
+        MeasList: [
+            "12.11.2007T4:17:54",
+            "12.11.2007T4:20:00",
+        ]
+    });
+});
 
 let state = false
 app.get("/mqtt/state", (req, res) => {
@@ -174,7 +222,7 @@ app.post("/sh219%20info/cmd_get", function (req, res) {
                 "Hardware        : Generic AM33XX (Flattened Device Tree)\n" +
                 "Revision        : 0000\n" +
                 "Serial          : 80:f5:b5:d8:8b:93")
-        },100000)
+        }, 100000)
     } else res.status(200).send("pong")
 
 });
@@ -190,13 +238,6 @@ app.get("/sub/gw%20settings", function (req, res) {
         }
     });
 });
-app.post("/mqtt/list%20measure/10:19:19:31:11:51", function (req, res) {
-    res.status(200).json({
-        MeasList: [
-            "12.11.2007T4:17:54"
-        ]
-    });
-});
 app.post("/sub/gw%20settings", function (req, res) {
     res.status(200).json("accepted to execution")
 });
@@ -204,7 +245,7 @@ app.post("/sub/cmd/10:19:19:31:11:51", function (req, res) {
     if (req.body.USER_CMD === "GET SUB SHEDULE") {
         res.status(200).json({
             "Quantity": 2,
-            "Shedul": [[1, 1, 3],[1, 5, 0]],
+            "Shedul": [[1, 1, 3], [1, 5, 0]],
         })
     } else {
         res.status(200).send("ok")
