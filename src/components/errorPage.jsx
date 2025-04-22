@@ -6,10 +6,10 @@ import global from "../store/global";
 export const ErrorPage = ({toBack = true, err = {}}) => {
     return (
         <>
-            <header >
+            <header style={{display : "flex", position:"relative"}} className={"loading-header"}>
                 <h1>NB-IoT collector</h1>
             </header>
-            <Page header = "Connecting" header2="Connecting to the server (Failed)"
+            <Page header = "Connecting" header2="Connecting to the server (Failed)" isOnly={true}
                 elem = {
                     <section className="error-page">
                         <h1>Connection Failed</h1>

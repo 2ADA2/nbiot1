@@ -21,7 +21,7 @@ export const CreateList = ({mass, type}) => {
                     <section className={"UI-settings-page meas-modal"}>
                         {(isImit) ? <>
                             <div className="modal-row">
-                                <h3 style={{gridColumn:"1/3"}}>{e.MeasComment.Artist || "Без автора"}:{e.MeasComment.Title || "Без названия"}</h3>
+                                <h3 style={{gridColumn:"1/3"}}>{e.MeasComment.Artist || "Без автора"}:{e.MeasComment.Titel || "Без названия"}</h3>
                                 <span style={{gridColumn:"1/3"}}>{e.MeasComment.Comment}</span>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Время измерения </h5>
                                 <h5> {e.MeasSchedule.Tmeas} сек </h5>
@@ -80,7 +80,7 @@ export const CreateList = ({mass, type}) => {
                             </div>
 
                         </> : <>
-                            <h3>{e.MeasComment.Artist || "Без автора"}:{e.MeasComment.Title || "Без названия"}</h3>
+                            <h3>{e.MeasComment.Artist || "Без автора"}:{e.MeasComment.Titel || "Без названия"}</h3>
                             <span>{e.MeasComment.Comment}</span>
                             <div className="modal-row">
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Время измерения </h5>
@@ -120,7 +120,7 @@ export const CreateList = ({mass, type}) => {
 
                     <div>
                         <span style={{gridColumn: "2/4"}}>
-                            {comments.Artist || "Без автора"}: {comments.Title || "Без названия"}
+                            {comments.Artist || "Без автора"}: {comments.Titel || "Без названия"}
                         </span>
                         <span style={{gridColumn: "2/4"}} className={"secondary"}>
                             {comments.Comment}

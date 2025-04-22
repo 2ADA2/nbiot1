@@ -83,7 +83,7 @@ export const DevSettings = observer(() => {
     async function getMeasInfo(list, type) {
         let newTargetList = []
         for (let i of list) {
-            const res = await axios.post(global.way + "/measure inf/" + device.Device.DevId, {
+            const res = await axios.post(global.way + "/inf measure/" + device.Device.DevId, {
                 "MeasList": type,
                 "Tstart": i
             }, {
@@ -466,7 +466,7 @@ export const DevSettings = observer(() => {
                         </span>
                     </div>
 
-                    <button onClick={(e) => start(e)} style={{marginTop: 0}}
+                    <button onClick={(e) => start(e)} style={{marginTop: 20}}
                             className={started["meas add status"] === "connect" || started["meas add status"] || started["meas add status"] === 0 ? "activated-button" : ""}>
                         <FormattedMessage id="buttons.submit"/>
                     </button>

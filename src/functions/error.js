@@ -5,13 +5,7 @@ export const errorAnalyze = function (err, func = (err) => {}, updToken = () => 
     }
     const res = err.response
     if (res.status === 401){
-        func({
-            name:"401",
-            message:"no authorization",
-            stack: err.stack
-        })
-        setTimeout(() => updToken(),1000)
-
+        updToken()
     } else if(res.status === 404){
         func({
             name:"404",

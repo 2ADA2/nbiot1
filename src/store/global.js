@@ -17,6 +17,7 @@ class Global {
     shWay = (this.http ?? window.location.origin + "/") + "sh219 info";
     progType = localStorage.getItem("progType") || "mqtt";
     processor = null
+    os = ""
 
     user = localStorage.getItem("userName")
     password = localStorage.getItem("password")
@@ -91,6 +92,7 @@ class Global {
             .then(res => {
                 this.token = res["Token"]
                 if (!this.token) throw new Error()
+                localStorage.clear()
                 localStorage.setItem("token", res["Token"])
                 this.userName = data.name;
                 this.password = data.password;
@@ -214,7 +216,6 @@ class Global {
     }
 
     async checkDevs() {
-
         const interval = setInterval(() => {
             if (this.devices.length === this.deviceList.length && this.settings) {
                 this.isLoading = false
@@ -228,6 +229,20 @@ class Global {
     }
 
     updateAll() {
+        if(this.os){
+            if(!this.processor && this.os === "linux"){
+                this.updateProcessor()
+            }
+        } else{
+            axios.get(this.shWay+"/operating system",{
+                headers: {
+                    Authorization:this.token
+                }
+            }).then((res) => {
+                this.os = res.data["operating system"]
+                if(res.data["operating system"] === "linux") this.updateProcessor()
+            })
+        }
         this.updateSettings()
             .then(() => {
                 this.progType === "mqtt" ?
