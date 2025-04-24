@@ -22,7 +22,9 @@ export const DevSettings = observer(() => {
     const [date, setDate] = useState(convertTime(new Date()));
 
     const [target, setTarget] = useState()
+    const [targetStates, setTargetStates] = useState();
     const [fullFilled, setFullFilled] = useState()
+    const [fullFilledStates, setFullFilledStates] = useState();
     const [started, setStarted] = useState({"meas add status": null})
     const [targetInfo, setTargetInfo] = useState([]);
     const [fullFilledInfo, setFullFilledInfo] = useState([]);
@@ -55,9 +57,11 @@ export const DevSettings = observer(() => {
             .then((res) => {
                 if (typeof (res.data) === "object") {
                     setTarget(res.data.MeasList || [])
+                    setTargetStates(res.data.MeasState)
                     return
                 }
                 setTarget([])
+                setTargetStates([])
             })
             .catch((err) => {
                 errorAnalyze(err)
@@ -70,9 +74,11 @@ export const DevSettings = observer(() => {
             .then((res) => {
                 if (typeof (res.data) === "object") {
                     setFullFilled(res.data.MeasList || [])
+                    setFullFilledStates(res.data.MeasState || [])
                     return
                 }
                 setFullFilled([])
+                setTargetStates([])
             })
             .catch((err) => {
                 setFullFilled([])
@@ -83,6 +89,7 @@ export const DevSettings = observer(() => {
     async function getMeasInfo(list, type) {
         let newTargetList = []
         for (let i of list) {
+            if(i.isPlanning) continue
             const res = await axios.post(global.way + "/inf measure/" + device.Device.DevId, {
                 "MeasList": type,
                 "Tstart": i
@@ -135,9 +142,19 @@ export const DevSettings = observer(() => {
 
     function start(e) {
         e.preventDefault()
+        const newMeasure = {
+            isPlanning:true,
+            MeasComment:{
+                Titel:title, artist:artist, comment:comment
+            },
+            MeasSchedule:{
+                Tstart:date
+            }
+        }
         if (started["meas add status"] === "connect" || started["meas add status"]) return
         setStarted({"meas add status": "connect"})
         if (mode === "imitatorMode") {
+            setTargetInfo([...targetInfo, newMeasure])
             const res = startMeasureImit(global.way + "/measure/" + device.Device.DevId, {
                 date,
                 time,
@@ -156,17 +173,28 @@ export const DevSettings = observer(() => {
                 SignB3,
                 SignC3,
                 Noise,
-            }, global.token, (data) => setStarted(data)).then(() => getState())
+            }, global.token, (data) => setStarted(data))
+                .then(() => setTimeout( () => getState(), 3000))
             setStarted(res)
         } else {
+            setTargetInfo([...targetInfo, newMeasure])
             startMeasure(global.way + "/measure/" + device.Device.DevId, {
                 date, time, repeat, filter, title, comment, artist
-            }, global.token, (data) => setStarted(data)).then(() => getState()).catch(() => global.updateToken())
+            }, global.token, (data) => setStarted(data))
+                .then(() => setTimeout( () => getState(), 3000))
+                .catch(() => global.updateToken())
         }
     }
 
     function clearMeasure(e, measure) {
         e.preventDefault()
+        if(measure === "target"){
+            setTarget([])
+            setTargetInfo([])
+        } else{
+            setFullFilledInfo([])
+            setFullFilled([])
+        }
         clear(global.way + '/clear measure/' + device.Device.DevId, global.token, measure)
             .then(() => getState())
     }
@@ -373,7 +401,7 @@ export const DevSettings = observer(() => {
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (target) ? <CreateList mass={targetInfo} type={"target"}/> :
+                            (target && targetStates) ? <CreateList mass={targetInfo} type={"target"} states = {targetStates}/> :
                                 <FormattedMessage id="measurements.loading"/>
                         }
                         <button className="cls-btn" onClick={(e) => clearMeasure(e, "target")}>
@@ -389,7 +417,7 @@ export const DevSettings = observer(() => {
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (fullFilled) ? <CreateList mass={fullFilledInfo} type={"fullFilled"}/> :
+                            (fullFilled && fullFilledStates) ? <CreateList mass={fullFilledInfo} type={"fullFilled"} states = {fullFilledStates}/> :
                                 <FormattedMessage id="measurements.loading"/>
                         }
 
