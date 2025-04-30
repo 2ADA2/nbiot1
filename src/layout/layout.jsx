@@ -11,17 +11,7 @@ import EN from "../localization/en.json";
 import "../styles/themes/dark.css"
 
 export const Layout = observer(() => {
-
     //внешний вид
-    useEffect(() => {
-        global.intervalUpdate()
-        const interval = setInterval(() => {
-            global.intervalUpdate()
-        }, 60000);
-        return () => {
-            clearInterval(interval)
-        };
-    }, []);
 
     const messages = {
         "ru": RU,

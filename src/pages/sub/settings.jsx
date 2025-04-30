@@ -8,7 +8,6 @@ import {Counter} from "../../components/counter";
 import {CheckBox} from "../../components/checkbox";
 import axios from "axios";
 import {sendCmd} from "../../functions/cmd";
-import {connect} from "../../functions/connect";
 
 
 export const SettingsSub = observer(() => {
@@ -67,7 +66,7 @@ export const SettingsSub = observer(() => {
 
     const waitCMD = async () => {
         const cmdInterval = setInterval(() => {
-            connect(global.subWay + "/cmd execution state", global.token)
+            axios.get(global.subWay + "/cmd execution state", {headers:{"Authorization":global.token}})
                 .then((res) => {
                     if (res.data.Info !== "execution" || cmdCount) {
                         console.log("clear:" + res.data.Info + cmdCount)

@@ -95,7 +95,7 @@ export const DevSettings = observer(() => {
                 "Tstart": i
             }, {
                 headers: {"Authorization": global.token}
-            })
+            }).catch(() => {})
             newTargetList.push(res.data)
         }
         return newTargetList
@@ -155,6 +155,8 @@ export const DevSettings = observer(() => {
         setStarted({"meas add status": "connect"})
         if (mode === "imitatorMode") {
             setTargetInfo([...targetInfo, newMeasure])
+            setTargetStates([...targetStates, ""])
+            setTarget([...target, newMeasure.MeasSchedule.Tstart])
             const res = startMeasureImit(global.way + "/measure/" + device.Device.DevId, {
                 date,
                 time,
@@ -178,6 +180,8 @@ export const DevSettings = observer(() => {
             setStarted(res)
         } else {
             setTargetInfo([...targetInfo, newMeasure])
+            setTargetStates([...targetStates, ""])
+            setTarget([...target, newMeasure.MeasSchedule.Tstart])
             startMeasure(global.way + "/measure/" + device.Device.DevId, {
                 date, time, repeat, filter, title, comment, artist
             }, global.token, (data) => setStarted(data))

@@ -8,8 +8,10 @@ export const CreateList = ({mass, type, states}) => {
     return (<>
         {mass.map((e, i) => {
             const comments = e.MeasComment
-            const state = states[i]
-            const isOk = state.toLowerCase() === "ok"
+            let state = states[i]
+            const isPlanning = e.isPlanning || state === ""
+            const isOk = state.toLowerCase() === "ok" || isPlanning
+            if(isOk) state = "ok"
             const Tstart = e.MeasSchedule.Tstart.split("")
             const date = Tstart.slice(0, Tstart.indexOf("T"))
             const time = Tstart.slice(Tstart.indexOf("T") + 1, e.length)
@@ -31,6 +33,8 @@ export const CreateList = ({mass, type, states}) => {
                                 <h5> {e.MeasSchedule.Trepeat} сек </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Время исполнения </h5>
                                 <h5> {e.MeasSchedule.Tstart} </h5>
+                                <h5 style={{display: "flex", justifyContent: "flex-end"}}> Статус </h5>
+                                <h5> {state} </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Тип </h5>
                                 <h5> {e.MeasSchedule.MeasType} </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> FIRmode </h5>
@@ -91,6 +95,8 @@ export const CreateList = ({mass, type, states}) => {
                                 <h5> {e.MeasSchedule.Trepeat} сек </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Время исполнения </h5>
                                 <h5> {e.MeasSchedule.Tstart} </h5>
+                                <h5 style={{display: "flex", justifyContent: "flex-end"}}> Статус </h5>
+                                <h5> {state} </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Тип </h5>
                                 <h5> {e.MeasSchedule.MeasType} </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> FIRmode </h5>
@@ -104,7 +110,7 @@ export const CreateList = ({mass, type, states}) => {
                         </button>
                     </section>
                 </>}
-                <div key={i} className={"measurements-list-item " + (isImit && "imit")}
+                <div key={i} className={"measurements-list-item " + (e.isPlanning && " planning") + (isOk ? (isImit)? " imit":" real" : " err")}
                      onClick={() => {
                          if(!e.isPlanning) setModal(e.MeasSchedule.Tstart)
                      }}>
@@ -120,7 +126,7 @@ export const CreateList = ({mass, type, states}) => {
                         <span style={{gridColumn: "1"}} className={"secondary"}>
                             {
                                 (!isOk) ? "Ошибка: " + state :
-                                    e.isPlanning ? "принято планировщиком":
+                                    isPlanning ? "принято планировщиком":
                                         (type === "target") ? "Принято устройством" :
                                             "выполнено устройством"
                             }

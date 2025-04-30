@@ -49,10 +49,6 @@ input:focus{
     outline: none;
 }
 
-.Last-Will select option{
-    font-size: 26px;
-}
-
 .page .counter-container{
     display: flex;
     flex-direction: row;
