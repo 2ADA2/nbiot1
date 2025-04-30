@@ -104,11 +104,11 @@ form .measurement section{
 .imit:hover{
     border-right: 20px solid rgba(0, 134, 103, 0.9);
 }
-.planning .err{
+.measurements-list .planning{
     border-right: 20px solid #433e57;
 }
 .planning:hover{
-    border-right: 20px solid #433e57;
+    border-right: 20px solid #554e6e;
 }
 .measurements-list .err{
     border-right: 20px solid #ff2828;

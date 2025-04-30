@@ -210,18 +210,18 @@ class Global {
             this.deviceList = res
             let newDevs = [];
             for (let device of Array.from(res)) {
-                const res = await axios.get(this.way + "/dev info/" + device, {headers:{"Authorization": this.token}})
-                let dev = res.data
-
-                const dbs = await axios.get(this.way + "/DBState/" + device, {headers: {"Authorization": this.token}})
-                dev.inDB = dbs.data.PutDBState
-
-                const utcs = await axios.get(this.way + "/utc state/" + device, {headers: {"Authorization": this.token}})
-                dev.utc = utcs.data.UtcState
-                newDevs.push(dev)
-                if (newDevs.length === this.deviceList.length) {
-                    this.devices = newDevs
-                }
+                axios.get(this.way + "/dev info/" + device, {headers:{"Authorization": this.token}})
+                    .then((res) => {
+                        let dev = res.data
+                        newDevs.push(dev)
+                        if (newDevs.length === this.deviceList.length) {
+                            this.devices = newDevs
+                        }
+                    })
+            }
+            if(!res.length){
+                this.deviceList = []
+                this.devices = []
             }
             this.checkDevs()
             this.updateConnection()

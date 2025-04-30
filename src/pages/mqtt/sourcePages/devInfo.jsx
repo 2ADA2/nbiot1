@@ -10,6 +10,7 @@ import {setDBSettings} from "../../../functions/requests";
 import {getErrors} from "../../../functions/statusBitMask";
 import {getDeviceState} from "../../../functions/deviceState";
 import {FormattedMessage} from "react-intl/lib";
+import axios from "axios";
 
 export const DevInfo = observer(() => {
     const device = useDevice(global.devices)
@@ -23,6 +24,9 @@ export const DevInfo = observer(() => {
         if (device.empty) {
             global.setLocation("/sources")
         }
+        axios.get(global.way + "/DBState/" + device.Device.DevId, {headers: {"Authorization": global.token}})
+            .then((res) => setInDB(res.data.PutDBState))
+
         return
     }, []);
 

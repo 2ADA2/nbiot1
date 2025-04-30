@@ -110,7 +110,7 @@ export const CreateList = ({mass, type, states}) => {
                         </button>
                     </section>
                 </>}
-                <div key={i} className={"measurements-list-item " + (e.isPlanning && " planning") + (isOk ? (isImit)? " imit":" real" : " err")}
+                <div key={i} className={"measurements-list-item " + (isPlanning && " planning") + (isOk ? (isImit)? " imit":" real" : " err")}
                      onClick={() => {
                          if(!e.isPlanning) setModal(e.MeasSchedule.Tstart)
                      }}>

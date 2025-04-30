@@ -33,6 +33,7 @@ export const DevSettings = observer(() => {
     const [repeat, setRepeat] = useState(0)
     const [mode, setMode] = useState("measurement")
     const [filter, setFilter] = useState(1)
+    const [isUtc, setIsUtc] = useState(false);
 
     const [title, setTitle] = useState("");
     const [comment, setComment] = useState("");
@@ -96,7 +97,7 @@ export const DevSettings = observer(() => {
             }, {
                 headers: {"Authorization": global.token}
             }).catch(() => {})
-            newTargetList.push(res.data)
+            if(res) newTargetList.push(res.data)
         }
         return newTargetList
     }
@@ -122,6 +123,9 @@ export const DevSettings = observer(() => {
         const interval = setInterval(() => {
             getState()
         }, 20000)
+        axios.get(global.way + "/utc state/" + device.Device.DevId, {headers: {"Authorization": global.token}})
+            .then((res) => setIsUtc(res.data.UtcState))
+
         return () => {
             clearInterval(interval)
         }
@@ -136,27 +140,15 @@ export const DevSettings = observer(() => {
     }, [started])
 
     function utcSet() {
-        setUTC(global.way + "/utc set/" + device.Device.DevId, !device.utc, global.token)
-            .then(() => global.updateDevices())
+        setIsUtc(!isUtc)
+        setUTC(global.way + "/utc set/" + device.Device.DevId, isUtc, global.token)
     }
 
     function start(e) {
         e.preventDefault()
-        const newMeasure = {
-            isPlanning:true,
-            MeasComment:{
-                Titel:title, artist:artist, comment:comment
-            },
-            MeasSchedule:{
-                Tstart:date
-            }
-        }
         if (started["meas add status"] === "connect" || started["meas add status"]) return
         setStarted({"meas add status": "connect"})
         if (mode === "imitatorMode") {
-            setTargetInfo([...targetInfo, newMeasure])
-            setTargetStates([...targetStates, ""])
-            setTarget([...target, newMeasure.MeasSchedule.Tstart])
             const res = startMeasureImit(global.way + "/measure/" + device.Device.DevId, {
                 date,
                 time,
@@ -179,9 +171,6 @@ export const DevSettings = observer(() => {
                 .then(() => setTimeout( () => getState(), 3000))
             setStarted(res)
         } else {
-            setTargetInfo([...targetInfo, newMeasure])
-            setTargetStates([...targetStates, ""])
-            setTarget([...target, newMeasure.MeasSchedule.Tstart])
             startMeasure(global.way + "/measure/" + device.Device.DevId, {
                 date, time, repeat, filter, title, comment, artist
             }, global.token, (data) => setStarted(data))
@@ -245,7 +234,7 @@ export const DevSettings = observer(() => {
                 </section>
                 <section className="inputs">
                     <div className={"meas-block"}>
-                        <h5>UTC</h5><CheckBox checked={device.utc} setValue={utcSet}/>
+                        <h5>UTC</h5><CheckBox checked={isUtc} setValue={utcSet}/>
                     </div>
                     <div className={"meas-block"}>
                         <h5>
