@@ -22,7 +22,9 @@ export const DevSettings = observer(() => {
     const [date, setDate] = useState(convertTime(new Date()));
 
     const [target, setTarget] = useState()
+    const [targetStates, setTargetStates] = useState();
     const [fullFilled, setFullFilled] = useState()
+    const [fullFilledStates, setFullFilledStates] = useState();
     const [started, setStarted] = useState({"meas add status": null})
     const [targetInfo, setTargetInfo] = useState([]);
     const [fullFilledInfo, setFullFilledInfo] = useState([]);
@@ -31,6 +33,7 @@ export const DevSettings = observer(() => {
     const [repeat, setRepeat] = useState(0)
     const [mode, setMode] = useState("measurement")
     const [filter, setFilter] = useState(1)
+    const [isUtc, setIsUtc] = useState(false);
 
     const [title, setTitle] = useState("");
     const [comment, setComment] = useState("");
@@ -55,9 +58,11 @@ export const DevSettings = observer(() => {
             .then((res) => {
                 if (typeof (res.data) === "object") {
                     setTarget(res.data.MeasList || [])
+                    setTargetStates(res.data.MeasState)
                     return
                 }
                 setTarget([])
+                setTargetStates([])
             })
             .catch((err) => {
                 errorAnalyze(err)
@@ -70,9 +75,11 @@ export const DevSettings = observer(() => {
             .then((res) => {
                 if (typeof (res.data) === "object") {
                     setFullFilled(res.data.MeasList || [])
+                    setFullFilledStates(res.data.MeasState || [])
                     return
                 }
                 setFullFilled([])
+                setTargetStates([])
             })
             .catch((err) => {
                 setFullFilled([])
@@ -83,13 +90,14 @@ export const DevSettings = observer(() => {
     async function getMeasInfo(list, type) {
         let newTargetList = []
         for (let i of list) {
+            if(i.isPlanning) continue
             const res = await axios.post(global.way + "/inf measure/" + device.Device.DevId, {
                 "MeasList": type,
                 "Tstart": i
             }, {
                 headers: {"Authorization": global.token}
-            })
-            newTargetList.push(res.data)
+            }).catch(() => {})
+            if(res) newTargetList.push(res.data)
         }
         return newTargetList
     }
@@ -115,6 +123,9 @@ export const DevSettings = observer(() => {
         const interval = setInterval(() => {
             getState()
         }, 20000)
+        axios.get(global.way + "/utc state/" + device.Device.DevId, {headers: {"Authorization": global.token}})
+            .then((res) => setIsUtc(res.data.UtcState))
+
         return () => {
             clearInterval(interval)
         }
@@ -129,8 +140,8 @@ export const DevSettings = observer(() => {
     }, [started])
 
     function utcSet() {
-        setUTC(global.way + "/utc set/" + device.Device.DevId, !device.utc, global.token)
-            .then(() => global.updateDevices())
+        setIsUtc(!isUtc)
+        setUTC(global.way + "/utc set/" + device.Device.DevId, isUtc, global.token)
     }
 
     function start(e) {
@@ -156,17 +167,27 @@ export const DevSettings = observer(() => {
                 SignB3,
                 SignC3,
                 Noise,
-            }, global.token, (data) => setStarted(data)).then(() => getState())
+            }, global.token, (data) => setStarted(data))
+                .then(() => setTimeout( () => getState(), 3000))
             setStarted(res)
         } else {
             startMeasure(global.way + "/measure/" + device.Device.DevId, {
                 date, time, repeat, filter, title, comment, artist
-            }, global.token, (data) => setStarted(data)).then(() => getState()).catch(() => global.updateToken())
+            }, global.token, (data) => setStarted(data))
+                .then(() => setTimeout( () => getState(), 3000))
+                .catch(() => global.updateToken())
         }
     }
 
     function clearMeasure(e, measure) {
         e.preventDefault()
+        if(measure === "target"){
+            setTarget([])
+            setTargetInfo([])
+        } else{
+            setFullFilledInfo([])
+            setFullFilled([])
+        }
         clear(global.way + '/clear measure/' + device.Device.DevId, global.token, measure)
             .then(() => getState())
     }
@@ -213,7 +234,7 @@ export const DevSettings = observer(() => {
                 </section>
                 <section className="inputs">
                     <div className={"meas-block"}>
-                        <h5>UTC</h5><CheckBox checked={device.utc} setValue={utcSet}/>
+                        <h5>UTC</h5><CheckBox checked={isUtc} setValue={utcSet}/>
                     </div>
                     <div className={"meas-block"}>
                         <h5>
@@ -373,7 +394,7 @@ export const DevSettings = observer(() => {
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (target) ? <CreateList mass={targetInfo} type={"target"}/> :
+                            (target && targetStates) ? <CreateList mass={targetInfo} type={"target"} states = {targetStates}/> :
                                 <FormattedMessage id="measurements.loading"/>
                         }
                         <button className="cls-btn" onClick={(e) => clearMeasure(e, "target")}>
@@ -389,7 +410,7 @@ export const DevSettings = observer(() => {
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (fullFilled) ? <CreateList mass={fullFilledInfo} type={"fullFilled"}/> :
+                            (fullFilled && fullFilledStates) ? <CreateList mass={fullFilledInfo} type={"fullFilled"} states = {fullFilledStates}/> :
                                 <FormattedMessage id="measurements.loading"/>
                         }
 

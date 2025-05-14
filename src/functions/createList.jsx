@@ -1,15 +1,17 @@
 import {useState} from "react";
 import {FormattedMessage} from "react-intl/lib";
-import settings from "../store/settings";
-import {Counter} from "../components/counter";
 
-export const CreateList = ({mass, type}) => {
+export const CreateList = ({mass, type, states}) => {
     const [modal, setModal] = useState("");
 
 
     return (<>
         {mass.map((e, i) => {
             const comments = e.MeasComment
+            let state = states[i]
+            const isPlanning = e.isPlanning || state === ""
+            const isOk = state.toLowerCase() === "ok" || isPlanning
+            if(isOk) state = "ok"
             const Tstart = e.MeasSchedule.Tstart.split("")
             const date = Tstart.slice(0, Tstart.indexOf("T"))
             const time = Tstart.slice(Tstart.indexOf("T") + 1, e.length)
@@ -17,7 +19,9 @@ export const CreateList = ({mass, type}) => {
 
             return (<>
                 {(modal === e.MeasSchedule.Tstart) && <>
-                    <div className="UI-settings-page-back" onClick={() => setModal()}/>
+                    <div className="UI-settings-page-back" onClick={() => {
+                        if(!e.isPlanning) setModal()
+                    }}/>
                     <section className={"UI-settings-page meas-modal"}>
                         {(isImit) ? <>
                             <div className="modal-row">
@@ -29,6 +33,8 @@ export const CreateList = ({mass, type}) => {
                                 <h5> {e.MeasSchedule.Trepeat} сек </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Время исполнения </h5>
                                 <h5> {e.MeasSchedule.Tstart} </h5>
+                                <h5 style={{display: "flex", justifyContent: "flex-end"}}> Статус </h5>
+                                <h5> {state} </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Тип </h5>
                                 <h5> {e.MeasSchedule.MeasType} </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> FIRmode </h5>
@@ -89,6 +95,8 @@ export const CreateList = ({mass, type}) => {
                                 <h5> {e.MeasSchedule.Trepeat} сек </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Время исполнения </h5>
                                 <h5> {e.MeasSchedule.Tstart} </h5>
+                                <h5 style={{display: "flex", justifyContent: "flex-end"}}> Статус </h5>
+                                <h5> {state} </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Тип </h5>
                                 <h5> {e.MeasSchedule.MeasType} </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> FIRmode </h5>
@@ -102,8 +110,10 @@ export const CreateList = ({mass, type}) => {
                         </button>
                     </section>
                 </>}
-                <div key={i} className={"measurements-list-item " + (isImit && "imit")}
-                     onClick={() => setModal(e.MeasSchedule.Tstart)}>
+                <div key={i} className={"measurements-list-item " + (isPlanning && " planning") + (isOk ? (isImit)? " imit":" real" : " err")}
+                     onClick={() => {
+                         if(!e.isPlanning) setModal(e.MeasSchedule.Tstart)
+                     }}>
                     <div className={"item-time"}>
                         <span>
                             <span style={{marginRight: 4}}>
@@ -114,7 +124,12 @@ export const CreateList = ({mass, type}) => {
                         </span>
 
                         <span style={{gridColumn: "1"}} className={"secondary"}>
-                            {type === "target" ? "Принято обработчиком" : "выполнено обработчиком"}
+                            {
+                                (!isOk) ? "Ошибка: " + state :
+                                    isPlanning ? "принято планировщиком":
+                                        (type === "target") ? "Принято устройством" :
+                                            "выполнено устройством"
+                            }
                         </span>
                     </div>
 

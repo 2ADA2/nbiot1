@@ -1,6 +1,5 @@
 import {makeAutoObservable} from "mobx";
 import http from "../http.json"
-import {connect} from "../functions/connect";
 import {sortDevs} from "../functions/sortDevs";
 import {errorAnalyze} from "../functions/error";
 import {sendCmd} from "../functions/cmd";
@@ -42,8 +41,33 @@ class Global {
         makeAutoObservable(this)
         if (this.token) {
             this.isAuth = true;
-            this.updateType()
+            this.start()
         }
+    }
+
+    async start() {
+        await this.updateType()
+    }
+
+    async updateAll() {
+        if (this.os) {
+            if (!this.processor && this.os === "linux") {
+                this.updateProcessor()
+            }
+        } else {
+            axios.get(this.shWay + "/operating system", {
+                headers: {
+                    Authorization: this.token
+                }
+            }).then((res) => {
+                this.os = res.data["operating system"]
+                if (res.data["operating system"] === "linux") this.updateProcessor()
+            })
+        }
+
+        await this.updateSettings()
+        await this.intervalUpdate()
+
     }
 
     setType() {
@@ -57,13 +81,13 @@ class Global {
         this.updateAll()
     }
 
-    updateType() {
-        connect(this.shWay + "/protocol type", this.token)
+    async updateType() {
+        axios.get(this.shWay + "/protocol type", {headers: {"Authorization": this.token}})
             .then(res => {
                 this.progType = res.data["Protocol type"]
                 localStorage.setItem("progType", this.progType);
             }).then(() => this.updateAll()).catch((err) => {
-            errorAnalyze(err, (err) => this.err = err, () => this.updateToken())
+            errorAnalyze(err, (err) => this.err = err, () => this.updateToken("upd type"))
         })
     }
 
@@ -81,34 +105,28 @@ class Global {
     async authorizate(data) {
         // localStorage.setItem("isAdmin", "false")
         // this.isAdmin = false;
-        fetch(this.way + "/Authorization", {
-            method: "POST", body: JSON.stringify({
-                "AuthData": {
-                    "Login": data.name, "Password": data.password
-                }
-            })
-
-        }).then(res => res.json())
-            .then(res => {
-                this.token = res["Token"]
-                if (!this.token) throw new Error()
-                localStorage.clear()
-                localStorage.setItem("token", res["Token"])
-                this.userName = data.name;
-                this.password = data.password;
-                this.isAuth = true
-                if (this.userName === "admin") {
-                    this.isAdmin = true;
-                }
-            }).then(() => {
-            this.updateType()
+        const res = await axios.post(this.way + "/Authorization", {
+            "AuthData": {
+                "Login": data.name, "Password": data.password
+            }
         })
+        this.token = res.data.Token
+        if (!this.token) this.updateToken("err")
+        localStorage.clear()
+        localStorage.setItem("token", res.data["Token"])
+        this.userName = data.name;
+        this.password = data.password;
+        this.isAuth = true
+        if (this.userName === "admin") {
+            this.isAdmin = true;
+        }
+        this.updateType()
             .then(() => setTimeout(() => this.updateAll(), 500))
             .catch(err => this.err = err)
         return !this.err
     }
 
-    async updateToken() {
+    async updateToken(context = "") {
         this.token = ""
         this.isAuth = false;
         localStorage.setItem("token", "")
@@ -135,15 +153,13 @@ class Global {
                     this.state = 1
                 localStorage.setItem("state", this.state)
             } else throw new Error()
-        }).then(() => this.updateDevices())
-            .catch(() => {
-                this.isAuth = false
-                this.updateToken()
+        }).catch((err) => {
+                errorAnalyze(err, (err) => this.err = err, () => this.updateToken("err"))
             })
     }
 
     async updateConnection() {
-        connect(this.way + "/state", this.token).then((res) => {
+        axios.get(this.way + "/state", {headers: {"Authorization": this.token}}).then((res) => {
             res.data.ConnectionState ?
                 this.state = 1
                 :
@@ -165,13 +181,13 @@ class Global {
     }
 
     updateDevicesSub() {
-        connect(this.subWay + "/sources", this.token).then((res) => {
+        axios.get(this.subWay + "/sources", {headers: {"Authorization": this.token}}).then((res) => {
             this.deviceList = res.data.Sources;
         }).then(() => {
             this.devices = []
             let ids = this.deviceList.slice()
             this.deviceList.forEach(d => {
-                connect(this.subWay + "/dev info/" + d, this.token)
+                axios.get(this.subWay + "/dev info/" + d, {headers: {"Authorization": this.token}})
                     .then((res) => {
                         if (!this.devices.length || !ids.includes(res.data.Device.DevId)) {
                             ids.splice(ids.indexOf(res.data.Device.DevId), 1)
@@ -180,79 +196,54 @@ class Global {
                     })
             })
         })
+            .then(() => this.checkDevs())
             .catch((err) => {
-                errorAnalyze(err, (err) => this.err = err, () => this.updateToken())
+                errorAnalyze(err, (err) => this.err = err, () => this.updateToken("dev sub"))
             })
     }
 
-    updateDevices() {
-        connect(this.way + "/sources", this.token).then((res) => {
-            res = res.data.Sources.slice();
+    async updateDevices() {
+        try{
+            const sources = await axios.get(this.way + "/sources", {headers: {"Authorization": this.token}})
+
+            const res = sources.data.Sources.slice();
             this.deviceList = res
-
-            new Promise((res) => {
-                let newDevs = [];
-                for (let device of Array.from(this.deviceList)) {
-                    connect(this.way + "/dev info/" + device, this.token).then((dev) => {
-                        connect(this.way + "/DBState/" + device, this.token).then((res) => {
-                            dev.inDB = res.data.PutDBState;
-                            connect(this.way + "/utc state/" + device, this.token).then((res) => {
-                                dev.utc = res.data.UtcState;
-                                newDevs.push(dev.data)
-                                if (newDevs.length === this.deviceList.length) {
-                                    this.devices = newDevs
-                                }
-                            })
-                        })
+            let newDevs = [];
+            for (let device of Array.from(res)) {
+                axios.get(this.way + "/dev info/" + device, {headers:{"Authorization": this.token}})
+                    .then((res) => {
+                        let dev = res.data
+                        newDevs.push(dev)
+                        if (newDevs.length === this.deviceList.length) {
+                            this.devices = newDevs
+                        }
                     })
-                }
-            })
-                .then(() => this.updateConnection())
-                .catch((e) => errorAnalyze(e))
-
-        })
-            .then(() => this.isAuth = true)
-            .catch(() => this.updateToken())
+            }
+            if(!res.length){
+                this.deviceList = []
+                this.devices = []
+            }
+            this.checkDevs()
+            this.updateConnection()
+        }catch(err){
+            errorAnalyze(err, (err) => this.err = err, () => this.updateToken("err"))
+        }
     }
 
-    async checkDevs() {
+    async checkDevs(isUpdate = true) {
         const interval = setInterval(() => {
             if (this.devices.length === this.deviceList.length && this.settings) {
                 this.isLoading = false
-                this.devices = sortDevs(this.devices)
-                localStorage.setItem("devices", JSON.stringify(this.devices))
-                localStorage.setItem("deviceList", JSON.stringify(this.deviceList))
+                const sortedDevs = sortDevs(this.devices)
+                if (isUpdate) {
+                    localStorage.setItem("devices", JSON.stringify(sortedDevs))
+                    localStorage.setItem("deviceList", JSON.stringify(this.deviceList))
+                }
+                this.devices = sortedDevs.slice()
                 clearInterval(interval)
                 return
             }
         }, 100)
-    }
-
-    updateAll() {
-        if(this.os){
-            if(!this.processor && this.os === "linux"){
-                this.updateProcessor()
-            }
-        } else{
-            axios.get(this.shWay+"/operating system",{
-                headers: {
-                    Authorization:this.token
-                }
-            }).then((res) => {
-                this.os = res.data["operating system"]
-                if(res.data["operating system"] === "linux") this.updateProcessor()
-            })
-        }
-        this.updateSettings()
-            .then(() => {
-                this.progType === "mqtt" ?
-                    this.updateConnection()
-                        .then(() => this.checkDevs())
-                        .catch(() => this.updateToken())
-                    :
-                    this.checkDevs()
-                        .catch(() => this.updateToken())
-            })
     }
 
     async updateProcessor() {
@@ -262,22 +253,23 @@ class Global {
     }
 
     async updateSettings() {
-        connect((this.progType === "mqtt") ? this.way + "/settings" : this.subWay + "/gw settings", this.token).then(
-            (settings) => {
-                this.settings = settings.data
-                if (this.progType === "sub") this.settings = this.settings.GW_Settings
-            }
-        )
+        axios.get((this.progType === "mqtt") ? this.way + "/settings" : this.subWay + "/gw settings", {headers: {"Authorization": this.token}})
+            .then(
+                (settings) => {
+                    this.settings = settings.data
+                    if (this.progType === "sub") this.settings = this.settings.GW_Settings
+                }
+            )
             .then(() => {
                 if (this.isAdmin) {
                     if (this.progType === "mqtt") {
-                        connect(this.way + "/Advanced settings", this.token).then(
+                        axios.get(this.way + "/Advanced settings", {headers: {"Authorization": this.token}}).then(
                             (advSettings) => {
                                 localStorage.setItem("advSettings", advSettings.data)
                                 this.advSettings = advSettings.data
                             })
                     } else {
-                        connect(this.subWay + "/Advanced settings", this.token).then(
+                        axios.get(this.subWay + "/Advanced settings", {headers: {"Authorization": this.token}}).then(
                             (advSettings) => {
                                 localStorage.setItem("advSettings", advSettings.data)
                                 this.advSettings = advSettings.data
@@ -299,7 +291,7 @@ class Global {
     }
 
     catchError(err) {
-        errorAnalyze(err, (err) => this.err = err, () => this.updateToken())
+        errorAnalyze(err, (err) => this.err = err, () => this.updateToken("err"))
     }
 }
 

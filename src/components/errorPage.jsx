@@ -25,7 +25,7 @@ export const ErrorPage = ({toBack = true, err = {}}) => {
                                 <h5>Error stack:</h5><h5>{err.stack || "none"}</h5>
                             </div>
                         </section>
-                        {toBack ? <button><Link to = "/authorization" onClick={() => {
+                        {toBack ? <button><Link to = "/authorization" style={{display:"flex", height:50, alignItems:"center", justifyContent:"center"}} onClick={() => {
                             window.location.reload()
                         }}>На главную</Link></button>:<></> }
                     </section>

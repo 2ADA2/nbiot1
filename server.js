@@ -19,11 +19,13 @@ function createTime() {
 let devs = {
     "Sources": [
         "10:19:19:31:11:51",
-
     ]
 }
 app.get('/mqtt/sources', (req, res) => {
     res.status(200).json(devs)
+})
+app.get('/sh219%20info/operating%20system', (req, res) => {
+    res.status(200).json({"os": "windows"})
 })
 
 app.post("/mqtt/Authorization", (req, res, next) => {
@@ -57,7 +59,7 @@ app.get('/mqtt/DBState/10:19:19:31:11:51', (req, res) => {
     })
 })
 
-app.post("/mqtt/measure%20inf/10:19:19:31:11:51", (req, res) => {
+app.post("/mqtt/inf%20measure/10:19:19:31:11:51", (req, res) => {
     if(req.body.Tstart === "12.11.2007T4:20:00"){
         res.status(200).json({
             "MeasSchedule": {
@@ -164,6 +166,10 @@ app.post("/mqtt/list%20measure/10:19:19:31:11:51", function (req, res) {
         MeasList: [
             "12.11.2007T4:17:54",
             "12.11.2007T4:20:00",
+        ],
+        MeasState: [
+            "",
+            "err  6h096hji069jh 09i6j5 hi906jh 0hi96"
         ]
     });
 });
