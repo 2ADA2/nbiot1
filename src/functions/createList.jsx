@@ -21,8 +21,8 @@ export const CreateList = ({mass, type}) => {
                     <section className={"UI-settings-page meas-modal"}>
                         {(isImit) ? <>
                             <div className="modal-row">
-                                <h3 style={{gridColumn:"1/3"}}>{e.MeasComment.Artist || "Без автора"}:{e.MeasComment.Titel || "Без названия"}</h3>
-                                <span style={{gridColumn:"1/3"}}>{e.MeasComment.Comment}</span>
+                                <h3 style={{gridColumn:"1/3"}}>{e.MeasComment.Artist || "Без автора"}:{" " + (e.MeasComment.Titel || "Без названия")}</h3>
+                                <span style={{gridColumn:"1/3"}}>Комментарий: {e.MeasComment.Comment}</span>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Время измерения </h5>
                                 <h5> {e.MeasSchedule.Tmeas} сек </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Повторять каждые </h5>
