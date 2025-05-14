@@ -58,7 +58,7 @@ export const startMeasureImit = async (url, data, token, func) => {
             "Tstart": data.date,
 
             "MeasType": "Imit",
-            "FIRmode": data.mode,
+            "FIRmode": data.filter,
             "Nois": data.Noise,
             "Sig1": [data.SignA1, data.SignA2, data.SignA3],
             "Sig2": [data.SignB1, data.SignB2, data.SignB3],
@@ -80,7 +80,7 @@ export const startMeasure = async (url, data, token, func) => {
             "Tstart": data.date,
 
             "MeasType": "Real",
-            "FIRmode": data.mode
+            "FIRmode": data.filter
         },
         "MeasComment": {
             "Titel": data.title,

@@ -9,7 +9,7 @@ export default function CreateListRows() {
         return (
             <tr className="empty-row">
                 <td colSpan="6">
-                    No sources
+                    -
                 </td>
             </tr>
         )
@@ -29,7 +29,7 @@ export default function CreateListRows() {
                 key={device.Device.DevId}
                 onClick={() => changeLocation(device)}
                 className={(device.DeviceAttr.Metrics.Online) ? "online" : "offline"}>
-                {device.Device.DevId || "no data"}
+                {device.Device.DevId || "-"}
             </td>
         )
     }
@@ -38,10 +38,10 @@ export default function CreateListRows() {
     for (let i = 0; i < tds.length; i += 4) {
         rows.push(<>
             <tr>
-                {tds[i] || <td style={{cursor: "default"}}>no source</td>}
-                {tds[i + 1] || <td style={{cursor: "default"}}>no source</td>}
-                {tds[i + 2] || <td style={{cursor: "default"}}>no source</td>}
-                {tds[i + 3] || <td style={{cursor: "default"}}>no source</td>}
+                {tds[i] || <td style={{cursor: "default"}}>-</td>}
+                {tds[i + 1] || <td style={{cursor: "default"}}>-</td>}
+                {tds[i + 2] || <td style={{cursor: "default"}}>-</td>}
+                {tds[i + 3] || <td style={{cursor: "default"}}>-</td>}
             </tr>
         </>)
     }

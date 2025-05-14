@@ -167,6 +167,7 @@ export const DevSettings = observer(() => {
                 SignB3,
                 SignC3,
                 Noise,
+
             }, global.token, (data) => setStarted(data))
                 .then(() => setTimeout( () => getState(), 3000))
             setStarted(res)
@@ -258,10 +259,10 @@ export const DevSettings = observer(() => {
                         <select onChange={(e) => {
                             setFilter(e.target.value)
                         }}>
-                            <option value={"FIRmod1"}>FIRmod1</option>
-                            <option value={"FIRmod2"}>FIRmod2</option>
-                            <option value={"FIRmod3"}>FIRmod3</option>
-                            <option value={"FIRmod4"}>FIRmod4</option>
+                            <option value={1}>FIRmod1</option>
+                            <option value={2}>FIRmod2</option>
+                            <option value={3}>FIRmod3</option>
+                            <option value={4}>FIRmod4</option>
                         </select>
                     </div>
                 </section>

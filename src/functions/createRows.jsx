@@ -15,7 +15,7 @@ export const CreateRows = observer(({isSub = false}) => {
                 <>
                     <tr className="empty-row">
                         <td colSpan="6" style={{color: "#383838"}}>
-                            No sources
+                            -
                         </td>
                     </tr>
                 </>
@@ -26,7 +26,7 @@ export const CreateRows = observer(({isSub = false}) => {
             <>
                 <tr className="empty-row" >
                     <td colSpan="6" style={{color:"#383838"}}>
-                        No sources
+                        -
                     </td>
                 </tr>
             </>
@@ -47,30 +47,30 @@ export const CreateRows = observer(({isSub = false}) => {
                 className={(device.DeviceAttr.Metrics.Online) ? "online" : "offline"}
             >
                 <td> 
-                    {device.Device.DevId || "no data"}
+                    {device.Device.DevId || "-"}
                 </td>
                 {
                     (!isSub)?
                     <td>
-                        {device.DeviceAttr.localTime || "no data"}
+                        {device.DeviceAttr.localTime || "-"}
                     </td>:<></>
                 }
                 {
                     (!isSub) ?
                     <td>
-                        {device.DeviceAttr.Metrics["GSM siglevel"] || "no data"}
+                        {device.DeviceAttr.Metrics["GSM siglevel"] || "-"}
                     </td>
                         :
                     <td>
-                        {device.DeviceAttr.Metrics["RSSI level"] || "no data"}
+                        {device.DeviceAttr.Metrics["RSSI level"] || "-"}
                     </td>
                 }
 
                 <td>
-                    {device.DeviceAttr.Metrics.Battery || "no data"}
+                    {device.DeviceAttr.Metrics.Battery || "-"}
                 </td>
                 <td>
-                    {device.DeviceAttr.Metrics.Temperature || "no data"}
+                    {device.DeviceAttr.Metrics.Temperature || "-"}
                 </td>
             </tr>    
              
