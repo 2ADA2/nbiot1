@@ -395,7 +395,7 @@ export const DevSettings = observer(() => {
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (target && targetStates) ? <CreateList mass={targetInfo} type={"target"} states = {targetStates}/> :
+                            (target && targetStates) ? <CreateList mass={targetInfo} states = {targetStates}/> :
                                 <FormattedMessage id="measurements.loading"/>
                         }
                         <button className="cls-btn" onClick={(e) => clearMeasure(e, "target")}>
@@ -411,7 +411,7 @@ export const DevSettings = observer(() => {
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (fullFilled && fullFilledStates) ? <CreateList mass={fullFilledInfo} type={"fullFilled"} states = {fullFilledStates}/> :
+                            (fullFilled && fullFilledStates) ? <FormattedMessage id="measurements.loading"/> :
                                 <FormattedMessage id="measurements.loading"/>
                         }
 

@@ -2,32 +2,36 @@ import {useState} from "react";
 import {FormattedMessage} from "react-intl/lib";
 import {DotsAnim} from "./dotsAnim";
 
-export const CreateList = ({mass, states}) => {
+export const CreateListFulfilled = ({mass, type, states}) => {
     const [modal, setModal] = useState("");
+
+
     return (<>
         {mass.map((e, i) => {
             const comments = e.MeasComment
             let state = states[i]
-            const isPlanning = e.isPlanning
+            const isPlanning = e.isPlanning || state === ""
             let isOk = true
-            if (state) {
+            if(state){
                 isOk = state.toLowerCase() === "ok" || isPlanning
             }
+            if(isOk) state = "ok"
             const Tstart = e.MeasSchedule.Tstart.split("")
             const date = Tstart.slice(0, Tstart.indexOf("T"))
             const time = Tstart.slice(Tstart.indexOf("T") + 1, e.length)
             const isImit = e.MeasSchedule.MeasType === "Imit"
-            console.log(mass)
+
+
             return (<>
                 {(modal === e.MeasSchedule.Tstart) && <>
                     <div className="UI-settings-page-back" onClick={() => {
-                        if (!e.isPlanning) setModal()
+                        if(!e.isPlanning) setModal()
                     }}/>
-                    <section className={"UI-settings-page meas-modal"} key={i}>
+                    <section className={"UI-settings-page meas-modal"}>
                         {(isImit) ? <>
                             <div className="modal-row">
-                                <h3 style={{gridColumn: "1/3"}}>{e.MeasComment.Artist || "Без автора"}:{" " + (e.MeasComment.Titel || "Без названия")}</h3>
-                                <span style={{gridColumn: "1/3"}}>Комментарий: {e.MeasComment.Comment}</span>
+                                <h3 style={{gridColumn:"1/3"}}>{e.MeasComment.Artist || "Без автора"}:{" " + (e.MeasComment.Titel || "Без названия")}</h3>
+                                <span style={{gridColumn:"1/3"}}>Комментарий: {e.MeasComment.Comment}</span>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Время измерения </h5>
                                 <h5> {e.MeasSchedule.Tmeas} сек </h5>
                                 <h5 style={{display: "flex", justifyContent: "flex-end"}}> Повторять каждые </h5>
@@ -111,13 +115,11 @@ export const CreateList = ({mass, states}) => {
                         </button>
                     </section>
                 </>}
-                <div key={i}
-                     className={"measurements-list-item " + (isPlanning && " planning") + (isOk ? (isImit) ? " imit" : " real" : " err")}
+                <div key={i} className={"measurements-list-item " + (isPlanning && " planning") + (isOk ? (isImit)? " imit":" real" : " err")}
                      onClick={() => {
-                         if (!e.isPlanning) setModal(e.MeasSchedule.Tstart)
+                         if(!e.isPlanning) setModal(e.MeasSchedule.Tstart)
                      }}>
-                    <div className={"item-about"}>
-                        <span>{comments.Artist || "Без автора"}</span>
+                    <div className={"item-time"}>
                         <span>
                             <span style={{marginRight: 4}}>
                                 {time}
@@ -125,24 +127,24 @@ export const CreateList = ({mass, states}) => {
                             <span style={{gridColumn: "1", lineHeight: "26px"}} className={"secondary"}>
                                 {date}</span>
                         </span>
-                        <ul className={"secondary"}>
-                            <li>
-                                Принято планировщиком
-                            </li>
-                            <li>
-                                {
-                                    (state) ? <div>Принято устройством</div> : <DotsAnim/>
-                                }
-                            </li>
-                        </ul>
+
+                        <div style={{gridColumn: "1"}} className={"secondary"}>
+                            {
+                                (isPlanning) ? <div>Принято планировщиком</div>: <DotsAnim/>
+                            }
+                            {
+                                (!type) ? <DotsAnim/> : (type === "target") ? <div>Принято устройством</div>:<div>Выполнено устройством</div>
+                            }
+
+                        </div>
                     </div>
 
-                    <div className={"item-comments"}>
-                        <span style={{gridColumn: "2/4"}} className={"meas-item-header"}>
-                            {comments.Titel || "Без названия"}
+                    <div>
+                        <span style={{gridColumn: "2/4"}}>
+                            {comments.Artist || "Без автора"}: {comments.Titel || "Без названия"}
                         </span>
                         <span style={{gridColumn: "2/4"}} className={"secondary"}>
-                            {comments.Comment || "-"}
+                            {comments.Comment}
                         </span>
                     </div>
                 </div>
