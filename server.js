@@ -89,8 +89,27 @@ app.post("/mqtt/inf%20measure/10:19:19:31:11:51", (req, res) => {
                 "Sig3": [2000, 20, 15]
             },
             "MeasComment": {
-                "Title": "Тестовое измерение",
+                "Titel": "Тестовое измерение",
                 "Comment": "Когда выполниться провести релаьное",
+                "Artist": "Артем Дубровский"
+            }
+        })
+    } else {
+        res.status(200).json({
+            "MeasSchedule": {
+                "Tmeas": 10,
+                "Trepeat": 0,
+                "Tstart": "12.11.2007T4:22:54",
+                "MeasType": "Imit",
+                "FIRmode": 1,
+                "Nois": 10,
+                "Sig1": [1000, 100, 0],
+                "Sig2": [1500, 50, 45],
+                "Sig3": [2000, 20, 15]
+            },
+            "MeasComment": {
+                "Titel": "Хорошее измерение",
+                "Comment": "Без ошибки же?",
                 "Artist": "Артем Дубровский"
             }
         })
@@ -162,16 +181,31 @@ app.get('/sub/dev%20info/10:19:19:31:11:51', (req, res) => {
     })
 })
 app.post("/mqtt/list%20measure/10:19:19:31:11:51", function (req, res) {
-    res.status(200).json({
-        MeasList: [
-            "12.11.2007T4:17:54",
-            "12.11.2007T4:20:00",
-        ],
-        MeasState: [
-            "",
-            "err  6h096hji069jh 09i6j5 hi906jh 0hi96"
-        ]
-    });
+    if(req.body.MeasList === "target"){
+        res.status(200).json({
+            MeasList: [
+                "12.11.2007T4:17:54",
+                "12.11.2007T4:20:00",
+            ],
+            MeasState: [
+                "",
+                "err  6h096hji069jh 09i6j5 hi906jh 0hi96"
+            ]
+        });
+    }
+    else{
+        res.status(200).json({
+            MeasList: [
+                "12.11.2007T4:22:54",
+            ],
+            MeasState: [
+                "Данные успешно получены"
+            ],
+            MeasError:["Ошибка - чтения данных из внешней флеш памяти"],
+            SchedulState:["Пакет принят успешно"]
+        })
+    }
+
 });
 
 let state = false

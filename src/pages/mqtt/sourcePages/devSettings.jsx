@@ -16,6 +16,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrash} from "@fortawesome/free-solid-svg-icons";
 import {MeasureStates} from "../../../utils/measureStatus";
 import {FormattedMessage} from "react-intl/lib";
+import {CreateListFulfilled} from "../../../functions/createListFulfilled";
 
 export const DevSettings = observer(() => {
     const device = useDevice()
@@ -28,6 +29,8 @@ export const DevSettings = observer(() => {
     const [started, setStarted] = useState({"meas add status": null})
     const [targetInfo, setTargetInfo] = useState([]);
     const [fullFilledInfo, setFullFilledInfo] = useState([]);
+    const [fullFilledErrors, setFullFilledErrors] = useState([]);
+    const [fullFilledSchedul, setFullFilledSchedul] = useState([]);
 
     const [time, setTime] = useState(0);
     const [repeat, setRepeat] = useState(0)
@@ -76,10 +79,13 @@ export const DevSettings = observer(() => {
                 if (typeof (res.data) === "object") {
                     setFullFilled(res.data.MeasList || [])
                     setFullFilledStates(res.data.MeasState || [])
+                    setFullFilledSchedul(res.data.SchedulState || [])
+                    setFullFilledErrors(res.data.MeasError || [])
                     return
                 }
                 setFullFilled([])
                 setTargetStates([])
+
             })
             .catch((err) => {
                 setFullFilled([])
@@ -411,7 +417,7 @@ export const DevSettings = observer(() => {
                     </h5>
                     <div className={"measurements-list"}>
                         {
-                            (fullFilled && fullFilledStates) ? <FormattedMessage id="measurements.loading"/> :
+                            (fullFilled && fullFilledStates) ? <CreateListFulfilled mass={fullFilledInfo} states={fullFilledStates} sheduls = {fullFilledSchedul} errors = {fullFilledErrors}/> :
                                 <FormattedMessage id="measurements.loading"/>
                         }
 

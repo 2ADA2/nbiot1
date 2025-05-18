@@ -13,5 +13,5 @@ export const DotsAnim = () => {
             clearInterval(interval);
         }
     }, []);
-    return <div style={{height:30}}>{val}</div>
+    return <div>{val}</div>
 }

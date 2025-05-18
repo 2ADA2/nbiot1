@@ -8,16 +8,11 @@ export const CreateList = ({mass, states}) => {
         {mass.map((e, i) => {
             const comments = e.MeasComment
             let state = states[i]
-            const isPlanning = e.isPlanning
-            let isOk = true
-            if (state) {
-                isOk = state.toLowerCase() === "ok" || isPlanning
-            }
+            const isPlanning = !!state
             const Tstart = e.MeasSchedule.Tstart.split("")
             const date = Tstart.slice(0, Tstart.indexOf("T"))
             const time = Tstart.slice(Tstart.indexOf("T") + 1, e.length)
             const isImit = e.MeasSchedule.MeasType === "Imit"
-            console.log(mass)
             return (<>
                 {(modal === e.MeasSchedule.Tstart) && <>
                     <div className="UI-settings-page-back" onClick={() => {
@@ -112,7 +107,7 @@ export const CreateList = ({mass, states}) => {
                     </section>
                 </>}
                 <div key={i}
-                     className={"measurements-list-item " + (isPlanning && " planning") + (isOk ? (isImit) ? " imit" : " real" : " err")}
+                     className={"measurements-list-item " + (isPlanning ? " imit" : "real")}
                      onClick={() => {
                          if (!e.isPlanning) setModal(e.MeasSchedule.Tstart)
                      }}>
@@ -126,10 +121,10 @@ export const CreateList = ({mass, states}) => {
                                 {date}</span>
                         </span>
                         <ul className={"secondary"}>
-                            <li>
+                            <li className={"ok"}>
                                 Принято планировщиком
                             </li>
-                            <li>
+                            <li className={state&&"ok"}>
                                 {
                                     (state) ? <div>Принято устройством</div> : <DotsAnim/>
                                 }
