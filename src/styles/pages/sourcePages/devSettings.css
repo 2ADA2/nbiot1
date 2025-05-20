@@ -57,6 +57,7 @@ form .measurement section{
     border:1px solid rgba(0, 0, 0, 0.5);
     border-radius: 2px;
     height: 250px;
+    min-height: 250px;
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
@@ -66,17 +67,22 @@ form .measurement section{
 
 .measurements .console .cls-btn{
     position: absolute;
-    bottom: 0;
+    top: 44px;
     left:0;
+}
+.measurements .fullView{
+    height: auto;
+}
+.measurements .fullView .measurements-list{
+    overflow-y: visible;
+    height: auto;
 }
 
 .measurements-list-item{
-    width: calc(100% - 30px);
-    min-height: 110px;
+    width: calc(100% - 40px);
     display: grid;
     grid-gap: 40px;
     grid-template-columns:220px auto;
-    grid-template-rows:1fr;
     cursor: pointer;
     outline:1px solid black;
     padding:6px 10px;
@@ -84,15 +90,14 @@ form .measurement section{
     border-radius: 5px;
     border-right: 20px solid #2c3642;
     height:auto;
-    overflow:hidden;
-    margin-left: 26px;
+    margin-left: 30px;
     box-shadow:  0 4px 2px rgba(0, 0, 0, 0.5);
     position: relative;
     bottom:0;
     transition-duration: 100ms;
 }
 .meas-item-header{
-    height: 40px;
+    min-height: 40px;
 }
 .measurements-list-item span{
     line-height: 20px;
@@ -112,16 +117,18 @@ form .measurement section{
     margin: 0;
     padding-left: 20px;
     margin-top:10px;
+
 }
 .item-about ul li {
-    height: 20px;
     line-height: 20px;
+    height: auto;
+    word-break: break-all;
 }
 .item-about ul .ok{
     color: #0f650f;
 }
 
-@media (max-width: 1250px) {
+@media (max-width: 1440px) {
     .measurements{
         flex-direction: column;
     }
@@ -132,7 +139,6 @@ form .measurement section{
 
 .item-about span{
     line-height: 20px;
-    height: 20px;
 }
 
 .measurements-list-item:hover {
@@ -178,7 +184,6 @@ form .measurement section{
         line-height: 26px;
         border-radius: 5px;
         border-right: 20px solid #2c3642;
-        overflow:hidden;
         height: auto;
     }
 }
@@ -314,9 +319,6 @@ form .measurement section{
     display: flex;
     justify-content: center;
     gap:40px;
-}
-.buttons button{
-    margin: 40px 0;
 }
 
 @media (width < 1800px) {

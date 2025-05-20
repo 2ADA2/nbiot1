@@ -125,7 +125,6 @@ export const DevCommandsSub = () => {
     }
 
     useEffect(() => {
-        console.log(">", commandStatus)
         let interval
         if (commandStatus) {
             axios.get(global.subWay + "/cmd execution state/" + device.Device.DevId, {
@@ -172,7 +171,6 @@ export const DevCommandsSub = () => {
     }
 
     const getCommandStatus = (info = "", res = "") => {
-        console.log(commandStatus)
         if (!commandStatus) return
         switch (command) {
             case "addPackage":
@@ -791,7 +789,6 @@ export const DevCommandsSub = () => {
                     </button>
                     <button
                         onClick={(e) => {
-                            console.log(false)
                             e.preventDefault();
                             setCommandStatus(false)
                             localStorage.setItem(device.Device.DevId + "commandStatus", "")

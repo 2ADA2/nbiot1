@@ -13,7 +13,7 @@ import {convertTime} from "../../../functions/convrtTime";
 import {errorAnalyze} from "../../../functions/error";
 import {CreateList} from "../../../functions/createList";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faList, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {MeasureStates} from "../../../utils/measureStatus";
 import {FormattedMessage} from "react-intl/lib";
 import {CreateListFulfilled} from "../../../functions/createListFulfilled";
@@ -31,6 +31,7 @@ export const DevSettings = observer(() => {
     const [fullFilledInfo, setFullFilledInfo] = useState([]);
     const [fullFilledErrors, setFullFilledErrors] = useState([]);
     const [fullFilledSchedul, setFullFilledSchedul] = useState([]);
+    const [isFullView, setIsFullView] = useState(false);
 
     const [time, setTime] = useState(0);
     const [repeat, setRepeat] = useState(0)
@@ -124,6 +125,7 @@ export const DevSettings = observer(() => {
 
 
     useEffect(() => {
+
         if (device.empty) global.setLocation("/sources")
         getState()
         const interval = setInterval(() => {
@@ -392,46 +394,6 @@ export const DevSettings = observer(() => {
             </section>
 
             <h3>
-                <FormattedMessage id="measurements.title"/>
-            </h3>
-            <section className="measurements">
-                <div className="console">
-                    <h5>
-                        <FormattedMessage id="measurements.currentMeasurements"/>
-                    </h5>
-                    <div className={"measurements-list"}>
-                        {
-                            (target && targetStates) ? <CreateList mass={targetInfo} states = {targetStates}/> :
-                                <FormattedMessage id="measurements.loading"/>
-                        }
-                        <button className="cls-btn" onClick={(e) => clearMeasure(e, "target")}>
-                            <FontAwesomeIcon icon={faTrash}/>
-                        </button>
-                    </div>
-                    {/*value={target ?? useIntl().formatMessage({id: "measurements.loading"})}>*/}
-                </div>
-
-                <div className="console">
-                    <h5>
-                        <FormattedMessage id="measurements.completedMeasurements"/>
-                    </h5>
-                    <div className={"measurements-list"}>
-                        {
-                            (fullFilled && fullFilledStates) ? <CreateListFulfilled mass={fullFilledInfo} states={fullFilledStates} sheduls = {fullFilledSchedul} errors = {fullFilledErrors}/> :
-                                <FormattedMessage id="measurements.loading"/>
-                        }
-
-                        <button className="cls-btn" onClick={(e) => clearMeasure(e, "fullFilled")}>
-                            <FontAwesomeIcon icon={faTrash}/>
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <button className={"def-btn"} onClick={(e) => clearMeasure(e, "all")} style={{margin: "0 auto 20px auto"}}>
-                <FormattedMessage id="buttons.clearLists"/>
-            </button>
-            <h3>
                 <FormattedMessage id="comments.title"/>
                 <button className="cls-btn" onClick={(e) => {
                     e.preventDefault()
@@ -499,6 +461,60 @@ export const DevSettings = observer(() => {
                         <FormattedMessage id="buttons.submit"/>
                     </button>
                 </span>
+
+            <h3>
+                <FormattedMessage id="measurements.title"/>
+            </h3>
+            <section className="measurements">
+                <div className={"console " + (isFullView ? "fullView" : "")}>
+                    <h5>
+                        <FormattedMessage id="measurements.currentMeasurements"/>
+                    </h5>
+                    <div className={"measurements-list"}>
+                        {
+                            (target && targetStates) ? <CreateList mass={targetInfo} states={targetStates}/> :
+                                <FormattedMessage id="measurements.loading"/>
+                        }
+                        <button className={"cls-btn"} style={{top: 70}} onClick={(e)=> {
+                            e.preventDefault()
+                            setIsFullView(!isFullView)
+                        }}>
+                            <FontAwesomeIcon icon={faList}/>
+                        </button>
+                        <button className="cls-btn" onClick={(e) => clearMeasure(e, "target")}>
+                            <FontAwesomeIcon icon={faTrash}/>
+                        </button>
+                    </div>
+                    {/*value={target ?? useIntl().formatMessage({id: "measurements.loading"})}>*/}
+                </div>
+
+                <div className={"console " + (isFullView ? "fullView" : "")}>
+                    <h5>
+                        <FormattedMessage id="measurements.completedMeasurements"/>
+                    </h5>
+                    <div className={"measurements-list"}>
+                        {
+                            (fullFilled && fullFilledStates) ?
+                                <CreateListFulfilled mass={fullFilledInfo} states={fullFilledStates}
+                                                     sheduls={fullFilledSchedul} errors={fullFilledErrors}/> :
+                                <FormattedMessage id="measurements.loading"/>
+                        }
+                        <button className={"cls-btn"} style={{top: 70}} onClick={(e)=> {
+                            e.preventDefault()
+                            setIsFullView(!isFullView)
+                        }}>
+                            <FontAwesomeIcon icon={faList}/>
+                        </button>
+                        <button className="cls-btn" onClick={(e) => clearMeasure(e, "fullFilled")}>
+                            <FontAwesomeIcon icon={faTrash}/>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <button className={"def-btn"} onClick={(e) => clearMeasure(e, "all")} style={{margin: "0 auto 20px auto"}}>
+                <FormattedMessage id="buttons.clearLists"/>
+            </button>
         </form>}
     />
 })

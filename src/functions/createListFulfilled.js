@@ -127,10 +127,10 @@ export const CreateListFulfilled = ({mass, states, errors, sheduls}) => {
                         </span>
                         <ul className={"secondary"}>
                             <li className={shedul&&"ok"}>
-                                {shedul}
+                                {shedul || "Данные не получены"}
                             </li>
                             <li className={state&&"ok"}>
-                                {state}
+                                {state || "Данные не получены лалалалал  dsf sdf sd fsd fsdf sd asdf sad fasd f ds"}
                             </li>
                             {!isOk &&
                                 <li className={"error-text"}>

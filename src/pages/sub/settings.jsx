@@ -38,10 +38,6 @@ export const SettingsSub = observer(() => {
     const [syncTime, setSyncTime] = useState(false);
     const [cmdCount, setCmdCount] = useState(0);
 
-    useEffect(() => {
-        console.log(cmdCount)
-    },[cmdCount])
-
     const sendParams = (e) => {
         e.preventDefault()
         setCmdCount(1)
@@ -69,7 +65,6 @@ export const SettingsSub = observer(() => {
             axios.get(global.subWay + "/cmd execution state", {headers:{"Authorization":global.token}})
                 .then((res) => {
                     if (res.data.Info !== "execution" || cmdCount) {
-                        console.log("clear:" + res.data.Info + cmdCount)
                         clearInterval(cmdInterval)
                         setCmdCount(0)
                     }

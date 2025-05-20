@@ -7,7 +7,6 @@ import { observer } from "mobx-react-lite"
 
 export const CreateRows = observer(({isSub = false}) => {
     const navigate = useNavigate()
-
     //Пустая таблица
     try{
         if (!global.deviceList.length || !global.devices.length) {
@@ -39,14 +38,16 @@ export const CreateRows = observer(({isSub = false}) => {
     }
     //сборка рядов
     let rows = []
+    let i = -1
     for (let device of global.devices){
+        i+=1
         rows.push(
             <tr
-                key = {device.Device.DevId}
+                key = {i}
                 onClick={() => changeLocation(device)}
                 className={(device.DeviceAttr.Metrics.Online) ? "online" : "offline"}
             >
-                <td> 
+                <td>
                     {device.Device.DevId || "-"}
                 </td>
                 {

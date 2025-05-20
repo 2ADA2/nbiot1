@@ -1,5 +1,4 @@
 export const sortDevs = (devs) => {
-    console.log(devs)
     devs = devs.filter(dev => Object.keys(dev).length>0)
     devs.sort((a, b) =>{
         return (

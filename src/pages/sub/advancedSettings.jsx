@@ -113,7 +113,6 @@ MAC04_09_19_86_11_50=5896`
             if (name === "zip") {
                 setWeb(file)
                 setWebFileName(file.name)
-                console.log(file.name)
             } else {
                 setBack(file)
                 setBackFileName(file.name)

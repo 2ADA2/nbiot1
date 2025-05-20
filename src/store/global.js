@@ -47,6 +47,9 @@ class Global {
 
     async start() {
         await this.updateType()
+        setInterval(() => {
+            this.updateAll()
+        },1000*60)
     }
 
     async updateAll() {
@@ -152,6 +155,7 @@ class Global {
                     :
                     this.state = 1
                 localStorage.setItem("state", this.state)
+                this.updateDevices()
             } else throw new Error()
         }).catch((err) => {
                 errorAnalyze(err, (err) => this.err = err, () => this.updateToken("err"))
@@ -235,6 +239,12 @@ class Global {
             if (this.devices.length === this.deviceList.length && this.settings) {
                 this.isLoading = false
                 const sortedDevs = sortDevs(this.devices)
+                const sortedDevsList =  this.deviceList.sort((a, b) =>{
+                    return (
+                        Number(parseInt(a.replace(/[^\w\s]|_/g, ""))) -
+                        Number(parseInt(b.replace(/[^\w\s]|_/g, ""))))
+                })
+                this.deviceList = sortedDevsList
                 if (isUpdate) {
                     localStorage.setItem("devices", JSON.stringify(sortedDevs))
                     localStorage.setItem("deviceList", JSON.stringify(this.deviceList))

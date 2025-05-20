@@ -247,7 +247,6 @@ export const DevSettingsSub = observer(() => {
                     "authorization": global.token
                 }
             }).then(() => {
-            console.log("sended:" + JSON.stringify(frameList))
             setFrameList([])
             setMessage(<FormattedMessage id={"list.success"}/>)
             setTimeout(() => {
