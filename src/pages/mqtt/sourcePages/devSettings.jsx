@@ -265,7 +265,7 @@ export const DevSettings = observer(() => {
                             <FormattedMessage id="measurementSettings.filterMode"/>
                         </h5>
                         <select onChange={(e) => {
-                            setFilter(e.target.value)
+                            setFilter(Number(e.target.value))
                         }}>
                             <option value={1}>FIRmod1</option>
                             <option value={2}>FIRmod2</option>

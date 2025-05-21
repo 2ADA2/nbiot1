@@ -122,7 +122,6 @@ form .measurement section{
 .item-about ul li {
     line-height: 20px;
     height: auto;
-    word-break: break-all;
 }
 .item-about ul .ok{
     color: #0f650f;

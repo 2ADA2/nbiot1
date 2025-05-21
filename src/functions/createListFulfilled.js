@@ -1,6 +1,5 @@
 import {useState} from "react";
 import {FormattedMessage} from "react-intl/lib";
-import {DotsAnim} from "./dotsAnim";
 
 export const CreateListFulfilled = ({mass, states, errors, sheduls}) => {
     const [modal, setModal] = useState("");
@@ -86,6 +85,7 @@ export const CreateListFulfilled = ({mass, states, errors, sheduls}) => {
                                 </table>
                             </div>
 
+
                         </> : <>
                             <h3>{e.MeasComment.Artist || "Без автора"}:{e.MeasComment.Titel || "Без названия"}</h3>
                             <span>{e.MeasComment.Comment}</span>
@@ -130,7 +130,7 @@ export const CreateListFulfilled = ({mass, states, errors, sheduls}) => {
                                 {shedul || "Данные не получены"}
                             </li>
                             <li className={state&&"ok"}>
-                                {state || "Данные не получены лалалалал  dsf sdf sd fsd fsdf sd asdf sad fasd f ds"}
+                                {state || "Данные не получены"}
                             </li>
                             {!isOk &&
                                 <li className={"error-text"}>

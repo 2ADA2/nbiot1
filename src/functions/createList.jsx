@@ -124,11 +124,11 @@ export const CreateList = ({mass, states}) => {
                             <li className={"ok"}>
                                 Принято планировщиком
                             </li>
-                            <li className={state&&"ok"}>
-                                {
-                                    (state) ? <div>Принято устройством</div> : <DotsAnim/>
-                                }
-                            </li>
+
+                            {(state) &&<li className={state && "ok"}>
+                                 <div>Принято устройством</div>
+                            </li>}
+
                         </ul>
                     </div>
 
