@@ -47,8 +47,12 @@ class Global {
 
     async start() {
         await this.updateType()
-        setInterval(() => {
+        const interval = setInterval(() => {
+            if(!this.isAuth) {
+                clearInterval(interval);
+            }
             this.updateAll()
+
         },1000*60)
     }
 
@@ -114,25 +118,29 @@ class Global {
             }
         })
         this.token = res.data.Token
-        if (!this.token) this.updateToken("err")
+        if (!this.token) {
+            this.updateToken("err")
+            return
+        }
         localStorage.clear()
         localStorage.setItem("token", res.data["Token"])
         this.userName = data.name;
         this.password = data.password;
         this.isAuth = true
+
+        //admin?
         if (this.userName === "admin") {
             this.isAdmin = true;
         }
-        this.updateType()
-            .then(() => setTimeout(() => this.updateAll(), 500))
-            .catch(err => this.err = err)
+
+        this.start()
         return !this.err
     }
 
     async updateToken(context = "") {
         this.token = ""
         this.isAuth = false;
-        localStorage.setItem("token", "")
+        localStorage.removeItem("token")
     }
 
     async setConnection() {
