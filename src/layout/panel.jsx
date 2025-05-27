@@ -44,7 +44,7 @@ export const Panel = observer(() => {
                     <h1>NB-IoT collector<sup style={{fontWeight: 100, fontSize: 20}}> {global.progType}</sup></h1>
                 </header>
                 <div style={{position: "fixed", bottom: 2, left: 10, fontSize: 10, zIndex: 3001, color: "white"}}>v
-                    0.11.7
+                    0.11.7 f
                 </div>
                 <aside className="panel" onClick={() => updateLocation()}>
                     <nav className="panel-nav">

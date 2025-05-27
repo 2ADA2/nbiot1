@@ -36,7 +36,7 @@ export const DevSettings = observer(() => {
     const [time, setTime] = useState(0);
     const [repeat, setRepeat] = useState(0)
     const [mode, setMode] = useState("measurement")
-    const [filter, setFilter] = useState(1)
+    const [filter, setFilter] = useState(0)
     const [isUtc, setIsUtc] = useState(false);
 
     const [title, setTitle] = useState("");
@@ -267,10 +267,10 @@ export const DevSettings = observer(() => {
                         <select onChange={(e) => {
                             setFilter(Number(e.target.value))
                         }}>
-                            <option value={1}>FIRmod1</option>
-                            <option value={2}>FIRmod2</option>
-                            <option value={3}>FIRmod3</option>
-                            <option value={4}>FIRmod4</option>
+                            <option value={0}>FIRmod1</option>
+                            <option value={1}>FIRmod2</option>
+                            <option value={2}>FIRmod3</option>
+                            <option value={3}>FIRmod4</option>
                         </select>
                     </div>
                 </section>

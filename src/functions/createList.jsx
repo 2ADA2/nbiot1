@@ -1,6 +1,5 @@
 import {useState} from "react";
 import {FormattedMessage} from "react-intl/lib";
-import {DotsAnim} from "./dotsAnim";
 
 export const CreateList = ({mass, states}) => {
     const [modal, setModal] = useState("");
@@ -13,11 +12,15 @@ export const CreateList = ({mass, states}) => {
             const date = Tstart.slice(0, Tstart.indexOf("T"))
             const time = Tstart.slice(Tstart.indexOf("T") + 1, e.length)
             const isImit = e.MeasSchedule.MeasType === "Imit"
+            let isErr = false
+            if(state){
+                if ( state !== "ok"){
+                    isErr = true
+                }
+            }
             return (<>
                 {(modal === e.MeasSchedule.Tstart) && <>
-                    <div className="UI-settings-page-back" onClick={() => {
-                        if (!e.isPlanning) setModal()
-                    }}/>
+                    <div className="UI-settings-page-back" onClick={() =>  setModal()}/>
                     <section className={"UI-settings-page meas-modal"} key={i}>
                         {(isImit) ? <>
                             <div className="modal-row">
@@ -107,7 +110,7 @@ export const CreateList = ({mass, states}) => {
                     </section>
                 </>}
                 <div key={i}
-                     className={"measurements-list-item " + (isPlanning ? " imit" : "real")}
+                     className={"measurements-list-item " + (isErr ? " err" : (isPlanning) ? "planning":"real")}
                      onClick={() => {
                          if (!e.isPlanning) setModal(e.MeasSchedule.Tstart)
                      }}>
@@ -125,8 +128,12 @@ export const CreateList = ({mass, states}) => {
                                 Принято планировщиком
                             </li>
 
-                            {(state) &&<li className={state && "ok"}>
+                            {(state && !isErr) &&<li className={state && "ok"}>
                                  <div>Принято устройством</div>
+                            </li>}
+
+                            {(isErr) &&<li className={"error-text"}>
+                                <div>Ошибка: {state}</div>
                             </li>}
 
                         </ul>
