@@ -313,8 +313,8 @@ export const DevCommands = () => {
                             <h5>Time Zone</h5>
                             <Counter
                                 count={timeZone}
-                                newCount={(val) => setTimeZone(((val) >= 0) ? val : timeZone)}
-                                setCount={(val) => setTimeZone(((timeZone + val) >= 0) ? timeZone + val : 0)}
+                                newCount={(val) => setTimeZone(((val) >= -12 && val <= 12) ? val : 0)}
+                                setCount={(val) => setTimeZone(((timeZone + val) >= -12 && (timeZone + val)  <= 12) ? timeZone + val : timeZone)}
                             />
                         </div>
                     </section>

@@ -114,7 +114,9 @@ export const sendCommand = async (url, data, token) => {
             body = {
                 "USER_CMD": "LINKSCHEDULE",
                 "USER_ARG":{
-                    "Trepeat": data.trepeat
+                    "Trepeat": data.trepeat,
+                    "NetDelay": data.netDelay,
+                    "TimeZone": data.timeZone,
                 }
             }
             break;
